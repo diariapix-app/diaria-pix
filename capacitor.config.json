@@ -1,0 +1,16 @@
+{
+  "appId": "com.diariapix.app",
+  "appName": "Diária Pix",
+  "webDir": "www",
+  "server": {
+    "url": "https://diariapix-app.github.io/diaria-pix/",
+    "cleartext": true
+  },
+  "plugins": {
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#180538",
+      "overlaysWebView": false
+    }
+  }
+}
