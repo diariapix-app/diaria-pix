@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Diária Pix - Vagas Rápidas</title>
+  <style>
+    :root {
+      --primary: #311068;
+      --primary-dark: #180538;
+      --primary-light: #ede9fe;
+      --accent: #f59e0b;
+      --accent-dark: #d97706;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 96px;
+      overflow-x: hidden;
+    }
+
+    /* Tela Roxa de Abertura com Logo (Splash Screen) */
+    #splashScreen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #3b1578 0%, #180538 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+    #splashScreen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .splash-logo-svg {
+      width: 112px;
+      height: 112px;
+      border-radius: 26px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+      animation: splashPulse 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes splashPulse {
+      from { transform: scale(0.96); }
+      to { transform: scale(1.04); }
+    }
+    .splash-title {
+      margin-top: 16px;
+      font-size: 26px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .splash-title span {
+      color: var(--accent);
+    }
+    .splash-subtitle {
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.78);
+    }
+    .splash-loader {
+      margin-top: 22px;
+      width: 130px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .splash-loader-bar {
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      border-radius: 999px;
+      animation: splashLoad 1.15s ease-out forwards;
+      transform-origin: left;
+    }
+    @keyframes splashLoad {
+      from { transform: scaleX(0.15); }
+      to { transform: scaleX(1); }
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      padding: 14px 16px 18px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 14px rgba(24, 5, 56, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-logo-svg {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+    }
+    .brand h1 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+    }
+    .brand h1 span {
+      color: var(--accent);
+    }
+    .cloud-status {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 3px 9px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+    }
+    .header-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      border: none;
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Barra de Cidade Separada + Busca de Bicos */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      position: relative;
+      flex-wrap: wrap;
+    }
+    .city-box-wrapper {
+      flex: 1 1 180px;
+      position: relative;
+    }
+    .city-box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 12px;
+      padding: 0 10px;
+    }
+    .city-box span {
+      font-size: 14px;
+      margin-right: 6px;
+    }
+    .city-box input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 0;
+      outline: none;
+    }
+    .city-box input::placeholder {
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
+    }
+    .city-clear {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.85;
+    }
+
+    .city-suggestions {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+      max-height: 210px;
+      overflow-y: auto;
+      z-index: 99;
+      display: none;
+      border: 1px solid var(--border);
+    }
+    .city-suggestions.open {
+      display: block;
+    }
+    .city-suggestion-item {
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .city-suggestion-item:last-child {
+      border-bottom: none;
+    }
+    .city-suggestion-item:active {
+      background: var(--primary-light);
+    }
+    .city-badge-count {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .city-badge-count.has-jobs {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 8px;
+    }
+    .search-bar input, .filter-row select {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-bar input {
+      flex: 1;
+      background: #fff;
+      color: var(--text);
+    }
+    .filter-row select {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      flex: 0 1 auto;
+      min-width: 125px;
+    }
+
+    .city-chips {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .city-chips::-webkit-scrollbar {
+      display: none;
+    }
+    .chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    main {
+      padding: 14px 16px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .job-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.3;
+      flex: 1 1 180px;
+    }
+    .job-pay {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tag {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 8px;
+      line-height: 1.3;
+    }
+    .tag.orange {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+    .job-desc {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .job-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .author-info {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    /* Caixa do Código de Segurança da Diária (4 dígitos) */
+    .pin-banner {
+      background: linear-gradient(135deg, #ede9fe, #fef3c7);
+      border: 1px solid #c4b5fd;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pin-code-display {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--primary-dark);
+      background: #fff;
+      padding: 5px 12px;
+      border-radius: 10px;
+      border: 1px dashed var(--primary);
+    }
+
+    /* Seletor Visual de Usuários para Avaliação */
+    .user-picker-search {
+      margin-bottom: 8px;
+    }
+    .user-picker-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 230px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .user-pick-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .user-pick-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #5b21b6);
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .user-pick-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .user-pick-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .user-pick-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* Botões de Estrelas Interativos */
+    .star-selector {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .star-btn {
+      flex: 1 1 52px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      cursor: pointer;
+      text-align: center;
+    }
+    .star-btn.active {
+      background: #fef3c7;
+      border-color: var(--accent);
+      color: #b45309;
+    }
+
+    /* Etiquetas Rápidas de Avaliação */
+    .quick-tags-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .quick-tag-btn {
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: #334155;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1.25;
+    }
+    .quick-tag-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Selos de Reputação Verificada */
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .rating-summary-badge {
+      background: #fef3c7;
+      color: #b45309;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .review-item {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    .review-chip {
+      display: inline-block;
+      background: #ede9fe;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+
+    /* Buttons */
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.1s ease;
+      line-height: 1.25;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: #1e1b4b;
+    }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+    .btn-outline {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-full {
+      width: 100%;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #334155;
+      line-height: 1.3;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      background: #fff;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--primary);
+    }
+    .helper-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* Bottom Navigation */
+    nav.bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 4px;
+      z-index: 60;
+    }
+    .nav-item {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 10px;
+    }
+    .nav-item.active {
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+    .nav-icon {
+      font-size: 18px;
+    }
+
+    /* Custom Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 200;
+      overflow-y: auto;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-box {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      animation: popIn 0.2s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.94); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      color: var(--primary-dark);
+    }
+    .modal-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .auth-tabs {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 14px;
+    }
+    .auth-tab {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .auth-tab.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 2px 0;
+    }
+    .auth-error {
+      background: #fee2e2;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 9px 11px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: none;
+      line-height: 1.35;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 76px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      opacity: 0;
+      pointer-events: none;
+      background: #0f172a;
+      color: #fff;
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 300;
+      transition: transform 0.28s ease, opacity 0.28s ease;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+      max-width: 92vw;
+      text-align: center;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo Oficial Diária Pix (SVG embutido) -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <g id="diaria-pix-logo">
+        <rect width="512" height="512" rx="110" fill="url(#bgGrad)" />
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#3b1578" />
+          <stop offset="100%" stop-color="#170436" />
+        </linearGradient>
+        <path d="M148 86 H276 C348 86 398 126 414 184 L350 184 C336 154 308 140 270 140 H206 V195 L148 195 Z" fill="#f59e0b" />
+        <path d="M148 315 L206 315 V366 H270 C308 366 336 352 350 322 L414 322 C398 380 348 420 276 420 H148 Z" fill="#ffffff" />
+        <g fill="#f59e0b" transform="translate(175, 253) rotate(45)">
+          <rect x="-42" y="-42" width="38" height="38" rx="10" />
+          <rect x="4" y="-42" width="38" height="38" rx="10" />
+          <rect x="-42" y="4" width="38" height="38" rx="10" />
+          <rect x="4" y="4" width="38" height="38" rx="10" />
+        </g>
+        <path d="M250 220 H345 V178 L428 253 L345 328 V286 H250 L276 253 Z" fill="#ffffff" />
+      </g>
+    </defs>
+  </svg>
+
+  <!-- Tela Roxa de Abertura com Logo (Splash Screen) -->
+  <div id="splashScreen" onclick="this.classList.add('hide')">
+    <svg class="splash-logo-svg" viewBox="0 0 512 512">
+      <use href="#diaria-pix-logo"></use>
+    </svg>
+    <div class="splash-title">DIÁRIA <span>PIX</span></div>
+    <div class="splash-subtitle">Vagas rápidas e pagamento no Pix</div>
+    <div class="splash-loader">
+      <div class="splash-loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Lista de Cidades de SP para Autocompletar -->
+  <datalist id="spCitiesList"></datalist>
+
+  <!-- Toast Notification -->
+  <div id="toast"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <svg class="brand-logo-svg" viewBox="0 0 512 512">
+          <use href="#diaria-pix-logo"></use>
+        </svg>
+        <div>
+          <h1>DIÁRIA <span>PIX</span></h1>
+          <div class="cloud-status">
+            <span class="dot" id="syncDot"></span>
+            <span id="syncLabel">Conectando nuvem...</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-ghost" onclick="openAlertModal()">🔔 Alertas</button>
+        <button class="btn-ghost" id="userBtn" onclick="handleUserButton()">Entrar</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="city-box-wrapper">
+        <div class="city-box">
+          <span>📍</span>
+          <input
+            type="text"
+            id="cityFilterInput"
+            placeholder="Cidade de SP (ex: Catanduva)..."
+            autocomplete="off"
+            oninput="onCityInput()"
+            onfocus="showCitySuggestions()"
+          />
+          <button class="city-clear" id="clearCityBtn" style="display:none;" onclick="setCityFilter('')">✕</button>
+        </div>
+        <div class="city-suggestions" id="citySuggestions"></div>
+      </div>
+      <select id="categoryFilter" onchange="renderJobs()">
+        <option value="Todas">Todas Áreas</option>
+        <option value="Eventos & Garçom">Eventos</option>
+        <option value="Limpeza & Diarista">Limpeza</option>
+        <option value="Obras & Ajudante">Obras</option>
+        <option value="Entregas & Moto">Entregas</option>
+        <option value="Comércio & Caixa">Comércio</option>
+      </select>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Buscar bico ou função (ex: Limpeza, Garçom)..." oninput="renderJobs()" />
+    </div>
+  </header>
+
+  <main>
+    <!-- Aba 1: Mural de Vagas -->
+    <section id="sec-mural" class="section active">
+      <div class="city-chips" id="cityChips"></div>
+      <div id="jobsList"></div>
+    </section>
+
+    <!-- Aba 2: Publicar Vaga -->
+    <section id="sec-publicar" class="section">
+      <div class="card">
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary-dark);">Publicar Nova Diária</h2>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">A vaga aparece na hora para todos os usuários na cidade escolhida.</p>
+
+        <div class="form-group">
+          <label>Função / Bico *</label>
+          <input type="text" id="jobTitle" placeholder="Ex: Diarista / Limpeza Residencial" />
+        </div>
+        <div class="form-group">
+          <label>Categoria *</label>
+          <select id="jobCategory">
+            <option value="Limpeza & Diarista">Limpeza & Diarista</option>
+            <option value="Eventos & Garçom">Eventos & Garçom</option>
+            <option value="Obras & Ajudante">Obras & Ajudante</option>
+            <option value="Entregas & Moto">Entregas & Moto</option>
+            <option value="Comércio & Caixa">Comércio & Caixa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Valor da Diária no Pix (R$) *</label>
+          <input type="text" id="jobPay" placeholder="Ex: 160 ou R$ 160,00 no Pix" />
+        </div>
+        <div class="form-group">
+          <label>Cidade (SP) *</label>
+          <input type="text" id="jobCity" list="spCitiesList" placeholder="Ex: Catanduva, Jundiaí, Guarujá..." />
+        </div>
+        <div class="form-group">
+          <label>Bairro / Local *</label>
+          <input type="text" id="jobNeighborhood" placeholder="Ex: Centro" />
+        </div>
+        <div class="form-group">
+          <label>Data e Horário *</label>
+          <input type="text" id="jobSchedule" placeholder="Ex: Amanhã, das 08h às 16h" />
+        </div>
+        <div class="form-group">
+          <label>WhatsApp para Contato (com DDD) *</label>
+          <input type="tel" id="jobWhatsapp" placeholder="Ex: 17999999999" />
+        </div>
+        <div class="form-group">
+          <label>Detalhes do Serviço</label>
+          <textarea id="jobDesc" rows="3" placeholder="Explique o que precisa ser feito, requisitos ou observações..."></textarea>
+        </div>
+
+        <button class="btn btn-accent btn-full" id="btnPublish" onclick="publishJob()">Publicar Vaga Agora</button>
+      </div>
+    </section>
+
+    <!-- Aba 3: Reputação Blindada com Código de 4 Dígitos -->
+    <section id="sec-reputacao" class="section">
+      <div class="pin-banner" id="myPinBanner" style="display:none;">
+        <div style="flex:1; min-width:180px;">
+          <div style="font-size:12px; font-weight:800; color:var(--primary-dark);">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
+          <div style="font-size:11px; color:#334155; line-height:1.35; margin-top:2px;">
+            Passe este código apenas para quem realmente concluiu uma diária com você. Você pode trocar o código quando quiser:
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span class="pin-code-display" id="myPinCodeText">----</span>
+          <button type="button" class="btn btn-outline" style="padding:8px 10px; font-size:12px;" onclick="regenerateMyPin()">
+            🔄 Trocar
+          </button>
+          <button type="button" class="btn btn-primary" style="padding:8px 11px; font-size:12px;" onclick="shareMyPinOnWhatsApp()">
+            📲 Enviar
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary-dark);">⭐ Avaliar Serviço Realizado</h2>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">Protegido contra avaliações falsas: exige o código secreto de 4 dígitos de quem trabalhou ou contratou você.</p>
+
+        <!-- Passo 1: Escolher Usuário Real -->
+        <div class="form-group">
+          <label>1. Quem você quer avaliar? *</label>
+          <input
+            type="text"
+            id="userCandidateSearch"
+            class="user-picker-search"
+            placeholder="🔎 Filtrar por nome, cidade ou final do telefone..."
+            oninput="populateReviewTargets()"
+          />
+          <div class="user-picker-list" id="userPickerList"></div>
+        </div>
+
+        <!-- Passo 2: Código de Segurança de 4 Dígitos da Pessoa -->
+        <div class="form-group">
+          <label>2. Digite o Código de 4 dígitos dessa pessoa *</label>
+          <input
+            type="tel"
+            id="revPinInput"
+            maxlength="4"
+            placeholder="Ex: 4829 (peça no WhatsApp após a diária)"
+            style="font-weight:800; letter-spacing:2px;"
+          />
+          <div class="helper-note">🔒 O código é validado com assinatura criptográfica para impedir avaliações de quem nunca trabalhou com a pessoa.</div>
+        </div>
+
+        <!-- Passo 3: Nota em Botões Grandes -->
+        <div class="form-group">
+          <label>3. Qual a sua nota? *</label>
+          <input type="hidden" id="revRating" value="5" />
+          <div class="star-selector" id="starSelector">
+            <button type="button" class="star-btn active" onclick="selectRating(5)">⭐ 5<br><span style="font-size:10px;">Excelente</span></button>
+            <button type="button" class="star-btn" onclick="selectRating(4)">⭐ 4<br><span style="font-size:10px;">Bom</span></button>
+            <button type="button" class="star-btn" onclick="selectRating(3)">⭐ 3<br><span style="font-size:10px;">Regular</span></button>
+            <button type="button" class="star-btn" onclick="selectRating(2)">⭐ 2<br><span style="font-size:10px;">Atrasou</span></button>
+            <button type="button" class="star-btn" onclick="selectRating(1)">⭐ 1<br><span style="font-size:10px;">Falhou</span></button>
+          </div>
+        </div>
+
+        <!-- Passo 4: Etiquetas Rápidas -->
+        <div class="form-group">
+          <label>4. O que se destacou? (Toque para marcar)</label>
+          <div class="quick-tags-grid" id="quickTagsGrid">
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚡ Pagou no Pix na hora')">⚡ Pagou no Pix na hora</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏰ Muito pontual')">⏰ Muito pontual</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '✨ Serviço caprichado')">✨ Serviço caprichado</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '🤝 Boa comunicação')">🤝 Boa comunicação</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏳ Atrasou horário')">⏳ Atrasou horário</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚠️ Demorou a pagar')">⚠️ Demorou a pagar</button>
+          </div>
+        </div>
+
+        <!-- Passo 5: Comentário -->
+        <div class="form-group">
+          <label>5. Comentário sobre a diária (opcional se marcou etiquetas)</label>
+          <textarea id="revComment" rows="2" placeholder="Conte rapidamente como foi o serviço ou pagamento..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="btnReview" onclick="publishReview()">Enviar Avaliação Autenticada</button>
+      </div>
+
+      <!-- Busca de Reputação no Mural -->
+      <div class="card" style="padding: 12px 14px;">
+        <input
+          type="text"
+          id="reviewSearchInput"
+          placeholder="🔍 Consultar reputação pelo nome ou final do telefone..."
+          oninput="renderReviews()"
+          style="width:100%; border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:14px; outline:none;"
+        />
+      </div>
+
+      <div id="reviewsList"></div>
+    </section>
+  </main>
+
+  <!-- Navegação Inferior -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-mural" onclick="switchTab('mural')">
+      <span class="nav-icon">📋</span>
+      <span>Mural</span>
+    </button>
+    <button class="nav-item" id="nav-publicar" onclick="switchTab('publicar')">
+      <span class="nav-icon">➕</span>
+      <span>Publicar</span>
+    </button>
+    <button class="nav-item" id="nav-reputacao" onclick="switchTab('reputacao')">
+      <span class="nav-icon">⭐</span>
+      <span>Reputação</span>
+    </button>
+  </nav>
+
+  <!-- Modal 1: Login e Cadastro Seguro -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box">
+      <div class="modal-title">Conta Diária Pix</div>
+      <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias ou avaliar profissionais com segurança.</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLoginBtn" onclick="setAuthMode('login')">Já tenho conta</button>
+        <button class="auth-tab" id="tabRegisterBtn" onclick="setAuthMode('register')">Criar conta</button>
+      </div>
+
+      <div class="auth-error" id="authErrorBox"></div>
+
+      <div id="registerFields" style="display:none;">
+        <div class="form-group">
+          <label>Seu Nome Completo *</label>
+          <input type="text" id="regName" placeholder="Ex: Maria Aparecida" />
+        </div>
+        <div class="form-group">
+          <label>Seu WhatsApp (com DDD) *</label>
+          <input type="tel" id="regPhone" placeholder="Ex: 17999999999" />
+        </div>
+        <div class="form-group">
+          <label>Sua Cidade (SP) *</label>
+          <input type="text" id="regCity" list="spCitiesList" placeholder="Ex: Catanduva" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Seu E-mail (Gmail ou outro) *</label>
+        <input type="email" id="authEmail" placeholder="Ex: seuemail@gmail.com" autocomplete="email" />
+      </div>
+      <div class="form-group" style="margin-bottom:6px;">
+        <label>Sua Senha (mínimo 6 caracteres) *</label>
+        <input type="password" id="authPassword" placeholder="Digite sua senha" />
+      </div>
+
+      <div id="forgotWrap" style="text-align:right; margin-bottom:10px;">
+        <button type="button" class="link-btn" onclick="resetPassword()">Esqueci minha senha</button>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" style="flex:1" onclick="closeModal('authModal')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:1" id="authSubmitBtn" onclick="submitAuth()">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Perfil, Código de Diária & Sair -->
+  <div class="modal-backdrop" id="logoutModal">
+    <div class="modal-box">
+      <div class="modal-title">Minha Conta</div>
+      <div class="modal-subtitle" id="logoutText">Você está conectado atualmente.</div>
+      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:12px; text-align:center;">
+        <div style="font-size:11px; font-weight:700; color:var(--muted);">SEU CÓDIGO SECRETO DE AVALIAÇÃO</div>
+        <div id="modalPinValue" style="font-size:22px; font-weight:900; color:var(--primary); letter-spacing:3px; margin:4px 0;">----</div>
+        <div style="font-size:11px; color:var(--muted); margin-bottom:8px;">Informe apenas para quem concluiu uma diária com você.</div>
+        <button type="button" class="btn btn-outline" style="padding:6px 12px; font-size:12px;" onclick="regenerateMyPin()">🔄 Gerar Novo Código</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" style="flex:1" onclick="closeModal('logoutModal')">Fechar</button>
+        <button class="btn btn-danger" style="flex:1" onclick="confirmLogout()">Sair da Conta</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Alertas de Vagas -->
+  <div class="modal-backdrop" id="alertModal">
+    <div class="modal-box">
+      <div class="modal-title">🔔 Alerta de Novas Vagas</div>
+      <div class="modal-subtitle">Escolha uma categoria para destacar e avisar você assim que surgir uma diária nova.</div>
+      <div class="form-group">
+        <label>Categoria de Interesse</label>
+        <select id="alertCategorySelect">
+          <option value="Todas">Todas as categorias</option>
+          <option value="Eventos & Garçom">Eventos & Garçom</option>
+          <option value="Limpeza & Diarista">Limpeza & Diarista</option>
+          <option value="Obras & Ajudante">Obras & Ajudante</option>
+          <option value="Entregas & Moto">Entregas & Moto</option>
+          <option value="Comércio & Caixa">Comércio & Caixa</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" style="flex:1" onclick="closeModal('alertModal')">Fechar</button>
+        <button class="btn btn-accent" style="flex:1" onclick="saveAlertPreference()">Ativar Alerta</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Esconde a tela roxa de abertura após 1.2s independente da velocidade da internet
+    setTimeout(() => {
+      const splash = document.getElementById("splashScreen");
+      if (splash) splash.classList.add("hide");
+    }, 1200);
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBov7_CP1kzn541zq3Ztl-6bgrGSini9M4",
+      authDomain: "diaria-pix.firebaseapp.com",
+      projectId: "diaria-pix",
+      storageBucket: "diaria-pix.firebasestorage.app",
+      messagingSenderId: "956409829871",
+      appId: "1:956409829871:web:360a526c8e633d7c563e1a"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch((err) => {
+      console.warn("Persistência padrão mantida:", err);
+    });
+
+    try {
+      window.history.replaceState({ page: "mural" }, "", window.location.pathname);
+      window.addEventListener("popstate", () => {
+        const openModalEl = document.querySelector(".modal-backdrop.open");
+        if (openModalEl) {
+          openModalEl.classList.remove("open");
+          window.history.pushState({ page: "mural" }, "", window.location.pathname);
+          return;
+        }
+        const muralActive = document.getElementById("sec-mural").classList.contains("active");
+        if (!muralActive) {
+          switchTab("mural");
+          window.history.pushState({ page: "mural" }, "", window.location.pathname);
+        }
+      });
+    } catch (e) {}
+
+    const SP_CITIES = [
+      "São Paulo", "Guarulhos", "Campinas", "São Bernardo do Campo",
+      "São José dos Campos", "Ribeirão Preto", "Santo André", "Osasco",
+      "Sorocaba", "Mauá", "São José do Rio Preto", "Mogi das Cruzes",
+      "Santos", "Diadema", "Jundiaí", "Piracicaba", "Carapicuíba",
+      "Bauru", "Itaquaquecetuba", "São Vicente", "Franca", "Praia Grande",
+      "Guarujá", "Taubaté", "Limeira", "Suzano", "Taboão da Serra",
+      "Sumaré", "Barueri", "Embu das Artes", "Indaiatuba", "Cotia",
+      "São Carlos", "Marília", "Americana", "Araraquara", "Jacareí",
+      "Itapevi", "Presidente Prudente", "Hortolândia", "Rio Claro",
+      "Araçatuba", "Ferraz de Vasconcelos", "Santa Bárbara d'Oeste",
+      "Francisco Morato", "Itapecerica da Serra", "Itu", "Bragança Paulista",
+      "Pindamonhangaba", "Itapetininga", "São Caetano do Sul", "Franco da Rocha",
+      "Mogi Guaçu", "Jaú", "Botucatu", "Atibaia", "Santana de Parnaíba",
+      "Araras", "Cubatão", "Valinhos", "Sertãozinho", "Jandira",
+      "Birigui", "Ribeirão Pires", "Votorantim", "Caraguatatuba", "Várzea Paulista",
+      "Tatuí", "Barretos", "Itatiba", "Catanduva", "Assis", "Ourinhos",
+      "Leme", "Paulínia", "Poá", "Caieiras", "Itanhaém", "Votuporanga",
+      "Mairiporã", "Caçapava", "Avaré", "Lorena", "Ubatuba", "São Sebastião",
+      "São João da Boa Vista", "Arujá", "Campo Limpo Paulista", "Matão",
+      "Cruzeiro", "Bebedouro", "Ibiúna", "Lins", "Jaboticabal", "Pirassununga",
+      "Vinhedo", "Itapira", "Cajamar", "Amparo", "Mococa", "Fernandópolis",
+      "Cosmópolis", "Tupã", "Lençóis Paulista", "Penápolis", "Batatais",
+      "Andradina", "Mirassol", "Ibitinga", "Nova Odessa", "Taquaritinga",
+      "Registro", "Olímpia", "Porto Feliz", "Jales", "Monte Mor",
+      "São Joaquim da Barra", "Boituva", "Piedade", "Capivari", "Porto Ferreira",
+      "Jaguariúna", "Artur Nogueira", "Monte Alto", "Itápolis", "Novo Horizonte"
+    ];
+
+    const OFFENSIVE_WORDS = [
+      "feia", "feio", "linda", "lindo", "gostosa", "gostoso", "burro", "burra",
+      "idiota", "imbecil", "otario", "otaria", "vagabundo", "vagabunda", "lixo",
+      "porra", "caralho", "merda", "bosta", "puta", "puto", "fdp", "corno",
+      "corna", "desgraca", "palhaco", "palhaca", "inutil", "pilantra"
+    ];
+
+    let jobs = JSON.parse(localStorage.getItem("dp_jobs_cache") || "[]");
+    let reviews = JSON.parse(localStorage.getItem("dp_reviews_cache") || "[]");
+    let registeredUsers = JSON.parse(localStorage.getItem("dp_users_cache") || "[]");
+    let contactedKeys = JSON.parse(localStorage.getItem("dp_contacted_keys") || "[]");
+    let currentUserProfile = JSON.parse(localStorage.getItem("dp_saved_profile") || "null");
+    let currentCandidatesList = [];
+    let selectedCandidateKey = "";
+    let selectedQuickTags = [];
+    let authMode = "login";
+    let alertCategory = localStorage.getItem("dp_alert_cat") || "Todas";
+    let pendingAction = null;
+    let seedAttempted = localStorage.getItem("dp_seeded_v1") === "true";
+    let toastTimer = null;
+
+    // Gera um código aleatório verdadeiro de 4 dígitos (não previsível pelo UID)
+    function generateRandomPin() {
+      return String(Math.floor(1000 + Math.random() * 9000));
+    }
+
+    // Cria uma assinatura (hash) do PIN para validar sem expor o PIN em texto puro no HTML
+    function computePinHash(pin) {
+      const str = "dp_salt_2026_" + String(pin || "").trim();
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return "h_" + (h >>> 0).toString(16);
+    }
+
+    // Fallback para contas criadas na versão anterior que ainda não tinham pinHash
+    function legacyFallbackPin(uid, phone) {
+      const seed = String(uid || phone || "diariapix");
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        hash = (hash * 31 + seed.charCodeAt(i)) % 9000;
+      }
+      return String(1000 + Math.abs(hash));
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const dl = document.getElementById("spCitiesList");
+      if (dl) {
+        dl.innerHTML = SP_CITIES.map((c) => `<option value="${escapeHtml(c)}"></option>`).join("");
+      }
+
+      updateUserUI();
+      renderCityChips();
+      renderJobs();
+      populateReviewTargets();
+      renderReviews();
+
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const savedLocalPin = localStorage.getItem("dp_my_secret_pin_" + user.uid);
+          let profile = {
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName || (currentUserProfile && currentUserProfile.name) || user.email.split("@")[0],
+            phone: (currentUserProfile && currentUserProfile.phone) || "",
+            city: (currentUserProfile && currentUserProfile.city) || "",
+            pinCode: savedLocalPin || ""
+          };
+          try {
+            const doc = await db.collection("usuarios").doc(user.uid).get();
+            if (doc.exists) {
+              const data = doc.data();
+              profile = {
+                ...profile,
+                ...data,
+                pinCode: savedLocalPin || data.pinCode || generateRandomPin()
+              };
+            } else if (!profile.pinCode) {
+              profile.pinCode = generateRandomPin();
+            }
+
+            localStorage.setItem("dp_my_secret_pin_" + user.uid, profile.pinCode);
+            const pinHash = computePinHash(profile.pinCode);
+
+            await db.collection("usuarios").doc(user.uid).set({
+              name: profile.name,
+              phone: profile.phone,
+              city: profile.city || "",
+              email: profile.email,
+              pinHash: pinHash,
+              updatedAt: Date.now()
+            }, { merge: true });
+          } catch (e) {
+            console.warn("Perfil mantido via cache local:", e);
+          }
+          currentUserProfile = profile;
+          localStorage.setItem("dp_saved_profile", JSON.stringify(profile));
+        } else {
+          currentUserProfile = null;
+          localStorage.removeItem("dp_saved_profile");
+        }
+        updateUserUI();
+        renderJobs();
+        populateReviewTargets();
+        renderReviews();
+      });
+
+      startRealtimeListeners();
+    });
+
+    async function regenerateMyPin() {
+      if (!currentUserProfile) return;
+      const newPin = generateRandomPin();
+      const newHash = computePinHash(newPin);
+      currentUserProfile.pinCode = newPin;
+      localStorage.setItem("dp_my_secret_pin_" + currentUserProfile.uid, newPin);
+      localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
+      updateUserUI();
+      document.getElementById("modalPinValue").textContent = newPin;
+
+      try {
+        await db.collection("usuarios").doc(currentUserProfile.uid).set({
+          pinHash: newHash,
+          updatedAt: Date.now()
+        }, { merge: true });
+        showToast("🔄 Novo código secreto gerado: " + newPin);
+      } catch (e) {
+        showToast("⚠️ Erro ao salvar novo código na nuvem.");
+      }
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".city-box-wrapper")) {
+        document.getElementById("citySuggestions").classList.remove("open");
+      }
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add("open");
+      try {
+        window.history.pushState({ modal: id }, "", window.location.pathname);
+      } catch (e) {}
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+    }
+
+    function hasOffensiveLanguage(text) {
+      const words = normalizeText(text).split(/[^a-z0-9]+/);
+      return words.some((w) => OFFENSIVE_WORDS.includes(w));
+    }
+
+    function formatPayValue(raw) {
+      const trimmed = String(raw || "").trim();
+      if (!trimmed) return "R$ 0,00";
+      if (/^\d+([.,]\d{1,2})?$/.test(trimmed)) {
+        const num = parseFloat(trimmed.replace(",", "."));
+        return "R$ " + num.toFixed(2).replace(".", ",") + " no Pix";
+      }
+      if (!trimmed.toLowerCase().includes("r$")) {
+        return "R$ " + trimmed;
+      }
+      return trimmed;
+    }
+
+    function openWhatsAppChat(phone, message, targetUid) {
+      const cleanPhone = String(phone || "").replace(/\D/g, "");
+      if (targetUid && !contactedKeys.includes(targetUid)) {
+        contactedKeys.push(targetUid);
+      }
+      if (cleanPhone && !contactedKeys.includes(cleanPhone)) {
+        contactedKeys.push(cleanPhone);
+      }
+      localStorage.setItem("dp_contacted_keys", JSON.stringify(contactedKeys));
+      populateReviewTargets();
+
+      const fullPhone = cleanPhone.startsWith("55") ? cleanPhone : "55" + cleanPhone;
+      const encodedMsg = encodeURIComponent(message);
+      const deepLink = `whatsapp://send?phone=${fullPhone}&text=${encodedMsg}`;
+
+      const a = document.createElement("a");
+      a.href = deepLink;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a.parentNode) a.parentNode.removeChild(a);
+      }, 300);
+    }
+
+    function shareMyPinOnWhatsApp() {
+      if (!currentUserProfile) return;
+      const pin = currentUserProfile.pinCode || "----";
+      const msg = `Olá! Obrigado pela parceria na diária pelo app *Diária Pix*. Meu código de confirmação para você me avaliar lá na aba Reputação é: *${pin}*`;
+      const a = document.createElement("a");
+      a.href = `whatsapp://send?text=${encodeURIComponent(msg)}`;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a.parentNode) a.parentNode.removeChild(a);
+      }, 300);
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      const isReg = mode === "register";
+      document.getElementById("tabLoginBtn").classList.toggle("active", !isReg);
+      document.getElementById("tabRegisterBtn").classList.toggle("active", isReg);
+      document.getElementById("registerFields").style.display = isReg ? "block" : "none";
+      document.getElementById("forgotWrap").style.display = isReg ? "none" : "block";
+      document.getElementById("authSubmitBtn").textContent = isReg ? "Criar Conta" : "Entrar";
+      hideAuthError();
+    }
+
+    function showAuthError(msg) {
+      const box = document.getElementById("authErrorBox");
+      box.textContent = msg;
+      box.style.display = "block";
+    }
+
+    function hideAuthError() {
+      const box = document.getElementById("authErrorBox");
+      box.style.display = "none";
+    }
+
+    function translateFirebaseAuthError(code) {
+      switch (code) {
+        case "auth/invalid-email":
+          return "O endereço de e-mail digitado não é válido.";
+        case "auth/user-not-found":
+        case "auth/wrong-password":
+        case "auth/invalid-credential":
+          return "E-mail ou senha incorretos. Confira e tente novamente.";
+        case "auth/email-already-in-use":
+          return "Este e-mail já possui uma conta cadastrada. Toque em 'Já tenho conta' para entrar.";
+        case "auth/weak-password":
+          return "A senha precisa ter pelo menos 6 caracteres.";
+        case "auth/too-many-requests":
+          return "Muitas tentativas seguidas. Aguarde alguns instantes e tente de novo.";
+        case "auth/network-request-failed":
+          return "Sem conexão com a internet no momento.";
+        default:
+          return "Não foi possível concluir o acesso (" + code + ").";
+      }
+    }
+
+    async function submitAuth() {
+      hideAuthError();
+      const email = document.getElementById("authEmail").value.trim();
+      const password = document.getElementById("authPassword").value;
+      const btn = document.getElementById("authSubmitBtn");
+
+      if (!email || !password) {
+        showAuthError("Preencha o e-mail e a senha.");
+        return;
+      }
+
+      if (authMode === "register") {
+        const name = document.getElementById("regName").value.trim();
+        const phone = document.getElementById("regPhone").value.replace(/\D/g, "");
+        const city = document.getElementById("regCity").value.trim();
+        if (!name || phone.length < 10 || !city) {
+          showAuthError("Preencha seu nome completo, WhatsApp com DDD e sua cidade.");
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Criando conta...";
+        try {
+          const cred = await auth.createUserWithEmailAndPassword(email, password);
+          const pinCode = generateRandomPin();
+          const pinHash = computePinHash(pinCode);
+          localStorage.setItem("dp_my_secret_pin_" + cred.user.uid, pinCode);
+
+          await cred.user.updateProfile({ displayName: name });
+          await db.collection("usuarios").doc(cred.user.uid).set({
+            name,
+            phone,
+            city,
+            email,
+            pinHash,
+            createdAt: Date.now()
+          });
+
+          currentUserProfile = { uid: cred.user.uid, email, name, phone, city, pinCode };
+          localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
+          updateUserUI();
+          closeModal("authModal");
+          showToast("✅ Conta criada! Seu código secreto é " + pinCode);
+          runPendingAction();
+        } catch (err) {
+          showAuthError(translateFirebaseAuthError(err.code));
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Criar Conta";
+        }
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Entrando...";
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+          closeModal("authModal");
+          showToast("✅ Login realizado com sucesso!");
+          runPendingAction();
+        } catch (err) {
+          showAuthError(translateFirebaseAuthError(err.code));
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Entrar";
+        }
+      }
+    }
+
+    async function resetPassword() {
+      hideAuthError();
+      const email = document.getElementById("authEmail").value.trim();
+      if (!email) {
+        showAuthError("Digite seu e-mail no campo acima primeiro para receber o link de nova senha.");
+        return;
+      }
+      try {
+        await auth.sendPasswordResetEmail(email);
+        showToast("📧 Link de redefinição enviado para " + email);
+      } catch (err) {
+        showAuthError(translateFirebaseAuthError(err.code));
+      }
+    }
+
+    function runPendingAction() {
+      if (pendingAction) {
+        const fn = pendingAction;
+        pendingAction = null;
+        setTimeout(fn, 150);
+      }
+    }
+
+    function handleUserButton() {
+      if (currentUserProfile) {
+        const pin = currentUserProfile.pinCode || "----";
+        document.getElementById("logoutText").innerHTML =
+          `Conectado como <strong>${escapeHtml(currentUserProfile.name)}</strong><br>` +
+          `<span style="font-size:12px;">${escapeHtml(currentUserProfile.email)}</span>`;
+        document.getElementById("modalPinValue").textContent = pin;
+        openModal("logoutModal");
+      } else {
+        setAuthMode("login");
+        openModal("authModal");
+      }
+    }
+
+    async function confirmLogout() {
+      await auth.signOut();
+      currentUserProfile = null;
+      localStorage.removeItem("dp_saved_profile");
+      updateUserUI();
+      closeModal("logoutModal");
+      switchTab("mural");
+      showToast("Você saiu da sua conta.");
+    }
+
+    function updateUserUI() {
+      const btn = document.getElementById("userBtn");
+      const pinBanner = document.getElementById("myPinBanner");
+      if (currentUserProfile) {
+        btn.textContent = "👤 " + currentUserProfile.name.split(" ")[0];
+        const pin = currentUserProfile.pinCode || "----";
+        document.getElementById("myPinCodeText").textContent = pin;
+        pinBanner.style.display = "flex";
+
+        if (currentUserProfile.phone && !document.getElementById("jobWhatsapp").value) {
+          document.getElementById("jobWhatsapp").value = currentUserProfile.phone;
+        }
+        if (currentUserProfile.city && !document.getElementById("jobCity").value) {
+          document.getElementById("jobCity").value = currentUserProfile.city;
+        }
+      } else {
+        btn.textContent = "Entrar";
+        pinBanner.style.display = "none";
+      }
+    }
+
+    async function seedInitialJobsIfNeeded() {
+      if (seedAttempted) return;
+      seedAttempted = true;
+      localStorage.setItem("dp_seeded_v1", "true");
+
+      const sampleJobs = [
+        {
+          title: "Limpeza Residencial Completa",
+          category: "Limpeza & Diarista",
+          pay: "R$ 160,00 no Pix",
+          city: "Catanduva",
+          neighborhood: "Centro",
+          location: "Catanduva - Centro",
+          schedule: "Amanhã, 08h às 16h",
+          whatsapp: "17999999999",
+          desc: "Faxina em casa de 2 quartos. Produtos de limpeza já disponíveis no local. Pagamento via Pix ao finalizar.",
+          authorName: "Equipe Diária Pix (Exemplo)",
+          authorUid: "sample",
+          isSample: true,
+          createdAt: Date.now() - 30000
+        },
+        {
+          title: "Garçom / Apoio para Festa",
+          category: "Eventos & Garçom",
+          pay: "R$ 180,00 + Jantar",
+          city: "Catanduva",
+          neighborhood: "Jardim do Lago",
+          location: "Catanduva - Jardim do Lago",
+          schedule: "Sábado, 18h às 00h",
+          whatsapp: "17999999999",
+          desc: "Servir mesas e recolher copos em aniversário. Precisa de camisa preta.",
+          authorName: "Equipe Diária Pix (Exemplo)",
+          authorUid: "sample",
+          isSample: true,
+          createdAt: Date.now() - 20000
+        }
+      ];
+
+      try {
+        for (const item of sampleJobs) {
+          await db.collection("vagas").add(item);
+        }
+      } catch (e) {}
+    }
+
+    function startRealtimeListeners() {
+      db.collection("vagas")
+        .orderBy("createdAt", "desc")
+        .onSnapshot(
+          (snapshot) => {
+            const isFirstLoad = jobs.length === 0;
+            const updated = [];
+            snapshot.forEach((doc) => {
+              updated.push({ id: doc.id, ...doc.data() });
+            });
+
+            if (updated.length === 0 && !seedAttempted) {
+              seedInitialJobsIfNeeded();
+            }
+
+            if (!isFirstLoad && updated.length > jobs.length) {
+              const newest = updated[0];
+              if (alertCategory === "Todas" || newest.category === alertCategory) {
+                showToast("🔔 Nova vaga: " + newest.title);
+              }
+            }
+
+            jobs = updated;
+            localStorage.setItem("dp_jobs_cache", JSON.stringify(jobs));
+            document.getElementById("syncDot").style.background = "#4ade80";
+            document.getElementById("syncLabel").textContent = "Online • Tempo real";
+            renderCityChips();
+            renderJobs();
+            populateReviewTargets();
+          },
+          (err) => {
+            document.getElementById("syncDot").style.background = "#facc15";
+            document.getElementById("syncLabel").textContent = "Modo offline";
+            renderCityChips();
+            renderJobs();
+          }
+        );
+
+      db.collection("usuarios").onSnapshot((snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push({ uid: doc.id, ...doc.data() });
+        });
+        registeredUsers = list;
+        localStorage.setItem("dp_users_cache", JSON.stringify(list));
+        populateReviewTargets();
+      });
+
+      db.collection("avaliacoes")
+        .orderBy("createdAt", "desc")
+        .onSnapshot((snapshot) => {
+          const updated = [];
+          snapshot.forEach((doc) => {
+            updated.push({ id: doc.id, ...doc.data() });
+          });
+          reviews = updated;
+          localStorage.setItem("dp_reviews_cache", JSON.stringify(reviews));
+          renderReviews();
+        });
+    }
+
+    function getInitials(name) {
+      const parts = String(name || "U").trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+
+    function buildUnifiedCandidates() {
+      const rawList = [];
+
+      registeredUsers.forEach((u) => {
+        if (!u.name) return;
+        rawList.push({
+          uid: u.uid || "",
+          name: u.name.trim(),
+          phone: String(u.phone || "").replace(/\D/g, ""),
+          city: String(u.city || "").trim(),
+          pinHash: u.pinHash || (u.pinCode ? computePinHash(u.pinCode) : computePinHash(legacyFallbackPin(u.uid, u.phone)))
+        });
+      });
+
+      jobs.forEach((j) => {
+        if (!j.authorName || j.isSample || j.authorUid === "sample") return;
+        rawList.push({
+          uid: j.authorUid || "",
+          name: j.authorName.trim(),
+          phone: String(j.whatsapp || "").replace(/\D/g, ""),
+          city: String(j.city || "").trim(),
+          pinHash: j.authorPinHash || (j.authorPin ? computePinHash(j.authorPin) : computePinHash(legacyFallbackPin(j.authorUid, j.whatsapp)))
+        });
+      });
+
+      const unified = [];
+      const myPhone = currentUserProfile && currentUserProfile.phone
+        ? String(currentUserProfile.phone).replace(/\D/g, "")
+        : "";
+
+      rawList.forEach((item) => {
+        const itemPhoneKey = item.phone.length >= 8 ? item.phone.slice(-8) : "";
+        const myPhoneKey = myPhone.length >= 8 ? myPhone.slice(-8) : "";
+
+        const isSelf =
+          currentUserProfile &&
+          ((item.uid && item.uid === currentUserProfile.uid) ||
+            (myPhoneKey && itemPhoneKey && itemPhoneKey === myPhoneKey));
+
+        if (isSelf) return;
+
+        let existing = unified.find((c) => {
+          if (item.uid && c.uid && item.uid === c.uid) return true;
+          if (itemPhoneKey && c.phoneKey && itemPhoneKey === c.phoneKey) return true;
+          return false;
+        });
+
+        if (existing) {
+          if (item.name.length > existing.name.length) {
+            existing.name = item.name;
+          }
+          if (!existing.uid && item.uid) existing.uid = item.uid;
+          if (!existing.city && item.city) existing.city = item.city;
+          if (!existing.phone && item.phone) {
+            existing.phone = item.phone;
+            existing.phoneKey = itemPhoneKey;
+          }
+          if (item.pinHash) existing.pinHash = item.pinHash;
+        } else {
+          const safeKey = item.uid || ("phone_" + (itemPhoneKey || Math.random().toString(36).slice(2)));
+          unified.push({
+            key: safeKey,
+            uid: safeKey,
+            name: item.name,
+            phone: item.phone,
+            phoneKey: itemPhoneKey,
+            city: item.city,
+            pinHash: item.pinHash
+          });
+        }
+      });
+
+      return unified;
+    }
+
+    function selectCandidateByKey(key) {
+      selectedCandidateKey = key;
+      populateReviewTargets();
+    }
+
+    function populateReviewTargets() {
+      const listEl = document.getElementById("userPickerList");
+      if (!listEl) return;
+
+      const searchVal = normalizeText(
+        (document.getElementById("userCandidateSearch") && document.getElementById("userCandidateSearch").value) || ""
+      );
+
+      currentCandidatesList = buildUnifiedCandidates();
+      const candidates = currentCandidatesList.filter((c) => {
+        if (!searchVal) return true;
+        return (
+          normalizeText(c.name).includes(searchVal) ||
+          normalizeText(c.city).includes(searchVal) ||
+          (c.phone && c.phone.includes(searchVal))
+        );
+      });
+
+      if (candidates.length === 0) {
+        listEl.innerHTML = `<div class="empty-state" style="padding:14px;">Nenhum outro usuário encontrado para avaliar.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = candidates
+        .map((c) => {
+          const isSelected = selectedCandidateKey === c.key;
+          const last4 = c.phone ? c.phone.slice(-4) : "";
+          const contacted =
+            contactedKeys.includes(c.uid) ||
+            (c.phone && contactedKeys.includes(c.phone));
+
+          return `
+            <div class="user-pick-card ${isSelected ? "selected" : ""}" onclick="selectCandidateByKey('${escapeHtml(c.key)}')">
+              <div class="user-avatar">${escapeHtml(getInitials(c.name))}</div>
+              <div class="user-pick-info">
+                <div class="user-pick-name">${escapeHtml(c.name)}</div>
+                <div class="user-pick-sub">
+                  ${last4 ? `<span>📱 Final ${escapeHtml(last4)}</span>` : `<span>👤 Conta verificada</span>`}
+                  ${c.city ? `<span>• 📍 ${escapeHtml(c.city)}</span>` : ""}
+                  ${contacted ? `<span class="verified-badge">✓ Contato no WhatsApp</span>` : ""}
+                </div>
+              </div>
+              <div style="font-size:18px; color:var(--primary); font-weight:900;">
+                ${isSelected ? "✔" : "○"}
+              </div>
+            </div>`;
+        })
+        .join("");
+    }
+
+    function selectRating(num) {
+      document.getElementById("revRating").value = String(num);
+      const buttons = document.querySelectorAll("#starSelector .star-btn");
+      buttons.forEach((btn, idx) => {
+        const btnRating = 5 - idx;
+        btn.classList.toggle("active", btnRating === num);
+      });
+    }
+
+    function toggleQuickTag(btnEl, tagText) {
+      const idx = selectedQuickTags.indexOf(tagText);
+      if (idx >= 0) {
+        selectedQuickTags.splice(idx, 1);
+        btnEl.classList.remove("active");
+      } else {
+        selectedQuickTags.push(tagText);
+        btnEl.classList.add("active");
+      }
+    }
+
+    function normalizeText(str) {
+      return String(str || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function showCitySuggestions() {
+      const box = document.getElementById("citySuggestions");
+      const val = normalizeText(document.getElementById("cityFilterInput").value.trim());
+
+      const allCitiesSet = new Set(SP_CITIES);
+      jobs.forEach((j) => {
+        if (j.city) allCitiesSet.add(j.city.trim());
+      });
+
+      const allCities = Array.from(allCitiesSet);
+      const matches = allCities
+        .filter((c) => !val || normalizeText(c).includes(val))
+        .slice(0, 8);
+
+      if (matches.length === 0) {
+        box.classList.remove("open");
+        return;
+      }
+
+      box.innerHTML = matches
+        .map((city) => {
+          const count = jobs.filter((j) => normalizeText(j.city || j.location) === normalizeText(city)).length;
+          return `
+            <div class="city-suggestion-item" onclick="selectSuggestedCity('${escapeHtml(city)}')">
+              <span>📍 ${escapeHtml(city)} - SP</span>
+              <span class="city-badge-count ${count > 0 ? "has-jobs" : ""}">
+                ${count > 0 ? count + (count === 1 ? " vaga" : " vagas") : "0 vagas"}
+              </span>
+            </div>`;
+        })
+        .join("");
+
+      box.classList.add("open");
+    }
+
+    function selectSuggestedCity(city) {
+      document.getElementById("citySuggestions").classList.remove("open");
+      setCityFilter(city);
+    }
+
+    function onCityInput() {
+      const val = document.getElementById("cityFilterInput").value;
+      document.getElementById("clearCityBtn").style.display = val ? "inline-block" : "none";
+      showCitySuggestions();
+      renderCityChips();
+      renderJobs();
+    }
+
+    function setCityFilter(city) {
+      const input = document.getElementById("cityFilterInput");
+      input.value = city;
+      document.getElementById("clearCityBtn").style.display = city ? "inline-block" : "none";
+      document.getElementById("citySuggestions").classList.remove("open");
+      renderCityChips();
+      renderJobs();
+    }
+
+    function renderCityChips() {
+      const chipContainer = document.getElementById("cityChips");
+      const currentCity = normalizeText(document.getElementById("cityFilterInput").value.trim());
+
+      const mainCities = [
+        "São Paulo",
+        "Guarulhos",
+        "Campinas",
+        "São Bernardo do Campo",
+        "São José dos Campos",
+        "Ribeirão Preto"
+      ];
+
+      let html = `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">🌍 Todas de SP</button>`;
+      mainCities.forEach((c) => {
+        const isActive = currentCity === normalizeText(c);
+        html += `<button class="chip ${isActive ? "active" : ""}" onclick="setCityFilter('${escapeHtml(c)}')">📍 ${escapeHtml(c)}</button>`;
+      });
+      chipContainer.innerHTML = html;
+    }
+
+    function openPublishForCity(city) {
+      if (city) {
+        document.getElementById("jobCity").value = city;
+      }
+      switchTab("publicar");
+    }
+
+    function switchTab(tab) {
+      if ((tab === "publicar" || tab === "reputacao") && !currentUserProfile) {
+        pendingAction = () => switchTab(tab);
+        setAuthMode("login");
+        openModal("authModal");
+        return;
+      }
+
+      document.querySelectorAll(".section").forEach((s) => s.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach((n) => n.classList.remove("active"));
+
+      document.getElementById("sec-" + tab).classList.add("active");
+      document.getElementById("nav-" + tab).classList.add("active");
+
+      if (tab === "reputacao") {
+        populateReviewTargets();
+        renderReviews();
+      }
+    }
+
+    function openAlertModal() {
+      document.getElementById("alertCategorySelect").value = alertCategory;
+      openModal("alertModal");
+    }
+
+    function saveAlertPreference() {
+      alertCategory = document.getElementById("alertCategorySelect").value;
+      localStorage.setItem("dp_alert_cat", alertCategory);
+      closeModal("alertModal");
+      showToast("🔔 Alertas ativados para: " + alertCategory);
+    }
+
+    async function publishJob() {
+      if (!currentUserProfile) {
+        pendingAction = publishJob;
+        setAuthMode("login");
+        openModal("authModal");
+        return;
+      }
+
+      const title = document.getElementById("jobTitle").value.trim();
+      const category = document.getElementById("jobCategory").value;
+      const rawPay = document.getElementById("jobPay").value.trim();
+      const city = document.getElementById("jobCity").value.trim();
+      const neighborhood = document.getElementById("jobNeighborhood").value.trim();
+      const schedule = document.getElementById("jobSchedule").value.trim();
+      const whatsapp = document.getElementById("jobWhatsapp").value.replace(/\D/g, "");
+      const desc = document.getElementById("jobDesc").value.trim();
+
+      if (!title || !rawPay || !city || !neighborhood || !schedule || !whatsapp) {
+        showToast("Preencha todos os campos obrigatórios (*)");
+        return;
+      }
+
+      if (hasOffensiveLanguage(title) || hasOffensiveLanguage(desc)) {
+        showToast("⚠️ Remova palavras ofensivas antes de publicar.");
+        return;
+      }
+
+      const pay = formatPayValue(rawPay);
+      const authorPinHash = computePinHash(currentUserProfile.pinCode || legacyFallbackPin(currentUserProfile.uid, whatsapp));
+      const btn = document.getElementById("btnPublish");
+      btn.disabled = true;
+      btn.textContent = "Publicando na nuvem...";
+
+      try {
+        await db.collection("vagas").add({
+          title,
+          category,
+          pay,
+          city,
+          neighborhood,
+          location: city + " - " + neighborhood,
+          schedule,
+          whatsapp,
+          desc,
+          authorName: currentUserProfile.name,
+          authorUid: currentUserProfile.uid,
+          authorPinHash,
+          createdAt: Date.now()
+        });
+
+        if (!currentUserProfile.city && city) {
+          currentUserProfile.city = city;
+          localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
+          db.collection("usuarios").doc(currentUserProfile.uid).set({ city }, { merge: true });
+        }
+
+        document.getElementById("jobTitle").value = "";
+        document.getElementById("jobPay").value = "";
+        document.getElementById("jobNeighborhood").value = "";
+        document.getElementById("jobSchedule").value = "";
+        document.getElementById("jobDesc").value = "";
+
+        setCityFilter(city);
+        showToast("✅ Vaga publicada em " + city + "!");
+        switchTab("mural");
+      } catch (e) {
+        showToast("Erro ao salvar. Verifique sua internet.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Publicar Vaga Agora";
+      }
+    }
+
+    async function deleteJob(id) {
+      try {
+        await db.collection("vagas").doc(id).delete();
+        showToast("Vaga encerrada e removida do mural.");
+      } catch (e) {
+        showToast("Apenas o autor da vaga pode encerrá-la.");
+      }
+    }
+
+    function renderJobs() {
+      const container = document.getElementById("jobsList");
+      const rawCity = document.getElementById("cityFilterInput").value.trim();
+      const roleQuery = normalizeText(document.getElementById("searchInput").value);
+      const cityQuery = normalizeText(rawCity);
+      const cat = document.getElementById("categoryFilter").value;
+
+      const filtered = jobs.filter((j) => {
+        const matchCat = cat === "Todas" || j.category === cat;
+        const jobCityText = normalizeText((j.city || "") + " " + (j.location || ""));
+        const matchCity = !cityQuery || jobCityText.includes(cityQuery);
+
+        const jobRoleText = normalizeText(
+          (j.title || "") + " " + (j.category || "") + " " + (j.desc || "") + " " + (j.neighborhood || "")
+        );
+        const matchRole = !roleQuery || jobRoleText.includes(roleQuery);
+
+        return matchCat && matchCity && matchRole;
+      });
+
+      if (filtered.length === 0) {
+        const cityMsg = rawCity
+          ? `Ainda não há diárias abertas em <strong>${escapeHtml(rawCity)} - SP</strong> hoje.`
+          : `Nenhuma vaga encontrada para esse filtro.`;
+
+        container.innerHTML = `
+          <div class="empty-state">
+            <div style="font-size: 40px; margin-bottom: 8px;">📍</div>
+            <div style="font-size: 15px; color: var(--text); margin-bottom: 6px;">${cityMsg}</div>
+            <p style="font-size: 13px; margin-bottom: 14px;">Você pode anunciar a primeira vaga dessa cidade agora mesmo ou ver todas as cidades.</p>
+            <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+              ${
+                rawCity
+                  ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(rawCity)}')">➕ Publicar vaga em ${escapeHtml(rawCity)}</button>`
+                  : ""
+              }
+              <button class="btn btn-outline" onclick="setCityFilter(''); document.getElementById('searchInput').value=''; renderJobs();">Ver Todas as Cidades</button>
+            </div>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = filtered
+        .map((j) => {
+          const jobPhone = String(j.whatsapp || "").replace(/\D/g, "");
+          // Alinhado exatamente com as Regras do Firebase: dono pelo UID, vaga exemplo ou vaga antiga sem authorUid
+          const canDelete =
+            currentUserProfile &&
+            (j.authorUid === currentUserProfile.uid || j.isSample === true || !j.authorUid);
+
+          const cityLabel = j.city ? `${j.city}${j.neighborhood ? " • " + j.neighborhood : ""}` : j.location;
+          const formattedPay = formatPayValue(j.pay || "");
+          const last4 = jobPhone.length >= 4 ? jobPhone.slice(-4) : "";
+          const zapMsg = `Olá ${j.authorName}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Diária Pix e tenho interesse.`;
+
+          return `
+            <div class="card">
+              <div class="job-header">
+                <div class="job-title">${escapeHtml(j.title)}</div>
+                <div class="job-pay">${escapeHtml(formattedPay)}</div>
+              </div>
+              <div class="tags">
+                <span class="tag orange">📍 ${escapeHtml(cityLabel)}</span>
+                <span class="tag">${escapeHtml(j.category)}</span>
+                <span class="tag">🕒 ${escapeHtml(j.schedule)}</span>
+              </div>
+              ${j.desc ? `<div class="job-desc">${escapeHtml(j.desc)}</div>` : ""}
+              <div class="job-footer">
+                <div class="author-info">
+                  Por <strong>${escapeHtml(j.authorName)}</strong>
+                  ${last4 ? `<span style="opacity:0.8;">(Final ${escapeHtml(last4)})</span>` : ""}
+                </div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  ${
+                    canDelete
+                      ? `<button class="btn btn-danger" style="padding:8px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">Encerrar</button>`
+                      : ""
+                  }
+                  <button class="btn btn-success" style="padding:8px 12px; font-size:13px;" onclick='openWhatsAppChat(${JSON.stringify(j.whatsapp)}, ${JSON.stringify(zapMsg)}, ${JSON.stringify(j.authorUid || "")})'>
+                    💬 Chamar no WhatsApp
+                  </button>
+                </div>
+              </div>
+            </div>`;
+        })
+        .join("");
+    }
+
+    async function publishReview() {
+      if (!currentUserProfile) {
+        pendingAction = publishReview;
+        setAuthMode("login");
+        openModal("authModal");
+        return;
+      }
+
+      const candidate = currentCandidatesList.find((c) => c.key === selectedCandidateKey);
+      const typedPin = document.getElementById("revPinInput").value.trim();
+      const rating = Number(document.getElementById("revRating").value);
+      const comment = document.getElementById("revComment").value.trim();
+
+      if (!candidate) {
+        showToast("⚠️ Passo 1: Toque primeiro no cartão da pessoa que você quer avaliar.");
+        return;
+      }
+
+      if (candidate.uid === currentUserProfile.uid) {
+        showToast("⚠️ Você não pode avaliar a sua própria conta.");
+        return;
+      }
+
+      if (!typedPin || typedPin.length !== 4) {
+        showToast("🔒 Digite o código secreto de 4 dígitos dessa pessoa para confirmar a diária.");
+        return;
+      }
+
+      const typedHash = computePinHash(typedPin);
+      if (candidate.pinHash && typedHash !== candidate.pinHash) {
+        showToast("❌ Código de 4 dígitos incorreto! Peça o código atualizado no WhatsApp da pessoa.");
+        return;
+      }
+
+      if (comment.length < 4 && selectedQuickTags.length === 0) {
+        showToast("⚠️ Marque pelo menos uma etiqueta acima ou escreva um comentário.");
+        return;
+      }
+
+      if (hasOffensiveLanguage(comment)) {
+        showToast("⚠️ Use apenas comentários profissionais sobre o trabalho, sem ofensas pessoais.");
+        return;
+      }
+
+      const btn = document.getElementById("btnReview");
+      btn.disabled = true;
+      btn.textContent = "Validando e salvando...";
+
+      try {
+        const safeTargetUid = candidate.uid || ("phone_" + (candidate.phoneKey || "anon"));
+        const existing = reviews.find(
+          (r) =>
+            r.authorUid === currentUserProfile.uid &&
+            (r.targetUid === safeTargetUid || (candidate.phoneKey && r.targetPhoneKey === candidate.phoneKey))
+        );
+
+        const payload = {
+          target: candidate.name,
+          targetUid: safeTargetUid,
+          targetPhoneKey: candidate.phoneKey || "",
+          targetCity: candidate.city || "",
+          rating,
+          tags: [...selectedQuickTags],
+          comment,
+          verifiedContact: true,
+          verifiedByPin: true,
+          authorName: currentUserProfile.name,
+          authorUid: currentUserProfile.uid,
+          createdAt: Date.now()
+        };
+
+        if (existing) {
+          await db.collection("avaliacoes").doc(existing.id).update(payload);
+          showToast("✅ Sua avaliação para " + candidate.name + " foi atualizada!");
+        } else {
+          await db.collection("avaliacoes").add(payload);
+          showToast("⭐ Avaliação autenticada com código registrada!");
+        }
+
+        selectedCandidateKey = "";
+        document.getElementById("revPinInput").value = "";
+        document.getElementById("revComment").value = "";
+        selectedQuickTags = [];
+        document.querySelectorAll("#quickTagsGrid .quick-tag-btn").forEach((b) => b.classList.remove("active"));
+        selectRating(5);
+        populateReviewTargets();
+      } catch (e) {
+        showToast("Erro ao enviar avaliação.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Enviar Avaliação Autenticada";
+      }
+    }
+
+    async function deleteReview(id) {
+      try {
+        await db.collection("avaliacoes").doc(id).delete();
+        showToast("Avaliação excluída.");
+      } catch (e) {
+        showToast("Não foi possível excluir.");
+      }
+    }
+
+    function renderReviews() {
+      const container = document.getElementById("reviewsList");
+      const query = normalizeText(
+        (document.getElementById("reviewSearchInput") && document.getElementById("reviewSearchInput").value) || ""
+      );
+
+      if (reviews.length === 0) {
+        container.innerHTML = `<div class="empty-state">Nenhuma avaliação registrada ainda.</div>`;
+        return;
+      }
+
+      const groups = new Map();
+      reviews.forEach((r) => {
+        const uniqueKey = r.targetUid || r.targetPhoneKey || ("id_" + r.id);
+        if (!groups.has(uniqueKey)) {
+          groups.set(uniqueKey, {
+            name: r.target,
+            phoneKey: r.targetPhoneKey || "",
+            city: r.targetCity || "",
+            items: []
+          });
+        } else {
+          const g = groups.get(uniqueKey);
+          if (String(r.target || "").length > g.name.length) g.name = r.target;
+          if (!g.city && r.targetCity) g.city = r.targetCity;
+          if (!g.phoneKey && r.targetPhoneKey) g.phoneKey = r.targetPhoneKey;
+        }
+        groups.get(uniqueKey).items.push(r);
+      });
+
+      const filteredGroups = Array.from(groups.values()).filter((g) => {
+        if (!query) return true;
+        return (
+          normalizeText(g.name).includes(query) ||
+          normalizeText(g.city).includes(query) ||
+          (g.phoneKey && g.phoneKey.includes(query))
+        );
+      });
+
+      if (filteredGroups.length === 0) {
+        container.innerHTML = `<div class="empty-state">Nenhuma avaliação encontrada para essa busca.</div>`;
+        return;
+      }
+
+      container.innerHTML = filteredGroups
+        .map((group) => {
+          const total = group.items.reduce((acc, item) => acc + (Number(item.rating) || 5), 0);
+          const avg = (total / group.items.length).toFixed(1).replace(".", ",");
+          const countLabel = group.items.length === 1 ? "1 avaliação" : `${group.items.length} avaliações`;
+          const last4 = group.phoneKey ? group.phoneKey.slice(-4) : "";
+
+          const itemsHtml = group.items
+            .map((r) => {
+              const stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+              const isOwner =
+                currentUserProfile && (r.authorUid === currentUserProfile.uid || !r.authorUid);
+
+              const tagsHtml = Array.isArray(r.tags) && r.tags.length > 0
+                ? `<div style="margin: 6px 0 4px;">${r.tags.map((t) => `<span class="review-chip">${escapeHtml(t)}</span>`).join("")}</div>`
+                : "";
+
+              return `
+                <div class="review-item">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; flex-wrap:wrap; gap:6px;">
+                    <span class="stars">${stars}</span>
+                    ${
+                      r.verifiedByPin
+                        ? `<span class="verified-badge">🔒 Diária confirmada com código</span>`
+                        : `<span class="verified-badge">✓ Usuário verificado</span>`
+                    }
+                  </div>
+                  ${tagsHtml}
+                  ${r.comment ? `<p style="font-size:13px; color:#334155; margin-bottom:6px; line-height:1.4;">"${escapeHtml(r.comment)}"</p>` : ""}
+                  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                    <div class="author-info">Avaliado por <strong>${escapeHtml(r.authorName)}</strong></div>
+                    ${
+                      isOwner
+                        ? `<button class="btn btn-danger" style="padding:4px 9px; font-size:11px;" onclick="deleteReview('${escapeHtml(r.id)}')">Excluir</button>`
+                        : ""
+                    }
+                  </div>
+                </div>`;
+            })
+            .join("");
+
+          return `
+            <div class="card">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <div class="user-avatar" style="width:38px; height:38px; font-size:13px;">${escapeHtml(getInitials(group.name))}</div>
+                  <div>
+                    <strong style="font-size:16px; display:block;">${escapeHtml(group.name)}</strong>
+                    <span style="font-size:11px; color:var(--muted);">
+                      ${last4 ? `📱 Final ${escapeHtml(last4)}` : "👤 Conta verificada"}
+                      ${group.city ? ` • 📍 ${escapeHtml(group.city)}` : ""}
+                    </span>
+                  </div>
+                </div>
+                <span class="rating-summary-badge">⭐ ${avg} • ${countLabel}</span>
+              </div>
+              ${itemsHtml}
+            </div>`;
+        })
+        .join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+  </script>
+</body>
+</html>
