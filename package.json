@@ -1,0 +1,11 @@
+{
+  "name": "diaria-pix",
+  "version": "1.0.0",
+  "description": "Diária Pix - Vagas Rápidas",
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/status-bar": "^6.0.1"
+  }
+}
