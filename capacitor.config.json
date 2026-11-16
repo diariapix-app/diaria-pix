@@ -1,11 +1,7 @@
 {
   "appId": "com.querodiaria.app",
-  "appName": "quero diária",
+  "appName": "Quero Diária",
   "webDir": "www",
-  "server": {
-    "url": "https://diariapix-app.github.io/diaria-pix/",
-    "cleartext": true
-  },
   "plugins": {
     "StatusBar": {
       "style": "DARK",
