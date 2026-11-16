@@ -1,4 +1,4 @@
-name: Gerar APK Diária Pix
+name: Gerar APK Quero Diária
 
 on:
   workflow_dispatch:
@@ -6,6 +6,7 @@ on:
     paths:
       - 'package.json'
       - 'capacitor.config.json'
+      - 'google-services.json'
       - '.github/workflows/build-apk.yml'
 
 jobs:
@@ -33,8 +34,11 @@ jobs:
           npm install
           npx cap add android
 
-      - name: Configurar cor roxa na barra superior e limpar tema
+      - name: Configurar notificações e cor roxa na barra superior
         run: |
+          if [ -f "google-services.json" ]; then
+            cp google-services.json android/app/google-services.json
+          fi
           cat << 'EOF' > android/app/src/main/res/values/styles.xml
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
@@ -60,5 +64,5 @@ jobs:
       - name: Disponibilizar APK para download
         uses: actions/upload-artifact@v4
         with:
-          name: DiariaPix-APK
+          name: QueroDiaria-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
