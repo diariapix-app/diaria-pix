@@ -1180,7 +1180,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script>
-    // Link do disparador gratuito do Google Apps Script (será preenchido se quiser disparo 100% automático)
     const PUSH_WEBHOOK_URL = "";
 
     setTimeout(() => {
@@ -1272,11 +1271,23 @@
     let seedAttempted = localStorage.getItem("dp_seeded_v1") === "true";
     let toastTimer = null;
     let pushListenersReady = false;
+    let cachedPushPlugin = null;
 
     function getPushPlugin() {
-      return window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.PushNotifications
-        ? window.Capacitor.Plugins.PushNotifications
-        : null;
+      if (cachedPushPlugin) return cachedPushPlugin;
+      if (!window.Capacitor) return null;
+
+      if (window.Capacitor.Plugins && window.Capacitor.Plugins.PushNotifications) {
+        cachedPushPlugin = window.Capacitor.Plugins.PushNotifications;
+        return cachedPushPlugin;
+      }
+      if (typeof window.Capacitor.registerPlugin === "function") {
+        try {
+          cachedPushPlugin = window.Capacitor.registerPlugin("PushNotifications");
+          return cachedPushPlugin;
+        } catch (e) {}
+      }
+      return null;
     }
 
     async function saveFcmTokenToFirestore(token) {
@@ -1295,12 +1306,13 @@
 
     async function initPushNotifications(askUserNow) {
       const PushNotifications = getPushPlugin();
-      if (!PushNotifications) return false;
+      if (!PushNotifications) {
+        return { ok: false, reason: "no_native" };
+      }
 
       if (!pushListenersReady) {
         pushListenersReady = true;
 
-        // Cria canal de alta prioridade no Android (som + vibração + banner no topo)
         try {
           await PushNotifications.createChannel({
             id: "vagas_channel",
@@ -1337,12 +1349,13 @@
         }
         if (permStatus.receive === "granted") {
           await PushNotifications.register();
-          return true;
+          return { ok: true };
         }
+        return { ok: false, reason: permStatus.receive || "denied" };
       } catch (e) {
         console.warn("Falha na permissão de push:", e);
+        return { ok: false, reason: "error" };
       }
-      return false;
     }
 
     function generateRandomPin() {
@@ -1379,7 +1392,7 @@
       renderJobs();
       populateReviewTargets();
       renderReviews();
-      initPushNotifications(false);
+      initPushNotifications(true);
 
       auth.onAuthStateChanged(async (user) => {
         if (user) {
@@ -1474,7 +1487,7 @@
       t.textContent = msg;
       t.classList.add("show");
       if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
+      toastTimer = setTimeout(() => t.classList.remove("show"), 3600);
     }
 
     function openModal(id) {
@@ -2115,7 +2128,7 @@
       localStorage.setItem("dp_alert_cat", alertCategory);
       closeModal("alertModal");
 
-      const granted = await initPushNotifications(true);
+      const pushRes = await initPushNotifications(true);
       if (currentUserProfile && currentUserProfile.uid) {
         const updateData = {
           alertCategory: alertCategory,
@@ -2128,8 +2141,10 @@
         db.collection("usuarios").doc(currentUserProfile.uid).set(updateData, { merge: true }).catch(() => {});
       }
 
-      if (granted) {
-        showToast("🔔 Notificações no celular ativadas para: " + alertCategory);
+      if (pushRes.ok) {
+        showToast("🔔 Notificações ativadas no celular para: " + alertCategory);
+      } else if (pushRes.reason === "denied") {
+        showToast("⚠️ Permissão negada. Libere em Configurações > Apps > Quero Diária > Notificações.");
       } else {
         showToast("🔔 Alerta salvo para: " + alertCategory);
       }
@@ -2535,7 +2550,7 @@
               </div>
               ${itemsHtml}
             </div>`;
-          })
+        })
         .join("");
     }
 
