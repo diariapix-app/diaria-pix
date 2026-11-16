@@ -1,6 +1,6 @@
 {
-  "appId": "com.diariapix.app",
-  "appName": "Diária Pix",
+  "appId": "com.querodiaria.app",
+  "appName": "quero diária",
   "webDir": "www",
   "server": {
     "url": "https://diariapix-app.github.io/diaria-pix/",
