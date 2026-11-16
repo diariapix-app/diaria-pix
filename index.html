@@ -834,7 +834,7 @@
 </head>
 <body>
 
-  <!-- Logo Oficial Quero Diária (Roxo, Laranja e Branco - Sem símbolo Pix) -->
+  <!-- Logo Oficial Quero Diária -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
@@ -843,18 +843,15 @@
           <stop offset="0%" stop-color="#3b1578" />
           <stop offset="100%" stop-color="#170436" />
         </linearGradient>
-        <!-- Círculo Laranja de Destaque -->
         <circle cx="290" cy="240" r="115" fill="#f59e0b" />
         <circle cx="290" cy="240" r="92" fill="none" stroke="#ffffff" stroke-width="10" stroke-opacity="0.35" />
-        <!-- Visto de Recebido dentro do círculo -->
         <path d="M242 242 L276 276 L344 206" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" />
-        <!-- Raio Branco de Agilidade à esquerda -->
         <path d="M215 88 L112 268 H192 L152 424 L278 228 H196 Z" fill="#ffffff" />
       </g>
     </defs>
   </svg>
 
-  <!-- Tela Roxa de Abertura com Logo (Splash Screen) -->
+  <!-- Tela Roxa de Abertura com Logo -->
   <div id="splashScreen" onclick="this.classList.add('hide')">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
       <use href="#quero-diaria-logo"></use>
@@ -866,10 +863,7 @@
     </div>
   </div>
 
-  <!-- Lista de Cidades de SP para Autocompletar -->
   <datalist id="spCitiesList"></datalist>
-
-  <!-- Toast Notification -->
   <div id="toast"></div>
 
   <!-- Header -->
@@ -981,7 +975,7 @@
       </div>
     </section>
 
-    <!-- Aba 3: Reputação Blindada com Código de 4 Dígitos -->
+    <!-- Aba 3: Reputação Blindada -->
     <section id="sec-reputacao" class="section">
       <div class="pin-banner" id="myPinBanner" style="display:none;">
         <div style="flex:1; min-width:180px;">
@@ -1005,7 +999,6 @@
         <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary-dark);">⭐ Avaliar Serviço Realizado</h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">Protegido contra avaliações falsas: exige o código secreto de 4 dígitos de quem trabalhou ou contratou você.</p>
 
-        <!-- Passo 1: Escolher Usuário Real -->
         <div class="form-group">
           <label>1. Quem você quer avaliar? *</label>
           <input
@@ -1018,7 +1011,6 @@
           <div class="user-picker-list" id="userPickerList"></div>
         </div>
 
-        <!-- Passo 2: Código de Segurança de 4 Dígitos da Pessoa -->
         <div class="form-group">
           <label>2. Digite o Código de 4 dígitos dessa pessoa *</label>
           <input
@@ -1031,7 +1023,6 @@
           <div class="helper-note">🔒 O código é validado com assinatura criptográfica para impedir avaliações de quem nunca trabalhou com a pessoa.</div>
         </div>
 
-        <!-- Passo 3: Nota em Botões Grandes -->
         <div class="form-group">
           <label>3. Qual a sua nota? *</label>
           <input type="hidden" id="revRating" value="5" />
@@ -1044,7 +1035,6 @@
           </div>
         </div>
 
-        <!-- Passo 4: Etiquetas Rápidas -->
         <div class="form-group">
           <label>4. O que se destacou? (Toque para marcar)</label>
           <div class="quick-tags-grid" id="quickTagsGrid">
@@ -1057,7 +1047,6 @@
           </div>
         </div>
 
-        <!-- Passo 5: Comentário -->
         <div class="form-group">
           <label>5. Comentário sobre a diária (opcional se marcou etiquetas)</label>
           <textarea id="revComment" rows="2" placeholder="Conte rapidamente como foi o serviço ou pagamento..."></textarea>
@@ -1066,7 +1055,6 @@
         <button class="btn btn-primary btn-full" id="btnReview" onclick="publishReview()">Enviar Avaliação Autenticada</button>
       </div>
 
-      <!-- Busca de Reputação no Mural -->
       <div class="card" style="padding: 12px 14px;">
         <input
           type="text"
@@ -1097,7 +1085,7 @@
     </button>
   </nav>
 
-  <!-- Modal 1: Login e Cadastro Seguro -->
+  <!-- Modal 1: Login e Cadastro -->
   <div class="modal-backdrop" id="authModal">
     <div class="modal-box">
       <div class="modal-title">Conta Quero Diária</div>
@@ -1145,7 +1133,7 @@
     </div>
   </div>
 
-  <!-- Modal 2: Perfil, Código de Diária & Sair -->
+  <!-- Modal 2: Perfil & Sair -->
   <div class="modal-backdrop" id="logoutModal">
     <div class="modal-box">
       <div class="modal-title">Minha Conta</div>
@@ -1163,11 +1151,11 @@
     </div>
   </div>
 
-  <!-- Modal 3: Alertas de Vagas -->
+  <!-- Modal 3: Alertas e Notificações no Celular -->
   <div class="modal-backdrop" id="alertModal">
     <div class="modal-box">
-      <div class="modal-title">🔔 Alerta de Novas Vagas</div>
-      <div class="modal-subtitle">Escolha uma categoria para destacar e avisar você assim que surgir uma diária nova.</div>
+      <div class="modal-title">🔔 Alertas e Notificações</div>
+      <div class="modal-subtitle">Escolha uma categoria para receber notificações no celular assim que surgir uma diária nova.</div>
       <div class="form-group">
         <label>Categoria de Interesse</label>
         <select id="alertCategorySelect">
@@ -1181,7 +1169,7 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-outline" style="flex:1" onclick="closeModal('alertModal')">Fechar</button>
-        <button class="btn btn-accent" style="flex:1" onclick="saveAlertPreference()">Ativar Alerta</button>
+        <button class="btn btn-accent" style="flex:1" onclick="saveAlertPreference()">Ativar Notificações</button>
       </div>
     </div>
   </div>
@@ -1192,7 +1180,9 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script>
-    // Esconde a tela roxa de abertura após 1.2s independente da velocidade da internet
+    // Link do disparador gratuito do Google Apps Script (será preenchido se quiser disparo 100% automático)
+    const PUSH_WEBHOOK_URL = "";
+
     setTimeout(() => {
       const splash = document.getElementById("splashScreen");
       if (splash) splash.classList.add("hide");
@@ -1281,6 +1271,79 @@
     let pendingAction = null;
     let seedAttempted = localStorage.getItem("dp_seeded_v1") === "true";
     let toastTimer = null;
+    let pushListenersReady = false;
+
+    function getPushPlugin() {
+      return window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.PushNotifications
+        ? window.Capacitor.Plugins.PushNotifications
+        : null;
+    }
+
+    async function saveFcmTokenToFirestore(token) {
+      if (!token) return;
+      localStorage.setItem("dp_fcm_token", token);
+      if (currentUserProfile && currentUserProfile.uid) {
+        try {
+          await db.collection("usuarios").doc(currentUserProfile.uid).set({
+            fcmToken: token,
+            alertCategory: alertCategory,
+            updatedAt: Date.now()
+          }, { merge: true });
+        } catch (e) {}
+      }
+    }
+
+    async function initPushNotifications(askUserNow) {
+      const PushNotifications = getPushPlugin();
+      if (!PushNotifications) return false;
+
+      if (!pushListenersReady) {
+        pushListenersReady = true;
+
+        // Cria canal de alta prioridade no Android (som + vibração + banner no topo)
+        try {
+          await PushNotifications.createChannel({
+            id: "vagas_channel",
+            name: "Novas Diárias",
+            description: "Notificações de novas vagas publicadas no Quero Diária",
+            importance: 5,
+            visibility: 1,
+            vibration: true
+          });
+        } catch (e) {}
+
+        PushNotifications.addListener("registration", (token) => {
+          if (token && token.value) {
+            saveFcmTokenToFirestore(token.value);
+          }
+        });
+        PushNotifications.addListener("registrationError", (err) => {
+          console.warn("Erro ao registrar push:", err);
+        });
+        PushNotifications.addListener("pushNotificationReceived", (notification) => {
+          const title = notification.title || "Nova diária disponível!";
+          const body = notification.body ? ": " + notification.body : "";
+          showToast("🔔 " + title + body);
+        });
+        PushNotifications.addListener("pushNotificationActionPerformed", () => {
+          switchTab("mural");
+        });
+      }
+
+      try {
+        let permStatus = await PushNotifications.checkPermissions();
+        if (permStatus.receive !== "granted" && askUserNow) {
+          permStatus = await PushNotifications.requestPermissions();
+        }
+        if (permStatus.receive === "granted") {
+          await PushNotifications.register();
+          return true;
+        }
+      } catch (e) {
+        console.warn("Falha na permissão de push:", e);
+      }
+      return false;
+    }
 
     function generateRandomPin() {
       return String(Math.floor(1000 + Math.random() * 9000));
@@ -1316,10 +1379,12 @@
       renderJobs();
       populateReviewTargets();
       renderReviews();
+      initPushNotifications(false);
 
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           const savedLocalPin = localStorage.getItem("dp_my_secret_pin_" + user.uid);
+          const savedToken = localStorage.getItem("dp_fcm_token") || "";
           let profile = {
             uid: user.uid,
             email: user.email,
@@ -1344,19 +1409,26 @@
             localStorage.setItem("dp_my_secret_pin_" + user.uid, profile.pinCode);
             const pinHash = computePinHash(profile.pinCode);
 
-            await db.collection("usuarios").doc(user.uid).set({
+            const updatePayload = {
               name: profile.name,
               phone: profile.phone,
               city: profile.city || "",
               email: profile.email,
               pinHash: pinHash,
+              alertCategory: alertCategory,
               updatedAt: Date.now()
-            }, { merge: true });
+            };
+            if (savedToken) {
+              updatePayload.fcmToken = savedToken;
+            }
+
+            await db.collection("usuarios").doc(user.uid).set(updatePayload, { merge: true });
           } catch (e) {
             console.warn("Perfil mantido via cache local:", e);
           }
           currentUserProfile = profile;
           localStorage.setItem("dp_saved_profile", JSON.stringify(profile));
+          initPushNotifications(true);
         } else {
           currentUserProfile = null;
           localStorage.removeItem("dp_saved_profile");
@@ -1542,23 +1614,30 @@
           const cred = await auth.createUserWithEmailAndPassword(email, password);
           const pinCode = generateRandomPin();
           const pinHash = computePinHash(pinCode);
+          const savedToken = localStorage.getItem("dp_fcm_token") || "";
           localStorage.setItem("dp_my_secret_pin_" + cred.user.uid, pinCode);
 
           await cred.user.updateProfile({ displayName: name });
-          await db.collection("usuarios").doc(cred.user.uid).set({
+          const userDoc = {
             name,
             phone,
             city,
             email,
             pinHash,
+            alertCategory: alertCategory,
             createdAt: Date.now()
-          });
+          };
+          if (savedToken) {
+            userDoc.fcmToken = savedToken;
+          }
+          await db.collection("usuarios").doc(cred.user.uid).set(userDoc);
 
           currentUserProfile = { uid: cred.user.uid, email, name, phone, city, pinCode };
           localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
           updateUserUI();
           closeModal("authModal");
           showToast("✅ Conta criada! Seu código secreto é " + pinCode);
+          initPushNotifications(true);
           runPendingAction();
         } catch (err) {
           showAuthError(translateFirebaseAuthError(err.code));
@@ -1573,6 +1652,7 @@
           await auth.signInWithEmailAndPassword(email, password);
           closeModal("authModal");
           showToast("✅ Login realizado com sucesso!");
+          initPushNotifications(true);
           runPendingAction();
         } catch (err) {
           showAuthError(translateFirebaseAuthError(err.code));
@@ -2030,11 +2110,29 @@
       openModal("alertModal");
     }
 
-    function saveAlertPreference() {
+    async function saveAlertPreference() {
       alertCategory = document.getElementById("alertCategorySelect").value;
       localStorage.setItem("dp_alert_cat", alertCategory);
       closeModal("alertModal");
-      showToast("🔔 Alertas ativados para: " + alertCategory);
+
+      const granted = await initPushNotifications(true);
+      if (currentUserProfile && currentUserProfile.uid) {
+        const updateData = {
+          alertCategory: alertCategory,
+          updatedAt: Date.now()
+        };
+        const existingToken = localStorage.getItem("dp_fcm_token");
+        if (existingToken) {
+          updateData.fcmToken = existingToken;
+        }
+        db.collection("usuarios").doc(currentUserProfile.uid).set(updateData, { merge: true }).catch(() => {});
+      }
+
+      if (granted) {
+        showToast("🔔 Notificações no celular ativadas para: " + alertCategory);
+      } else {
+        showToast("🔔 Alerta salvo para: " + alertCategory);
+      }
     }
 
     async function publishJob() {
@@ -2086,6 +2184,32 @@
           authorPinHash,
           createdAt: Date.now()
         });
+
+        if (PUSH_WEBHOOK_URL) {
+          const targetTokens = registeredUsers
+            .filter((u) =>
+              u.fcmToken &&
+              u.uid !== currentUserProfile.uid &&
+              (!u.alertCategory || u.alertCategory === "Todas" || u.alertCategory === category)
+            )
+            .map((u) => u.fcmToken);
+
+          if (targetTokens.length > 0) {
+            fetch(PUSH_WEBHOOK_URL, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify({
+                title,
+                category,
+                pay,
+                city,
+                neighborhood,
+                tokens: targetTokens
+              })
+            }).catch(() => {});
+          }
+        }
 
         if (!currentUserProfile.city && city) {
           currentUserProfile.city = city;
@@ -2411,7 +2535,7 @@
               </div>
               ${itemsHtml}
             </div>`;
-        })
+          })
         .join("");
     }
 
