@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Diária Pix - Vagas Rápidas</title>
+  <title>Quero Diária - Trabalhou, Recebeu!</title>
   <style>
     :root {
       --primary: #311068;
@@ -75,9 +75,9 @@
     }
     .splash-subtitle {
       margin-top: 4px;
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.88);
     }
     .splash-loader {
       margin-top: 22px;
@@ -136,9 +136,16 @@
       font-size: 20px;
       font-weight: 900;
       letter-spacing: -0.3px;
+      line-height: 1.1;
     }
     .brand h1 span {
       color: var(--accent);
+    }
+    .brand-slogan {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fde68a;
+      margin-top: 1px;
     }
     .cloud-status {
       font-size: 11px;
@@ -148,7 +155,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 2px;
+      margin-top: 3px;
     }
     .dot {
       width: 7px;
@@ -827,24 +834,22 @@
 </head>
 <body>
 
-  <!-- Logo Oficial Diária Pix (SVG embutido) -->
+  <!-- Logo Oficial Quero Diária (Roxo, Laranja e Branco - Sem símbolo Pix) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
-      <g id="diaria-pix-logo">
-        <rect width="512" height="512" rx="110" fill="url(#bgGrad)" />
+      <g id="quero-diaria-logo">
+        <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
         <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#3b1578" />
           <stop offset="100%" stop-color="#170436" />
         </linearGradient>
-        <path d="M148 86 H276 C348 86 398 126 414 184 L350 184 C336 154 308 140 270 140 H206 V195 L148 195 Z" fill="#f59e0b" />
-        <path d="M148 315 L206 315 V366 H270 C308 366 336 352 350 322 L414 322 C398 380 348 420 276 420 H148 Z" fill="#ffffff" />
-        <g fill="#f59e0b" transform="translate(175, 253) rotate(45)">
-          <rect x="-42" y="-42" width="38" height="38" rx="10" />
-          <rect x="4" y="-42" width="38" height="38" rx="10" />
-          <rect x="-42" y="4" width="38" height="38" rx="10" />
-          <rect x="4" y="4" width="38" height="38" rx="10" />
-        </g>
-        <path d="M250 220 H345 V178 L428 253 L345 328 V286 H250 L276 253 Z" fill="#ffffff" />
+        <!-- Círculo Laranja de Destaque -->
+        <circle cx="290" cy="240" r="115" fill="#f59e0b" />
+        <circle cx="290" cy="240" r="92" fill="none" stroke="#ffffff" stroke-width="10" stroke-opacity="0.35" />
+        <!-- Visto de Recebido dentro do círculo -->
+        <path d="M242 242 L276 276 L344 206" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Raio Branco de Agilidade à esquerda -->
+        <path d="M215 88 L112 268 H192 L152 424 L278 228 H196 Z" fill="#ffffff" />
       </g>
     </defs>
   </svg>
@@ -852,10 +857,10 @@
   <!-- Tela Roxa de Abertura com Logo (Splash Screen) -->
   <div id="splashScreen" onclick="this.classList.add('hide')">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
-      <use href="#diaria-pix-logo"></use>
+      <use href="#quero-diaria-logo"></use>
     </svg>
-    <div class="splash-title">DIÁRIA <span>PIX</span></div>
-    <div class="splash-subtitle">Vagas rápidas e pagamento no Pix</div>
+    <div class="splash-title">QUERO <span>DIÁRIA</span></div>
+    <div class="splash-subtitle">Trabalhou, Recebeu!</div>
     <div class="splash-loader">
       <div class="splash-loader-bar"></div>
     </div>
@@ -872,10 +877,11 @@
     <div class="header-top">
       <div class="brand">
         <svg class="brand-logo-svg" viewBox="0 0 512 512">
-          <use href="#diaria-pix-logo"></use>
+          <use href="#quero-diaria-logo"></use>
         </svg>
         <div>
-          <h1>DIÁRIA <span>PIX</span></h1>
+          <h1>QUERO <span>DIÁRIA</span></h1>
+          <div class="brand-slogan">Trabalhou, Recebeu!</div>
           <div class="cloud-status">
             <span class="dot" id="syncDot"></span>
             <span id="syncLabel">Conectando nuvem...</span>
@@ -947,8 +953,8 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Valor da Diária no Pix (R$) *</label>
-          <input type="text" id="jobPay" placeholder="Ex: 160 ou R$ 160,00 no Pix" />
+          <label>Valor da Diária (R$) *</label>
+          <input type="text" id="jobPay" placeholder="Ex: 160 ou R$ 160,00 na hora" />
         </div>
         <div class="form-group">
           <label>Cidade (SP) *</label>
@@ -1042,7 +1048,7 @@
         <div class="form-group">
           <label>4. O que se destacou? (Toque para marcar)</label>
           <div class="quick-tags-grid" id="quickTagsGrid">
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚡ Pagou no Pix na hora')">⚡ Pagou no Pix na hora</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚡ Pagou na hora')">⚡ Pagou na hora</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏰ Muito pontual')">⏰ Muito pontual</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '✨ Serviço caprichado')">✨ Serviço caprichado</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '🤝 Boa comunicação')">🤝 Boa comunicação</button>
@@ -1094,7 +1100,7 @@
   <!-- Modal 1: Login e Cadastro Seguro -->
   <div class="modal-backdrop" id="authModal">
     <div class="modal-box">
-      <div class="modal-title">Conta Diária Pix</div>
+      <div class="modal-title">Conta Quero Diária</div>
       <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias ou avaliar profissionais com segurança.</div>
 
       <div class="auth-tabs">
@@ -1276,12 +1282,10 @@
     let seedAttempted = localStorage.getItem("dp_seeded_v1") === "true";
     let toastTimer = null;
 
-    // Gera um código aleatório verdadeiro de 4 dígitos (não previsível pelo UID)
     function generateRandomPin() {
       return String(Math.floor(1000 + Math.random() * 9000));
     }
 
-    // Cria uma assinatura (hash) do PIN para validar sem expor o PIN em texto puro no HTML
     function computePinHash(pin) {
       const str = "dp_salt_2026_" + String(pin || "").trim();
       let h = 2166136261;
@@ -1292,9 +1296,8 @@
       return "h_" + (h >>> 0).toString(16);
     }
 
-    // Fallback para contas criadas na versão anterior que ainda não tinham pinHash
     function legacyFallbackPin(uid, phone) {
-      const seed = String(uid || phone || "diariapix");
+      const seed = String(uid || phone || "querodiaria");
       let hash = 0;
       for (let i = 0; i < seed.length; i++) {
         hash = (hash * 31 + seed.charCodeAt(i)) % 9000;
@@ -1423,7 +1426,7 @@
       if (!trimmed) return "R$ 0,00";
       if (/^\d+([.,]\d{1,2})?$/.test(trimmed)) {
         const num = parseFloat(trimmed.replace(",", "."));
-        return "R$ " + num.toFixed(2).replace(".", ",") + " no Pix";
+        return "R$ " + num.toFixed(2).replace(".", ",");
       }
       if (!trimmed.toLowerCase().includes("r$")) {
         return "R$ " + trimmed;
@@ -1459,7 +1462,7 @@
     function shareMyPinOnWhatsApp() {
       if (!currentUserProfile) return;
       const pin = currentUserProfile.pinCode || "----";
-      const msg = `Olá! Obrigado pela parceria na diária pelo app *Diária Pix*. Meu código de confirmação para você me avaliar lá na aba Reputação é: *${pin}*`;
+      const msg = `Olá! Obrigado pela parceria na diária pelo app *Quero Diária*. Meu código de confirmação para você me avaliar lá na aba Reputação é: *${pin}*`;
       const a = document.createElement("a");
       a.href = `whatsapp://send?text=${encodeURIComponent(msg)}`;
       a.style.display = "none";
@@ -1657,14 +1660,14 @@
         {
           title: "Limpeza Residencial Completa",
           category: "Limpeza & Diarista",
-          pay: "R$ 160,00 no Pix",
+          pay: "R$ 160,00",
           city: "Catanduva",
           neighborhood: "Centro",
           location: "Catanduva - Centro",
           schedule: "Amanhã, 08h às 16h",
           whatsapp: "17999999999",
-          desc: "Faxina em casa de 2 quartos. Produtos de limpeza já disponíveis no local. Pagamento via Pix ao finalizar.",
-          authorName: "Equipe Diária Pix (Exemplo)",
+          desc: "Faxina em casa de 2 quartos. Produtos de limpeza já disponíveis no local. Pagamento na hora ao finalizar.",
+          authorName: "Equipe Quero Diária (Exemplo)",
           authorUid: "sample",
           isSample: true,
           createdAt: Date.now() - 30000
@@ -1679,7 +1682,7 @@
           schedule: "Sábado, 18h às 00h",
           whatsapp: "17999999999",
           desc: "Servir mesas e recolher copos em aniversário. Precisa de camisa preta.",
-          authorName: "Equipe Diária Pix (Exemplo)",
+          authorName: "Equipe Quero Diária (Exemplo)",
           authorUid: "sample",
           isSample: true,
           createdAt: Date.now() - 20000
@@ -2161,7 +2164,6 @@
       container.innerHTML = filtered
         .map((j) => {
           const jobPhone = String(j.whatsapp || "").replace(/\D/g, "");
-          // Alinhado exatamente com as Regras do Firebase: dono pelo UID, vaga exemplo ou vaga antiga sem authorUid
           const canDelete =
             currentUserProfile &&
             (j.authorUid === currentUserProfile.uid || j.isSample === true || !j.authorUid);
@@ -2169,7 +2171,7 @@
           const cityLabel = j.city ? `${j.city}${j.neighborhood ? " • " + j.neighborhood : ""}` : j.location;
           const formattedPay = formatPayValue(j.pay || "");
           const last4 = jobPhone.length >= 4 ? jobPhone.slice(-4) : "";
-          const zapMsg = `Olá ${j.authorName}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Diária Pix e tenho interesse.`;
+          const zapMsg = `Olá ${j.authorName}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Quero Diária e tenho interesse.`;
 
           return `
             <div class="card">
