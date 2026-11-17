@@ -1155,7 +1155,7 @@
   <div class="modal-backdrop" id="alertModal">
     <div class="modal-box">
       <div class="modal-title">🔔 Alertas e Notificações</div>
-      <div class="modal-subtitle">Escolha uma categoria para receber notificações no celular assim que surgir uma diária nova.</div>
+      <div class="modal-subtitle">Escolha uma categoria para receber notificações no celular assim que surgir uma diária nova na sua cidade.</div>
       <div class="form-group">
         <label>Categoria de Interesse</label>
         <select id="alertCategorySelect">
@@ -1180,7 +1180,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script>
-    const PUSH_WEBHOOK_URL = "";
+    const PUSH_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyHeel2MPNKVFvCQcUwx4a9FOB1JiwHeSEmkBdk23dVqeYH3R4ivvnDpkSPVx0MuGtW/exec";
 
     setTimeout(() => {
       const splash = document.getElementById("splashScreen");
@@ -1806,8 +1806,15 @@
 
             if (!isFirstLoad && updated.length > jobs.length) {
               const newest = updated[0];
-              if (alertCategory === "Todas" || newest.category === alertCategory) {
-                showToast("🔔 Nova vaga: " + newest.title);
+              const myCityNorm = normalizeText(
+                (currentUserProfile && currentUserProfile.city) ||
+                document.getElementById("cityFilterInput").value.trim()
+              );
+              const newestCityNorm = normalizeText(newest.city || "");
+              const matchCity = !myCityNorm || !newestCityNorm || myCityNorm === newestCityNorm;
+
+              if (matchCity && (alertCategory === "Todas" || newest.category === alertCategory)) {
+                showToast("🔔 Nova vaga em " + (newest.city || "sua cidade") + ": " + newest.title);
               }
             }
 
@@ -2010,7 +2017,8 @@
       return String(str || "")
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
     }
 
     function showCitySuggestions() {
@@ -2130,10 +2138,14 @@
 
       const pushRes = await initPushNotifications(true);
       if (currentUserProfile && currentUserProfile.uid) {
+        const selectedCityFilter = document.getElementById("cityFilterInput").value.trim();
         const updateData = {
           alertCategory: alertCategory,
           updatedAt: Date.now()
         };
+        if (selectedCityFilter) {
+          updateData.alertCity = selectedCityFilter;
+        }
         const existingToken = localStorage.getItem("dp_fcm_token");
         if (existingToken) {
           updateData.fcmToken = existingToken;
@@ -2201,13 +2213,18 @@
         });
 
         if (PUSH_WEBHOOK_URL) {
-          const targetTokens = registeredUsers
-            .filter((u) =>
-              u.fcmToken &&
-              u.uid !== currentUserProfile.uid &&
-              (!u.alertCategory || u.alertCategory === "Todas" || u.alertCategory === category)
-            )
+          const jobCityNorm = normalizeText(city);
+          const rawTokens = registeredUsers
+            .filter((u) => {
+              if (!u.fcmToken || u.uid === currentUserProfile.uid) return false;
+              const catMatch = !u.alertCategory || u.alertCategory === "Todas" || u.alertCategory === category;
+              const userCityNorm = normalizeText(u.alertCity || u.city || "");
+              const cityMatch = !userCityNorm || userCityNorm === "todas" || !jobCityNorm || userCityNorm === jobCityNorm;
+              return catMatch && cityMatch;
+            })
             .map((u) => u.fcmToken);
+
+          const targetTokens = Array.from(new Set(rawTokens));
 
           if (targetTokens.length > 0) {
             fetch(PUSH_WEBHOOK_URL, {
