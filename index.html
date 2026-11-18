@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Quero Diária - Trabalhou, Recebeu!</title>
+  <title>Quero Diária</title>
   <style>
     :root {
       --primary: #4c0f96;
@@ -35,7 +35,7 @@
       overflow-x: hidden;
     }
 
-    /* Tela Roxa de Abertura com Logo (Splash Screen) */
+    /* Tela Roxa de Abertura com Logo */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -74,14 +74,8 @@
     .splash-title span {
       color: var(--accent);
     }
-    .splash-subtitle {
-      margin-top: 4px;
-      font-size: 14px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.88);
-    }
     .splash-loader {
-      margin-top: 22px;
+      margin-top: 20px;
       width: 130px;
       height: 5px;
       background: rgba(255, 255, 255, 0.16);
@@ -135,19 +129,13 @@
       display: block;
     }
     .brand h1 {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 900;
       letter-spacing: -0.3px;
       line-height: 1.1;
     }
     .brand h1 span {
       color: var(--accent);
-    }
-    .brand-slogan {
-      font-size: 11px;
-      font-weight: 700;
-      color: #fde68a;
-      margin-top: 1px;
     }
     .cloud-status {
       font-size: 11px;
@@ -157,7 +145,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 3px;
+      margin-top: 4px;
     }
     .dot {
       width: 7px;
@@ -182,6 +170,16 @@
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-user-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.7);
     }
 
     /* Barra de Cidade Separada + Busca de Bicos */
@@ -314,17 +312,32 @@
       font-size: 13px;
       flex: 0 1 auto;
       min-width: 125px;
+      max-width: 165px;
     }
 
-    .city-chips {
+    /* Cidades e Categorias Rápidas */
+    .quick-sec-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      margin: 4px 0 8px;
       display: flex;
-      gap: 6px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .city-chips,
+    .quick-cat-bar,
+    .role-suggestions-bar {
+      display: flex;
+      gap: 7px;
       overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 12px;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
       scrollbar-width: none;
     }
-    .city-chips::-webkit-scrollbar {
+    .city-chips::-webkit-scrollbar,
+    .quick-cat-bar::-webkit-scrollbar,
+    .role-suggestions-bar::-webkit-scrollbar {
       display: none;
     }
     .chip {
@@ -352,6 +365,24 @@
       background: var(--accent);
       border-color: var(--accent-dark);
       color: #ffffff;
+    }
+
+    .cat-pill {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      color: #334155;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .cat-pill.active {
+      background: #ddd6fe;
+      border-color: var(--primary);
+      color: var(--primary-dark);
     }
 
     main {
@@ -435,10 +466,117 @@
       gap: 8px;
       flex-wrap: wrap;
     }
+    .author-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .author-mini-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #6d28d9);
+      color: #fff;
+      font-weight: 800;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 1.5px solid #e2e8f0;
+    }
     .author-info {
       font-size: 12px;
       color: var(--muted);
-      line-height: 1.35;
+      line-height: 1.3;
+    }
+
+    /* Cartão de Perfil Estilo Foto 2 (Capa + Foto Circular Sobreposta) */
+    .profile-hero-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      text-align: center;
+    }
+    .profile-cover {
+      height: 88px;
+      background: linear-gradient(135deg, #2e0854 0%, #4c0f96 55%, #ff7a00 130%);
+      position: relative;
+    }
+    .profile-avatar-wrap {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      margin: -48px auto 8px;
+    }
+    .profile-avatar-img,
+    .profile-avatar-placeholder {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--primary), #6d28d9);
+      color: #ffffff;
+      font-size: 30px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .profile-cam-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .profile-pill-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-top: 4px;
+    }
+    .profile-stars-row {
+      margin-top: 6px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #b45309;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .avail-toggle-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      margin-bottom: 14px;
     }
 
     /* Caixa do Código de Segurança da Diária (4 dígitos) */
@@ -493,8 +631,8 @@
       background: var(--primary-light);
     }
     .user-avatar {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), #6d28d9);
       color: #fff;
@@ -504,6 +642,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      object-fit: cover;
     }
     .user-pick-info {
       flex: 1;
@@ -658,6 +797,11 @@
       background: #f1f5f9;
       color: var(--primary-dark);
       border: 1px solid var(--border);
+    }
+    .btn-profile-orange {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
     }
     .btn-full {
       width: 100%;
@@ -863,13 +1007,12 @@
 </head>
 <body>
 
-  <!-- Nova Logo Oficial QD (Quadrado Roxo Sem Borda Branca) -->
+  <!-- Logo Oficial QD (Quadrado Roxo Sem Borda Branca) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
         <rect width="512" height="512" rx="105" fill="#4c0f96" />
         <rect x="10" y="10" width="492" height="492" rx="96" fill="none" stroke="#6e2ec2" stroke-width="14" />
-        <!-- Letra Q Branca -->
         <path
           fill="#ffffff"
           fill-rule="evenodd"
@@ -877,7 +1020,6 @@
         />
         <polygon fill="#ffffff" points="172,256 200,228 328,356 272,356" />
         <line x1="168" y1="252" x2="270" y2="354" stroke="#4c0f96" stroke-width="7" />
-        <!-- Letra D Laranja -->
         <path
           fill="#ff7a00"
           fill-rule="evenodd"
@@ -887,13 +1029,16 @@
     </defs>
   </svg>
 
-  <!-- Tela Roxa de Abertura com Logo -->
+  <!-- Inputs ocultos para escolher foto da galeria/câmera -->
+  <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'profile')" />
+  <input type="file" id="regPhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'register')" />
+
+  <!-- Tela Roxa de Abertura (Sem o slogan Trabalhou, Recebeu!) -->
   <div id="splashScreen" onclick="this.classList.add('hide')">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
       <use href="#quero-diaria-logo"></use>
     </svg>
-    <div class="splash-title">QUERO <span>DIÁRIA</span></div>
-    <div class="splash-subtitle">Trabalhou, Recebeu!</div>
+    <div class="splash-title">Quero <span>Diária</span></div>
     <div class="splash-loader">
       <div class="splash-loader-bar"></div>
     </div>
@@ -901,7 +1046,7 @@
 
   <div id="toast"></div>
 
-  <!-- Header -->
+  <!-- Header Limpo (Só o nome Quero Diária) -->
   <header>
     <div class="header-top">
       <div class="brand">
@@ -909,8 +1054,7 @@
           <use href="#quero-diaria-logo"></use>
         </svg>
         <div>
-          <h1>QUERO <span>DIÁRIA</span></h1>
-          <div class="brand-slogan">Trabalhou, Recebeu!</div>
+          <h1>Quero <span>Diária</span></h1>
           <div class="cloud-status">
             <span class="dot" id="syncDot"></span>
             <span id="syncLabel">Conectando nuvem...</span>
@@ -939,24 +1083,36 @@
         </div>
         <div class="city-suggestions" id="citySuggestions"></div>
       </div>
-      <select id="categoryFilter" onchange="renderJobs()">
+      <select id="categoryFilter" onchange="onCategorySelectChange()">
         <option value="Todas">Todas Áreas</option>
-        <option value="Eventos & Garçom">Eventos</option>
-        <option value="Limpeza & Diarista">Limpeza</option>
-        <option value="Obras & Ajudante">Obras</option>
-        <option value="Entregas & Moto">Entregas</option>
-        <option value="Comércio & Caixa">Comércio</option>
+        <option value="Limpeza & Diarista">🧹 Limpeza</option>
+        <option value="Obras & Ajudante">🧱 Construção & Obras</option>
+        <option value="Entregas & Moto">🛵 Delivery & Entregas</option>
+        <option value="Assistência & Reparos">🛠️ Assistência & Reparos</option>
+        <option value="Eventos & Garçom">🍽️ Eventos & Garçom</option>
+        <option value="Cozinha & Gastronomia">🍳 Cozinha & Gastronomia</option>
+        <option value="Comércio & Caixa">🛒 Comércio & Caixa</option>
+        <option value="Jardinagem & Piscina">🌿 Jardinagem & Rural</option>
+        <option value="Cuidador & Babá">👵 Cuidador & Babá</option>
+        <option value="Carga & Mudanças">🚚 Carga & Mudanças</option>
+        <option value="Beleza & Estética">💇 Beleza & Estética</option>
+        <option value="Outros Serviços">✨ Outros Serviços</option>
       </select>
     </div>
 
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="🔍 Buscar bico ou função (ex: Limpeza, Garçom)..." oninput="renderJobs()" />
+      <input type="text" id="searchInput" placeholder="🔍 Digite sua necessidade (ex: Faxina, Pedreiro, Garçom)..." oninput="renderJobs()" />
     </div>
   </header>
 
   <main>
     <!-- Aba 1: Mural de Vagas -->
     <section id="sec-mural" class="section active">
+      <div class="quick-sec-title">
+        <span>Categorias rápidas</span>
+      </div>
+      <div class="quick-cat-bar" id="quickCatBar"></div>
+
       <div class="city-chips" id="cityChips"></div>
       <div id="jobsList"></div>
     </section>
@@ -965,22 +1121,32 @@
     <section id="sec-publicar" class="section">
       <div class="card">
         <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary-dark);">Publicar Nova Diária</h2>
-        <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">A vaga aparece na hora e avisa os trabalhadores da cidade e região próxima.</p>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
 
         <div class="form-group">
-          <label>Função / Bico *</label>
-          <input type="text" id="jobTitle" placeholder="Ex: Diarista / Limpeza Residencial" />
-        </div>
-        <div class="form-group">
-          <label>Categoria *</label>
-          <select id="jobCategory">
-            <option value="Limpeza & Diarista">Limpeza & Diarista</option>
-            <option value="Eventos & Garçom">Eventos & Garçom</option>
-            <option value="Obras & Ajudante">Obras & Ajudante</option>
-            <option value="Entregas & Moto">Entregas & Moto</option>
-            <option value="Comércio & Caixa">Comércio & Caixa</option>
+          <label>Categoria / Área *</label>
+          <select id="jobCategory" onchange="renderRoleSuggestions()">
+            <option value="Limpeza & Diarista">🧹 Limpeza & Diarista</option>
+            <option value="Obras & Ajudante">🧱 Construção, Obras & Ajudante</option>
+            <option value="Entregas & Moto">🛵 Delivery, Entregas & Moto</option>
+            <option value="Assistência & Reparos">🛠️ Assistência Técnica & Reparos</option>
+            <option value="Eventos & Garçom">🍽️ Eventos, Garçom & Festas</option>
+            <option value="Cozinha & Gastronomia">🍳 Cozinha, Restaurante & Marmita</option>
+            <option value="Comércio & Caixa">🛒 Comércio, Loja & Caixa</option>
+            <option value="Jardinagem & Piscina">🌿 Jardinagem, Piscina & Rural</option>
+            <option value="Cuidador & Babá">👵 Cuidador de Idosos & Babá</option>
+            <option value="Carga & Mudanças">🚚 Carga, Descarga & Mudanças</option>
+            <option value="Beleza & Estética">💇 Beleza, Salão & Estética</option>
+            <option value="Outros Serviços">✨ Outros Serviços</option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label>Função / Profissão (toque para preencher ou digite) *</label>
+          <div class="role-suggestions-bar" id="roleSuggestionsBar"></div>
+          <input type="text" id="jobTitle" placeholder="Ex: Faxina Residencial, Pedreiro, Garçom..." />
+        </div>
+
         <div class="form-group">
           <label>Valor da Diária (R$) *</label>
           <input type="text" id="jobPay" placeholder="Ex: 160 ou R$ 160,00 na hora" />
@@ -1026,7 +1192,7 @@
         <div style="flex:1; min-width:180px;">
           <div style="font-size:12px; font-weight:800; color:var(--primary-dark);">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
           <div style="font-size:11px; color:#334155; line-height:1.35; margin-top:2px;">
-            Passe este código apenas para quem realmente concluiu uma diária com você. Você pode trocar o código quando quiser:
+            Passe este código apenas para quem realmente concluiu uma diária com você:
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
@@ -1050,7 +1216,7 @@
             type="text"
             id="userCandidateSearch"
             class="user-picker-search"
-            placeholder="🔎 Filtrar por nome, cidade ou final do telefone..."
+            placeholder="🔎 Filtrar por nome, profissão, cidade ou telefone..."
             oninput="populateReviewTargets()"
           />
           <div class="user-picker-list" id="userPickerList"></div>
@@ -1112,9 +1278,92 @@
 
       <div id="reviewsList"></div>
     </section>
+
+    <!-- Aba 4: Meu Perfil (com Foto Circular, Profissão e Nota) -->
+    <section id="sec-perfil" class="section">
+      <div class="profile-hero-card">
+        <div class="profile-cover"></div>
+        <div class="profile-avatar-wrap">
+          <img id="myProfileAvatarImg" class="profile-avatar-img" style="display:none;" alt="Foto de Perfil" />
+          <div id="myProfileAvatarPlaceholder" class="profile-avatar-placeholder">U</div>
+          <button type="button" class="profile-cam-btn" onclick="document.getElementById('profilePhotoInput').click()" title="Trocar foto">
+            📷
+          </button>
+        </div>
+        <div style="padding: 0 16px 16px;">
+          <h2 id="myProfileNameDisplay" style="font-size:19px; font-weight:900; color:var(--text);">Meu Perfil</h2>
+          <div id="myProfileProfessionBadge" class="profile-pill-badge">Quero Diária</div>
+          <div class="profile-stars-row" id="myProfileStarsDisplay">★★★★★ —</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Estilo do Perfil • Verificado</div>
+          <button type="button" class="btn btn-outline" style="margin-top:10px; padding:7px 14px; font-size:12px;" onclick="document.getElementById('profilePhotoInput').click()">
+            📷 Escolher / Trocar Foto de Perfil
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="avail-toggle-box">
+          <div>
+            <div style="font-size:13px; font-weight:800; color:#15803d;">🟢 Disponível para diária hoje</div>
+            <div style="font-size:11px; color:#334155;">Mostra no seu perfil que você pode trabalhar hoje</div>
+          </div>
+          <input type="checkbox" id="profAvailableToday" style="width:22px; height:22px; accent-color:#16a34a;" />
+        </div>
+
+        <div class="form-group">
+          <label>Seu Nome Completo *</label>
+          <input type="text" id="profName" placeholder="Ex: Maria Aparecida" />
+        </div>
+
+        <div class="form-group">
+          <label>Sua Profissão / Especialidade Principal *</label>
+          <select id="profProfessionSelect"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Sua Cidade (SP) *</label>
+          <div class="city-input-wrap">
+            <input
+              type="text"
+              id="profCity"
+              autocomplete="off"
+              placeholder="Ex: Catanduva"
+              oninput="showFieldCityDropdown('profCity', 'profCityDropdown')"
+              onfocus="showFieldCityDropdown('profCity', 'profCityDropdown')"
+            />
+            <div class="field-city-dropdown" id="profCityDropdown"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Seu WhatsApp (com DDD) *</label>
+          <input type="tel" id="profPhone" placeholder="Ex: 17999999999" />
+        </div>
+
+        <div class="form-group">
+          <label>Sobre seu trabalho / Experiência</label>
+          <textarea id="profBio" rows="3" placeholder="Conte o que você faz, anos de experiência, se tem ferramentas próprias ou condução..."></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-full" id="btnSaveProfile" onclick="saveMyProfile()">
+          💾 Salvar Alterações do Perfil
+        </button>
+
+        <div style="border-top:1px solid var(--border); margin-top:16px; padding-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <div style="font-size:11px; font-weight:800; color:var(--muted);">SEU CÓDIGO SECRETO DE 4 DÍGITOS</div>
+            <div id="profPinValue" style="font-size:18px; font-weight:900; color:var(--primary); letter-spacing:2px;">----</div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn btn-outline" style="padding:8px 12px; font-size:12px;" onclick="regenerateMyPin()">🔄 Trocar Código</button>
+            <button type="button" class="btn btn-danger" style="padding:8px 12px; font-size:12px;" onclick="confirmLogout()">Sair da Conta</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- Navegação Inferior -->
+  <!-- Navegação Inferior com 4 Abas -->
   <nav class="bottom-nav">
     <button class="nav-item active" id="nav-mural" onclick="switchTab('mural')">
       <span class="nav-icon">📋</span>
@@ -1128,13 +1377,17 @@
       <span class="nav-icon">⭐</span>
       <span>Reputação</span>
     </button>
+    <button class="nav-item" id="nav-perfil" onclick="switchTab('perfil')">
+      <span class="nav-icon">👤</span>
+      <span>Perfil</span>
+    </button>
   </nav>
 
-  <!-- Modal 1: Login e Cadastro -->
+  <!-- Modal 1: Login e Cadastro (com Foto e Profissão) -->
   <div class="modal-backdrop" id="authModal">
     <div class="modal-box">
       <div class="modal-title">Conta Quero Diária</div>
-      <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias ou avaliar profissionais com segurança.</div>
+      <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias, montar seu perfil ou avaliar profissionais.</div>
 
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabLoginBtn" onclick="setAuthMode('login')">Já tenho conta</button>
@@ -1144,9 +1397,22 @@
       <div class="auth-error" id="authErrorBox"></div>
 
       <div id="registerFields" style="display:none;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:12px; border:1px solid var(--border);">
+          <img id="regAvatarPreview" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:none; border:2px solid var(--primary);" />
+          <div id="regAvatarIcon" style="width:52px; height:52px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;">📷</div>
+          <div style="flex:1;">
+            <div style="font-size:13px; font-weight:800; color:var(--text);">Foto de Perfil (opcional)</div>
+            <button type="button" class="btn btn-outline" style="padding:5px 10px; font-size:12px; margin-top:4px;" onclick="document.getElementById('regPhotoInput').click()">Escolher foto do celular</button>
+          </div>
+        </div>
+
         <div class="form-group">
           <label>Seu Nome Completo *</label>
           <input type="text" id="regName" placeholder="Ex: Maria Aparecida" />
+        </div>
+        <div class="form-group">
+          <label>Sua Profissão / Especialidade *</label>
+          <select id="regProfessionSelect"></select>
         </div>
         <div class="form-group">
           <label>Seu WhatsApp (com DDD) *</label>
@@ -1188,20 +1454,31 @@
     </div>
   </div>
 
-  <!-- Modal 2: Perfil & Sair -->
-  <div class="modal-backdrop" id="logoutModal">
-    <div class="modal-box">
-      <div class="modal-title">Minha Conta</div>
-      <div class="modal-subtitle" id="logoutText">Você está conectado atualmente.</div>
-      <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:12px; text-align:center;">
-        <div style="font-size:11px; font-weight:700; color:var(--muted);">SEU CÓDIGO SECRETO DE AVALIAÇÃO</div>
-        <div id="modalPinValue" style="font-size:22px; font-weight:900; color:var(--primary); letter-spacing:3px; margin:4px 0;">----</div>
-        <div style="font-size:11px; color:var(--muted); margin-bottom:8px;">Informe apenas para quem concluiu uma diária com você.</div>
-        <button type="button" class="btn btn-outline" style="padding:6px 12px; font-size:12px;" onclick="regenerateMyPin()">🔄 Gerar Novo Código</button>
+  <!-- Modal 2: Visualizar Perfil Público de Qualquer Usuário (Estilo Foto 2) -->
+  <div class="modal-backdrop" id="viewProfileModal">
+    <div class="modal-box" style="padding:0; overflow:hidden;">
+      <div class="profile-cover" style="height:92px;">
+        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.35); color:#fff; border:none; border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800; cursor:pointer;">‹ Voltar</button>
       </div>
-      <div class="modal-actions">
-        <button class="btn btn-outline" style="flex:1" onclick="closeModal('logoutModal')">Fechar</button>
-        <button class="btn btn-danger" style="flex:1" onclick="confirmLogout()">Sair da Conta</button>
+      <div style="padding: 0 18px 18px; text-align:center;">
+        <div class="profile-avatar-wrap" style="margin-top:-46px;">
+          <img id="pubProfileImg" class="profile-avatar-img" style="display:none;" alt="Foto" />
+          <div id="pubProfilePlaceholder" class="profile-avatar-placeholder">U</div>
+        </div>
+        <h3 id="pubProfileName" style="font-size:19px; font-weight:900; color:var(--text);">Nome</h3>
+        <div id="pubProfileBadge" class="profile-pill-badge">Profissional</div>
+        <div id="pubProfileStars" class="profile-stars-row">★★★★★ 5,0</div>
+        <div id="pubProfileSub" style="font-size:12px; color:var(--muted); margin-top:3px;">📍 SP</div>
+        <div id="pubProfileAvail" style="margin-top:6px;"></div>
+
+        <div id="pubProfileBio" style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin-top:12px; font-size:13px; color:#334155; text-align:left; line-height:1.4;"></div>
+
+        <div id="pubProfileReviewsBox" style="text-align:left; margin-top:12px; max-height:170px; overflow-y:auto;"></div>
+
+        <div class="modal-actions" style="margin-top:14px;">
+          <button type="button" class="btn btn-success" style="flex:1;" id="pubProfileZapBtn">💬 Chamar no WhatsApp</button>
+          <button type="button" class="btn btn-accent" style="flex:1;" id="pubProfileEvalBtn">⭐ Avaliar Perfil</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1240,11 +1517,18 @@
         <label>Categoria de Interesse</label>
         <select id="alertCategorySelect">
           <option value="Todas">Todas as categorias</option>
-          <option value="Eventos & Garçom">Eventos & Garçom</option>
-          <option value="Limpeza & Diarista">Limpeza & Diarista</option>
-          <option value="Obras & Ajudante">Obras & Ajudante</option>
-          <option value="Entregas & Moto">Entregas & Moto</option>
-          <option value="Comércio & Caixa">Comércio & Caixa</option>
+          <option value="Limpeza & Diarista">🧹 Limpeza & Diarista</option>
+          <option value="Obras & Ajudante">🧱 Construção & Obras</option>
+          <option value="Entregas & Moto">🛵 Delivery & Entregas</option>
+          <option value="Assistência & Reparos">🛠️ Assistência & Reparos</option>
+          <option value="Eventos & Garçom">🍽️ Eventos & Garçom</option>
+          <option value="Cozinha & Gastronomia">🍳 Cozinha & Gastronomia</option>
+          <option value="Comércio & Caixa">🛒 Comércio & Caixa</option>
+          <option value="Jardinagem & Piscina">🌿 Jardinagem & Rural</option>
+          <option value="Cuidador & Babá">👵 Cuidador & Babá</option>
+          <option value="Carga & Mudanças">🚚 Carga & Mudanças</option>
+          <option value="Beleza & Estética">💇 Beleza & Estética</option>
+          <option value="Outros Serviços">✨ Outros Serviços</option>
         </select>
       </div>
 
@@ -1301,6 +1585,72 @@
         }
       });
     } catch (e) {}
+
+    /* Categorias Rápidas (exibidas na barra do Mural igual à foto) */
+    const QUICK_CATEGORIES = [
+      { value: "Todas", label: "Todas" },
+      { value: "Limpeza & Diarista", label: "🧹 Limpeza" },
+      { value: "Obras & Ajudante", label: "🧱 Construção" },
+      { value: "Entregas & Moto", label: "🛵 Delivery" },
+      { value: "Assistência & Reparos", label: "🛠️ Assistência" },
+      { value: "Eventos & Garçom", label: "🍽️ Eventos" },
+      { value: "Cozinha & Gastronomia", label: "🍳 Cozinha" },
+      { value: "Comércio & Caixa", label: "🛒 Comércio" },
+      { value: "Jardinagem & Piscina", label: "🌿 Jardinagem" },
+      { value: "Cuidador & Babá", label: "👵 Cuidador" },
+      { value: "Carga & Mudanças", label: "🚚 Mudanças" },
+      { value: "Beleza & Estética", label: "💇 Beleza" },
+      { value: "Outros Serviços", label: "✨ Outros" }
+    ];
+
+    /* Profissões rápidas por categoria para facilitar o anúncio e o perfil */
+    const PROFESSIONS_BY_CATEGORY = {
+      "Limpeza & Diarista": ["Diarista / Faxina Residencial", "Faxina Pós-Obra", "Passadeira de Roupas", "Auxiliar de Limpeza Comercial", "Zelador(a)"],
+      "Obras & Ajudante": ["Pedreiro", "Ajudante de Pedreiro / Servente", "Pintor Residencial", "Eletricista de Obras", "Gesseiro / Drywall", "Azulejista", "Carpinteiro"],
+      "Entregas & Moto": ["Motoboy / Entregador", "Entregador com Carro", "Entregador de Bicicleta", "Panfletagem / Divulgação"],
+      "Assistência & Reparos": ["Marido de Aluguel (Reparos Gerais)", "Eletricista", "Encanador", "Montador de Móveis", "Técnico de Ar-Condicionado", "Serralheiro"],
+      "Eventos & Garçom": ["Garçom / Garçonete", "Churrasqueiro", "Barman / Bartender", "Copeira de Eventos", "Recepcionista de Festa", "Segurança / Portaria", "Monitor Infantil"],
+      "Cozinha & Gastronomia": ["Cozinheiro(a)", "Auxiliar de Cozinha", "Chapeiro / Lancheiro", "Salgadeiro(a)", "Confeiteiro(a)", "Pizzaiolo", "Lavador de Louças"],
+      "Comércio & Caixa": ["Atendente de Loja", "Operador(a) de Caixa", "Repositor de Mercadorias", "Balconista", "Promotor(a) de Vendas", "Empacotador"],
+      "Jardinagem & Piscina": ["Jardineiro / Corte de Grama", "Roçador de Terreno", "Piscineiro", "Trabalhador Rural / Colheita", "Caseiro"],
+      "Cuidador & Babá": ["Babá por Diária", "Cuidador(a) de Idosos", "Acompanhante Hospitalar", "Pet Sitter / Cuidador de Animais"],
+      "Carga & Mudanças": ["Chapa / Carga e Descarga", "Ajudante de Mudança", "Ajudante de Caminhão", "Motorista de Frete"],
+      "Beleza & Estética": ["Manicure / Pedicure", "Cabeleireiro(a) / Escovista", "Barbeiro", "Maquiadora", "Designer de Sobrancelhas"],
+      "Outros Serviços": ["Costureira", "Lavador de Carros / Estética Automotiva", "Passeador de Cães", "Serviços Gerais", "Contratante / Empresa"]
+    };
+
+    const ALL_PROFESSIONS_LIST = [
+      "Trabalhador Geral (Faço várias funções)",
+      "Contratante / Anunciante de Vagas",
+      "Diarista / Faxineira",
+      "Passadeira de Roupas",
+      "Pedreiro",
+      "Ajudante Geral / Servente de Obras",
+      "Pintor",
+      "Eletricista",
+      "Encanador",
+      "Marido de Aluguel / Reparos",
+      "Montador de Móveis",
+      "Motoboy / Entregador Delivery",
+      "Motorista / Freteiro",
+      "Garçom / Garçonete",
+      "Churrasqueiro",
+      "Barman / Eventos",
+      "Segurança / Portaria",
+      "Cozinheiro(a) / Auxiliar de Cozinha",
+      "Salgadeiro / Pizzaiolo / Chapeiro",
+      "Atendente / Operador de Caixa",
+      "Repositor / Balconista",
+      "Jardineiro / Roçador",
+      "Piscineiro",
+      "Trabalhador Rural",
+      "Cuidador(a) de Idosos",
+      "Babá",
+      "Chapa / Carga e Descarga / Mudanças",
+      "Manicure / Cabeleireira / Barbeiro",
+      "Costureira",
+      "Cuidador / Passeador de Pets"
+    ];
 
     const SP_CITIES = [
       "São Paulo", "Guarulhos", "Campinas", "São Bernardo do Campo",
@@ -1373,6 +1723,7 @@
     let registeredUsers = JSON.parse(localStorage.getItem("dp_users_cache") || "[]");
     let contactedKeys = JSON.parse(localStorage.getItem("dp_contacted_keys") || "[]");
     let currentUserProfile = JSON.parse(localStorage.getItem("dp_saved_profile") || "null");
+    let pendingRegPhotoBase64 = "";
     let currentCandidatesList = [];
     let selectedCandidateKey = "";
     let selectedQuickTags = [];
@@ -1393,6 +1744,97 @@
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .trim();
+    }
+
+    /* Compressão automática de foto de perfil para caber direto no Firestore (~12KB) */
+    function handleProfilePhotoUpload(event, targetMode) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = async () => {
+          const canvas = document.createElement("canvas");
+          const size = 200;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext("2d");
+
+          const minSide = Math.min(img.width, img.height);
+          const sx = (img.width - minSide) / 2;
+          const sy = (img.height - minSide) / 2;
+
+          ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.78);
+
+          if (targetMode === "register") {
+            pendingRegPhotoBase64 = dataUrl;
+            const prev = document.getElementById("regAvatarPreview");
+            const ic = document.getElementById("regAvatarIcon");
+            if (prev && ic) {
+              prev.src = dataUrl;
+              prev.style.display = "block";
+              ic.style.display = "none";
+            }
+            showToast("📷 Foto pronta para o cadastro!");
+          } else if (currentUserProfile && currentUserProfile.uid) {
+            currentUserProfile.photoURL = dataUrl;
+            localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
+            updateUserUI();
+            try {
+              await db.collection("usuarios").doc(currentUserProfile.uid).set({
+                photoURL: dataUrl,
+                updatedAt: Date.now()
+              }, { merge: true });
+              showToast("✅ Foto de perfil atualizada!");
+            } catch (err) {
+              showToast("⚠️ Foto salva no aparelho.");
+            }
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function populateProfessionSelects() {
+      const html = ALL_PROFESSIONS_LIST.map((p) => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join("");
+      const regSel = document.getElementById("regProfessionSelect");
+      const profSel = document.getElementById("profProfessionSelect");
+      if (regSel) regSel.innerHTML = html;
+      if (profSel) profSel.innerHTML = html;
+    }
+
+    function renderQuickCategoriesBar() {
+      const bar = document.getElementById("quickCatBar");
+      if (!bar) return;
+      const currentCat = document.getElementById("categoryFilter").value;
+      bar.innerHTML = QUICK_CATEGORIES.map((item) => {
+        const isActive = currentCat === item.value;
+        return `<button type="button" class="cat-pill ${isActive ? "active" : ""}" onclick="selectQuickCategory('${escapeHtml(item.value)}')">${escapeHtml(item.label)}</button>`;
+      }).join("");
+    }
+
+    function selectQuickCategory(catValue) {
+      document.getElementById("categoryFilter").value = catValue;
+      renderQuickCategoriesBar();
+      renderJobs();
+    }
+
+    function onCategorySelectChange() {
+      renderQuickCategoriesBar();
+      renderJobs();
+    }
+
+    function renderRoleSuggestions() {
+      const bar = document.getElementById("roleSuggestionsBar");
+      const cat = document.getElementById("jobCategory").value;
+      if (!bar) return;
+      const list = PROFESSIONS_BY_CATEGORY[cat] || [];
+      bar.innerHTML = list.map((role) =>
+        `<button type="button" class="chip" onclick="document.getElementById('jobTitle').value='${escapeHtml(role)}'">+ ${escapeHtml(role)}</button>`
+      ).join("");
     }
 
     function getNearbyCitiesFor(baseCity) {
@@ -1578,6 +2020,10 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      populateProfessionSelects();
+      renderQuickCategoriesBar();
+      renderRoleSuggestions();
+
       if (currentUserProfile && currentUserProfile.city && !document.getElementById("cityFilterInput").value) {
         document.getElementById("cityFilterInput").value = currentUserProfile.city;
         document.getElementById("clearCityBtn").style.display = "inline-block";
@@ -1600,6 +2046,10 @@
             name: user.displayName || (currentUserProfile && currentUserProfile.name) || user.email.split("@")[0],
             phone: (currentUserProfile && currentUserProfile.phone) || "",
             city: (currentUserProfile && currentUserProfile.city) || "",
+            profession: (currentUserProfile && currentUserProfile.profession) || "Trabalhador Geral (Faço várias funções)",
+            bio: (currentUserProfile && currentUserProfile.bio) || "",
+            photoURL: (currentUserProfile && currentUserProfile.photoURL) || "",
+            availableToday: !!(currentUserProfile && currentUserProfile.availableToday),
             pinCode: savedLocalPin || ""
           };
           try {
@@ -1627,6 +2077,9 @@
               name: profile.name,
               phone: profile.phone,
               city: profile.city || "",
+              profession: profile.profession || "Trabalhador Geral (Faço várias funções)",
+              bio: profile.bio || "",
+              availableToday: !!profile.availableToday,
               alertCity: alertCity || profile.city || "",
               alertScope: alertScope,
               email: profile.email,
@@ -1634,6 +2087,9 @@
               alertCategory: alertCategory,
               updatedAt: Date.now()
             };
+            if (profile.photoURL) {
+              updatePayload.photoURL = profile.photoURL;
+            }
             if (savedToken) {
               updatePayload.fcmToken = savedToken;
             }
@@ -1663,6 +2119,166 @@
       startRealtimeListeners();
     });
 
+    async function saveMyProfile() {
+      if (!currentUserProfile || !currentUserProfile.uid) return;
+      const name = document.getElementById("profName").value.trim();
+      const profession = document.getElementById("profProfessionSelect").value;
+      const city = document.getElementById("profCity").value.trim();
+      const phone = document.getElementById("profPhone").value.replace(/\D/g, "");
+      const bio = document.getElementById("profBio").value.trim();
+      const availableToday = document.getElementById("profAvailableToday").checked;
+
+      if (!name || !city || phone.length < 10) {
+        showToast("⚠️ Preencha seu nome, cidade e WhatsApp com DDD.");
+        return;
+      }
+
+      if (hasOffensiveLanguage(name) || hasOffensiveLanguage(bio)) {
+        showToast("⚠️ Remova palavras ofensivas antes de salvar.");
+        return;
+      }
+
+      const btn = document.getElementById("btnSaveProfile");
+      btn.disabled = true;
+      btn.textContent = "Salvando...";
+
+      try {
+        currentUserProfile = {
+          ...currentUserProfile,
+          name,
+          profession,
+          city,
+          phone,
+          bio,
+          availableToday
+        };
+        localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
+        alertCity = city;
+        localStorage.setItem("dp_alert_city", city);
+
+        await db.collection("usuarios").doc(currentUserProfile.uid).set({
+          name,
+          profession,
+          city,
+          alertCity: city,
+          phone,
+          bio,
+          availableToday,
+          updatedAt: Date.now()
+        }, { merge: true });
+
+        updateUserUI();
+        setCityFilter(city);
+        showToast("✅ Perfil atualizado com sucesso!");
+      } catch (e) {
+        showToast("⚠️ Erro ao salvar na nuvem.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "💾 Salvar Alterações do Perfil";
+      }
+    }
+
+    function getUserRatingStats(uid, phoneKey) {
+      const myReviews = reviews.filter((r) =>
+        (uid && r.targetUid === uid) || (phoneKey && r.targetPhoneKey === phoneKey)
+      );
+      if (myReviews.length === 0) {
+        return { avg: "5,0", stars: "★★★★★", count: 0, items: [] };
+      }
+      const sum = myReviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+      const numAvg = sum / myReviews.length;
+      const rounded = Math.round(numAvg);
+      return {
+        avg: numAvg.toFixed(1).replace(".", ","),
+        stars: "★".repeat(rounded) + "☆".repeat(5 - rounded),
+        count: myReviews.length,
+        items: myReviews
+      };
+    }
+
+    /* Abre o Cartão de Perfil Público de qualquer usuário (Estilo Foto 2) */
+    function openPublicProfile(uid, fallbackName, fallbackPhone, fallbackCity) {
+      const cleanPhone = String(fallbackPhone || "").replace(/\D/g, "");
+      const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
+
+      const foundUser = registeredUsers.find((u) =>
+        (uid && u.uid === uid) ||
+        (phoneKey && String(u.phone || "").replace(/\D/g, "").slice(-8) === phoneKey)
+      ) || {};
+
+      const displayName = foundUser.name || fallbackName || "Profissional";
+      const displayProf = foundUser.profession || "Quero Diária";
+      const displayCity = foundUser.city || fallbackCity || "SP";
+      const displayPhone = foundUser.phone || cleanPhone;
+      const displayBio = foundUser.bio || "Usuário cadastrado no aplicativo Quero Diária.";
+      const photoURL = foundUser.photoURL || "";
+      const isAvail = !!foundUser.availableToday;
+      const targetUid = foundUser.uid || uid || "";
+
+      const imgEl = document.getElementById("pubProfileImg");
+      const phEl = document.getElementById("pubProfilePlaceholder");
+      if (photoURL) {
+        imgEl.src = photoURL;
+        imgEl.style.display = "block";
+        phEl.style.display = "none";
+      } else {
+        imgEl.style.display = "none";
+        phEl.style.display = "flex";
+        phEl.textContent = getInitials(displayName);
+      }
+
+      const stats = getUserRatingStats(targetUid, phoneKey);
+      document.getElementById("pubProfileName").textContent = displayName;
+      document.getElementById("pubProfileBadge").textContent = displayProf;
+      document.getElementById("pubProfileStars").innerHTML =
+        `<span style="color:#f59e0b;">${stats.stars}</span> <span>${stats.avg}</span> <span style="font-size:12px; color:var(--muted);">(${stats.count} ${stats.count === 1 ? "avaliação" : "avaliações"})</span>`;
+      document.getElementById("pubProfileSub").textContent =
+        `📍 ${displayCity} - SP` + (displayPhone ? ` • 📱 Final ${displayPhone.slice(-4)}` : "");
+
+      document.getElementById("pubProfileAvail").innerHTML = isAvail
+        ? `<span class="verified-badge">🟢 Disponível para diária hoje</span>`
+        : `<span class="verified-badge">✓ Perfil Verificado</span>`;
+
+      document.getElementById("pubProfileBio").textContent = displayBio;
+
+      const revBox = document.getElementById("pubProfileReviewsBox");
+      if (stats.items.length === 0) {
+        revBox.innerHTML = `<div style="font-size:12px; color:var(--muted); text-align:center; padding:8px;">Ainda sem avaliações detalhadas.</div>`;
+      } else {
+        revBox.innerHTML = stats.items.slice(0, 4).map((r) => `
+          <div style="border-bottom:1px solid #f1f5f9; padding:7px 0; font-size:12px;">
+            <div style="display:flex; justify-content:space-between;">
+              <strong style="color:var(--primary-dark);">${escapeHtml(r.authorName)}</strong>
+              <span style="color:#f59e0b;">${"★".repeat(r.rating)}</span>
+            </div>
+            ${r.comment ? `<div style="color:#334155; margin-top:2px;">"${escapeHtml(r.comment)}"</div>` : ""}
+          </div>
+        `).join("");
+      }
+
+      const zapBtn = document.getElementById("pubProfileZapBtn");
+      if (displayPhone) {
+        zapBtn.style.display = "inline-flex";
+        zapBtn.onclick = () => {
+          closeModal("viewProfileModal");
+          openWhatsAppChat(displayPhone, `Olá ${displayName}! Vi o seu perfil no app Quero Diária e gostaria de conversar sobre uma diária.`, targetUid);
+        };
+      } else {
+        zapBtn.style.display = "none";
+      }
+
+      const evalBtn = document.getElementById("pubProfileEvalBtn");
+      evalBtn.onclick = () => {
+        closeModal("viewProfileModal");
+        switchTab("reputacao");
+        if (targetUid) {
+          selectCandidateByKey(targetUid);
+        }
+      };
+
+      openModal("viewProfileModal");
+    }
+
     async function regenerateMyPin() {
       if (!currentUserProfile) return;
       const newPin = generateRandomPin();
@@ -1671,7 +2287,6 @@
       localStorage.setItem("dp_my_secret_pin_" + currentUserProfile.uid, newPin);
       localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
       updateUserUI();
-      document.getElementById("modalPinValue").textContent = newPin;
 
       try {
         await db.collection("usuarios").doc(currentUserProfile.uid).set({
@@ -1850,6 +2465,7 @@
 
       if (authMode === "register") {
         const name = document.getElementById("regName").value.trim();
+        const profession = document.getElementById("regProfessionSelect").value;
         const phone = document.getElementById("regPhone").value.replace(/\D/g, "");
         const city = document.getElementById("regCity").value.trim();
         if (!name || phone.length < 10 || !city) {
@@ -1871,8 +2487,11 @@
           await cred.user.updateProfile({ displayName: name });
           const userDoc = {
             name,
+            profession,
             phone,
             city,
+            photoURL: pendingRegPhotoBase64 || "",
+            availableToday: true,
             alertCity: city,
             alertScope: alertScope,
             email,
@@ -1885,7 +2504,18 @@
           }
           await db.collection("usuarios").doc(cred.user.uid).set(userDoc);
 
-          currentUserProfile = { uid: cred.user.uid, email, name, phone, city, pinCode };
+          currentUserProfile = {
+            uid: cred.user.uid,
+            email,
+            name,
+            profession,
+            phone,
+            city,
+            photoURL: pendingRegPhotoBase64 || "",
+            availableToday: true,
+            pinCode
+          };
+          pendingRegPhotoBase64 = "";
           localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
           setCityFilter(city);
           updateUserUI();
@@ -1942,12 +2572,7 @@
 
     function handleUserButton() {
       if (currentUserProfile) {
-        const pin = currentUserProfile.pinCode || "----";
-        document.getElementById("logoutText").innerHTML =
-          `Conectado como <strong>${escapeHtml(currentUserProfile.name)}</strong><br>` +
-          `<span style="font-size:12px;">${escapeHtml(currentUserProfile.email)}${currentUserProfile.city ? " • 📍 " + escapeHtml(currentUserProfile.city) : ""}</span>`;
-        document.getElementById("modalPinValue").textContent = pin;
-        openModal("logoutModal");
+        switchTab("perfil");
       } else {
         setAuthMode("login");
         openModal("authModal");
@@ -1959,7 +2584,6 @@
       currentUserProfile = null;
       localStorage.removeItem("dp_saved_profile");
       updateUserUI();
-      closeModal("logoutModal");
       switchTab("mural");
       showToast("Você saiu da sua conta.");
     }
@@ -1968,10 +2592,48 @@
       const btn = document.getElementById("userBtn");
       const pinBanner = document.getElementById("myPinBanner");
       if (currentUserProfile) {
-        btn.textContent = "👤 " + currentUserProfile.name.split(" ")[0];
+        const firstName = currentUserProfile.name ? currentUserProfile.name.split(" ")[0] : "Perfil";
+        if (currentUserProfile.photoURL) {
+          btn.innerHTML = `<img src="${currentUserProfile.photoURL}" class="header-user-avatar" /> <span>${escapeHtml(firstName)}</span>`;
+        } else {
+          btn.innerHTML = `👤 <span>${escapeHtml(firstName)}</span>`;
+        }
+
         const pin = currentUserProfile.pinCode || "----";
         document.getElementById("myPinCodeText").textContent = pin;
+        document.getElementById("profPinValue").textContent = pin;
         pinBanner.style.display = "flex";
+
+        /* Preenche a aba Meu Perfil */
+        document.getElementById("myProfileNameDisplay").textContent = currentUserProfile.name || "Meu Perfil";
+        document.getElementById("myProfileProfessionBadge").textContent = currentUserProfile.profession || "Quero Diária";
+
+        const cleanPhone = String(currentUserProfile.phone || "").replace(/\D/g, "");
+        const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
+        const stats = getUserRatingStats(currentUserProfile.uid, phoneKey);
+        document.getElementById("myProfileStarsDisplay").innerHTML =
+          `<span style="color:#f59e0b;">${stats.stars}</span> <span>${stats.avg}</span>`;
+
+        const imgEl = document.getElementById("myProfileAvatarImg");
+        const phEl = document.getElementById("myProfileAvatarPlaceholder");
+        if (currentUserProfile.photoURL) {
+          imgEl.src = currentUserProfile.photoURL;
+          imgEl.style.display = "block";
+          phEl.style.display = "none";
+        } else {
+          imgEl.style.display = "none";
+          phEl.style.display = "flex";
+          phEl.textContent = getInitials(currentUserProfile.name);
+        }
+
+        document.getElementById("profName").value = currentUserProfile.name || "";
+        document.getElementById("profCity").value = currentUserProfile.city || "";
+        document.getElementById("profPhone").value = currentUserProfile.phone || "";
+        document.getElementById("profBio").value = currentUserProfile.bio || "";
+        document.getElementById("profAvailableToday").checked = !!currentUserProfile.availableToday;
+        if (currentUserProfile.profession) {
+          document.getElementById("profProfessionSelect").value = currentUserProfile.profession;
+        }
 
         if (currentUserProfile.phone && !document.getElementById("jobWhatsapp").value) {
           document.getElementById("jobWhatsapp").value = currentUserProfile.phone;
@@ -1992,13 +2654,13 @@
 
       const sampleJobs = [
         {
-          title: "Limpeza Residencial Completa",
+          title: "Faxina Residencial - 6h",
           category: "Limpeza & Diarista",
           pay: "R$ 160,00",
           city: "Catanduva",
           neighborhood: "Centro",
           location: "Catanduva - Centro",
-          schedule: "Amanhã, 08h às 16h",
+          schedule: "Amanhã, 08h às 14h",
           whatsapp: "17999999999",
           desc: "Faxina em casa de 2 quartos. Produtos de limpeza já disponíveis no local. Pagamento na hora ao finalizar.",
           authorName: "Equipe Quero Diária (Exemplo)",
@@ -2007,15 +2669,15 @@
           createdAt: Date.now() - 30000
         },
         {
-          title: "Garçom / Apoio para Festa",
-          category: "Eventos & Garçom",
-          pay: "R$ 180,00 + Jantar",
+          title: "Ajudante de Pedreiro / Construção",
+          category: "Obras & Ajudante",
+          pay: "R$ 180,00",
           city: "Catanduva",
           neighborhood: "Jardim do Lago",
           location: "Catanduva - Jardim do Lago",
-          schedule: "Sábado, 18h às 00h",
+          schedule: "Amanhã, 07h30 às 17h",
           whatsapp: "17999999999",
-          desc: "Servir mesas e recolher copos em aniversário. Precisa de camisa preta.",
+          desc: "Apoio em obra residencial e preparo de massa. Pagamento no final do dia.",
           authorName: "Equipe Quero Diária (Exemplo)",
           authorUid: "sample",
           isSample: true,
@@ -2085,6 +2747,7 @@
         registeredUsers = list;
         localStorage.setItem("dp_users_cache", JSON.stringify(list));
         populateReviewTargets();
+        renderJobs();
       });
 
       db.collection("avaliacoes")
@@ -2097,6 +2760,7 @@
           reviews = updated;
           localStorage.setItem("dp_reviews_cache", JSON.stringify(reviews));
           renderReviews();
+          if (currentUserProfile) updateUserUI();
         });
     }
 
@@ -2114,6 +2778,8 @@
         rawList.push({
           uid: u.uid || "",
           name: u.name.trim(),
+          profession: u.profession || "",
+          photoURL: u.photoURL || "",
           phone: String(u.phone || "").replace(/\D/g, ""),
           city: String(u.city || "").trim(),
           pinHash: u.pinHash || (u.pinCode ? computePinHash(u.pinCode) : computePinHash(legacyFallbackPin(u.uid, u.phone)))
@@ -2125,6 +2791,8 @@
         rawList.push({
           uid: j.authorUid || "",
           name: j.authorName.trim(),
+          profession: j.authorProfession || "",
+          photoURL: j.authorPhoto || "",
           phone: String(j.whatsapp || "").replace(/\D/g, ""),
           city: String(j.city || "").trim(),
           pinHash: j.authorPinHash || (j.authorPin ? computePinHash(j.authorPin) : computePinHash(legacyFallbackPin(j.authorUid, j.whatsapp)))
@@ -2159,6 +2827,8 @@
           }
           if (!existing.uid && item.uid) existing.uid = item.uid;
           if (!existing.city && item.city) existing.city = item.city;
+          if (!existing.profession && item.profession) existing.profession = item.profession;
+          if (!existing.photoURL && item.photoURL) existing.photoURL = item.photoURL;
           if (!existing.phone && item.phone) {
             existing.phone = item.phone;
             existing.phoneKey = itemPhoneKey;
@@ -2170,6 +2840,8 @@
             key: safeKey,
             uid: safeKey,
             name: item.name,
+            profession: item.profession || "",
+            photoURL: item.photoURL || "",
             phone: item.phone,
             phoneKey: itemPhoneKey,
             city: item.city,
@@ -2199,6 +2871,7 @@
         if (!searchVal) return true;
         return (
           normalizeText(c.name).includes(searchVal) ||
+          normalizeText(c.profession).includes(searchVal) ||
           normalizeText(c.city).includes(searchVal) ||
           (c.phone && c.phone.includes(searchVal))
         );
@@ -2217,15 +2890,20 @@
             contactedKeys.includes(c.uid) ||
             (c.phone && contactedKeys.includes(c.phone));
 
+          const avatarHtml = c.photoURL
+            ? `<img src="${c.photoURL}" class="user-avatar" alt="Foto" />`
+            : `<div class="user-avatar">${escapeHtml(getInitials(c.name))}</div>`;
+
           return `
             <div class="user-pick-card ${isSelected ? "selected" : ""}" onclick="selectCandidateByKey('${escapeHtml(c.key)}')">
-              <div class="user-avatar">${escapeHtml(getInitials(c.name))}</div>
+              ${avatarHtml}
               <div class="user-pick-info">
                 <div class="user-pick-name">${escapeHtml(c.name)}</div>
                 <div class="user-pick-sub">
-                  ${last4 ? `<span>📱 Final ${escapeHtml(last4)}</span>` : `<span>👤 Conta verificada</span>`}
+                  ${c.profession ? `<span style="color:var(--primary); font-weight:700;">${escapeHtml(c.profession)}</span> • ` : ""}
+                  ${last4 ? `<span>📱 Final ${escapeHtml(last4)}</span>` : `<span>👤 Verificado</span>`}
                   ${c.city ? `<span>• 📍 ${escapeHtml(c.city)}</span>` : ""}
-                  ${contacted ? `<span class="verified-badge">✓ Contato no WhatsApp</span>` : ""}
+                  ${contacted ? `<span class="verified-badge">✓ Contato</span>` : ""}
                 </div>
               </div>
               <div style="font-size:18px; color:var(--primary); font-weight:900;">
@@ -2353,7 +3031,7 @@
     }
 
     function switchTab(tab) {
-      if ((tab === "publicar" || tab === "reputacao") && !currentUserProfile) {
+      if ((tab === "publicar" || tab === "reputacao" || tab === "perfil") && !currentUserProfile) {
         pendingAction = () => switchTab(tab);
         setAuthMode("login");
         openModal("authModal");
@@ -2369,6 +3047,8 @@
       if (tab === "reputacao") {
         populateReviewTargets();
         renderReviews();
+      } else if (tab === "perfil") {
+        updateUserUI();
       }
     }
 
@@ -2496,6 +3176,8 @@
           desc,
           authorName: currentUserProfile.name,
           authorUid: currentUserProfile.uid,
+          authorPhoto: currentUserProfile.photoURL || "",
+          authorProfession: currentUserProfile.profession || "",
           authorPinHash,
           createdAt: Date.now()
         });
@@ -2605,7 +3287,7 @@
                   ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(rawCity)}')">➕ Publicar vaga em ${escapeHtml(rawCity)}</button>`
                   : ""
               }
-              <button class="btn btn-outline" onclick="setCityFilter(''); document.getElementById('searchInput').value=''; renderJobs();">Ver Todas as Cidades</button>
+              <button class="btn btn-outline" onclick="setCityFilter(''); selectQuickCategory('Todas'); document.getElementById('searchInput').value=''; renderJobs();">Ver Todas as Vagas</button>
             </div>
           </div>`;
         return;
@@ -2623,6 +3305,12 @@
           const last4 = jobPhone.length >= 4 ? jobPhone.slice(-4) : "";
           const zapMsg = `Olá ${j.authorName}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Quero Diária e tenho interesse.`;
 
+          const authorUser = registeredUsers.find((u) => u.uid === j.authorUid) || {};
+          const authorPhoto = authorUser.photoURL || j.authorPhoto || "";
+          const avatarHtml = authorPhoto
+            ? `<img src="${authorPhoto}" class="author-mini-avatar" alt="Foto" />`
+            : `<div class="author-mini-avatar">${escapeHtml(getInitials(j.authorName))}</div>`;
+
           return `
             <div class="card">
               <div class="job-header">
@@ -2636,9 +3324,12 @@
               </div>
               ${j.desc ? `<div class="job-desc">${escapeHtml(j.desc)}</div>` : ""}
               <div class="job-footer">
-                <div class="author-info">
-                  Por <strong>${escapeHtml(j.authorName)}</strong>
-                  ${last4 ? `<span style="opacity:0.8;">(Final ${escapeHtml(last4)})</span>` : ""}
+                <div class="author-box" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(j.authorName || "")}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
+                  ${avatarHtml}
+                  <div class="author-info">
+                    Por <strong>${escapeHtml(j.authorName)}</strong><br>
+                    ${last4 ? `<span style="opacity:0.85;">Final ${escapeHtml(last4)} • Toque p/ ver perfil</span>` : ""}
+                  </div>
                 </div>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
                   ${
@@ -2646,7 +3337,10 @@
                       ? `<button class="btn btn-danger" style="padding:8px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">Encerrar</button>`
                       : ""
                   }
-                  <button class="btn btn-share" style="padding:8px 11px; font-size:12px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
+                  <button class="btn btn-profile-orange" style="padding:8px 10px; font-size:12px;" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(j.authorName || "")}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
+                    👤 Ver Perfil
+                  </button>
+                  <button class="btn btn-share" style="padding:8px 10px; font-size:12px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
                     📤 Compartilhar
                   </button>
                   <button class="btn btn-success" style="padding:8px 12px; font-size:13px;" onclick='openWhatsAppChat(${JSON.stringify(j.whatsapp)}, ${JSON.stringify(zapMsg)}, ${JSON.stringify(j.authorUid || "")})'>
@@ -2778,6 +3472,7 @@
         const uniqueKey = r.targetUid || r.targetPhoneKey || ("id_" + r.id);
         if (!groups.has(uniqueKey)) {
           groups.set(uniqueKey, {
+            uid: r.targetUid || "",
             name: r.target,
             phoneKey: r.targetPhoneKey || "",
             city: r.targetCity || "",
@@ -2812,6 +3507,15 @@
           const avg = (total / group.items.length).toFixed(1).replace(".", ",");
           const countLabel = group.items.length === 1 ? "1 avaliação" : `${group.items.length} avaliações`;
           const last4 = group.phoneKey ? group.phoneKey.slice(-4) : "";
+
+          const foundUser = registeredUsers.find((u) =>
+            (group.uid && u.uid === group.uid) ||
+            (group.phoneKey && String(u.phone || "").replace(/\D/g, "").slice(-8) === group.phoneKey)
+          ) || {};
+
+          const avatarHtml = foundUser.photoURL
+            ? `<img src="${foundUser.photoURL}" class="user-avatar" style="width:42px; height:42px;" alt="Foto" />`
+            : `<div class="user-avatar" style="width:42px; height:42px; font-size:13px;">${escapeHtml(getInitials(group.name))}</div>`;
 
           const itemsHtml = group.items
             .map((r) => {
@@ -2850,11 +3554,12 @@
           return `
             <div class="card">
               <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <div class="user-avatar" style="width:38px; height:38px; font-size:13px;">${escapeHtml(getInitials(group.name))}</div>
+                <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick='openPublicProfile(${JSON.stringify(group.uid || "")}, ${JSON.stringify(group.name || "")}, ${JSON.stringify(group.phoneKey || "")}, ${JSON.stringify(group.city || "")})'>
+                  ${avatarHtml}
                   <div>
                     <strong style="font-size:16px; display:block;">${escapeHtml(group.name)}</strong>
                     <span style="font-size:11px; color:var(--muted);">
+                      ${foundUser.profession ? `<strong style="color:var(--primary);">${escapeHtml(foundUser.profession)}</strong> • ` : ""}
                       ${last4 ? `📱 Final ${escapeHtml(last4)}` : "👤 Conta verificada"}
                       ${group.city ? ` • 📍 ${escapeHtml(group.city)}` : ""}
                     </span>
