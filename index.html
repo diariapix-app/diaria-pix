@@ -160,19 +160,18 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    .btn-ghost {
+    .btn-bell {
       background: rgba(255, 255, 255, 0.16);
       color: #FFFFFF;
       border: none;
-      padding: 7px 12px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 700;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 19px;
       cursor: pointer;
-      white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
     }
 
     /* Barra de Cidade Separada + Busca de Bicos */
@@ -1038,7 +1037,7 @@
 
   <div id="toast"></div>
 
-  <!-- Header (Apenas parte de cima em azul #0A2240) -->
+  <!-- Header (Apenas parte de cima em azul #0A2240 e somente o sino de notificações) -->
   <header>
     <div class="header-top">
       <div class="brand">
@@ -1054,7 +1053,7 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn-ghost" onclick="openAlertModal()">🔔 Alertas</button>
+        <button class="btn-bell" onclick="openAlertModal()" aria-label="Notificações" title="Notificações">🔔</button>
       </div>
     </div>
 
@@ -1097,7 +1096,7 @@
   </header>
 
   <main>
-    <!-- Aba 1: Mural de Vagas -->
+    <!-- Aba 1: Vagas -->
     <section id="sec-mural" class="section active">
       <div class="quick-sec-title">
         <span>Categorias rápidas</span>
@@ -1357,8 +1356,8 @@
   <!-- Navegação Inferior com 4 Abas -->
   <nav class="bottom-nav">
     <button class="nav-item active" id="nav-mural" onclick="switchTab('mural')">
-      <span class="nav-icon">📋</span>
-      <span>Mural</span>
+      <span class="nav-icon">💼</span>
+      <span>Vagas</span>
     </button>
     <button class="nav-item" id="nav-publicar" onclick="switchTab('publicar')">
       <span class="nav-icon">➕</span>
@@ -1398,19 +1397,19 @@
         </div>
 
         <div class="form-group">
-          <label>Seu Nome Completo *</label>
+          <label>Nome Completo *</label>
           <input type="text" id="regName" placeholder="Ex: Maria Aparecida" />
         </div>
         <div class="form-group">
-          <label>Sua Profissão / Especialidade *</label>
+          <label>Profissão / Especialidade *</label>
           <select id="regProfessionSelect"></select>
         </div>
         <div class="form-group">
-          <label>Seu WhatsApp (com DDD) *</label>
+          <label>WhatsApp (com DDD) *</label>
           <input type="tel" id="regPhone" placeholder="Ex: 17999999999" />
         </div>
         <div class="form-group">
-          <label>Sua Cidade (SP) *</label>
+          <label>Cidade (SP) *</label>
           <div class="city-input-wrap">
             <input
               type="text"
@@ -1426,11 +1425,11 @@
       </div>
 
       <div class="form-group">
-        <label>Seu E-mail (Gmail ou outro) *</label>
-        <input type="email" id="authEmail" placeholder="Ex: seuemail@gmail.com" autocomplete="email" />
+        <label>E-mail *</label>
+        <input type="email" id="authEmail" placeholder="Digite seu e-mail" autocomplete="email" />
       </div>
       <div class="form-group" style="margin-bottom:6px;">
-        <label>Sua Senha (mínimo 6 caracteres) *</label>
+        <label id="authPasswordLabel">Senha *</label>
         <input type="password" id="authPassword" placeholder="Digite sua senha" />
       </div>
 
@@ -1474,10 +1473,10 @@
     </div>
   </div>
 
-  <!-- Modal 3: Alertas e Notificações por Cidade e Região -->
+  <!-- Modal 3: Notificações por Cidade e Região -->
   <div class="modal-backdrop" id="alertModal">
     <div class="modal-box">
-      <div class="modal-title">🔔 Alertas da Sua Região</div>
+      <div class="modal-title">🔔 Notificações da Sua Região</div>
       <div class="modal-subtitle">Receba notificações no celular somente de vagas na sua cidade ou em cidades vizinhas bem próximas.</div>
 
       <div class="form-group">
@@ -2404,6 +2403,10 @@
       document.getElementById("registerFields").style.display = isReg ? "block" : "none";
       document.getElementById("forgotWrap").style.display = isReg ? "none" : "block";
       document.getElementById("authSubmitBtn").textContent = isReg ? "Criar Conta" : "Entrar";
+      const passLabel = document.getElementById("authPasswordLabel");
+      if (passLabel) {
+        passLabel.textContent = isReg ? "Senha (mínimo 6 caracteres) *" : "Senha *";
+      }
       hideAuthError();
     }
 
@@ -3041,7 +3044,7 @@
       }
 
       if (scopeVal === "exact") {
-        box.innerHTML = `Você receberá alertas <strong>somente de ${escapeHtml(cityVal)}</strong>.`;
+        box.innerHTML = `Você receberá notificações <strong>somente de ${escapeHtml(cityVal)}</strong>.`;
       } else {
         const list = getNearbyCitiesFor(cityVal);
         box.innerHTML = `Cidades incluídas: <strong>${escapeHtml(list.slice(0, 7).join(", "))}${list.length > 7 ? " e vizinhas imediatas" : ""}</strong>.`;
@@ -3099,11 +3102,11 @@
 
       const scopeLabel = alertScope === "exact" ? "somente " + alertCity : alertCity + " e cidades próximas";
       if (pushRes.ok) {
-        showToast("🔔 Alertas ativados para " + scopeLabel + "!");
+        showToast("🔔 Notificações ativadas para " + scopeLabel + "!");
       } else if (pushRes.reason === "denied") {
         showToast("⚠️ Permissão negada. Libere em Configurações > Apps > Quero Diária > Notificações.");
       } else {
-        showToast("🔔 Alerta regional salvo para " + scopeLabel + "!");
+        showToast("🔔 Notificações salvas para " + scopeLabel + "!");
       }
     }
 
@@ -3216,7 +3219,7 @@
     async function deleteJob(id) {
       try {
         await db.collection("vagas").doc(id).delete();
-        showToast("Vaga encerrada e removida do mural.");
+        showToast("Vaga encerrada e removida.");
       } catch (e) {
         showToast("Apenas o autor da vaga pode encerrá-la.");
       }
