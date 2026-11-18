@@ -2,11 +2,11 @@
   "appId": "com.querodiaria.app",
   "appName": "Quero Diária",
   "webDir": "www",
-  "backgroundColor": "#09172e",
+  "backgroundColor": "#0A2240",
   "plugins": {
     "StatusBar": {
       "style": "DARK",
-      "backgroundColor": "#09172e",
+      "backgroundColor": "#0A2240",
       "overlaysWebView": false
     }
   }
