@@ -6,13 +6,13 @@
   <title>Quero Diária</title>
   <style>
     :root {
-      --primary: #0f294d;
-      --primary-dark: #09172e;
+      --primary: #0A2240;
+      --primary-dark: #071930;
       --primary-light: #e0f2fe;
-      --accent: #f35b04;
-      --accent-dark: #d94e00;
+      --accent: #F26500;
+      --accent-dark: #d95800;
       --bg: #f8fafc;
-      --card: #ffffff;
+      --card: #FFFFFF;
       --text: #0f172a;
       --muted: #64748b;
       --border: #e2e8f0;
@@ -29,7 +29,7 @@
     }
 
     html, body {
-      background-color: var(--primary-dark);
+      background-color: #0A2240;
     }
 
     body {
@@ -43,7 +43,7 @@
     #splashScreen {
       position: fixed;
       inset: 0;
-      background: #09172e;
+      background: #0A2240;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -67,7 +67,7 @@
       margin-top: 14px;
       font-size: 26px;
       font-weight: 900;
-      color: #ffffff;
+      color: #FFFFFF;
       letter-spacing: -0.5px;
     }
     .splash-title span {
@@ -96,12 +96,12 @@
 
     /* Header */
     header {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: #fff;
+      background: linear-gradient(180deg, #0A2240 0%, #10315B 100%);
+      color: #FFFFFF;
       padding: 14px 16px 18px;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      box-shadow: 0 4px 14px rgba(9, 23, 46, 0.35);
+      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.35);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -161,7 +161,7 @@
     }
     .btn-ghost {
       background: rgba(255, 255, 255, 0.16);
-      color: #fff;
+      color: #FFFFFF;
       border: none;
       padding: 7px 12px;
       border-radius: 10px;
@@ -203,7 +203,7 @@
       width: 100%;
       background: transparent;
       border: none;
-      color: #fff;
+      color: #FFFFFF;
       font-size: 13px;
       font-weight: 700;
       padding: 9px 0;
@@ -216,7 +216,7 @@
     .city-clear {
       background: none;
       border: none;
-      color: #fff;
+      color: #FFFFFF;
       font-size: 14px;
       cursor: pointer;
       padding: 2px 4px;
@@ -229,7 +229,7 @@
       top: calc(100% + 4px);
       left: 0;
       right: 0;
-      background: #ffffff;
+      background: #FFFFFF;
       color: var(--text);
       border-radius: 12px;
       box-shadow: 0 12px 28px rgba(15, 23, 42, 0.24);
@@ -254,7 +254,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      background: #ffffff;
+      background: #FFFFFF;
       color: var(--text);
     }
     .city-suggestion-item:last-child {
@@ -294,7 +294,7 @@
     }
     .search-bar input {
       flex: 1;
-      background: #fff;
+      background: #FFFFFF;
       color: var(--text);
     }
     .filter-row select {
@@ -333,7 +333,7 @@
       display: none;
     }
     .chip {
-      background: #fff;
+      background: #FFFFFF;
       border: 1px solid var(--border);
       color: var(--muted);
       padding: 6px 12px;
@@ -345,7 +345,7 @@
     }
     .chip.active {
       background: var(--primary);
-      color: #fff;
+      color: #FFFFFF;
       border-color: var(--primary);
     }
     .chip.nearby-toggle {
@@ -356,11 +356,11 @@
     .chip.nearby-toggle.active {
       background: var(--accent);
       border-color: var(--accent-dark);
-      color: #ffffff;
+      color: #FFFFFF;
     }
 
     .cat-pill {
-      background: #ffffff;
+      background: #FFFFFF;
       border: 1.5px solid #cbd5e1;
       color: #334155;
       padding: 7px 14px;
@@ -374,7 +374,7 @@
     .cat-pill.active {
       background: var(--primary);
       border-color: var(--primary-dark);
-      color: #ffffff;
+      color: #FFFFFF;
     }
 
     main {
@@ -468,8 +468,8 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: #fff;
+      background: linear-gradient(135deg, #0A2240, #133866);
+      color: #FFFFFF;
       font-weight: 800;
       font-size: 12px;
       display: flex;
@@ -487,7 +487,7 @@
 
     /* Cartão de Perfil */
     .profile-hero-card {
-      background: #fff;
+      background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
@@ -497,7 +497,7 @@
     }
     .profile-cover {
       height: 88px;
-      background: linear-gradient(135deg, #09172e 0%, #0f294d 60%, #f35b04 135%);
+      background: linear-gradient(135deg, #0A2240 0%, #133866 60%, #F26500 135%);
       position: relative;
     }
     .profile-avatar-wrap {
@@ -511,11 +511,11 @@
       width: 96px;
       height: 96px;
       border-radius: 50%;
-      border: 4px solid #ffffff;
+      border: 4px solid #FFFFFF;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
       object-fit: cover;
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: #ffffff;
+      background: linear-gradient(135deg, #0A2240, #133866);
+      color: #FFFFFF;
       font-size: 30px;
       font-weight: 900;
       display: flex;
@@ -530,8 +530,8 @@
       height: 32px;
       border-radius: 50%;
       background: var(--accent);
-      color: #fff;
-      border: 2px solid #fff;
+      color: #FFFFFF;
+      border: 2px solid #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -542,7 +542,7 @@
     .profile-pill-badge {
       display: inline-block;
       background: var(--primary);
-      color: #ffffff;
+      color: #FFFFFF;
       font-size: 12px;
       font-weight: 800;
       padding: 4px 14px;
@@ -588,8 +588,8 @@
       font-size: 20px;
       font-weight: 900;
       letter-spacing: 3px;
-      color: var(--primary-dark);
-      background: #fff;
+      color: var(--primary);
+      background: #FFFFFF;
       padding: 5px 12px;
       border-radius: 10px;
       border: 1px dashed var(--primary);
@@ -614,7 +614,7 @@
       padding: 10px 12px;
       border: 2px solid var(--border);
       border-radius: 14px;
-      background: #fff;
+      background: #FFFFFF;
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -626,8 +626,8 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: #fff;
+      background: linear-gradient(135deg, #0A2240, #133866);
+      color: #FFFFFF;
       font-weight: 800;
       font-size: 14px;
       display: flex;
@@ -666,7 +666,7 @@
     .star-btn {
       flex: 1 1 52px;
       border: 1px solid var(--border);
-      background: #fff;
+      background: #FFFFFF;
       border-radius: 12px;
       padding: 8px 6px;
       font-size: 13px;
@@ -700,7 +700,7 @@
     }
     .quick-tag-btn.active {
       background: var(--primary);
-      color: #fff;
+      color: #FFFFFF;
       border-color: var(--primary);
     }
 
@@ -766,28 +766,28 @@
     }
     .btn-primary {
       background: var(--primary);
-      color: #fff;
+      color: #FFFFFF;
     }
     .btn-accent {
       background: var(--accent);
-      color: #ffffff;
+      color: #FFFFFF;
     }
     .btn-success {
       background: var(--success);
-      color: #fff;
+      color: #FFFFFF;
     }
     .btn-danger {
       background: #fee2e2;
       color: var(--danger);
     }
     .btn-outline {
-      background: #fff;
+      background: #FFFFFF;
       color: var(--text);
       border: 1px solid var(--border);
     }
     .btn-share {
       background: #f1f5f9;
-      color: var(--primary-dark);
+      color: var(--primary);
       border: 1px solid var(--border);
     }
     .btn-profile-orange {
@@ -818,7 +818,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 14px;
-      background: #fff;
+      background: #FFFFFF;
       outline: none;
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
@@ -837,7 +837,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: #fff;
+      background: #FFFFFF;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
@@ -870,7 +870,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(9, 23, 46, 0.68);
+      background: rgba(10, 34, 64, 0.68);
       display: none;
       align-items: center;
       justify-content: center;
@@ -882,7 +882,7 @@
       display: flex;
     }
     .modal-box {
-      background: #fff;
+      background: #FFFFFF;
       width: 100%;
       max-width: 420px;
       border-radius: 20px;
@@ -900,7 +900,7 @@
       font-size: 18px;
       font-weight: 800;
       margin-bottom: 4px;
-      color: var(--primary-dark);
+      color: var(--primary);
     }
     .modal-subtitle {
       font-size: 13px;
@@ -934,7 +934,7 @@
       cursor: pointer;
     }
     .auth-tab.active {
-      background: #fff;
+      background: #FFFFFF;
       color: var(--primary);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
@@ -967,8 +967,8 @@
       transform: translateX(-50%) translateY(100px);
       opacity: 0;
       pointer-events: none;
-      background: #09172e;
-      color: #fff;
+      background: #0A2240;
+      color: #FFFFFF;
       padding: 11px 18px;
       border-radius: 999px;
       font-size: 13px;
@@ -985,7 +985,7 @@
     }
 
     .stars {
-      color: #f59e0b;
+      color: #F26500;
       font-size: 14px;
       letter-spacing: 1px;
     }
@@ -999,20 +999,20 @@
 </head>
 <body>
 
-  <!-- Nova Logo Oficial QD -->
+  <!-- Logo Oficial QD (#0A2240, #FFFFFF e #F26500) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
-        <rect width="512" height="512" rx="110" fill="#09172e" />
+        <rect width="512" height="512" rx="110" fill="#0A2240" />
         <path
-          fill="#ffffff"
+          fill="#FFFFFF"
           fill-rule="evenodd"
           d="M 176 136 C 232 136 270 182 270 246 C 270 310 232 356 176 356 C 120 356 82 310 82 246 C 82 182 120 136 176 136 Z M 176 182 C 144 182 126 208 126 246 C 126 284 144 310 176 310 C 208 310 226 284 226 246 C 226 208 208 182 176 182 Z"
         />
-        <line x1="196" y1="274" x2="254" y2="366" stroke="#09172e" stroke-width="58" stroke-linecap="round" />
-        <line x1="194" y1="272" x2="254" y2="366" stroke="#ffffff" stroke-width="44" stroke-linecap="round" />
+        <line x1="196" y1="274" x2="254" y2="366" stroke="#0A2240" stroke-width="58" stroke-linecap="round" />
+        <line x1="194" y1="272" x2="254" y2="366" stroke="#FFFFFF" stroke-width="44" stroke-linecap="round" />
         <path
-          fill="#f35b04"
+          fill="#F26500"
           fill-rule="evenodd"
           d="M 278 164 C 278 146 290 136 308 136 H 344 C 402 136 440 180 440 246 C 440 312 402 356 344 356 H 308 C 290 356 278 346 278 328 Z M 322 182 V 310 H 344 C 378 310 396 286 396 246 C 396 206 378 182 344 182 Z"
         />
@@ -1108,7 +1108,7 @@
     <!-- Aba 2: Publicar Vaga -->
     <section id="sec-publicar" class="section">
       <div class="card">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary-dark);">Publicar Nova Diária</h2>
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">Publicar Nova Diária</h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
 
         <div class="form-group">
@@ -1178,7 +1178,7 @@
     <section id="sec-reputacao" class="section">
       <div class="pin-banner" id="myPinBanner" style="display:none;">
         <div style="flex:1; min-width:180px;">
-          <div style="font-size:12px; font-weight:800; color:var(--primary-dark);">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
+          <div style="font-size:12px; font-weight:800; color:var(--primary);">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
           <div style="font-size:11px; color:#334155; line-height:1.35; margin-top:2px;">
             Passe este código apenas para quem realmente concluiu uma diária com você:
           </div>
@@ -1195,7 +1195,7 @@
       </div>
 
       <div class="card">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary-dark);">⭐ Avaliar Serviço Realizado</h2>
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">⭐ Avaliar Serviço Realizado</h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">Protegido contra avaliações falsas: exige o código secreto de 4 dígitos de quem trabalhou ou contratou você.</p>
 
         <div class="form-group">
@@ -1446,7 +1446,7 @@
   <div class="modal-backdrop" id="viewProfileModal">
     <div class="modal-box" style="padding:0; overflow:hidden;">
       <div class="profile-cover" style="height:92px;">
-        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.35); color:#fff; border:none; border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800; cursor:pointer;">‹ Voltar</button>
+        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.35); color:#FFFFFF; border:none; border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800; cursor:pointer;">‹ Voltar</button>
       </div>
       <div style="padding: 0 18px 18px; text-align:center;">
         <div class="profile-avatar-wrap" style="margin-top:-46px;">
@@ -2215,7 +2215,7 @@
       document.getElementById("pubProfileName").textContent = displayName;
       document.getElementById("pubProfileBadge").textContent = displayProf;
       document.getElementById("pubProfileStars").innerHTML =
-        `<span style="color:#f59e0b;">${stats.stars}</span> <span>${stats.avg}</span> <span style="font-size:12px; color:var(--muted);">(${stats.count} ${stats.count === 1 ? "avaliação" : "avaliações"})</span>`;
+        `<span style="color:#F26500;">${stats.stars}</span> <span>${stats.avg}</span> <span style="font-size:12px; color:var(--muted);">(${stats.count} ${stats.count === 1 ? "avaliação" : "avaliações"})</span>`;
       document.getElementById("pubProfileSub").textContent =
         `📍 ${displayCity} - SP` + (displayPhone ? ` • 📱 Final ${displayPhone.slice(-4)}` : "");
 
@@ -2232,8 +2232,8 @@
         revBox.innerHTML = stats.items.slice(0, 4).map((r) => `
           <div style="border-bottom:1px solid #f1f5f9; padding:7px 0; font-size:12px;">
             <div style="display:flex; justify-content:space-between;">
-              <strong style="color:var(--primary-dark);">${escapeHtml(r.authorName)}</strong>
-              <span style="color:#f59e0b;">${"★".repeat(r.rating)}</span>
+              <strong style="color:var(--primary);">${escapeHtml(r.authorName)}</strong>
+              <span style="color:#F26500;">${"★".repeat(r.rating)}</span>
             </div>
             ${r.comment ? `<div style="color:#334155; margin-top:2px;">"${escapeHtml(r.comment)}"</div>` : ""}
           </div>
@@ -2587,7 +2587,7 @@
         const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
         const stats = getUserRatingStats(currentUserProfile.uid, phoneKey);
         document.getElementById("myProfileStarsDisplay").innerHTML =
-          `<span style="color:#f59e0b;">${stats.stars}</span> <span>${stats.avg}</span>`;
+          `<span style="color:#F26500;">${stats.stars}</span> <span>${stats.avg}</span>`;
 
         const imgEl = document.getElementById("myProfileAvatarImg");
         const phEl = document.getElementById("myProfileAvatarPlaceholder");
