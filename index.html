@@ -39,7 +39,7 @@
       overflow-x: hidden;
     }
 
-    /* Tela de Abertura Rápida Integrada com o Android */
+    /* Tela de Abertura */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -163,7 +163,7 @@
       background: rgba(255, 255, 255, 0.16);
       color: #fff;
       border: none;
-      padding: 7px 11px;
+      padding: 7px 12px;
       border-radius: 10px;
       font-size: 12px;
       font-weight: 700;
@@ -172,13 +172,6 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-    }
-    .header-user-avatar {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid rgba(255,255,255,0.7);
     }
 
     /* Barra de Cidade Separada + Busca de Bicos */
@@ -1006,21 +999,18 @@
 </head>
 <body>
 
-  <!-- Nova Logo Oficial QD (Azul-Marinho Escuro + Q Branco e D Laranja da Mesma Proporção) -->
+  <!-- Nova Logo Oficial QD -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
         <rect width="512" height="512" rx="110" fill="#09172e" />
-        <!-- Letra Q Branca Proporcional -->
         <path
           fill="#ffffff"
           fill-rule="evenodd"
           d="M 176 136 C 232 136 270 182 270 246 C 270 310 232 356 176 356 C 120 356 82 310 82 246 C 82 182 120 136 176 136 Z M 176 182 C 144 182 126 208 126 246 C 126 284 144 310 176 310 C 208 310 226 284 226 246 C 226 208 208 182 176 182 Z"
         />
-        <!-- Perna arredondada do Q com recorte de contorno -->
         <line x1="196" y1="274" x2="254" y2="366" stroke="#09172e" stroke-width="58" stroke-linecap="round" />
         <line x1="194" y1="272" x2="254" y2="366" stroke="#ffffff" stroke-width="44" stroke-linecap="round" />
-        <!-- Letra D Laranja da Mesma Proporção -->
         <path
           fill="#f35b04"
           fill-rule="evenodd"
@@ -1030,11 +1020,9 @@
     </defs>
   </svg>
 
-  <!-- Inputs ocultos para escolher foto da galeria/câmera -->
   <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'profile')" />
   <input type="file" id="regPhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'register')" />
 
-  <!-- Tela de Abertura -->
   <div id="splashScreen" onclick="this.classList.add('hide')">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
       <use href="#quero-diaria-logo"></use>
@@ -1047,7 +1035,7 @@
 
   <div id="toast"></div>
 
-  <!-- Header Limpo (Só o nome Quero Diária) -->
+  <!-- Header (Apenas Alertas no Topo) -->
   <header>
     <div class="header-top">
       <div class="brand">
@@ -1064,7 +1052,6 @@
       </div>
       <div class="header-actions">
         <button class="btn-ghost" onclick="openAlertModal()">🔔 Alertas</button>
-        <button class="btn-ghost" id="userBtn" onclick="handleUserButton()">Entrar</button>
       </div>
     </div>
 
@@ -2568,11 +2555,11 @@
     }
 
     function handleUserButton() {
-      if (currentUserProfile) {
-        switchTab("perfil");
-      } else {
+      if (!currentUserProfile) {
         setAuthMode("login");
         openModal("authModal");
+      } else {
+        switchTab("perfil");
       }
     }
 
@@ -2586,16 +2573,8 @@
     }
 
     function updateUserUI() {
-      const btn = document.getElementById("userBtn");
       const pinBanner = document.getElementById("myPinBanner");
       if (currentUserProfile) {
-        const firstName = currentUserProfile.name ? currentUserProfile.name.split(" ")[0] : "Perfil";
-        if (currentUserProfile.photoURL) {
-          btn.innerHTML = `<img src="${currentUserProfile.photoURL}" class="header-user-avatar" /> <span>${escapeHtml(firstName)}</span>`;
-        } else {
-          btn.innerHTML = `👤 <span>${escapeHtml(firstName)}</span>`;
-        }
-
         const pin = currentUserProfile.pinCode || "----";
         document.getElementById("myPinCodeText").textContent = pin;
         document.getElementById("profPinValue").textContent = pin;
@@ -2638,7 +2617,6 @@
           document.getElementById("jobCity").value = currentUserProfile.city;
         }
       } else {
-        btn.textContent = "Entrar";
         pinBanner.style.display = "none";
       }
     }
