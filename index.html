@@ -6,10 +6,10 @@
   <title>Quero Diária - Trabalhou, Recebeu!</title>
   <style>
     :root {
-      --primary: #311068;
+      --primary: #4c0f96;
       --primary-dark: #180538;
       --primary-light: #ede9fe;
-      --accent: #f59e0b;
+      --accent: #ff7a00;
       --accent-dark: #d97706;
       --bg: #f8fafc;
       --card: #ffffff;
@@ -39,7 +39,7 @@
     #splashScreen {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #3b1578 0%, #180538 100%);
+      background: radial-gradient(circle at center, #4c0f96 0%, #180538 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -53,11 +53,12 @@
       pointer-events: none;
     }
     .splash-logo-svg {
-      width: 112px;
-      height: 112px;
+      width: 116px;
+      height: 116px;
       border-radius: 26px;
       box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
       animation: splashPulse 1.2s infinite alternate ease-in-out;
+      display: block;
     }
     @keyframes splashPulse {
       from { transform: scale(0.96); }
@@ -126,11 +127,12 @@
       gap: 10px;
     }
     .brand-logo-svg {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 11px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
       flex-shrink: 0;
+      display: block;
     }
     .brand h1 {
       font-size: 20px;
@@ -349,7 +351,7 @@
     .chip.nearby-toggle.active {
       background: var(--accent);
       border-color: var(--accent-dark);
-      color: #1e1b4b;
+      color: #ffffff;
     }
 
     main {
@@ -494,7 +496,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), #5b21b6);
+      background: linear-gradient(135deg, var(--primary), #6d28d9);
       color: #fff;
       font-weight: 800;
       font-size: 14px;
@@ -637,7 +639,7 @@
     }
     .btn-accent {
       background: var(--accent);
-      color: #1e1b4b;
+      color: #ffffff;
     }
     .btn-success {
       background: var(--success);
@@ -861,19 +863,26 @@
 </head>
 <body>
 
-  <!-- Logo Oficial Quero Diária -->
+  <!-- Nova Logo Oficial QD (Quadrado Roxo Sem Borda Branca) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
-        <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
-        <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#3b1578" />
-          <stop offset="100%" stop-color="#170436" />
-        </linearGradient>
-        <circle cx="290" cy="240" r="115" fill="#f59e0b" />
-        <circle cx="290" cy="240" r="92" fill="none" stroke="#ffffff" stroke-width="10" stroke-opacity="0.35" />
-        <path d="M242 242 L276 276 L344 206" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M215 88 L112 268 H192 L152 424 L278 228 H196 Z" fill="#ffffff" />
+        <rect width="512" height="512" rx="105" fill="#4c0f96" />
+        <rect x="10" y="10" width="492" height="492" rx="96" fill="none" stroke="#6e2ec2" stroke-width="14" />
+        <!-- Letra Q Branca -->
+        <path
+          fill="#ffffff"
+          fill-rule="evenodd"
+          d="M 180 140 A 92 92 0 1 0 180 324 A 92 92 0 1 0 180 140 Z M 180 180 A 52 52 0 1 1 180 284 A 52 52 0 1 1 180 180 Z"
+        />
+        <polygon fill="#ffffff" points="172,256 200,228 328,356 272,356" />
+        <line x1="168" y1="252" x2="270" y2="354" stroke="#4c0f96" stroke-width="7" />
+        <!-- Letra D Laranja -->
+        <path
+          fill="#ff7a00"
+          fill-rule="evenodd"
+          d="M 274 140 H 342 A 92 92 0 0 1 434 232 A 92 92 0 0 1 342 324 H 274 Z M 314 178 V 286 H 340 A 54 54 0 0 0 394 232 A 54 54 0 0 0 340 178 Z"
+        />
       </g>
     </defs>
   </svg>
@@ -1327,7 +1336,6 @@
       "Artur Nogueira", "Monte Alto", "Itápolis", "Novo Horizonte"
     ];
 
-    /* Mapa de microrregiões de SP: agrupa cada cidade apenas com as vizinhas imediatas (raio ~25-35km) */
     const NEARBY_CITY_GROUPS = [
       ["Catanduva", "Pindorama", "Itajobi", "Santa Adélia", "Tabapuã", "Uchoa", "Ariranha", "Palmares Paulista", "Elisiário", "Catiguá", "Novais", "Paraíso", "Ibirá", "Urupês", "Novo Horizonte", "Fernando Prestes", "Itápolis", "Taquaritinga"],
       ["São José do Rio Preto", "Mirassol", "Bady Bassitt", "Cedral", "Guapiaçu", "Uchoa", "Ibirá", "Monte Aprazível", "Olímpia", "Severínia"],
@@ -1387,7 +1395,6 @@
         .trim();
     }
 
-    /* Retorna lista de cidades vizinhas próximas de uma cidade base */
     function getNearbyCitiesFor(baseCity) {
       const normBase = normalizeText(baseCity);
       if (!normBase) return [];
@@ -1404,7 +1411,6 @@
       return Array.from(result);
     }
 
-    /* Verifica se a cidade da vaga pertence à cidade do usuário ou às vizinhas imediatas */
     function doesCityMatchUserRegion(userBaseCity, jobCity, scopeMode) {
       const uNorm = normalizeText(userBaseCity);
       const jNorm = normalizeText(jobCity);
@@ -1419,7 +1425,6 @@
       });
     }
 
-    /* Dropdown personalizado branco para campos de cidade (substitui o datalist bugado do Android) */
     function showFieldCityDropdown(inputId, dropdownId) {
       const inputEl = document.getElementById(inputId);
       const box = document.getElementById(dropdownId);
@@ -1750,7 +1755,6 @@
       }, 300);
     }
 
-    /* Compartilhar Vaga no WhatsApp */
     function shareJobOnWhatsApp(jobId) {
       const j = jobs.find((item) => item.id === jobId);
       if (!j) return;
@@ -2496,7 +2500,6 @@
           createdAt: Date.now()
         });
 
-        /* Disparo inteligente: envia apenas para usuários da mesma cidade ou cidades vizinhas próximas */
         if (PUSH_WEBHOOK_URL) {
           const rawTokens = registeredUsers
             .filter((u) => {
