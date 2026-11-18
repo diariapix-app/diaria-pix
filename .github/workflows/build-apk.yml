@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - 'index.html'
       - 'package.json'
       - 'capacitor.config.json'
       - 'google-services.json'
@@ -29,10 +30,48 @@ jobs:
 
       - name: Preparar pasta web e instalar Capacitor
         run: |
-          mkdir -p www
+          mkdir -p www assets
           cp index.html www/index.html
           npm install
+          npm install --no-save sharp @capacitor/assets
           npx cap add android
+
+      - name: Gerar e aplicar novo ícone QD sem borda branca
+        run: |
+          cat << 'EOF' > generate-icon.js
+          const sharp = require('sharp');
+          const fullIconSvg = `
+          <svg width="1024" height="1024" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <rect width="512" height="512" fill="#4c0f96" />
+            <path fill="#ffffff" fill-rule="evenodd" d="M 180 140 A 92 92 0 1 0 180 324 A 92 92 0 1 0 180 140 Z M 180 180 A 52 52 0 1 1 180 284 A 52 52 0 1 1 180 180 Z" />
+            <polygon fill="#ffffff" points="172,256 200,228 328,356 272,356" />
+            <line x1="168" y1="252" x2="270" y2="354" stroke="#4c0f96" stroke-width="7" />
+            <path fill="#ff7a00" fill-rule="evenodd" d="M 274 140 H 342 A 92 92 0 0 1 434 232 A 92 92 0 0 1 342 324 H 274 Z M 314 178 V 286 H 340 A 54 54 0 0 0 394 232 A 54 54 0 0 0 340 178 Z" />
+          </svg>`;
+
+          const fgSvg = `
+          <svg width="1024" height="1024" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(256, 256) scale(0.66) translate(-256, -256)">
+              <path fill="#ffffff" fill-rule="evenodd" d="M 180 140 A 92 92 0 1 0 180 324 A 92 92 0 1 0 180 140 Z M 180 180 A 52 52 0 1 1 180 284 A 52 52 0 1 1 180 180 Z" />
+              <polygon fill="#ffffff" points="172,256 200,228 328,356 272,356" />
+              <line x1="168" y1="252" x2="270" y2="354" stroke="#4c0f96" stroke-width="7" />
+              <path fill="#ff7a00" fill-rule="evenodd" d="M 274 140 H 342 A 92 92 0 0 1 434 232 A 92 92 0 0 1 342 324 H 274 Z M 314 178 V 286 H 340 A 54 54 0 0 0 394 232 A 54 54 0 0 0 340 178 Z" />
+            </g>
+          </svg>`;
+
+          const bgSvg = `<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg"><rect width="1024" height="1024" fill="#4c0f96"/></svg>`;
+          const splashSvg = `<svg width="2732" height="2732" xmlns="http://www.w3.org/2000/svg"><rect width="2732" height="2732" fill="#180538"/></svg>`;
+
+          (async () => {
+            await sharp(Buffer.from(fullIconSvg)).png().toFile('assets/icon-only.png');
+            await sharp(Buffer.from(fgSvg)).png().toFile('assets/icon-foreground.png');
+            await sharp(Buffer.from(bgSvg)).png().toFile('assets/icon-background.png');
+            await sharp(Buffer.from(splashSvg)).png().toFile('assets/splash.png');
+            await sharp(Buffer.from(splashSvg)).png().toFile('assets/splash-dark.png');
+          })();
+          EOF
+          node generate-icon.js
+          npx capacitor-assets generate --android --iconBackgroundColor '#4c0f96' --iconBackgroundColorDark '#4c0f96' --splashBackgroundColor '#180538' --splashBackgroundColorDark '#180538'
 
       - name: Configurar notificações e cor roxa na barra superior
         run: |
@@ -43,9 +82,9 @@ jobs:
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
               <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-                  <item name="colorPrimary">#311068</item>
+                  <item name="colorPrimary">#4c0f96</item>
                   <item name="colorPrimaryDark">#180538</item>
-                  <item name="colorAccent">#f59e0b</item>
+                  <item name="colorAccent">#ff7a00</item>
                   <item name="android:statusBarColor">#180538</item>
               </style>
               <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
