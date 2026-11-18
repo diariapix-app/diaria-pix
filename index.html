@@ -6,11 +6,11 @@
   <title>Quero Diária</title>
   <style>
     :root {
-      --primary: #4c0f96;
-      --primary-dark: #180538;
-      --primary-light: #ede9fe;
-      --accent: #ff7a00;
-      --accent-dark: #d97706;
+      --primary: #0f294d;
+      --primary-dark: #09172e;
+      --primary-light: #e0f2fe;
+      --accent: #f35b04;
+      --accent-dark: #d94e00;
       --bg: #f8fafc;
       --card: #ffffff;
       --text: #0f172a;
@@ -28,6 +28,10 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    html, body {
+      background-color: var(--primary-dark);
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -35,17 +39,17 @@
       overflow-x: hidden;
     }
 
-    /* Tela Roxa de Abertura com Logo */
+    /* Tela de Abertura Rápida Integrada com o Android */
     #splashScreen {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #4c0f96 0%, #180538 100%);
+      background: #09172e;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity 0.45s ease, visibility 0.45s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     #splashScreen.hide {
       opacity: 0;
@@ -53,19 +57,14 @@
       pointer-events: none;
     }
     .splash-logo-svg {
-      width: 116px;
-      height: 116px;
+      width: 118px;
+      height: 118px;
       border-radius: 26px;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
-      animation: splashPulse 1.2s infinite alternate ease-in-out;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
       display: block;
     }
-    @keyframes splashPulse {
-      from { transform: scale(0.96); }
-      to { transform: scale(1.04); }
-    }
     .splash-title {
-      margin-top: 16px;
+      margin-top: 14px;
       font-size: 26px;
       font-weight: 900;
       color: #ffffff;
@@ -75,8 +74,8 @@
       color: var(--accent);
     }
     .splash-loader {
-      margin-top: 20px;
-      width: 130px;
+      margin-top: 18px;
+      width: 120px;
       height: 5px;
       background: rgba(255, 255, 255, 0.16);
       border-radius: 999px;
@@ -87,11 +86,11 @@
       height: 100%;
       background: var(--accent);
       border-radius: 999px;
-      animation: splashLoad 1.15s ease-out forwards;
+      animation: splashLoad 0.6s ease-out forwards;
       transform-origin: left;
     }
     @keyframes splashLoad {
-      from { transform: scaleX(0.15); }
+      from { transform: scaleX(0.25); }
       to { transform: scaleX(1); }
     }
 
@@ -102,7 +101,7 @@
       padding: 14px 16px 18px;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      box-shadow: 0 4px 14px rgba(24, 5, 56, 0.3);
+      box-shadow: 0 4px 14px rgba(9, 23, 46, 0.35);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -124,7 +123,7 @@
       width: 44px;
       height: 44px;
       border-radius: 11px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       flex-shrink: 0;
       display: block;
     }
@@ -198,7 +197,7 @@
       width: 100%;
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.16);
       border: 1px solid rgba(255, 255, 255, 0.28);
       border-radius: 12px;
       padding: 0 10px;
@@ -357,9 +356,9 @@
       border-color: var(--primary);
     }
     .chip.nearby-toggle {
-      background: #fef3c7;
-      border-color: #fde68a;
-      color: #92400e;
+      background: #fff7ed;
+      border-color: #fed7aa;
+      color: #c2410c;
     }
     .chip.nearby-toggle.active {
       background: var(--accent);
@@ -380,9 +379,9 @@
       transition: all 0.15s ease;
     }
     .cat-pill.active {
-      background: #ddd6fe;
-      border-color: var(--primary);
-      color: var(--primary-dark);
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: #ffffff;
     }
 
     main {
@@ -476,7 +475,7 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), #6d28d9);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
       color: #fff;
       font-weight: 800;
       font-size: 12px;
@@ -493,7 +492,7 @@
       line-height: 1.3;
     }
 
-    /* Cartão de Perfil Estilo Foto 2 (Capa + Foto Circular Sobreposta) */
+    /* Cartão de Perfil */
     .profile-hero-card {
       background: #fff;
       border: 1px solid var(--border);
@@ -505,7 +504,7 @@
     }
     .profile-cover {
       height: 88px;
-      background: linear-gradient(135deg, #2e0854 0%, #4c0f96 55%, #ff7a00 130%);
+      background: linear-gradient(135deg, #09172e 0%, #0f294d 60%, #f35b04 135%);
       position: relative;
     }
     .profile-avatar-wrap {
@@ -522,7 +521,7 @@
       border: 4px solid #ffffff;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
       object-fit: cover;
-      background: linear-gradient(135deg, var(--primary), #6d28d9);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
       color: #ffffff;
       font-size: 30px;
       font-weight: 900;
@@ -581,8 +580,8 @@
 
     /* Caixa do Código de Segurança da Diária (4 dígitos) */
     .pin-banner {
-      background: linear-gradient(135deg, #ede9fe, #fef3c7);
-      border: 1px solid #c4b5fd;
+      background: linear-gradient(135deg, #e0f2fe, #ffedd5);
+      border: 1px solid #bae6fd;
       border-radius: 14px;
       padding: 12px 14px;
       margin-bottom: 14px;
@@ -634,7 +633,7 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), #6d28d9);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
       color: #fff;
       font-weight: 800;
       font-size: 14px;
@@ -684,9 +683,9 @@
       text-align: center;
     }
     .star-btn.active {
-      background: #fef3c7;
+      background: #ffedd5;
       border-color: var(--accent);
-      color: #b45309;
+      color: #c2410c;
     }
 
     /* Etiquetas Rápidas de Avaliação */
@@ -725,8 +724,8 @@
       border-radius: 999px;
     }
     .rating-summary-badge {
-      background: #fef3c7;
-      color: #b45309;
+      background: #ffedd5;
+      color: #c2410c;
       font-weight: 800;
       font-size: 13px;
       padding: 4px 10px;
@@ -740,7 +739,7 @@
     }
     .review-chip {
       display: inline-block;
-      background: #ede9fe;
+      background: var(--primary-light);
       color: var(--primary);
       font-size: 11px;
       font-weight: 700;
@@ -878,7 +877,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(9, 23, 46, 0.68);
       display: none;
       align-items: center;
       justify-content: center;
@@ -895,7 +894,7 @@
       max-width: 420px;
       border-radius: 20px;
       padding: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
       animation: popIn 0.2s ease;
       max-height: 92vh;
       overflow-y: auto;
@@ -975,7 +974,7 @@
       transform: translateX(-50%) translateY(100px);
       opacity: 0;
       pointer-events: none;
-      background: #0f172a;
+      background: #09172e;
       color: #fff;
       padding: 11px 18px;
       border-radius: 999px;
@@ -1007,23 +1006,25 @@
 </head>
 <body>
 
-  <!-- Logo Oficial QD (Quadrado Roxo Sem Borda Branca) -->
+  <!-- Nova Logo Oficial QD (Azul-Marinho Escuro + Q Branco e D Laranja da Mesma Proporção) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
-        <rect width="512" height="512" rx="105" fill="#4c0f96" />
-        <rect x="10" y="10" width="492" height="492" rx="96" fill="none" stroke="#6e2ec2" stroke-width="14" />
+        <rect width="512" height="512" rx="110" fill="#09172e" />
+        <!-- Letra Q Branca Proporcional -->
         <path
           fill="#ffffff"
           fill-rule="evenodd"
-          d="M 180 140 A 92 92 0 1 0 180 324 A 92 92 0 1 0 180 140 Z M 180 180 A 52 52 0 1 1 180 284 A 52 52 0 1 1 180 180 Z"
+          d="M 176 136 C 232 136 270 182 270 246 C 270 310 232 356 176 356 C 120 356 82 310 82 246 C 82 182 120 136 176 136 Z M 176 182 C 144 182 126 208 126 246 C 126 284 144 310 176 310 C 208 310 226 284 226 246 C 226 208 208 182 176 182 Z"
         />
-        <polygon fill="#ffffff" points="172,256 200,228 328,356 272,356" />
-        <line x1="168" y1="252" x2="270" y2="354" stroke="#4c0f96" stroke-width="7" />
+        <!-- Perna arredondada do Q com recorte de contorno -->
+        <line x1="196" y1="274" x2="254" y2="366" stroke="#09172e" stroke-width="58" stroke-linecap="round" />
+        <line x1="194" y1="272" x2="254" y2="366" stroke="#ffffff" stroke-width="44" stroke-linecap="round" />
+        <!-- Letra D Laranja da Mesma Proporção -->
         <path
-          fill="#ff7a00"
+          fill="#f35b04"
           fill-rule="evenodd"
-          d="M 274 140 H 342 A 92 92 0 0 1 434 232 A 92 92 0 0 1 342 324 H 274 Z M 314 178 V 286 H 340 A 54 54 0 0 0 394 232 A 54 54 0 0 0 340 178 Z"
+          d="M 278 164 C 278 146 290 136 308 136 H 344 C 402 136 440 180 440 246 C 440 312 402 356 344 356 H 308 C 290 356 278 346 278 328 Z M 322 182 V 310 H 344 C 378 310 396 286 396 246 C 396 206 378 182 344 182 Z"
         />
       </g>
     </defs>
@@ -1033,7 +1034,7 @@
   <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'profile')" />
   <input type="file" id="regPhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'register')" />
 
-  <!-- Tela Roxa de Abertura (Sem o slogan Trabalhou, Recebeu!) -->
+  <!-- Tela de Abertura -->
   <div id="splashScreen" onclick="this.classList.add('hide')">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
       <use href="#quero-diaria-logo"></use>
@@ -1279,7 +1280,7 @@
       <div id="reviewsList"></div>
     </section>
 
-    <!-- Aba 4: Meu Perfil (com Foto Circular, Profissão e Nota) -->
+    <!-- Aba 4: Meu Perfil -->
     <section id="sec-perfil" class="section">
       <div class="profile-hero-card">
         <div class="profile-cover"></div>
@@ -1383,7 +1384,7 @@
     </button>
   </nav>
 
-  <!-- Modal 1: Login e Cadastro (com Foto e Profissão) -->
+  <!-- Modal 1: Login e Cadastro -->
   <div class="modal-backdrop" id="authModal">
     <div class="modal-box">
       <div class="modal-title">Conta Quero Diária</div>
@@ -1454,7 +1455,7 @@
     </div>
   </div>
 
-  <!-- Modal 2: Visualizar Perfil Público de Qualquer Usuário (Estilo Foto 2) -->
+  <!-- Modal 2: Visualizar Perfil Público -->
   <div class="modal-backdrop" id="viewProfileModal">
     <div class="modal-box" style="padding:0; overflow:hidden;">
       <div class="profile-cover" style="height:92px;">
@@ -1550,7 +1551,7 @@
     setTimeout(() => {
       const splash = document.getElementById("splashScreen");
       if (splash) splash.classList.add("hide");
-    }, 1200);
+    }, 650);
 
     const firebaseConfig = {
       apiKey: "AIzaSyBov7_CP1kzn541zq3Ztl-6bgrGSini9M4",
@@ -1586,7 +1587,6 @@
       });
     } catch (e) {}
 
-    /* Categorias Rápidas (exibidas na barra do Mural igual à foto) */
     const QUICK_CATEGORIES = [
       { value: "Todas", label: "Todas" },
       { value: "Limpeza & Diarista", label: "🧹 Limpeza" },
@@ -1603,7 +1603,6 @@
       { value: "Outros Serviços", label: "✨ Outros" }
     ];
 
-    /* Profissões rápidas por categoria para facilitar o anúncio e o perfil */
     const PROFESSIONS_BY_CATEGORY = {
       "Limpeza & Diarista": ["Diarista / Faxina Residencial", "Faxina Pós-Obra", "Passadeira de Roupas", "Auxiliar de Limpeza Comercial", "Zelador(a)"],
       "Obras & Ajudante": ["Pedreiro", "Ajudante de Pedreiro / Servente", "Pintor Residencial", "Eletricista de Obras", "Gesseiro / Drywall", "Azulejista", "Carpinteiro"],
@@ -1746,7 +1745,6 @@
         .trim();
     }
 
-    /* Compressão automática de foto de perfil para caber direto no Firestore (~12KB) */
     function handleProfilePhotoUpload(event, targetMode) {
       const file = event.target.files && event.target.files[0];
       if (!file) return;
@@ -2196,7 +2194,6 @@
       };
     }
 
-    /* Abre o Cartão de Perfil Público de qualquer usuário (Estilo Foto 2) */
     function openPublicProfile(uid, fallbackName, fallbackPhone, fallbackCity) {
       const cleanPhone = String(fallbackPhone || "").replace(/\D/g, "");
       const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
@@ -2604,7 +2601,6 @@
         document.getElementById("profPinValue").textContent = pin;
         pinBanner.style.display = "flex";
 
-        /* Preenche a aba Meu Perfil */
         document.getElementById("myProfileNameDisplay").textContent = currentUserProfile.name || "Meu Perfil";
         document.getElementById("myProfileProfessionBadge").textContent = currentUserProfile.profession || "Quero Diária";
 
