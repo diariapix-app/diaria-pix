@@ -7,18 +7,17 @@
   <style>
     :root {
       --primary: #0A2240;
-      --primary-dark: #07182E;
-      --primary-light: rgba(242, 101, 0, 0.18);
+      --primary-dark: #071930;
+      --primary-light: #e0f2fe;
       --accent: #F26500;
       --accent-dark: #d95800;
-      --bg: #0A2240;
-      --card: #112C50;
-      --surface: #081B33;
-      --text: #FFFFFF;
-      --muted: #CBD5E1;
-      --border: rgba(255, 255, 255, 0.14);
+      --bg: #FFFFFF;
+      --card: #FFFFFF;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
       --success: #16a34a;
-      --danger: #ef4444;
+      --danger: #dc2626;
     }
 
     * {
@@ -29,16 +28,16 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
+    html {
       background-color: #0A2240;
-      color: var(--text);
     }
 
     body {
-      background: var(--bg);
+      background-color: #FFFFFF;
       color: var(--text);
       padding-bottom: 96px;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     /* Tela de Abertura */
@@ -96,13 +95,14 @@
       to { transform: scaleX(1); }
     }
 
-    /* Header */
+    /* Header — Azul-Marinho Profundo (#0A2240) apenas na parte de cima */
     header {
-      background: linear-gradient(180deg, #07182E 0%, #0A2240 100%);
+      background: #0A2240;
       color: #FFFFFF;
-      padding: 14px 16px 16px;
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+      padding: 14px 16px 18px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.25);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -124,7 +124,7 @@
       width: 44px;
       height: 44px;
       border-radius: 11px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       flex-shrink: 0;
       display: block;
     }
@@ -139,14 +139,13 @@
     }
     .cloud-status {
       font-size: 11px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.14);
       padding: 3px 9px;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       margin-top: 4px;
-      color: #E2E8F0;
     }
     .dot {
       width: 7px;
@@ -162,9 +161,9 @@
       flex-wrap: wrap;
     }
     .btn-ghost {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.16);
       color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: none;
       padding: 7px 12px;
       border-radius: 10px;
       font-size: 12px;
@@ -192,8 +191,8 @@
       width: 100%;
       display: flex;
       align-items: center;
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
       border-radius: 12px;
       padding: 0 10px;
     }
@@ -212,7 +211,7 @@
       outline: none;
     }
     .city-box input::placeholder {
-      color: #94A3B8;
+      color: rgba(255, 255, 255, 0.85);
       font-weight: 600;
     }
     .city-clear {
@@ -231,15 +230,15 @@
       top: calc(100% + 4px);
       left: 0;
       right: 0;
-      background: #13325B;
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: var(--text);
       border-radius: 12px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
       max-height: 195px;
       overflow-y: auto;
       z-index: 350;
       display: none;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--border);
     }
     .city-suggestions.open,
     .field-city-dropdown.open {
@@ -249,33 +248,33 @@
       padding: 10px 12px;
       font-size: 13px;
       font-weight: 700;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid #f1f5f9;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      background: #13325B;
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: var(--text);
     }
     .city-suggestion-item:last-child {
       border-bottom: none;
     }
     .city-suggestion-item:active {
-      background: #1B447A;
+      background: var(--primary-light);
     }
     .city-badge-count {
       font-size: 11px;
       padding: 2px 7px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      color: #CBD5E1;
+      background: #f1f5f9;
+      color: var(--muted);
       font-weight: 600;
     }
     .city-badge-count.has-jobs {
-      background: rgba(22, 163, 74, 0.25);
-      color: #4ade80;
+      background: #dcfce7;
+      color: #15803d;
     }
 
     .city-input-wrap {
@@ -288,7 +287,7 @@
       gap: 8px;
     }
     .search-bar input, .filter-row select {
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      border: none;
       border-radius: 12px;
       padding: 10px 12px;
       font-size: 14px;
@@ -296,31 +295,24 @@
     }
     .search-bar input {
       flex: 1;
-      background: var(--card);
-      color: #FFFFFF;
-    }
-    .search-bar input::placeholder {
-      color: #94A3B8;
+      background: #FFFFFF;
+      color: var(--text);
     }
     .filter-row select {
-      background: var(--card);
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: var(--text);
       font-weight: 700;
       font-size: 13px;
       flex: 0 1 auto;
       min-width: 125px;
       max-width: 165px;
     }
-    select option {
-      background: #0A2240;
-      color: #FFFFFF;
-    }
 
     /* Cidades e Categorias Rápidas */
     .quick-sec-title {
       font-size: 14px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: var(--text);
       margin: 4px 0 8px;
       display: flex;
       justify-content: space-between;
@@ -342,9 +334,9 @@
       display: none;
     }
     .chip {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: #E2E8F0;
+      background: #FFFFFF;
+      border: 1px solid #cbd5e1;
+      color: #475569;
       padding: 6px 12px;
       border-radius: 999px;
       font-size: 12px;
@@ -353,25 +345,25 @@
       cursor: pointer;
     }
     .chip.active {
-      background: var(--accent);
+      background: var(--primary);
       color: #FFFFFF;
-      border-color: var(--accent);
+      border-color: var(--primary);
     }
     .chip.nearby-toggle {
-      background: rgba(242, 101, 0, 0.16);
-      border-color: rgba(242, 101, 0, 0.45);
-      color: #fdba74;
+      background: #fff7ed;
+      border-color: #fed7aa;
+      color: #c2410c;
     }
     .chip.nearby-toggle.active {
       background: var(--accent);
-      border-color: var(--accent);
+      border-color: var(--accent-dark);
       color: #FFFFFF;
     }
 
     .cat-pill {
-      background: var(--card);
-      border: 1.5px solid rgba(255, 255, 255, 0.16);
-      color: #E2E8F0;
+      background: #FFFFFF;
+      border: 1.5px solid #cbd5e1;
+      color: #334155;
       padding: 7px 14px;
       border-radius: 999px;
       font-size: 13px;
@@ -381,8 +373,8 @@
       transition: all 0.15s ease;
     }
     .cat-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--primary);
+      border-color: var(--primary);
       color: #FFFFFF;
     }
 
@@ -390,6 +382,7 @@
       padding: 14px 16px;
       max-width: 640px;
       margin: 0 auto;
+      background: #FFFFFF;
     }
     .section {
       display: none;
@@ -398,14 +391,14 @@
       display: block;
     }
 
-    /* Cards */
+    /* Cards sobre fundo branco puro */
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: #FFFFFF;
+      border: 1px solid #e2e8f0;
       border-radius: 16px;
       padding: 16px;
       margin-bottom: 14px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 2px 10px rgba(10, 34, 64, 0.06);
       word-wrap: break-word;
       overflow-wrap: break-word;
     }
@@ -420,14 +413,13 @@
     .job-title {
       font-size: 17px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: var(--text);
       line-height: 1.3;
       flex: 1 1 180px;
     }
     .job-pay {
-      background: rgba(22, 163, 74, 0.22);
-      color: #4ade80;
-      border: 1px solid rgba(74, 222, 128, 0.35);
+      background: #dcfce7;
+      color: #15803d;
       font-weight: 800;
       font-size: 14px;
       padding: 5px 10px;
@@ -441,8 +433,8 @@
       margin-bottom: 10px;
     }
     .tag {
-      background: rgba(56, 189, 248, 0.15);
-      color: #7dd3fc;
+      background: var(--primary-light);
+      color: var(--primary);
       font-size: 12px;
       font-weight: 600;
       padding: 4px 9px;
@@ -450,12 +442,12 @@
       line-height: 1.3;
     }
     .tag.orange {
-      background: rgba(242, 101, 0, 0.2);
-      color: #fdba74;
+      background: #ffedd5;
+      color: #c2410c;
     }
     .job-desc {
       font-size: 14px;
-      color: #E2E8F0;
+      color: #334155;
       line-height: 1.45;
       margin-bottom: 12px;
     }
@@ -478,7 +470,7 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #163C6E, #F26500);
+      background: #0A2240;
       color: #FFFFFF;
       font-weight: 800;
       font-size: 12px;
@@ -487,30 +479,27 @@
       justify-content: center;
       flex-shrink: 0;
       object-fit: cover;
-      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      border: 1.5px solid #e2e8f0;
     }
     .author-info {
       font-size: 12px;
       color: var(--muted);
       line-height: 1.3;
     }
-    .author-info strong {
-      color: #FFFFFF;
-    }
 
     /* Cartão de Perfil */
     .profile-hero-card {
-      background: var(--card);
+      background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
       margin-bottom: 14px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.08);
       text-align: center;
     }
     .profile-cover {
       height: 88px;
-      background: linear-gradient(135deg, #07182E 0%, #163C6E 55%, #F26500 135%);
+      background: linear-gradient(135deg, #0A2240 0%, #133866 60%, #F26500 135%);
       position: relative;
     }
     .profile-avatar-wrap {
@@ -524,10 +513,10 @@
       width: 96px;
       height: 96px;
       border-radius: 50%;
-      border: 4px solid #112C50;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      border: 4px solid #FFFFFF;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
       object-fit: cover;
-      background: linear-gradient(135deg, #0A2240, #1B467D);
+      background: #0A2240;
       color: #FFFFFF;
       font-size: 30px;
       font-weight: 900;
@@ -544,17 +533,17 @@
       border-radius: 50%;
       background: var(--accent);
       color: #FFFFFF;
-      border: 2px solid #112C50;
+      border: 2px solid #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 15px;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
     .profile-pill-badge {
       display: inline-block;
-      background: var(--accent);
+      background: var(--primary);
       color: #FFFFFF;
       font-size: 12px;
       font-weight: 800;
@@ -566,7 +555,7 @@
       margin-top: 6px;
       font-size: 15px;
       font-weight: 800;
-      color: #fdba74;
+      color: #b45309;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -577,8 +566,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      background: rgba(22, 163, 74, 0.16);
-      border: 1px solid rgba(74, 222, 128, 0.35);
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
       padding: 12px 14px;
       border-radius: 14px;
       margin-bottom: 14px;
@@ -586,8 +575,8 @@
 
     /* Caixa do Código de Segurança da Diária (4 dígitos) */
     .pin-banner {
-      background: linear-gradient(135deg, #13325B, #1E293B);
-      border: 1px solid rgba(242, 101, 0, 0.45);
+      background: linear-gradient(135deg, #e0f2fe, #ffedd5);
+      border: 1px solid #bae6fd;
       border-radius: 14px;
       padding: 12px 14px;
       margin-bottom: 14px;
@@ -601,11 +590,11 @@
       font-size: 20px;
       font-weight: 900;
       letter-spacing: 3px;
-      color: #FFFFFF;
-      background: #0A2240;
+      color: var(--primary);
+      background: #FFFFFF;
       padding: 5px 12px;
       border-radius: 10px;
-      border: 1px dashed var(--accent);
+      border: 1px dashed var(--primary);
     }
 
     /* Seletor Visual de Usuários para Avaliação */
@@ -627,19 +616,19 @@
       padding: 10px 12px;
       border: 2px solid var(--border);
       border-radius: 14px;
-      background: var(--surface);
+      background: #FFFFFF;
       cursor: pointer;
       transition: all 0.15s ease;
     }
     .user-pick-card.selected {
-      border-color: var(--accent);
-      background: rgba(242, 101, 0, 0.16);
+      border-color: var(--primary);
+      background: var(--primary-light);
     }
     .user-avatar {
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #163C6E, #F26500);
+      background: #0A2240;
       color: #FFFFFF;
       font-weight: 800;
       font-size: 14px;
@@ -656,7 +645,7 @@
     .user-pick-name {
       font-size: 14px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: var(--text);
       line-height: 1.25;
       word-break: break-word;
     }
@@ -679,7 +668,7 @@
     .star-btn {
       flex: 1 1 52px;
       border: 1px solid var(--border);
-      background: var(--surface);
+      background: #FFFFFF;
       border-radius: 12px;
       padding: 8px 6px;
       font-size: 13px;
@@ -689,9 +678,9 @@
       text-align: center;
     }
     .star-btn.active {
-      background: rgba(242, 101, 0, 0.25);
+      background: #ffedd5;
       border-color: var(--accent);
-      color: #FFFFFF;
+      color: #c2410c;
     }
 
     /* Etiquetas Rápidas de Avaliação */
@@ -702,8 +691,8 @@
     }
     .quick-tag-btn {
       border: 1px solid var(--border);
-      background: var(--surface);
-      color: #E2E8F0;
+      background: #f8fafc;
+      color: #334155;
       padding: 7px 11px;
       border-radius: 999px;
       font-size: 12px;
@@ -712,9 +701,9 @@
       line-height: 1.25;
     }
     .quick-tag-btn.active {
-      background: var(--accent);
+      background: var(--primary);
       color: #FFFFFF;
-      border-color: var(--accent);
+      border-color: var(--primary);
     }
 
     /* Selos de Reputação Verificada */
@@ -722,16 +711,16 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      background: rgba(22, 163, 74, 0.22);
-      color: #4ade80;
+      background: #dcfce7;
+      color: #15803d;
       font-size: 11px;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 999px;
     }
     .rating-summary-badge {
-      background: rgba(242, 101, 0, 0.22);
-      color: #fdba74;
+      background: #ffedd5;
+      color: #c2410c;
       font-weight: 800;
       font-size: 13px;
       padding: 4px 10px;
@@ -739,14 +728,14 @@
       white-space: nowrap;
     }
     .review-item {
-      border-top: 1px solid var(--border);
+      border-top: 1px solid #f1f5f9;
       padding-top: 10px;
       margin-top: 10px;
     }
     .review-chip {
       display: inline-block;
-      background: rgba(56, 189, 248, 0.16);
-      color: #7dd3fc;
+      background: var(--primary-light);
+      color: var(--primary);
       font-size: 11px;
       font-weight: 700;
       padding: 3px 8px;
@@ -778,7 +767,7 @@
       cursor: not-allowed;
     }
     .btn-primary {
-      background: var(--accent);
+      background: var(--primary);
       color: #FFFFFF;
     }
     .btn-accent {
@@ -790,24 +779,23 @@
       color: #FFFFFF;
     }
     .btn-danger {
-      background: rgba(239, 68, 68, 0.2);
-      color: #fca5a5;
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      background: #fee2e2;
+      color: var(--danger);
     }
     .btn-outline {
-      background: rgba(255, 255, 255, 0.08);
-      color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: #FFFFFF;
+      color: var(--text);
+      border: 1px solid #cbd5e1;
     }
     .btn-share {
-      background: rgba(255, 255, 255, 0.1);
-      color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: #f8fafc;
+      color: var(--primary);
+      border: 1px solid var(--border);
     }
     .btn-profile-orange {
-      background: rgba(242, 101, 0, 0.18);
-      color: #fdba74;
-      border: 1px solid rgba(242, 101, 0, 0.45);
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
     }
     .btn-full {
       width: 100%;
@@ -823,24 +811,21 @@
       font-size: 13px;
       font-weight: 700;
       margin-bottom: 6px;
-      color: #E2E8F0;
+      color: #334155;
       line-height: 1.3;
     }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 11px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid #cbd5e1;
       border-radius: 12px;
       font-size: 14px;
-      background: var(--surface);
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: var(--text);
       outline: none;
     }
-    .form-group input::placeholder, .form-group textarea::placeholder {
-      color: #94A3B8;
-    }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: var(--accent);
+      border-color: var(--primary);
     }
     .helper-note {
       font-size: 12px;
@@ -855,7 +840,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: #07182E;
+      background: #FFFFFF;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
@@ -865,7 +850,7 @@
     .nav-item {
       background: none;
       border: none;
-      color: #94A3B8;
+      color: var(--muted);
       font-size: 11px;
       font-weight: 700;
       display: flex;
@@ -873,12 +858,12 @@
       align-items: center;
       gap: 3px;
       cursor: pointer;
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 10px;
     }
     .nav-item.active {
-      color: #FFFFFF;
-      background: rgba(242, 101, 0, 0.25);
+      color: var(--primary);
+      background: var(--primary-light);
     }
     .nav-icon {
       font-size: 18px;
@@ -888,7 +873,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 13, 26, 0.78);
+      background: rgba(10, 34, 64, 0.68);
       display: none;
       align-items: center;
       justify-content: center;
@@ -900,14 +885,12 @@
       display: flex;
     }
     .modal-box {
-      background: var(--card);
-      color: #FFFFFF;
-      border: 1px solid var(--border);
+      background: #FFFFFF;
       width: 100%;
       max-width: 420px;
       border-radius: 20px;
       padding: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
       animation: popIn 0.2s ease;
       max-height: 92vh;
       overflow-y: auto;
@@ -920,7 +903,7 @@
       font-size: 18px;
       font-weight: 800;
       margin-bottom: 4px;
-      color: #FFFFFF;
+      color: var(--primary);
     }
     .modal-subtitle {
       font-size: 13px;
@@ -937,11 +920,10 @@
 
     .auth-tabs {
       display: flex;
-      background: var(--surface);
+      background: #f1f5f9;
       border-radius: 12px;
       padding: 4px;
       margin-bottom: 14px;
-      border: 1px solid var(--border);
     }
     .auth-tab {
       flex: 1;
@@ -955,14 +937,14 @@
       cursor: pointer;
     }
     .auth-tab.active {
-      background: var(--accent);
-      color: #FFFFFF;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
     .link-btn {
       background: none;
       border: none;
-      color: #fdba74;
+      color: var(--primary);
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
@@ -970,9 +952,8 @@
       padding: 2px 0;
     }
     .auth-error {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
+      background: #fee2e2;
+      color: var(--danger);
       font-size: 12px;
       font-weight: 600;
       padding: 9px 11px;
@@ -989,15 +970,15 @@
       transform: translateX(-50%) translateY(100px);
       opacity: 0;
       pointer-events: none;
-      background: #F26500;
+      background: #0A2240;
       color: #FFFFFF;
       padding: 11px 18px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       z-index: 400;
       transition: transform 0.28s ease, opacity 0.28s ease;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.28);
       max-width: 92vw;
       text-align: center;
     }
@@ -1057,7 +1038,7 @@
 
   <div id="toast"></div>
 
-  <!-- Header -->
+  <!-- Header (Apenas parte de cima em azul #0A2240) -->
   <header>
     <div class="header-top">
       <div class="brand">
@@ -1130,7 +1111,7 @@
     <!-- Aba 2: Publicar Vaga -->
     <section id="sec-publicar" class="section">
       <div class="card">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: #FFFFFF;">Publicar Nova Diária</h2>
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">Publicar Nova Diária</h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
 
         <div class="form-group">
@@ -1200,8 +1181,8 @@
     <section id="sec-reputacao" class="section">
       <div class="pin-banner" id="myPinBanner" style="display:none;">
         <div style="flex:1; min-width:180px;">
-          <div style="font-size:12px; font-weight:800; color:#fdba74;">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
-          <div style="font-size:11px; color:#E2E8F0; line-height:1.35; margin-top:2px;">
+          <div style="font-size:12px; font-weight:800; color:var(--primary);">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
+          <div style="font-size:11px; color:#334155; line-height:1.35; margin-top:2px;">
             Passe este código apenas para quem realmente concluiu uma diária com você:
           </div>
         </div>
@@ -1217,7 +1198,7 @@
       </div>
 
       <div class="card">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: #FFFFFF;">⭐ Avaliar Serviço Realizado</h2>
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">⭐ Avaliar Serviço Realizado</h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">Protegido contra avaliações falsas: exige o código secreto de 4 dígitos de quem trabalhou ou contratou você.</p>
 
         <div class="form-group">
@@ -1282,7 +1263,7 @@
           id="reviewSearchInput"
           placeholder="🔍 Consultar reputação pelo nome ou final do telefone..."
           oninput="renderReviews()"
-          style="width:100%; border:1px solid var(--border); background:var(--surface); color:#FFFFFF; border-radius:10px; padding:10px 12px; font-size:14px; outline:none;"
+          style="width:100%; border:1px solid #cbd5e1; border-radius:10px; padding:10px 12px; font-size:14px; outline:none;"
         />
       </div>
 
@@ -1301,7 +1282,7 @@
           </button>
         </div>
         <div style="padding: 0 16px 16px;">
-          <h2 id="myProfileNameDisplay" style="font-size:19px; font-weight:900; color:#FFFFFF;">Meu Perfil</h2>
+          <h2 id="myProfileNameDisplay" style="font-size:19px; font-weight:900; color:var(--text);">Meu Perfil</h2>
           <div id="myProfileProfessionBadge" class="profile-pill-badge">Quero Diária</div>
           <div class="profile-stars-row" id="myProfileStarsDisplay">★★★★★ —</div>
           <div style="font-size:12px; color:var(--muted); margin-top:2px;">Estilo do Perfil • Verificado</div>
@@ -1314,8 +1295,8 @@
       <div class="card">
         <div class="avail-toggle-box">
           <div>
-            <div style="font-size:13px; font-weight:800; color:#4ade80;">🟢 Disponível para diária hoje</div>
-            <div style="font-size:11px; color:#E2E8F0;">Mostra no seu perfil que você pode trabalhar hoje</div>
+            <div style="font-size:13px; font-weight:800; color:#15803d;">🟢 Disponível para diária hoje</div>
+            <div style="font-size:11px; color:#334155;">Mostra no seu perfil que você pode trabalhar hoje</div>
           </div>
           <input type="checkbox" id="profAvailableToday" style="width:22px; height:22px; accent-color:#16a34a;" />
         </div>
@@ -1362,7 +1343,7 @@
         <div style="border-top:1px solid var(--border); margin-top:16px; padding-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div>
             <div style="font-size:11px; font-weight:800; color:var(--muted);">SEU CÓDIGO SECRETO DE 4 DÍGITOS</div>
-            <div id="profPinValue" style="font-size:18px; font-weight:900; color:#fdba74; letter-spacing:2px;">----</div>
+            <div id="profPinValue" style="font-size:18px; font-weight:900; color:var(--primary); letter-spacing:2px;">----</div>
           </div>
           <div style="display:flex; gap:6px;">
             <button type="button" class="btn btn-outline" style="padding:8px 12px; font-size:12px;" onclick="regenerateMyPin()">🔄 Trocar Código</button>
@@ -1407,11 +1388,11 @@
       <div class="auth-error" id="authErrorBox"></div>
 
       <div id="registerFields" style="display:none;">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; background:var(--surface); padding:10px; border-radius:12px; border:1px solid var(--border);">
-          <img id="regAvatarPreview" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:none; border:2px solid var(--accent);" />
-          <div id="regAvatarIcon" style="width:52px; height:52px; border-radius:50%; background:rgba(242,101,0,0.2); color:#fdba74; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;">📷</div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:12px; border:1px solid var(--border);">
+          <img id="regAvatarPreview" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:none; border:2px solid var(--primary);" />
+          <div id="regAvatarIcon" style="width:52px; height:52px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;">📷</div>
           <div style="flex:1;">
-            <div style="font-size:13px; font-weight:800; color:#FFFFFF;">Foto de Perfil (opcional)</div>
+            <div style="font-size:13px; font-weight:800; color:var(--text);">Foto de Perfil (opcional)</div>
             <button type="button" class="btn btn-outline" style="padding:5px 10px; font-size:12px; margin-top:4px;" onclick="document.getElementById('regPhotoInput').click()">Escolher foto do celular</button>
           </div>
         </div>
@@ -1468,20 +1449,20 @@
   <div class="modal-backdrop" id="viewProfileModal">
     <div class="modal-box" style="padding:0; overflow:hidden;">
       <div class="profile-cover" style="height:92px;">
-        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.45); color:#FFFFFF; border:none; border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800; cursor:pointer;">‹ Voltar</button>
+        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.35); color:#FFFFFF; border:none; border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800; cursor:pointer;">‹ Voltar</button>
       </div>
       <div style="padding: 0 18px 18px; text-align:center;">
         <div class="profile-avatar-wrap" style="margin-top:-46px;">
           <img id="pubProfileImg" class="profile-avatar-img" style="display:none;" alt="Foto" />
           <div id="pubProfilePlaceholder" class="profile-avatar-placeholder">U</div>
         </div>
-        <h3 id="pubProfileName" style="font-size:19px; font-weight:900; color:#FFFFFF;">Nome</h3>
+        <h3 id="pubProfileName" style="font-size:19px; font-weight:900; color:var(--text);">Nome</h3>
         <div id="pubProfileBadge" class="profile-pill-badge">Profissional</div>
         <div id="pubProfileStars" class="profile-stars-row">★★★★★ 5,0</div>
         <div id="pubProfileSub" style="font-size:12px; color:var(--muted); margin-top:3px;">📍 SP</div>
         <div id="pubProfileAvail" style="margin-top:6px;"></div>
 
-        <div id="pubProfileBio" style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin-top:12px; font-size:13px; color:#E2E8F0; text-align:left; line-height:1.4;"></div>
+        <div id="pubProfileBio" style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin-top:12px; font-size:13px; color:#334155; text-align:left; line-height:1.4;"></div>
 
         <div id="pubProfileReviewsBox" style="text-align:left; margin-top:12px; max-height:170px; overflow-y:auto;"></div>
 
@@ -2252,12 +2233,12 @@
         revBox.innerHTML = `<div style="font-size:12px; color:var(--muted); text-align:center; padding:8px;">Ainda sem avaliações detalhadas.</div>`;
       } else {
         revBox.innerHTML = stats.items.slice(0, 4).map((r) => `
-          <div style="border-bottom:1px solid var(--border); padding:7px 0; font-size:12px;">
+          <div style="border-bottom:1px solid #f1f5f9; padding:7px 0; font-size:12px;">
             <div style="display:flex; justify-content:space-between;">
-              <strong style="color:#FFFFFF;">${escapeHtml(r.authorName)}</strong>
+              <strong style="color:var(--primary);">${escapeHtml(r.authorName)}</strong>
               <span style="color:#F26500;">${"★".repeat(r.rating)}</span>
             </div>
-            ${r.comment ? `<div style="color:#E2E8F0; margin-top:2px;">"${escapeHtml(r.comment)}"</div>` : ""}
+            ${r.comment ? `<div style="color:#334155; margin-top:2px;">"${escapeHtml(r.comment)}"</div>` : ""}
           </div>
         `).join("");
       }
@@ -2896,13 +2877,13 @@
               <div class="user-pick-info">
                 <div class="user-pick-name">${escapeHtml(c.name)}</div>
                 <div class="user-pick-sub">
-                  ${c.profession ? `<span style="color:#fdba74; font-weight:700;">${escapeHtml(c.profession)}</span> • ` : ""}
+                  ${c.profession ? `<span style="color:var(--primary); font-weight:700;">${escapeHtml(c.profession)}</span> • ` : ""}
                   ${last4 ? `<span>📱 Final ${escapeHtml(last4)}</span>` : `<span>👤 Verificado</span>`}
                   ${c.city ? `<span>• 📍 ${escapeHtml(c.city)}</span>` : ""}
                   ${contacted ? `<span class="verified-badge">✓ Contato</span>` : ""}
                 </div>
               </div>
-              <div style="font-size:18px; color:var(--accent); font-weight:900;">
+              <div style="font-size:18px; color:var(--primary); font-weight:900;">
                 ${isSelected ? "✔" : "○"}
               </div>
             </div>`;
@@ -3060,10 +3041,10 @@
       }
 
       if (scopeVal === "exact") {
-        box.innerHTML = `Você receberá alertas <strong style="color:#FFFFFF;">somente de ${escapeHtml(cityVal)}</strong>.`;
+        box.innerHTML = `Você receberá alertas <strong>somente de ${escapeHtml(cityVal)}</strong>.`;
       } else {
         const list = getNearbyCitiesFor(cityVal);
-        box.innerHTML = `Cidades incluídas: <strong style="color:#FFFFFF;">${escapeHtml(list.slice(0, 7).join(", "))}${list.length > 7 ? " e vizinhas imediatas" : ""}</strong>.`;
+        box.innerHTML = `Cidades incluídas: <strong>${escapeHtml(list.slice(0, 7).join(", "))}${list.length > 7 ? " e vizinhas imediatas" : ""}</strong>.`;
       }
     }
 
@@ -3275,7 +3256,7 @@
         container.innerHTML = `
           <div class="empty-state">
             <div style="font-size: 40px; margin-bottom: 8px;">📍</div>
-            <div style="font-size: 15px; color: #FFFFFF; margin-bottom: 6px;">${cityMsg}</div>
+            <div style="font-size: 15px; color: var(--text); margin-bottom: 6px;">${cityMsg}</div>
             <p style="font-size: 13px; margin-bottom: 14px;">Você pode anunciar a primeira vaga dessa região agora mesmo ou ver todas as cidades.</p>
             <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
               ${
@@ -3534,7 +3515,7 @@
                     }
                   </div>
                   ${tagsHtml}
-                  ${r.comment ? `<p style="font-size:13px; color:#E2E8F0; margin-bottom:6px; line-height:1.4;">"${escapeHtml(r.comment)}"</p>` : ""}
+                  ${r.comment ? `<p style="font-size:13px; color:#334155; margin-bottom:6px; line-height:1.4;">"${escapeHtml(r.comment)}"</p>` : ""}
                   <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
                     <div class="author-info">Avaliado por <strong>${escapeHtml(r.authorName)}</strong></div>
                     ${
@@ -3553,9 +3534,9 @@
                 <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick='openPublicProfile(${JSON.stringify(group.uid || "")}, ${JSON.stringify(group.name || "")}, ${JSON.stringify(group.phoneKey || "")}, ${JSON.stringify(group.city || "")})'>
                   ${avatarHtml}
                   <div>
-                    <strong style="font-size:16px; display:block; color:#FFFFFF;">${escapeHtml(group.name)}</strong>
+                    <strong style="font-size:16px; display:block;">${escapeHtml(group.name)}</strong>
                     <span style="font-size:11px; color:var(--muted);">
-                      ${foundUser.profession ? `<strong style="color:#fdba74;">${escapeHtml(foundUser.profession)}</strong> • ` : ""}
+                      ${foundUser.profession ? `<strong style="color:var(--primary);">${escapeHtml(foundUser.profession)}</strong> • ` : ""}
                       ${last4 ? `📱 Final ${escapeHtml(last4)}` : "👤 Conta verificada"}
                       ${group.city ? ` • 📍 ${escapeHtml(group.city)}` : ""}
                     </span>
