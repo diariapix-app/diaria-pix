@@ -233,7 +233,7 @@
       color: var(--text);
       border-radius: 12px;
       box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
-      max-height: 195px;
+      max-height: 220px;
       overflow-y: auto;
       z-index: 350;
       display: none;
@@ -1224,7 +1224,7 @@
           <input
             type="text"
             id="cityFilterInput"
-            placeholder="Cidade de SP (ex: Catanduva)..."
+            placeholder="Cidade (ex: Catanduva, Pindorama)..."
             autocomplete="off"
             oninput="onCityInput()"
             onfocus="showCitySuggestions()"
@@ -1335,13 +1335,13 @@
           <input type="text" id="jobPay" placeholder="Ex: 160 ou R$ 160,00 na hora" />
         </div>
         <div class="form-group">
-          <label>Cidade (SP) *</label>
+          <label>Cidade *</label>
           <div class="city-input-wrap">
             <input
               type="text"
               id="jobCity"
               autocomplete="off"
-              placeholder="Ex: Catanduva, Guarulhos, Campinas..."
+              placeholder="Selecione a cidade (ex: Catanduva, Itajobi)..."
               oninput="showFieldCityDropdown('jobCity', 'jobCityDropdown')"
               onfocus="showFieldCityDropdown('jobCity', 'jobCityDropdown')"
             />
@@ -1540,13 +1540,13 @@
         </div>
 
         <div class="form-group">
-          <label>Cidade (SP) *</label>
+          <label>Cidade *</label>
           <div class="city-input-wrap">
             <input
               type="text"
               id="profCity"
               autocomplete="off"
-              placeholder="Ex: Catanduva"
+              placeholder="Selecione sua cidade (ex: Catanduva, Pindorama)..."
               oninput="showFieldCityDropdown('profCity', 'profCityDropdown')"
               onfocus="showFieldCityDropdown('profCity', 'profCityDropdown')"
             />
@@ -1671,13 +1671,13 @@
           <input type="tel" id="regPhone" placeholder="Ex: 17999999999" />
         </div>
         <div class="form-group">
-          <label>Cidade (SP) *</label>
+          <label>Cidade *</label>
           <div class="city-input-wrap">
             <input
               type="text"
               id="regCity"
               autocomplete="off"
-              placeholder="Digite sua cidade (ex: Catanduva)..."
+              placeholder="Escolha sua cidade (ex: Catanduva)..."
               oninput="showFieldCityDropdown('regCity', 'regCityDropdown')"
               onfocus="showFieldCityDropdown('regCity', 'regCityDropdown')"
             />
@@ -1741,7 +1741,7 @@
   <div class="modal-backdrop" id="alertModal">
     <div class="modal-box">
       <div class="modal-title">🔔 Notificações da Sua Região</div>
-      <div class="modal-subtitle">Receba notificações no celular somente de vagas na sua cidade ou em cidades vizinhas bem próximas.</div>
+      <div class="modal-subtitle">Receba notificações no celular somente de vagas na sua cidade ou nas cidades vizinhas da região.</div>
 
       <div class="form-group">
         <label>Sua Cidade Base *</label>
@@ -1750,7 +1750,7 @@
             type="text"
             id="alertCityInput"
             autocomplete="off"
-            placeholder="Ex: Catanduva, Guarulhos..."
+            placeholder="Ex: Catanduva, Pindorama, Rio Preto..."
             oninput="showFieldCityDropdown('alertCityInput', 'alertCityDropdown'); updateNearbyPreview();"
             onfocus="showFieldCityDropdown('alertCityInput', 'alertCityDropdown')"
           />
@@ -1817,6 +1817,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    auth.languageCode = "pt-BR";
     const db = firebase.firestore();
 
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch((err) => {
@@ -1922,62 +1923,41 @@
     ];
 
     const SP_CITIES = [
-      "São Paulo", "Guarulhos", "Campinas", "São Bernardo do Campo",
-      "São José dos Campos", "Ribeirão Preto", "Santo André", "Osasco",
-      "Sorocaba", "Mauá", "São José do Rio Preto", "Mogi das Cruzes",
-      "Santos", "Diadema", "Jundiaí", "Piracicaba", "Carapicuíba",
-      "Bauru", "Itaquaquecetuba", "São Vicente", "Franca", "Praia Grande",
-      "Guarujá", "Taubaté", "Limeira", "Suzano", "Taboão da Serra",
-      "Sumaré", "Barueri", "Embu das Artes", "Indaiatuba", "Cotia",
-      "São Carlos", "Marília", "Americana", "Araraquara", "Jacareí",
-      "Itapevi", "Presidente Prudente", "Hortolândia", "Rio Claro",
-      "Araçatuba", "Ferraz de Vasconcelos", "Santa Bárbara d'Oeste",
-      "Francisco Morato", "Itapecerica da Serra", "Itu", "Bragança Paulista",
-      "Pindamonhangaba", "Itapetininga", "São Caetano do Sul", "Franco da Rocha",
-      "Mogi Guaçu", "Jaú", "Botucatu", "Atibaia", "Santana de Parnaíba",
-      "Araras", "Cubatão", "Valinhos", "Sertãozinho", "Jandira",
-      "Birigui", "Ribeirão Pires", "Votorantim", "Caraguatatuba", "Várzea Paulista",
-      "Tatuí", "Barretos", "Itatiba", "Catanduva", "Pindorama", "Itajobi",
-      "Santa Adélia", "Tabapuã", "Uchoa", "Ariranha", "Palmares Paulista",
-      "Elisiário", "Catiguá", "Novais", "Paraíso", "Ibirá", "Urupês",
-      "Fernando Prestes", "Bady Bassitt", "Cedral", "Guapiaçu", "Monte Aprazível",
-      "Assis", "Ourinhos", "Leme", "Paulínia", "Poá", "Caieiras", "Itanhaém",
-      "Votuporanga", "Mairiporã", "Caçapava", "Avaré", "Lorena", "Ubatuba",
-      "São Sebastião", "São João da Boa Vista", "Arujá", "Santa Isabel",
-      "Campo Limpo Paulista", "Itupeva", "Louveira", "Matão", "Cruzeiro",
-      "Bebedouro", "Monte Azul Paulista", "Viradouro", "Ibiúna", "Lins",
-      "Jaboticabal", "Pirassununga", "Vinhedo", "Itapira", "Cajamar", "Amparo",
-      "Mococa", "Fernandópolis", "Cosmópolis", "Tupã", "Lençóis Paulista",
-      "Penápolis", "Batatais", "Andradina", "Mirassol", "Ibitinga",
-      "Nova Odessa", "Taquaritinga", "Registro", "Olímpia", "Severínia",
-      "Porto Feliz", "Jales", "Monte Mor", "São Joaquim da Barra", "Orlândia",
-      "Boituva", "Piedade", "Capivari", "Porto Ferreira", "Jaguariúna",
-      "Artur Nogueira", "Monte Alto", "Itápolis", "Novo Horizonte"
+      "Catanduva",
+      "Catiguá",
+      "Elisiário",
+      "Embaúba",
+      "Itajobi",
+      "Marapoama",
+      "Novais",
+      "Palmares Paulista",
+      "Paraíso",
+      "Pindorama",
+      "Ariranha",
+      "Tabapuã",
+      "Santa Adélia",
+      "Urupês",
+      "São José do Rio Preto"
     ];
 
     const NEARBY_CITY_GROUPS = [
-      ["Catanduva", "Pindorama", "Itajobi", "Santa Adélia", "Tabapuã", "Uchoa", "Ariranha", "Palmares Paulista", "Elisiário", "Catiguá", "Novais", "Paraíso", "Ibirá", "Urupês", "Novo Horizonte", "Fernando Prestes", "Itápolis", "Taquaritinga"],
-      ["São José do Rio Preto", "Mirassol", "Bady Bassitt", "Cedral", "Guapiaçu", "Uchoa", "Ibirá", "Monte Aprazível", "Olímpia", "Severínia"],
-      ["Guarulhos", "São Paulo", "Arujá", "Itaquaquecetuba", "Mairiporã", "Santa Isabel", "Suzano", "Poá", "Ferraz de Vasconcelos"],
-      ["São Paulo", "Guarulhos", "Osasco", "Barueri", "Carapicuíba", "Taboão da Serra", "Cotia", "Itapevi", "Jandira", "Santana de Parnaíba", "Embu das Artes", "Itapecerica da Serra", "Caieiras", "Franco da Rocha", "Francisco Morato", "Mairiporã", "São Bernardo do Campo", "Santo André", "São Caetano do Sul", "Diadema", "Mauá"],
-      ["São Bernardo do Campo", "Santo André", "São Caetano do Sul", "Diadema", "Mauá", "Ribeirão Pires", "São Paulo"],
-      ["Mogi das Cruzes", "Suzano", "Poá", "Ferraz de Vasconcelos", "Itaquaquecetuba", "Arujá", "Santa Isabel", "Guararema"],
-      ["Campinas", "Valinhos", "Vinhedo", "Sumaré", "Hortolândia", "Paulínia", "Indaiatuba", "Jaguariúna", "Monte Mor", "Nova Odessa", "Americana", "Santa Bárbara d'Oeste", "Cosmópolis", "Artur Nogueira", "Itatiba"],
-      ["Jundiaí", "Várzea Paulista", "Campo Limpo Paulista", "Itupeva", "Louveira", "Itatiba", "Vinhedo", "Cajamar", "Franco da Rocha", "Atibaia", "Bragança Paulista"],
-      ["Santos", "São Vicente", "Guarujá", "Praia Grande", "Cubatão", "Itanhaém"],
-      ["Caraguatatuba", "São Sebastião", "Ubatuba"],
-      ["Ribeirão Preto", "Sertãozinho", "Jaboticabal", "Batatais", "Monte Alto", "São Joaquim da Barra", "Orlândia"],
-      ["Sorocaba", "Votorantim", "Itu", "Boituva", "Porto Feliz", "Piedade", "Tatuí", "Itapetininga"],
-      ["São José dos Campos", "Jacareí", "Caçapava", "Taubaté", "Pindamonhangaba", "Lorena", "Cruzeiro"],
-      ["Piracicaba", "Limeira", "Rio Claro", "Araras", "Leme", "Americana", "Santa Bárbara d'Oeste", "Capivari"],
-      ["Araraquara", "São Carlos", "Matão", "Taquaritinga", "Ibitinga", "Porto Ferreira"],
-      ["Bebedouro", "Barretos", "Olímpia", "Monte Azul Paulista", "Viradouro", "Jaboticabal", "Monte Alto"],
-      ["Bauru", "Jaú", "Lençóis Paulista", "Botucatu", "Lins"],
-      ["Marília", "Tupã", "Assis", "Ourinhos"],
-      ["Araçatuba", "Birigui", "Penápolis", "Andradina", "Lins"],
-      ["Presidente Prudente"],
-      ["Franca", "Batatais", "São Joaquim da Barra", "Orlândia"],
-      ["Votuporanga", "Fernandópolis", "Jales", "Monte Aprazível"]
+      [
+        "Catanduva",
+        "Catiguá",
+        "Elisiário",
+        "Embaúba",
+        "Itajobi",
+        "Marapoama",
+        "Novais",
+        "Palmares Paulista",
+        "Paraíso",
+        "Pindorama",
+        "Ariranha",
+        "Tabapuã",
+        "Santa Adélia",
+        "Urupês",
+        "São José do Rio Preto"
+      ]
     ];
 
     const OFFENSIVE_WORDS = [
@@ -2016,6 +1996,12 @@
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .trim();
+    }
+
+    function findAllowedCity(raw) {
+      const norm = normalizeText(raw);
+      if (!norm) return "";
+      return SP_CITIES.find((c) => normalizeText(c) === norm) || "";
     }
 
     function isValidCnpj(raw) {
@@ -2203,14 +2189,7 @@
       if (!inputEl || !box) return;
 
       const val = normalizeText(inputEl.value);
-      const allCitiesSet = new Set(SP_CITIES);
-      jobs.forEach((j) => {
-        if (j.city) allCitiesSet.add(j.city.trim());
-      });
-
-      const matches = Array.from(allCitiesSet)
-        .filter((c) => !val || normalizeText(c).includes(val))
-        .slice(0, 7);
+      const matches = SP_CITIES.filter((c) => !val || normalizeText(c).includes(val));
 
       if (matches.length === 0) {
         box.classList.remove("open");
@@ -2354,8 +2333,8 @@
       renderQuickCategoriesBar();
       renderRoleSuggestions();
 
-      if (currentUserProfile && currentUserProfile.city && !document.getElementById("cityFilterInput").value) {
-        document.getElementById("cityFilterInput").value = currentUserProfile.city;
+      if (currentUserProfile && findAllowedCity(currentUserProfile.city) && !document.getElementById("cityFilterInput").value) {
+        document.getElementById("cityFilterInput").value = findAllowedCity(currentUserProfile.city);
         document.getElementById("clearCityBtn").style.display = "inline-block";
       }
 
@@ -2400,8 +2379,8 @@
               profile.pinCode = generateRandomPin();
             }
 
-            if (profile.city && !alertCity) {
-              alertCity = profile.city;
+            if (findAllowedCity(profile.city) && !alertCity) {
+              alertCity = findAllowedCity(profile.city);
               localStorage.setItem("dp_alert_city", alertCity);
             }
 
@@ -2440,8 +2419,8 @@
           currentUserProfile = profile;
           localStorage.setItem("dp_saved_profile", JSON.stringify(profile));
 
-          if (profile.city && !document.getElementById("cityFilterInput").value) {
-            setCityFilter(profile.city);
+          if (findAllowedCity(profile.city) && !document.getElementById("cityFilterInput").value) {
+            setCityFilter(findAllowedCity(profile.city));
           }
 
           initPushNotifications(true);
@@ -2468,13 +2447,19 @@
       const businessType = isBiz ? document.getElementById("profBusinessTypeSelect").value : "";
       const businessAddress = isBiz ? document.getElementById("profBusinessAddress").value.trim() : "";
       const cnpj = isBiz ? document.getElementById("profBusinessCnpj").value.replace(/\D/g, "") : "";
-      const city = document.getElementById("profCity").value.trim();
+      const rawCity = document.getElementById("profCity").value.trim();
+      const city = findAllowedCity(rawCity);
       const phone = document.getElementById("profPhone").value.replace(/\D/g, "");
       const bio = document.getElementById("profBio").value.trim();
       const availableToday = document.getElementById("profAvailableToday").checked;
 
-      if (!name || !city || phone.length < 10) {
+      if (!name || !rawCity || phone.length < 10) {
         showToast("⚠️ Preencha o nome, cidade e WhatsApp com DDD.");
+        return;
+      }
+
+      if (!city) {
+        showToast("⚠️ Escolha uma das cidades atendidas pelo aplicativo na lista.");
         return;
       }
 
@@ -2574,7 +2559,7 @@
       const displayProf = isBiz
         ? (foundUser.businessType || foundUser.profession || "Estabelecimento")
         : (foundUser.profession || "Quero Diária");
-      const displayCity = foundUser.city || fallbackCity || "SP";
+      const displayCity = foundUser.city || fallbackCity || "Catanduva";
       const displayPhone = foundUser.phone || cleanPhone;
       const displayBio = foundUser.bio || (isBiz
         ? "Estabelecimento registrado no aplicativo Quero Diária para contratação de diárias e extras."
@@ -2764,11 +2749,11 @@
       const j = jobs.find((item) => item.id === jobId);
       if (!j) return;
 
-      const cityLabel = j.city ? `${j.city}${j.neighborhood ? " (" + j.neighborhood + ")" : ""}` : (j.location || "SP");
+      const cityLabel = j.city ? `${j.city}${j.neighborhood ? " (" + j.neighborhood + ")" : ""}` : (j.location || "Catanduva");
       const formattedPay = formatPayValue(j.pay || "");
       const bizLine = j.isEstablishment ? `🏢 *Estabelecimento:* ${j.authorName}\n` : "";
       const shareText =
-        `🔥 *NOVA DIÁRIA EM ${(j.city || "SP").toUpperCase()}*\n\n` +
+        `🔥 *NOVA DIÁRIA EM ${(j.city || "CATANDUVA").toUpperCase()}*\n\n` +
         bizLine +
         `💼 *Função:* ${j.title}\n` +
         `💰 *Valor:* ${formattedPay}\n` +
@@ -2869,10 +2854,15 @@
         const businessAddress = isBiz ? document.getElementById("regBusinessAddress").value.trim() : "";
         const cnpj = isBiz ? document.getElementById("regBusinessCnpj").value.replace(/\D/g, "") : "";
         const phone = document.getElementById("regPhone").value.replace(/\D/g, "");
-        const city = document.getElementById("regCity").value.trim();
+        const rawCity = document.getElementById("regCity").value.trim();
+        const city = findAllowedCity(rawCity);
 
-        if (!name || phone.length < 10 || !city) {
+        if (!name || phone.length < 10 || !rawCity) {
           showAuthError("Preencha o nome, WhatsApp com DDD e a cidade.");
+          return;
+        }
+        if (!city) {
+          showAuthError("Escolha uma das cidades atendidas pelo aplicativo na lista.");
           return;
         }
         if (isBiz && !businessAddress) {
@@ -3075,7 +3065,7 @@
         // Campos do formulário de Perfil
         setProfileAccountType(isBiz ? "establishment" : "person");
         document.getElementById("profName").value = currentUserProfile.name || "";
-        document.getElementById("profCity").value = currentUserProfile.city || "";
+        document.getElementById("profCity").value = findAllowedCity(currentUserProfile.city) || "";
         document.getElementById("profPhone").value = currentUserProfile.phone || "";
         document.getElementById("profBio").value = currentUserProfile.bio || "";
         document.getElementById("profAvailableToday").checked = !!currentUserProfile.availableToday;
@@ -3092,8 +3082,8 @@
         if (currentUserProfile.phone && !document.getElementById("jobWhatsapp").value) {
           document.getElementById("jobWhatsapp").value = currentUserProfile.phone;
         }
-        if (currentUserProfile.city && !document.getElementById("jobCity").value) {
-          document.getElementById("jobCity").value = currentUserProfile.city;
+        if (findAllowedCity(currentUserProfile.city) && !document.getElementById("jobCity").value) {
+          document.getElementById("jobCity").value = findAllowedCity(currentUserProfile.city);
         }
       } else {
         pinBanner.style.display = "none";
@@ -3401,15 +3391,7 @@
       const box = document.getElementById("citySuggestions");
       const val = normalizeText(document.getElementById("cityFilterInput").value.trim());
 
-      const allCitiesSet = new Set(SP_CITIES);
-      jobs.forEach((j) => {
-        if (j.city) allCitiesSet.add(j.city.trim());
-      });
-
-      const allCities = Array.from(allCitiesSet);
-      const matches = allCities
-        .filter((c) => !val || normalizeText(c).includes(val))
-        .slice(0, 8);
+      const matches = SP_CITIES.filter((c) => !val || normalizeText(c).includes(val));
 
       if (matches.length === 0) {
         box.classList.remove("open");
@@ -3472,21 +3454,12 @@
       const rawCity = document.getElementById("cityFilterInput").value.trim();
       const currentCity = normalizeText(rawCity);
 
-      const mainCities = [
-        "Catanduva",
-        "São Paulo",
-        "Guarulhos",
-        "Campinas",
-        "São José do Rio Preto",
-        "Ribeirão Preto"
-      ];
-
       let html = `<button class="chip biz-filter ${onlyEstablishmentsFilter ? "active" : ""}" onclick="toggleOnlyEstablishments()">🏢 Só Estabelecimentos</button>`;
-      html += `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">🌍 Todas de SP</button>`;
+      html += `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">🌍 Todas as cidades</button>`;
       if (rawCity) {
         html += `<button class="chip nearby-toggle ${includeNearbyInMural ? "active" : ""}" onclick="toggleMuralNearby()">${includeNearbyInMural ? "✔ + Cidades vizinhas" : "Só " + escapeHtml(rawCity)}</button>`;
       }
-      mainCities.forEach((c) => {
+      SP_CITIES.forEach((c) => {
         const isActive = currentCity === normalizeText(c);
         html += `<button class="chip ${isActive ? "active" : ""}" onclick="setCityFilter('${escapeHtml(c)}')">📍 ${escapeHtml(c)}</button>`;
       });
@@ -3494,8 +3467,9 @@
     }
 
     function openPublishForCity(city) {
-      if (city) {
-        document.getElementById("jobCity").value = city;
+      const validCity = findAllowedCity(city);
+      if (validCity) {
+        document.getElementById("jobCity").value = validCity;
       }
       switchTab("publicar");
     }
@@ -3525,27 +3499,33 @@
     function updateNearbyPreview() {
       const box = document.getElementById("nearbyCitiesPreview");
       const cityVal = document.getElementById("alertCityInput").value.trim();
+      const validCity = findAllowedCity(cityVal);
       const scopeVal = document.getElementById("alertScopeSelect").value;
       if (!box) return;
 
       if (!cityVal) {
-        box.textContent = "Digite sua cidade acima para ativar o filtro regional.";
+        box.textContent = "Selecione sua cidade acima para ativar o filtro regional.";
+        return;
+      }
+
+      if (!validCity) {
+        box.textContent = "Escolha uma das 15 cidades da região na lista acima.";
         return;
       }
 
       if (scopeVal === "exact") {
-        box.innerHTML = `Você receberá notificações <strong>somente de ${escapeHtml(cityVal)}</strong>.`;
+        box.innerHTML = `Você receberá notificações <strong>somente de ${escapeHtml(validCity)}</strong>.`;
       } else {
-        const list = getNearbyCitiesFor(cityVal);
-        box.innerHTML = `Cidades incluídas: <strong>${escapeHtml(list.slice(0, 7).join(", "))}${list.length > 7 ? " e vizinhas imediatas" : ""}</strong>.`;
+        const list = getNearbyCitiesFor(validCity);
+        box.innerHTML = `Cidades incluídas: <strong>${escapeHtml(list.join(", "))}</strong>.`;
       }
     }
 
     function openAlertModal() {
       const defaultCity =
-        alertCity ||
-        (currentUserProfile && currentUserProfile.city) ||
-        document.getElementById("cityFilterInput").value.trim() ||
+        findAllowedCity(alertCity) ||
+        findAllowedCity(currentUserProfile && currentUserProfile.city) ||
+        findAllowedCity(document.getElementById("cityFilterInput").value.trim()) ||
         "";
       document.getElementById("alertCityInput").value = defaultCity;
       document.getElementById("alertScopeSelect").value = alertScope;
@@ -3555,9 +3535,14 @@
     }
 
     async function saveAlertPreference() {
-      const chosenCity = document.getElementById("alertCityInput").value.trim();
+      const rawCity = document.getElementById("alertCityInput").value.trim();
+      const chosenCity = findAllowedCity(rawCity);
+      if (!rawCity) {
+        showToast("⚠️ Selecione sua cidade para receber vagas da sua região.");
+        return;
+      }
       if (!chosenCity) {
-        showToast("⚠️ Digite sua cidade para receber apenas vagas da sua região.");
+        showToast("⚠️ Escolha uma das cidades atendidas pelo aplicativo na lista.");
         return;
       }
 
@@ -3611,14 +3596,20 @@
       const title = document.getElementById("jobTitle").value.trim();
       const category = document.getElementById("jobCategory").value;
       const rawPay = document.getElementById("jobPay").value.trim();
-      const city = document.getElementById("jobCity").value.trim();
+      const rawCity = document.getElementById("jobCity").value.trim();
+      const city = findAllowedCity(rawCity);
       const neighborhood = document.getElementById("jobNeighborhood").value.trim();
       const schedule = document.getElementById("jobSchedule").value.trim();
       const whatsapp = document.getElementById("jobWhatsapp").value.replace(/\D/g, "");
       const desc = document.getElementById("jobDesc").value.trim();
 
-      if (!title || !rawPay || !city || !neighborhood || !schedule || !whatsapp) {
+      if (!title || !rawPay || !rawCity || !neighborhood || !schedule || !whatsapp) {
         showToast("Preencha todos os campos obrigatórios (*)");
+        return;
+      }
+
+      if (!city) {
+        showToast("⚠️ Selecione uma das cidades atendidas pelo aplicativo na lista.");
         return;
       }
 
@@ -3775,8 +3766,8 @@
             <p style="font-size: 13px; margin-bottom: 14px;">Você pode anunciar a primeira vaga dessa região agora mesmo ou limpar os filtros.</p>
             <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
               ${
-                rawCity
-                  ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(rawCity)}')">➕ Publicar vaga em ${escapeHtml(rawCity)}</button>`
+                findAllowedCity(rawCity)
+                  ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(findAllowedCity(rawCity))}')">➕ Publicar vaga em ${escapeHtml(findAllowedCity(rawCity))}</button>`
                   : ""
               }
               <button class="btn btn-outline" onclick="onlyEstablishmentsFilter=false; setCityFilter(''); selectQuickCategory('Todas'); document.getElementById('searchInput').value=''; renderCityChips(); renderJobs();">Ver Todas as Vagas</button>
