@@ -174,7 +174,7 @@
       justify-content: center;
     }
 
-    /* Barra de Cidade Separada + Busca de Bicos */
+    /* Barra de Cidade Separada + Busca */
     .filter-row {
       display: flex;
       gap: 8px;
@@ -358,6 +358,16 @@
       border-color: var(--accent-dark);
       color: #FFFFFF;
     }
+    .chip.biz-filter {
+      background: #eff6ff;
+      border-color: #93c5fd;
+      color: #0A2240;
+    }
+    .chip.biz-filter.active {
+      background: #0A2240;
+      border-color: #0A2240;
+      color: #FFFFFF;
+    }
 
     .cat-pill {
       background: #FFFFFF;
@@ -401,6 +411,40 @@
       word-wrap: break-word;
       overflow-wrap: break-word;
     }
+    .card.establishment-card {
+      border: 1.5px solid #0A2240;
+      border-left: 5px solid #0A2240;
+      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.11);
+    }
+    .establishment-ribbon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      background: #f0f6ff;
+      border: 1px solid #bfdbfe;
+      color: #0A2240;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .establishment-ribbon-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cnpj-pill {
+      background: #0A2240;
+      color: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
     .job-header {
       display: flex;
       justify-content: space-between;
@@ -444,6 +488,16 @@
       background: #ffedd5;
       color: #c2410c;
     }
+    .tag.urgent {
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: 800;
+    }
+    .tag.meal {
+      background: #fef9c3;
+      color: #854d0e;
+      font-weight: 700;
+    }
     .job-desc {
       font-size: 14px;
       color: #334155;
@@ -466,8 +520,8 @@
       cursor: pointer;
     }
     .author-mini-avatar {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: #0A2240;
       color: #FFFFFF;
@@ -480,10 +534,102 @@
       object-fit: cover;
       border: 1.5px solid #e2e8f0;
     }
+    .author-mini-avatar.biz-avatar {
+      border-radius: 10px;
+      border-color: #F26500;
+    }
     .author-info {
       font-size: 12px;
       color: var(--muted);
       line-height: 1.3;
+    }
+
+    /* Seletor de Tipo de Conta (Pessoa vs Estabelecimento) */
+    .account-type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .account-type-btn {
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      color: #475569;
+      transition: all 0.15s ease;
+    }
+    .account-type-btn .at-icon {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .account-type-btn .at-title {
+      font-size: 12px;
+      font-weight: 800;
+      display: block;
+    }
+    .account-type-btn .at-sub {
+      font-size: 10px;
+      display: block;
+      margin-top: 2px;
+      opacity: 0.85;
+    }
+    .account-type-btn.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+      color: var(--primary);
+    }
+    .account-type-btn.active.biz-active {
+      border-color: var(--accent);
+      background: #fff7ed;
+      color: var(--primary);
+    }
+
+    /* Painel Exclusivo de Estabelecimento na aba Publicar */
+    .biz-publish-panel {
+      background: linear-gradient(135deg, #0A2240, #133866);
+      color: #FFFFFF;
+      border-radius: 14px;
+      padding: 13px 14px;
+      margin-bottom: 14px;
+    }
+    .biz-publish-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+    .biz-check-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .biz-check-row input {
+      width: 20px;
+      height: 20px;
+      accent-color: #F26500;
+    }
+    .biz-promo-banner {
+      background: #eff6ff;
+      border: 1px dashed #3b82f6;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     /* Cartão de Perfil */
@@ -549,6 +695,9 @@
       padding: 4px 14px;
       border-radius: 999px;
       margin-top: 4px;
+    }
+    .profile-pill-badge.biz-badge {
+      background: var(--accent);
     }
     .profile-stars-row {
       margin-top: 6px;
@@ -715,6 +864,17 @@
       font-size: 11px;
       font-weight: 700;
       padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .biz-mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: #0A2240;
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
       border-radius: 999px;
     }
     .rating-summary-badge {
@@ -1109,6 +1269,39 @@
 
     <!-- Aba 2: Publicar Vaga -->
     <section id="sec-publicar" class="section">
+      <!-- Painel Exclusivo para Estabelecimento Registrado -->
+      <div class="biz-publish-panel" id="bizPublishPanel" style="display:none;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+          <div>
+            <div style="font-size:11px; font-weight:800; color:#fdba74; letter-spacing:0.4px;">🏢 PAINEL EXCLUSIVO DO ESTABELECIMENTO</div>
+            <div id="bizPublishName" style="font-size:16px; font-weight:900; margin-top:2px;">Estabelecimento</div>
+          </div>
+          <span class="cnpj-pill" style="background:#F26500;">Selo Oficial Ativo</span>
+        </div>
+        <div style="font-size:12px; color:#cbd5e1; margin-top:4px;">
+          Sua vaga será destacada automaticamente no app com o selo de Estabelecimento Registrado.
+        </div>
+        <div class="biz-publish-options">
+          <label class="biz-check-row">
+            <span>🔥 Marcar como Urgente / Para Hoje</span>
+            <input type="checkbox" id="jobIsUrgent" />
+          </label>
+          <label class="biz-check-row">
+            <span>🍔 Oferece refeição ou lanche no local</span>
+            <input type="checkbox" id="jobHasMeal" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Chamada para quem é dono de estabelecimento e ainda está em conta pessoal -->
+      <div class="biz-promo-banner" id="bizPromoBanner" style="display:none;">
+        <div style="flex:1; min-width:180px;">
+          <div style="font-size:12px; font-weight:800; color:var(--primary);">🏢 É dono de bar, loja ou empresa?</div>
+          <div style="font-size:11px; color:#475569; margin-top:2px;">Ative o Perfil de Estabelecimento para ganhar selo oficial nas suas diárias.</div>
+        </div>
+        <button type="button" class="btn btn-primary" style="padding:7px 12px; font-size:12px;" onclick="activateEstablishmentFromPublish()">Ativar agora</button>
+      </div>
+
       <div class="card">
         <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">Publicar Nova Diária</h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
@@ -1156,12 +1349,12 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Bairro / Local *</label>
-          <input type="text" id="jobNeighborhood" placeholder="Ex: Centro" />
+          <label>Bairro / Endereço do Local *</label>
+          <input type="text" id="jobNeighborhood" placeholder="Ex: Centro ou Rua Brasil, 120" />
         </div>
         <div class="form-group">
           <label>Data e Horário *</label>
-          <input type="text" id="jobSchedule" placeholder="Ex: Amanhã, das 08h às 16h" />
+          <input type="text" id="jobSchedule" placeholder="Ex: Hoje, das 18h às 00h" />
         </div>
         <div class="form-group">
           <label>WhatsApp para Contato (com DDD) *</label>
@@ -1206,14 +1399,14 @@
             type="text"
             id="userCandidateSearch"
             class="user-picker-search"
-            placeholder="🔎 Filtrar por nome, profissão, cidade ou telefone..."
+            placeholder="🔎 Filtrar por nome, estabelecimento, cidade ou telefone..."
             oninput="populateReviewTargets()"
           />
           <div class="user-picker-list" id="userPickerList"></div>
         </div>
 
         <div class="form-group">
-          <label>2. Digite o Código de 4 dígitos dessa pessoa *</label>
+          <label>2. Digite o Código de 4 dígitos dessa pessoa ou local *</label>
           <input
             type="tel"
             id="revPinInput"
@@ -1221,7 +1414,7 @@
             placeholder="Ex: 4829 (peça no WhatsApp após a diária)"
             style="font-weight:800; letter-spacing:2px;"
           />
-          <div class="helper-note">🔒 O código é validado com assinatura criptográfica para impedir avaliações de quem nunca trabalhou com a pessoa.</div>
+          <div class="helper-note">🔒 O código é validado com assinatura criptográfica para impedir avaliações falsas.</div>
         </div>
 
         <div class="form-group">
@@ -1243,6 +1436,7 @@
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏰ Muito pontual')">⏰ Muito pontual</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '✨ Serviço caprichado')">✨ Serviço caprichado</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '🤝 Boa comunicação')">🤝 Boa comunicação</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '🍔 Ambiente / lanche bom')">🍔 Ambiente / lanche bom</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏳ Atrasou horário')">⏳ Atrasou horário</button>
             <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚠️ Demorou a pagar')">⚠️ Demorou a pagar</button>
           </div>
@@ -1260,7 +1454,7 @@
         <input
           type="text"
           id="reviewSearchInput"
-          placeholder="🔍 Consultar reputação pelo nome ou final do telefone..."
+          placeholder="🔍 Consultar reputação pelo nome, estabelecimento ou final do telefone..."
           oninput="renderReviews()"
           style="width:100%; border:1px solid #cbd5e1; border-radius:10px; padding:10px 12px; font-size:14px; outline:none;"
         />
@@ -1283,35 +1477,70 @@
         <div style="padding: 0 16px 16px;">
           <h2 id="myProfileNameDisplay" style="font-size:19px; font-weight:900; color:var(--text);">Meu Perfil</h2>
           <div id="myProfileProfessionBadge" class="profile-pill-badge">Quero Diária</div>
+          <div id="myProfileEstBadgeWrap" style="margin-top:6px; display:none;">
+            <span class="biz-mini-badge">🏢 ESTABELECIMENTO REGISTRADO</span>
+            <span class="verified-badge" id="myProfileCnpjBadge" style="display:none; margin-left:4px;">✓ CNPJ Verificado</span>
+          </div>
           <div class="profile-stars-row" id="myProfileStarsDisplay">★★★★★ —</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Estilo do Perfil • Verificado</div>
-          <button type="button" class="btn btn-outline" style="margin-top:10px; padding:7px 14px; font-size:12px;" onclick="document.getElementById('profilePhotoInput').click()">
+          <div id="myProfileSubLine" style="font-size:12px; color:var(--muted); margin-top:2px;">Perfil Verificado</div>
+          <button type="button" class="btn btn-outline" id="btnProfilePhotoText" style="margin-top:10px; padding:7px 14px; font-size:12px;" onclick="document.getElementById('profilePhotoInput').click()">
             📷 Escolher / Trocar Foto de Perfil
           </button>
         </div>
       </div>
 
       <div class="card">
+        <div class="form-group">
+          <label>Tipo de Perfil no Aplicativo *</label>
+          <div class="account-type-selector">
+            <button type="button" class="account-type-btn active" id="profTypePersonBtn" onclick="setProfileAccountType('person')">
+              <span class="at-icon">👤</span>
+              <span class="at-title">Pessoa / Profissional</span>
+              <span class="at-sub">Trabalhador ou contratante</span>
+            </button>
+            <button type="button" class="account-type-btn" id="profTypeBizBtn" onclick="setProfileAccountType('establishment')">
+              <span class="at-icon">🏢</span>
+              <span class="at-title">Estabelecimento</span>
+              <span class="at-sub">Bar, loja, mercado, empresa</span>
+            </button>
+          </div>
+        </div>
+
         <div class="avail-toggle-box">
           <div>
-            <div style="font-size:13px; font-weight:800; color:#15803d;">🟢 Disponível para diária hoje</div>
-            <div style="font-size:11px; color:#334155;">Mostra no seu perfil que você pode trabalhar hoje</div>
+            <div id="profAvailTitle" style="font-size:13px; font-weight:800; color:#15803d;">🟢 Disponível para diária hoje</div>
+            <div id="profAvailSub" style="font-size:11px; color:#334155;">Mostra no seu perfil que você pode trabalhar hoje</div>
           </div>
           <input type="checkbox" id="profAvailableToday" style="width:22px; height:22px; accent-color:#16a34a;" />
         </div>
 
         <div class="form-group">
-          <label>Seu Nome Completo *</label>
+          <label id="profNameLabel">Seu Nome Completo *</label>
           <input type="text" id="profName" placeholder="Ex: Maria Aparecida" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="profPersonRoleGroup">
           <label>Sua Profissão / Especialidade Principal *</label>
           <select id="profProfessionSelect"></select>
         </div>
 
+        <div id="profBizFields" style="display:none;">
+          <div class="form-group">
+            <label>Ramo do Estabelecimento *</label>
+            <select id="profBusinessTypeSelect"></select>
+          </div>
+          <div class="form-group">
+            <label>Endereço / Bairro do Estabelecimento *</label>
+            <input type="text" id="profBusinessAddress" placeholder="Ex: Rua Brasil, 450 - Centro" />
+          </div>
+          <div class="form-group">
+            <label>CNPJ (opcional — libera selo CNPJ Verificado)</label>
+            <input type="tel" id="profBusinessCnpj" maxlength="18" placeholder="Ex: 12.345.678/0001-90 (opcional)" />
+          </div>
+        </div>
+
         <div class="form-group">
-          <label>Sua Cidade (SP) *</label>
+          <label>Cidade (SP) *</label>
           <div class="city-input-wrap">
             <input
               type="text"
@@ -1326,12 +1555,12 @@
         </div>
 
         <div class="form-group">
-          <label>Seu WhatsApp (com DDD) *</label>
+          <label>WhatsApp (com DDD) *</label>
           <input type="tel" id="profPhone" placeholder="Ex: 17999999999" />
         </div>
 
         <div class="form-group">
-          <label>Sobre seu trabalho / Experiência</label>
+          <label id="profBioLabel">Sobre seu trabalho / Experiência</label>
           <textarea id="profBio" rows="3" placeholder="Conte o que você faz, anos de experiência, se tem ferramentas próprias ou condução..."></textarea>
         </div>
 
@@ -1377,7 +1606,7 @@
   <div class="modal-backdrop" id="authModal">
     <div class="modal-box">
       <div class="modal-title">Conta Quero Diária</div>
-      <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias, montar seu perfil ou avaliar profissionais.</div>
+      <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias, cadastrar seu estabelecimento ou avaliar profissionais.</div>
 
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabLoginBtn" onclick="setAuthMode('login')">Já tenho conta</button>
@@ -1387,23 +1616,56 @@
       <div class="auth-error" id="authErrorBox"></div>
 
       <div id="registerFields" style="display:none;">
+        <div class="form-group">
+          <label>Como você vai usar o app? *</label>
+          <div class="account-type-selector">
+            <button type="button" class="account-type-btn active" id="regTypePersonBtn" onclick="setRegAccountType('person')">
+              <span class="at-icon">👤</span>
+              <span class="at-title">Pessoa</span>
+              <span class="at-sub">Diarista ou contratante</span>
+            </button>
+            <button type="button" class="account-type-btn" id="regTypeBizBtn" onclick="setRegAccountType('establishment')">
+              <span class="at-icon">🏢</span>
+              <span class="at-title">Estabelecimento</span>
+              <span class="at-sub">Bar, loja, mercado, etc.</span>
+            </button>
+          </div>
+        </div>
+
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:12px; border:1px solid var(--border);">
           <img id="regAvatarPreview" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:none; border:2px solid var(--primary);" />
           <div id="regAvatarIcon" style="width:52px; height:52px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;">📷</div>
           <div style="flex:1;">
-            <div style="font-size:13px; font-weight:800; color:var(--text);">Foto de Perfil (opcional)</div>
+            <div id="regPhotoTitle" style="font-size:13px; font-weight:800; color:var(--text);">Foto de Perfil (opcional)</div>
             <button type="button" class="btn btn-outline" style="padding:5px 10px; font-size:12px; margin-top:4px;" onclick="document.getElementById('regPhotoInput').click()">Escolher foto do celular</button>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Nome Completo *</label>
+          <label id="regNameLabel">Nome Completo *</label>
           <input type="text" id="regName" placeholder="Ex: Maria Aparecida" />
         </div>
-        <div class="form-group">
+
+        <div class="form-group" id="regPersonRoleGroup">
           <label>Profissão / Especialidade *</label>
           <select id="regProfessionSelect"></select>
         </div>
+
+        <div id="regBizFields" style="display:none;">
+          <div class="form-group">
+            <label>Ramo do Estabelecimento *</label>
+            <select id="regBusinessTypeSelect"></select>
+          </div>
+          <div class="form-group">
+            <label>Endereço / Bairro *</label>
+            <input type="text" id="regBusinessAddress" placeholder="Ex: Rua Brasil, 450 - Centro" />
+          </div>
+          <div class="form-group">
+            <label>CNPJ (opcional)</label>
+            <input type="tel" id="regBusinessCnpj" maxlength="18" placeholder="Opcional — libera selo CNPJ Verificado" />
+          </div>
+        </div>
+
         <div class="form-group">
           <label>WhatsApp (com DDD) *</label>
           <input type="tel" id="regPhone" placeholder="Ex: 17999999999" />
@@ -1457,8 +1719,10 @@
         </div>
         <h3 id="pubProfileName" style="font-size:19px; font-weight:900; color:var(--text);">Nome</h3>
         <div id="pubProfileBadge" class="profile-pill-badge">Profissional</div>
+        <div id="pubProfileBizSeal" style="margin-top:6px; display:none;"></div>
         <div id="pubProfileStars" class="profile-stars-row">★★★★★ 5,0</div>
         <div id="pubProfileSub" style="font-size:12px; color:var(--muted); margin-top:3px;">📍 SP</div>
+        <div id="pubProfileAddress" style="font-size:12px; color:var(--primary); font-weight:700; margin-top:4px; display:none;"></div>
         <div id="pubProfileAvail" style="margin-top:6px;"></div>
 
         <div id="pubProfileBio" style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin-top:12px; font-size:13px; color:#334155; text-align:left; line-height:1.4;"></div>
@@ -1640,6 +1904,23 @@
       "Cuidador / Passeador de Pets"
     ];
 
+    const BUSINESS_TYPES_LIST = [
+      "Bar / Petiscaria / Espetinho",
+      "Restaurante / Marmitaria",
+      "Lanchonete / Pizzaria / Hamburgueria",
+      "Padaria / Confeitaria / Açaiteria",
+      "Mercado / Hortifruti / Açougue",
+      "Buffet / Salão de Festas / Eventos",
+      "Loja / Comércio Varejista",
+      "Depósito / Distribuidora / Bebidas",
+      "Hotel / Pousada / Chácara",
+      "Oficina / Lava-Rápido / Auto Center",
+      "Construtora / Empreiteira / Obras",
+      "Salão de Beleza / Barbearia",
+      "Farmácia / Pet Shop / Clínica",
+      "Outro Estabelecimento / Microempresa"
+    ];
+
     const SP_CITIES = [
       "São Paulo", "Guarulhos", "Campinas", "São Bernardo do Campo",
       "São José dos Campos", "Ribeirão Preto", "Santo André", "Osasco",
@@ -1712,6 +1993,9 @@
     let contactedKeys = JSON.parse(localStorage.getItem("dp_contacted_keys") || "[]");
     let currentUserProfile = JSON.parse(localStorage.getItem("dp_saved_profile") || "null");
     let pendingRegPhotoBase64 = "";
+    let regAccountType = "person";
+    let profileAccountType = "person";
+    let onlyEstablishmentsFilter = false;
     let currentCandidatesList = [];
     let selectedCandidateKey = "";
     let selectedQuickTags = [];
@@ -1732,6 +2016,59 @@
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .trim();
+    }
+
+    function isValidCnpj(raw) {
+      const digits = String(raw || "").replace(/\D/g, "");
+      return digits.length === 14;
+    }
+
+    function setRegAccountType(type) {
+      regAccountType = type === "establishment" ? "establishment" : "person";
+      const isBiz = regAccountType === "establishment";
+
+      document.getElementById("regTypePersonBtn").classList.toggle("active", !isBiz);
+      document.getElementById("regTypeBizBtn").classList.toggle("active", isBiz);
+      document.getElementById("regTypeBizBtn").classList.toggle("biz-active", isBiz);
+
+      document.getElementById("regPersonRoleGroup").style.display = isBiz ? "none" : "block";
+      document.getElementById("regBizFields").style.display = isBiz ? "block" : "none";
+
+      document.getElementById("regNameLabel").textContent = isBiz ? "Nome do Estabelecimento *" : "Nome Completo *";
+      document.getElementById("regName").placeholder = isBiz ? "Ex: Bar Catanduva, Mercado Central..." : "Ex: Maria Aparecida";
+      document.getElementById("regPhotoTitle").textContent = isBiz ? "Logo ou Foto da Fachada (opcional)" : "Foto de Perfil (opcional)";
+    }
+
+    function setProfileAccountType(type) {
+      profileAccountType = type === "establishment" ? "establishment" : "person";
+      const isBiz = profileAccountType === "establishment";
+
+      document.getElementById("profTypePersonBtn").classList.toggle("active", !isBiz);
+      document.getElementById("profTypeBizBtn").classList.toggle("active", isBiz);
+      document.getElementById("profTypeBizBtn").classList.toggle("biz-active", isBiz);
+
+      document.getElementById("profPersonRoleGroup").style.display = isBiz ? "none" : "block";
+      document.getElementById("profBizFields").style.display = isBiz ? "block" : "none";
+
+      document.getElementById("profNameLabel").textContent = isBiz ? "Nome do Estabelecimento *" : "Seu Nome Completo *";
+      document.getElementById("profName").placeholder = isBiz ? "Ex: Bar Catanduva, Pizzaria do Zé..." : "Ex: Maria Aparecida";
+      document.getElementById("profBioLabel").textContent = isBiz ? "Sobre o Estabelecimento (horários, ambiente, extras)" : "Sobre seu trabalho / Experiência";
+      document.getElementById("profBio").placeholder = isBiz
+        ? "Ex: Bar no centro de Catanduva, contratamos extras nos fins de semana com pagamento na hora..."
+        : "Conte o que você faz, anos de experiência, se tem ferramentas próprias ou condução...";
+
+      document.getElementById("profAvailTitle").textContent = isBiz
+        ? "🟢 Precisando de diária / extra hoje"
+        : "🟢 Disponível para diária hoje";
+      document.getElementById("profAvailSub").textContent = isBiz
+        ? "Destaca no perfil que o estabelecimento está contratando hoje"
+        : "Mostra no seu perfil que você pode trabalhar hoje";
+    }
+
+    function activateEstablishmentFromPublish() {
+      switchTab("perfil");
+      setProfileAccountType("establishment");
+      showToast("🏢 Preencha os dados do seu estabelecimento e toque em Salvar!");
     }
 
     function handleProfilePhotoUpload(event, targetMode) {
@@ -1774,7 +2111,7 @@
                 photoURL: dataUrl,
                 updatedAt: Date.now()
               }, { merge: true });
-              showToast("✅ Foto de perfil atualizada!");
+              showToast("✅ Foto atualizada!");
             } catch (err) {
               showToast("⚠️ Foto salva no aparelho.");
             }
@@ -1791,6 +2128,12 @@
       const profSel = document.getElementById("profProfessionSelect");
       if (regSel) regSel.innerHTML = html;
       if (profSel) profSel.innerHTML = html;
+
+      const bizHtml = BUSINESS_TYPES_LIST.map((b) => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join("");
+      const regBizSel = document.getElementById("regBusinessTypeSelect");
+      const profBizSel = document.getElementById("profBusinessTypeSelect");
+      if (regBizSel) regBizSel.innerHTML = bizHtml;
+      if (profBizSel) profBizSel.innerHTML = bizHtml;
     }
 
     function renderQuickCategoriesBar() {
@@ -2030,10 +2373,14 @@
           let profile = {
             uid: user.uid,
             email: user.email,
+            accountType: (currentUserProfile && currentUserProfile.accountType) || "person",
             name: user.displayName || (currentUserProfile && currentUserProfile.name) || user.email.split("@")[0],
             phone: (currentUserProfile && currentUserProfile.phone) || "",
             city: (currentUserProfile && currentUserProfile.city) || "",
             profession: (currentUserProfile && currentUserProfile.profession) || "Trabalhador Geral (Faço várias funções)",
+            businessType: (currentUserProfile && currentUserProfile.businessType) || BUSINESS_TYPES_LIST[0],
+            businessAddress: (currentUserProfile && currentUserProfile.businessAddress) || "",
+            cnpj: (currentUserProfile && currentUserProfile.cnpj) || "",
             bio: (currentUserProfile && currentUserProfile.bio) || "",
             photoURL: (currentUserProfile && currentUserProfile.photoURL) || "",
             availableToday: !!(currentUserProfile && currentUserProfile.availableToday),
@@ -2046,6 +2393,7 @@
               profile = {
                 ...profile,
                 ...data,
+                accountType: data.accountType || "person",
                 pinCode: savedLocalPin || data.pinCode || generateRandomPin()
               };
             } else if (!profile.pinCode) {
@@ -2061,10 +2409,14 @@
             const pinHash = computePinHash(profile.pinCode);
 
             const updatePayload = {
+              accountType: profile.accountType || "person",
               name: profile.name,
               phone: profile.phone,
               city: profile.city || "",
               profession: profile.profession || "Trabalhador Geral (Faço várias funções)",
+              businessType: profile.businessType || "",
+              businessAddress: profile.businessAddress || "",
+              cnpj: profile.cnpj || "",
               bio: profile.bio || "",
               availableToday: !!profile.availableToday,
               alertCity: alertCity || profile.city || "",
@@ -2108,15 +2460,31 @@
 
     async function saveMyProfile() {
       if (!currentUserProfile || !currentUserProfile.uid) return;
+      const isBiz = profileAccountType === "establishment";
       const name = document.getElementById("profName").value.trim();
-      const profession = document.getElementById("profProfessionSelect").value;
+      const profession = isBiz
+        ? document.getElementById("profBusinessTypeSelect").value
+        : document.getElementById("profProfessionSelect").value;
+      const businessType = isBiz ? document.getElementById("profBusinessTypeSelect").value : "";
+      const businessAddress = isBiz ? document.getElementById("profBusinessAddress").value.trim() : "";
+      const cnpj = isBiz ? document.getElementById("profBusinessCnpj").value.replace(/\D/g, "") : "";
       const city = document.getElementById("profCity").value.trim();
       const phone = document.getElementById("profPhone").value.replace(/\D/g, "");
       const bio = document.getElementById("profBio").value.trim();
       const availableToday = document.getElementById("profAvailableToday").checked;
 
       if (!name || !city || phone.length < 10) {
-        showToast("⚠️ Preencha seu nome, cidade e WhatsApp com DDD.");
+        showToast("⚠️ Preencha o nome, cidade e WhatsApp com DDD.");
+        return;
+      }
+
+      if (isBiz && !businessAddress) {
+        showToast("⚠️ Informe o endereço ou bairro do estabelecimento.");
+        return;
+      }
+
+      if (cnpj && cnpj.length !== 14) {
+        showToast("⚠️ Se informar o CNPJ, digite os 14 números (ou deixe em branco).");
         return;
       }
 
@@ -2132,8 +2500,12 @@
       try {
         currentUserProfile = {
           ...currentUserProfile,
+          accountType: profileAccountType,
           name,
           profession,
+          businessType,
+          businessAddress,
+          cnpj,
           city,
           phone,
           bio,
@@ -2144,8 +2516,12 @@
         localStorage.setItem("dp_alert_city", city);
 
         await db.collection("usuarios").doc(currentUserProfile.uid).set({
+          accountType: profileAccountType,
           name,
           profession,
+          businessType,
+          businessAddress,
+          cnpj,
           city,
           alertCity: city,
           phone,
@@ -2156,7 +2532,7 @@
 
         updateUserUI();
         setCityFilter(city);
-        showToast("✅ Perfil atualizado com sucesso!");
+        showToast(isBiz ? "🏢 Perfil do estabelecimento salvo!" : "✅ Perfil atualizado com sucesso!");
       } catch (e) {
         showToast("⚠️ Erro ao salvar na nuvem.");
       } finally {
@@ -2192,11 +2568,17 @@
         (phoneKey && String(u.phone || "").replace(/\D/g, "").slice(-8) === phoneKey)
       ) || {};
 
+      const isBiz = foundUser.accountType === "establishment";
+      const hasCnpj = isBiz && isValidCnpj(foundUser.cnpj);
       const displayName = foundUser.name || fallbackName || "Profissional";
-      const displayProf = foundUser.profession || "Quero Diária";
+      const displayProf = isBiz
+        ? (foundUser.businessType || foundUser.profession || "Estabelecimento")
+        : (foundUser.profession || "Quero Diária");
       const displayCity = foundUser.city || fallbackCity || "SP";
       const displayPhone = foundUser.phone || cleanPhone;
-      const displayBio = foundUser.bio || "Usuário cadastrado no aplicativo Quero Diária.";
+      const displayBio = foundUser.bio || (isBiz
+        ? "Estabelecimento registrado no aplicativo Quero Diária para contratação de diárias e extras."
+        : "Usuário cadastrado no aplicativo Quero Diária.");
       const photoURL = foundUser.photoURL || "";
       const isAvail = !!foundUser.availableToday;
       const targetUid = foundUser.uid || uid || "";
@@ -2214,15 +2596,37 @@
       }
 
       const stats = getUserRatingStats(targetUid, phoneKey);
-      document.getElementById("pubProfileName").textContent = displayName;
-      document.getElementById("pubProfileBadge").textContent = displayProf;
+      document.getElementById("pubProfileName").textContent = (isBiz ? "🏢 " : "") + displayName;
+
+      const badgeEl = document.getElementById("pubProfileBadge");
+      badgeEl.textContent = displayProf;
+      badgeEl.classList.toggle("biz-badge", isBiz);
+
+      const bizSealEl = document.getElementById("pubProfileBizSeal");
+      if (isBiz) {
+        bizSealEl.style.display = "block";
+        bizSealEl.innerHTML =
+          `<span class="biz-mini-badge">🏢 ESTABELECIMENTO REGISTRADO</span>` +
+          (hasCnpj ? ` <span class="verified-badge">✓ CNPJ Verificado</span>` : "");
+      } else {
+        bizSealEl.style.display = "none";
+      }
+
+      const addrEl = document.getElementById("pubProfileAddress");
+      if (isBiz && foundUser.businessAddress) {
+        addrEl.style.display = "block";
+        addrEl.textContent = "📍 Endereço: " + foundUser.businessAddress;
+      } else {
+        addrEl.style.display = "none";
+      }
+
       document.getElementById("pubProfileStars").innerHTML =
         `<span style="color:#F26500;">${stats.stars}</span> <span>${stats.avg}</span> <span style="font-size:12px; color:var(--muted);">(${stats.count} ${stats.count === 1 ? "avaliação" : "avaliações"})</span>`;
       document.getElementById("pubProfileSub").textContent =
         `📍 ${displayCity} - SP` + (displayPhone ? ` • 📱 Final ${displayPhone.slice(-4)}` : "");
 
       document.getElementById("pubProfileAvail").innerHTML = isAvail
-        ? `<span class="verified-badge">🟢 Disponível para diária hoje</span>`
+        ? `<span class="verified-badge">${isBiz ? "🟢 Contratando diária hoje" : "🟢 Disponível para diária hoje"}</span>`
         : `<span class="verified-badge">✓ Perfil Verificado</span>`;
 
       document.getElementById("pubProfileBio").textContent = displayBio;
@@ -2362,8 +2766,10 @@
 
       const cityLabel = j.city ? `${j.city}${j.neighborhood ? " (" + j.neighborhood + ")" : ""}` : (j.location || "SP");
       const formattedPay = formatPayValue(j.pay || "");
+      const bizLine = j.isEstablishment ? `🏢 *Estabelecimento:* ${j.authorName}\n` : "";
       const shareText =
         `🔥 *NOVA DIÁRIA EM ${(j.city || "SP").toUpperCase()}*\n\n` +
+        bizLine +
         `💼 *Função:* ${j.title}\n` +
         `💰 *Valor:* ${formattedPay}\n` +
         `📍 *Local:* ${cityLabel}\n` +
@@ -2454,12 +2860,27 @@
       }
 
       if (authMode === "register") {
+        const isBiz = regAccountType === "establishment";
         const name = document.getElementById("regName").value.trim();
-        const profession = document.getElementById("regProfessionSelect").value;
+        const profession = isBiz
+          ? document.getElementById("regBusinessTypeSelect").value
+          : document.getElementById("regProfessionSelect").value;
+        const businessType = isBiz ? document.getElementById("regBusinessTypeSelect").value : "";
+        const businessAddress = isBiz ? document.getElementById("regBusinessAddress").value.trim() : "";
+        const cnpj = isBiz ? document.getElementById("regBusinessCnpj").value.replace(/\D/g, "") : "";
         const phone = document.getElementById("regPhone").value.replace(/\D/g, "");
         const city = document.getElementById("regCity").value.trim();
+
         if (!name || phone.length < 10 || !city) {
-          showAuthError("Preencha seu nome completo, WhatsApp com DDD e sua cidade.");
+          showAuthError("Preencha o nome, WhatsApp com DDD e a cidade.");
+          return;
+        }
+        if (isBiz && !businessAddress) {
+          showAuthError("Informe o endereço ou bairro do estabelecimento.");
+          return;
+        }
+        if (cnpj && cnpj.length !== 14) {
+          showAuthError("Se informar o CNPJ, digite os 14 números (ou deixe em branco).");
           return;
         }
 
@@ -2476,8 +2897,12 @@
 
           await cred.user.updateProfile({ displayName: name });
           const userDoc = {
+            accountType: regAccountType,
             name,
             profession,
+            businessType,
+            businessAddress,
+            cnpj,
             phone,
             city,
             photoURL: pendingRegPhotoBase64 || "",
@@ -2497,8 +2922,12 @@
           currentUserProfile = {
             uid: cred.user.uid,
             email,
+            accountType: regAccountType,
             name,
             profession,
+            businessType,
+            businessAddress,
+            cnpj,
             phone,
             city,
             photoURL: pendingRegPhotoBase64 || "",
@@ -2510,7 +2939,7 @@
           setCityFilter(city);
           updateUserUI();
           closeModal("authModal");
-          showToast("✅ Conta criada em " + city + "! Código secreto: " + pinCode);
+          showToast(isBiz ? "🏢 Estabelecimento registrado em " + city + "!" : "✅ Conta criada em " + city + "! Código secreto: " + pinCode);
           initPushNotifications(true);
           runPendingAction();
         } catch (err) {
@@ -2580,14 +3009,50 @@
 
     function updateUserUI() {
       const pinBanner = document.getElementById("myPinBanner");
+      const bizPublishPanel = document.getElementById("bizPublishPanel");
+      const bizPromoBanner = document.getElementById("bizPromoBanner");
+
       if (currentUserProfile) {
+        const isBiz = currentUserProfile.accountType === "establishment";
+        const hasCnpj = isBiz && isValidCnpj(currentUserProfile.cnpj);
+
         const pin = currentUserProfile.pinCode || "----";
         document.getElementById("myPinCodeText").textContent = pin;
         document.getElementById("profPinValue").textContent = pin;
         pinBanner.style.display = "flex";
 
-        document.getElementById("myProfileNameDisplay").textContent = currentUserProfile.name || "Meu Perfil";
-        document.getElementById("myProfileProfessionBadge").textContent = currentUserProfile.profession || "Quero Diária";
+        // Painel exclusivo na aba Publicar
+        if (isBiz) {
+          bizPublishPanel.style.display = "block";
+          bizPromoBanner.style.display = "none";
+          document.getElementById("bizPublishName").textContent =
+            currentUserProfile.name + (currentUserProfile.businessType ? " • " + currentUserProfile.businessType : "");
+          if (currentUserProfile.businessAddress && !document.getElementById("jobNeighborhood").value) {
+            document.getElementById("jobNeighborhood").value = currentUserProfile.businessAddress;
+          }
+        } else {
+          bizPublishPanel.style.display = "none";
+          bizPromoBanner.style.display = "flex";
+        }
+
+        // Cabeçalho do Perfil
+        document.getElementById("myProfileNameDisplay").textContent =
+          (isBiz ? "🏢 " : "") + (currentUserProfile.name || "Meu Perfil");
+
+        const profBadgeEl = document.getElementById("myProfileProfessionBadge");
+        profBadgeEl.textContent = isBiz
+          ? (currentUserProfile.businessType || currentUserProfile.profession || "Estabelecimento")
+          : (currentUserProfile.profession || "Quero Diária");
+        profBadgeEl.classList.toggle("biz-badge", isBiz);
+
+        document.getElementById("myProfileEstBadgeWrap").style.display = isBiz ? "block" : "none";
+        document.getElementById("myProfileCnpjBadge").style.display = hasCnpj ? "inline-flex" : "none";
+        document.getElementById("myProfileSubLine").textContent = isBiz && currentUserProfile.businessAddress
+          ? "📍 " + currentUserProfile.businessAddress
+          : "Perfil Verificado";
+        document.getElementById("btnProfilePhotoText").textContent = isBiz
+          ? "📷 Escolher / Trocar Logo ou Fachada"
+          : "📷 Escolher / Trocar Foto de Perfil";
 
         const cleanPhone = String(currentUserProfile.phone || "").replace(/\D/g, "");
         const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
@@ -2607,13 +3072,21 @@
           phEl.textContent = getInitials(currentUserProfile.name);
         }
 
+        // Campos do formulário de Perfil
+        setProfileAccountType(isBiz ? "establishment" : "person");
         document.getElementById("profName").value = currentUserProfile.name || "";
         document.getElementById("profCity").value = currentUserProfile.city || "";
         document.getElementById("profPhone").value = currentUserProfile.phone || "";
         document.getElementById("profBio").value = currentUserProfile.bio || "";
         document.getElementById("profAvailableToday").checked = !!currentUserProfile.availableToday;
-        if (currentUserProfile.profession) {
+        document.getElementById("profBusinessAddress").value = currentUserProfile.businessAddress || "";
+        document.getElementById("profBusinessCnpj").value = currentUserProfile.cnpj || "";
+
+        if (currentUserProfile.profession && !isBiz) {
           document.getElementById("profProfessionSelect").value = currentUserProfile.profession;
+        }
+        if (isBiz && (currentUserProfile.businessType || currentUserProfile.profession)) {
+          document.getElementById("profBusinessTypeSelect").value = currentUserProfile.businessType || currentUserProfile.profession;
         }
 
         if (currentUserProfile.phone && !document.getElementById("jobWhatsapp").value) {
@@ -2624,6 +3097,8 @@
         }
       } else {
         pinBanner.style.display = "none";
+        bizPublishPanel.style.display = "none";
+        bizPromoBanner.style.display = "none";
       }
     }
 
@@ -2757,8 +3232,9 @@
         if (!u.name) return;
         rawList.push({
           uid: u.uid || "",
+          accountType: u.accountType || "person",
           name: u.name.trim(),
-          profession: u.profession || "",
+          profession: u.accountType === "establishment" ? (u.businessType || u.profession || "Estabelecimento") : (u.profession || ""),
           photoURL: u.photoURL || "",
           phone: String(u.phone || "").replace(/\D/g, ""),
           city: String(u.city || "").trim(),
@@ -2770,8 +3246,9 @@
         if (!j.authorName || j.isSample || j.authorUid === "sample") return;
         rawList.push({
           uid: j.authorUid || "",
+          accountType: j.isEstablishment ? "establishment" : "person",
           name: j.authorName.trim(),
-          profession: j.authorProfession || "",
+          profession: j.businessType || j.authorProfession || "",
           photoURL: j.authorPhoto || "",
           phone: String(j.whatsapp || "").replace(/\D/g, ""),
           city: String(j.city || "").trim(),
@@ -2805,6 +3282,7 @@
           if (item.name.length > existing.name.length) {
             existing.name = item.name;
           }
+          if (item.accountType === "establishment") existing.accountType = "establishment";
           if (!existing.uid && item.uid) existing.uid = item.uid;
           if (!existing.city && item.city) existing.city = item.city;
           if (!existing.profession && item.profession) existing.profession = item.profession;
@@ -2819,6 +3297,7 @@
           unified.push({
             key: safeKey,
             uid: safeKey,
+            accountType: item.accountType || "person",
             name: item.name,
             profession: item.profession || "",
             photoURL: item.photoURL || "",
@@ -2865,6 +3344,7 @@
       listEl.innerHTML = candidates
         .map((c) => {
           const isSelected = selectedCandidateKey === c.key;
+          const isBiz = c.accountType === "establishment";
           const last4 = c.phone ? c.phone.slice(-4) : "";
           const contacted =
             contactedKeys.includes(c.uid) ||
@@ -2878,7 +3358,10 @@
             <div class="user-pick-card ${isSelected ? "selected" : ""}" onclick="selectCandidateByKey('${escapeHtml(c.key)}')">
               ${avatarHtml}
               <div class="user-pick-info">
-                <div class="user-pick-name">${escapeHtml(c.name)}</div>
+                <div class="user-pick-name">
+                  ${escapeHtml(c.name)}
+                  ${isBiz ? `<span class="biz-mini-badge" style="margin-left:4px;">🏢 Estabelecimento</span>` : ""}
+                </div>
                 <div class="user-pick-sub">
                   ${c.profession ? `<span style="color:var(--primary); font-weight:700;">${escapeHtml(c.profession)}</span> • ` : ""}
                   ${last4 ? `<span>📱 Final ${escapeHtml(last4)}</span>` : `<span>👤 Verificado</span>`}
@@ -2978,6 +3461,12 @@
       renderJobs();
     }
 
+    function toggleOnlyEstablishments() {
+      onlyEstablishmentsFilter = !onlyEstablishmentsFilter;
+      renderCityChips();
+      renderJobs();
+    }
+
     function renderCityChips() {
       const chipContainer = document.getElementById("cityChips");
       const rawCity = document.getElementById("cityFilterInput").value.trim();
@@ -2992,7 +3481,8 @@
         "Ribeirão Preto"
       ];
 
-      let html = `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">🌍 Todas de SP</button>`;
+      let html = `<button class="chip biz-filter ${onlyEstablishmentsFilter ? "active" : ""}" onclick="toggleOnlyEstablishments()">🏢 Só Estabelecimentos</button>`;
+      html += `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">🌍 Todas de SP</button>`;
       if (rawCity) {
         html += `<button class="chip nearby-toggle ${includeNearbyInMural ? "active" : ""}" onclick="toggleMuralNearby()">${includeNearbyInMural ? "✔ + Cidades vizinhas" : "Só " + escapeHtml(rawCity)}</button>`;
       }
@@ -3027,7 +3517,7 @@
       if (tab === "reputacao") {
         populateReviewTargets();
         renderReviews();
-      } else if (tab === "perfil") {
+      } else if (tab === "perfil" || tab === "publicar") {
         updateUserUI();
       }
     }
@@ -3137,6 +3627,11 @@
         return;
       }
 
+      const isEst = currentUserProfile.accountType === "establishment";
+      const isUrgent = isEst && document.getElementById("jobIsUrgent").checked;
+      const hasMeal = isEst && document.getElementById("jobHasMeal").checked;
+      const hasCnpj = isEst && isValidCnpj(currentUserProfile.cnpj);
+
       const pay = formatPayValue(rawPay);
       const authorPinHash = computePinHash(currentUserProfile.pinCode || legacyFallbackPin(currentUserProfile.uid, whatsapp));
       const btn = document.getElementById("btnPublish");
@@ -3158,6 +3653,12 @@
           authorUid: currentUserProfile.uid,
           authorPhoto: currentUserProfile.photoURL || "",
           authorProfession: currentUserProfile.profession || "",
+          isEstablishment: isEst,
+          businessType: isEst ? (currentUserProfile.businessType || currentUserProfile.profession || "") : "",
+          businessAddress: isEst ? (currentUserProfile.businessAddress || neighborhood) : "",
+          hasCnpj: hasCnpj,
+          isUrgent: isUrgent,
+          hasMeal: hasMeal,
           authorPinHash,
           createdAt: Date.now()
         });
@@ -3182,7 +3683,7 @@
               mode: "no-cors",
               headers: { "Content-Type": "text/plain;charset=utf-8" },
               body: JSON.stringify({
-                title,
+                title: isEst ? "🏢 " + currentUserProfile.name + ": " + title : title,
                 category,
                 pay,
                 city,
@@ -3201,12 +3702,16 @@
 
         document.getElementById("jobTitle").value = "";
         document.getElementById("jobPay").value = "";
-        document.getElementById("jobNeighborhood").value = "";
         document.getElementById("jobSchedule").value = "";
         document.getElementById("jobDesc").value = "";
+        document.getElementById("jobIsUrgent").checked = false;
+        document.getElementById("jobHasMeal").checked = false;
+        if (!isEst) {
+          document.getElementById("jobNeighborhood").value = "";
+        }
 
         setCityFilter(city);
-        showToast("✅ Vaga publicada em " + city + "!");
+        showToast(isEst ? "🏢 Vaga publicada com Selo de Estabelecimento!" : "✅ Vaga publicada em " + city + "!");
         switchTab("mural");
       } catch (e) {
         showToast("Erro ao salvar. Verifique sua internet.");
@@ -3233,6 +3738,11 @@
       const cat = document.getElementById("categoryFilter").value;
 
       const filtered = jobs.filter((j) => {
+        const authorUser = registeredUsers.find((u) => u.uid === j.authorUid) || {};
+        const isEstJob = !!(j.isEstablishment || authorUser.accountType === "establishment");
+
+        if (onlyEstablishmentsFilter && !isEstJob) return false;
+
         const matchCat = cat === "Todas" || j.category === cat;
 
         let matchCity = true;
@@ -3244,7 +3754,7 @@
         }
 
         const jobRoleText = normalizeText(
-          (j.title || "") + " " + (j.category || "") + " " + (j.desc || "") + " " + (j.neighborhood || "")
+          (j.title || "") + " " + (j.category || "") + " " + (j.desc || "") + " " + (j.neighborhood || "") + " " + (j.authorName || "")
         );
         const matchRole = !roleQuery || jobRoleText.includes(roleQuery);
 
@@ -3252,22 +3762,24 @@
       });
 
       if (filtered.length === 0) {
-        const cityMsg = rawCity
-          ? `Ainda não há diárias abertas em <strong>${escapeHtml(rawCity)} e região próxima</strong> hoje.`
-          : `Nenhuma vaga encontrada para esse filtro.`;
+        const cityMsg = onlyEstablishmentsFilter
+          ? `Ainda não há diárias de <strong>estabelecimentos registrados</strong> para esse filtro hoje.`
+          : rawCity
+            ? `Ainda não há diárias abertas em <strong>${escapeHtml(rawCity)} e região próxima</strong> hoje.`
+            : `Nenhuma vaga encontrada para esse filtro.`;
 
         container.innerHTML = `
           <div class="empty-state">
-            <div style="font-size: 40px; margin-bottom: 8px;">📍</div>
+            <div style="font-size: 40px; margin-bottom: 8px;">${onlyEstablishmentsFilter ? "🏢" : "📍"}</div>
             <div style="font-size: 15px; color: var(--text); margin-bottom: 6px;">${cityMsg}</div>
-            <p style="font-size: 13px; margin-bottom: 14px;">Você pode anunciar a primeira vaga dessa região agora mesmo ou ver todas as cidades.</p>
+            <p style="font-size: 13px; margin-bottom: 14px;">Você pode anunciar a primeira vaga dessa região agora mesmo ou limpar os filtros.</p>
             <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
               ${
                 rawCity
                   ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(rawCity)}')">➕ Publicar vaga em ${escapeHtml(rawCity)}</button>`
                   : ""
               }
-              <button class="btn btn-outline" onclick="setCityFilter(''); selectQuickCategory('Todas'); document.getElementById('searchInput').value=''; renderJobs();">Ver Todas as Vagas</button>
+              <button class="btn btn-outline" onclick="onlyEstablishmentsFilter=false; setCityFilter(''); selectQuickCategory('Todas'); document.getElementById('searchInput').value=''; renderCityChips(); renderJobs();">Ver Todas as Vagas</button>
             </div>
           </div>`;
         return;
@@ -3283,32 +3795,51 @@
           const cityLabel = j.city ? `${j.city}${j.neighborhood ? " • " + j.neighborhood : ""}` : j.location;
           const formattedPay = formatPayValue(j.pay || "");
           const last4 = jobPhone.length >= 4 ? jobPhone.slice(-4) : "";
-          const zapMsg = `Olá ${j.authorName}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Quero Diária e tenho interesse.`;
 
           const authorUser = registeredUsers.find((u) => u.uid === j.authorUid) || {};
+          const isEstJob = !!(j.isEstablishment || authorUser.accountType === "establishment");
+          const hasCnpj = !!(j.hasCnpj || (authorUser.accountType === "establishment" && isValidCnpj(authorUser.cnpj)));
+          const bizType = j.businessType || authorUser.businessType || "";
+          const displayAuthor = authorUser.name || j.authorName || "Anunciante";
+
+          const zapMsg = `Olá ${displayAuthor}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Quero Diária e tenho interesse.`;
+
           const authorPhoto = authorUser.photoURL || j.authorPhoto || "";
           const avatarHtml = authorPhoto
-            ? `<img src="${authorPhoto}" class="author-mini-avatar" alt="Foto" />`
-            : `<div class="author-mini-avatar">${escapeHtml(getInitials(j.authorName))}</div>`;
+            ? `<img src="${authorPhoto}" class="author-mini-avatar ${isEstJob ? "biz-avatar" : ""}" alt="Foto" />`
+            : `<div class="author-mini-avatar ${isEstJob ? "biz-avatar" : ""}">${escapeHtml(getInitials(displayAuthor))}</div>`;
+
+          const establishmentRibbonHtml = isEstJob
+            ? `
+              <div class="establishment-ribbon">
+                <span class="establishment-ribbon-left">
+                  🏢 ESTABELECIMENTO REGISTRADO${bizType ? " • " + escapeHtml(bizType) : ""}
+                </span>
+                ${hasCnpj ? `<span class="cnpj-pill">✓ CNPJ Verificado</span>` : `<span class="cnpj-pill" style="background:#F26500;">Local Oficial</span>`}
+              </div>`
+            : "";
 
           return `
-            <div class="card">
+            <div class="card ${isEstJob ? "establishment-card" : ""}">
+              ${establishmentRibbonHtml}
               <div class="job-header">
                 <div class="job-title">${escapeHtml(j.title)}</div>
                 <div class="job-pay">${escapeHtml(formattedPay)}</div>
               </div>
               <div class="tags">
+                ${j.isUrgent ? `<span class="tag urgent">🔥 Urgente / Para Hoje</span>` : ""}
+                ${j.hasMeal ? `<span class="tag meal">🍔 Refeição no local</span>` : ""}
                 <span class="tag orange">📍 ${escapeHtml(cityLabel)}</span>
                 <span class="tag">${escapeHtml(j.category)}</span>
                 <span class="tag">🕒 ${escapeHtml(j.schedule)}</span>
               </div>
               ${j.desc ? `<div class="job-desc">${escapeHtml(j.desc)}</div>` : ""}
               <div class="job-footer">
-                <div class="author-box" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(j.authorName || "")}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
+                <div class="author-box" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(displayAuthor)}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
                   ${avatarHtml}
                   <div class="author-info">
-                    Por <strong>${escapeHtml(j.authorName)}</strong><br>
-                    ${last4 ? `<span style="opacity:0.85;">Final ${escapeHtml(last4)} • Toque p/ ver perfil</span>` : ""}
+                    ${isEstJob ? "🏢 " : "Por "}<strong>${escapeHtml(displayAuthor)}</strong><br>
+                    ${last4 ? `<span style="opacity:0.85;">Final ${escapeHtml(last4)} • ${isEstJob ? "Toque p/ ver estabelecimento" : "Toque p/ ver perfil"}</span>` : ""}
                   </div>
                 </div>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
@@ -3317,8 +3848,8 @@
                       ? `<button class="btn btn-danger" style="padding:8px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">Encerrar</button>`
                       : ""
                   }
-                  <button class="btn btn-profile-orange" style="padding:8px 10px; font-size:12px;" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(j.authorName || "")}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
-                    👤 Ver Perfil
+                  <button class="btn btn-profile-orange" style="padding:8px 10px; font-size:12px;" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(displayAuthor)}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
+                    ${isEstJob ? "🏢 Ver Local" : "👤 Ver Perfil"}
                   </button>
                   <button class="btn btn-share" style="padding:8px 10px; font-size:12px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
                     📤 Compartilhar
@@ -3347,7 +3878,7 @@
       const comment = document.getElementById("revComment").value.trim();
 
       if (!candidate) {
-        showToast("⚠️ Passo 1: Toque primeiro no cartão da pessoa que você quer avaliar.");
+        showToast("⚠️ Passo 1: Toque primeiro no cartão da pessoa ou estabelecimento que você quer avaliar.");
         return;
       }
 
@@ -3357,13 +3888,13 @@
       }
 
       if (!typedPin || typedPin.length !== 4) {
-        showToast("🔒 Digite o código secreto de 4 dígitos dessa pessoa para confirmar a diária.");
+        showToast("🔒 Digite o código secreto de 4 dígitos para confirmar a diária.");
         return;
       }
 
       const typedHash = computePinHash(typedPin);
       if (candidate.pinHash && typedHash !== candidate.pinHash) {
-        showToast("❌ Código de 4 dígitos incorreto! Peça o código atualizado no WhatsApp da pessoa.");
+        showToast("❌ Código de 4 dígitos incorreto! Peça o código atualizado no WhatsApp.");
         return;
       }
 
@@ -3493,6 +4024,7 @@
             (group.phoneKey && String(u.phone || "").replace(/\D/g, "").slice(-8) === group.phoneKey)
           ) || {};
 
+          const isBiz = foundUser.accountType === "establishment";
           const avatarHtml = foundUser.photoURL
             ? `<img src="${foundUser.photoURL}" class="user-avatar" style="width:42px; height:42px;" alt="Foto" />`
             : `<div class="user-avatar" style="width:42px; height:42px; font-size:13px;">${escapeHtml(getInitials(group.name))}</div>`;
@@ -3537,9 +4069,12 @@
                 <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick='openPublicProfile(${JSON.stringify(group.uid || "")}, ${JSON.stringify(group.name || "")}, ${JSON.stringify(group.phoneKey || "")}, ${JSON.stringify(group.city || "")})'>
                   ${avatarHtml}
                   <div>
-                    <strong style="font-size:16px; display:block;">${escapeHtml(group.name)}</strong>
+                    <strong style="font-size:16px; display:block;">
+                      ${escapeHtml(group.name)}
+                      ${isBiz ? `<span class="biz-mini-badge" style="margin-left:4px;">🏢 Estabelecimento</span>` : ""}
+                    </strong>
                     <span style="font-size:11px; color:var(--muted);">
-                      ${foundUser.profession ? `<strong style="color:var(--primary);">${escapeHtml(foundUser.profession)}</strong> • ` : ""}
+                      ${(foundUser.businessType || foundUser.profession) ? `<strong style="color:var(--primary);">${escapeHtml(foundUser.businessType || foundUser.profession)}</strong> • ` : ""}
                       ${last4 ? `📱 Final ${escapeHtml(last4)}` : "👤 Conta verificada"}
                       ${group.city ? ` • 📍 ${escapeHtml(group.city)}` : ""}
                     </span>
