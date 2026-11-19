@@ -129,7 +129,6 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
     }
     .brand {
       display: flex;
@@ -193,6 +192,9 @@
       flex-shrink: 0;
     }
 
+    #headerSearchWrap {
+      margin-top: 10px;
+    }
     .search-box {
       display: flex;
       align-items: center;
@@ -274,7 +276,7 @@
       color: #15803d;
     }
 
-    /* Categorias Rápidas (única linha limpa) */
+    /* Categorias Rápidas */
     .quick-cat-bar {
       display: flex;
       gap: 7px;
@@ -936,6 +938,7 @@
     .form-group input[type="tel"],
     .form-group input[type="email"],
     .form-group input[type="password"],
+    .form-group input[type="date"],
     .form-group select,
     .form-group textarea {
       width: 100%;
@@ -1252,9 +1255,11 @@
         <line x1="12" y1="14" x2="12.01" y2="14"/>
         <line x1="16" y1="14" x2="16.01" y2="14"/>
       </symbol>
-      <symbol id="ic-clock" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
+      <symbol id="ic-calendar" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
       </symbol>
       <symbol id="ic-whatsapp" viewBox="0 0 24 24">
         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
@@ -1388,9 +1393,11 @@
       </div>
     </div>
 
-    <div class="search-box">
-      <svg class="ic ic-sm"><use href="#ic-search"></use></svg>
-      <input type="text" id="searchInput" placeholder="Buscar vaga, serviço ou bairro..." oninput="renderJobs()" />
+    <div id="headerSearchWrap">
+      <div class="search-box">
+        <svg class="ic ic-sm"><use href="#ic-search"></use></svg>
+        <input type="text" id="searchInput" placeholder="Buscar vaga, serviço ou bairro..." oninput="renderJobs()" />
+      </div>
     </div>
   </header>
 
@@ -1414,7 +1421,7 @@
       <div id="jobsList"></div>
     </section>
 
-    <!-- Aba 2: Publicar (Enxuto e direto) -->
+    <!-- Aba 2: Publicar -->
     <section id="sec-publicar" class="section">
       <div class="mode-selector">
         <button type="button" class="mode-btn active" id="pubModeJobBtn" onclick="setPublishType('job')">
@@ -1463,13 +1470,13 @@
         </div>
 
         <div class="form-group">
-          <label id="pubNeighborhoodLabel">Bairro ou Endereço *</label>
-          <input type="text" id="jobNeighborhood" placeholder="Ex: Centro ou Rua Brasil, 120" />
+          <label id="pubNeighborhoodLabel">Bairro *</label>
+          <input type="text" id="jobNeighborhood" placeholder="Ex: Centro, Jardim do Lago..." />
         </div>
 
-        <div class="form-group">
-          <label id="pubScheduleLabel">Dia e Horário *</label>
-          <input type="text" id="jobSchedule" placeholder="Ex: Hoje, das 18h às 00h" />
+        <div class="form-group" id="pubDateGroup">
+          <label>Data *</label>
+          <input type="date" id="jobDate" />
         </div>
 
         <div class="form-group">
@@ -1491,7 +1498,7 @@
         <div class="check-stack" id="pubServiceExtras" style="display:none;">
           <label class="check-row">
             <span>Disponível para hoje</span>
-            <input type="checkbox" id="serviceAvailableNow" checked />
+            <input type="checkbox" id="serviceAvailableNow" />
           </label>
           <label class="check-row">
             <span>Atendo a domicílio / vou até o local</span>
@@ -1500,15 +1507,15 @@
         </div>
 
         <div class="form-group">
-          <label id="pubDescLabel">Detalhes (opcional)</label>
-          <textarea id="jobDesc" rows="3" placeholder="Alguma observação importante sobre o serviço..."></textarea>
+          <label id="pubDescLabel">Detalhes (horário, observações...)</label>
+          <textarea id="jobDesc" rows="3" placeholder="Informe o horário (ex: das 8h às 17h) e o que precisa ser feito..."></textarea>
         </div>
 
         <button class="btn btn-accent btn-full" id="btnPublish" onclick="publishJob()">Publicar Vaga Agora</button>
       </div>
     </section>
 
-    <!-- Aba 3: Avaliações (Sem código de 4 dígitos) -->
+    <!-- Aba 3: Avaliações -->
     <section id="sec-avaliacoes" class="section">
       <div class="reviews-top-bar">
         <div class="search-box" style="flex:1; border:1px solid #cbd5e1;">
@@ -1642,8 +1649,8 @@
               <input type="text" id="profBusinessType" placeholder="Ex: Sorveteria, Bar, Mercado, Loja..." />
             </div>
             <div class="form-group">
-              <label>Endereço / Bairro</label>
-              <input type="text" id="profBusinessAddress" placeholder="Ex: Rua Brasil, 450 - Centro" />
+              <label>Bairro / Endereço</label>
+              <input type="text" id="profBusinessAddress" placeholder="Ex: Centro ou Rua Brasil, 450" />
             </div>
             <div class="form-group">
               <label>CNPJ (opcional)</label>
@@ -1704,7 +1711,7 @@
     </div>
   </div>
 
-  <!-- Modal 2: Avaliar Pessoa / Estabelecimento (Sem código de 4 dígitos) -->
+  <!-- Modal 2: Avaliar Pessoa / Estabelecimento -->
   <div class="modal-backdrop" id="reviewModal">
     <div class="modal-box">
       <div class="modal-header-row">
@@ -1777,7 +1784,7 @@
     <div class="modal-box">
       <div class="modal-header-row">
         <div class="modal-title">Entrar no Quero Diária</div>
-        <button type="button" class="modal-close-btn" onclick="closeModal('authModal')">
+        <button type="button" class="modal-close-btn" onclick="cancelAuthModal()">
           <svg class="ic ic-sm"><use href="#ic-x"></use></svg>
         </button>
       </div>
@@ -2112,6 +2119,20 @@
       return findAllowedCityInit(raw);
     }
 
+    function getTodayIsoDate() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const dd = String(now.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function formatIsoDateBR(iso) {
+      const parts = String(iso || "").split("-");
+      if (parts.length !== 3) return iso || "";
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+
     function detectCategoryFromText(title, desc) {
       const normTitle = normalizeText(title);
       for (const rule of CATEGORY_KEYWORDS) {
@@ -2230,6 +2251,7 @@
       btnServ.classList.toggle("active", isService);
       btnServ.classList.toggle("service-active", isService);
 
+      document.getElementById("pubDateGroup").style.display = isService ? "none" : "block";
       document.getElementById("pubJobExtras").style.display = isService ? "none" : "flex";
       document.getElementById("pubServiceExtras").style.display = isService ? "flex" : "none";
 
@@ -2237,29 +2259,36 @@
         ? "Oferecer Meu Serviço"
         : "Publicar Nova Diária";
       document.getElementById("pubFormSub").textContent = isService
-        ? "Avise clientes e comércios que você está livre para trabalhar:"
+        ? "Divulgue seu serviço para clientes e comércios da região:"
         : "Preencha os dados básicos para divulgar:";
       document.getElementById("pubTitleLabel").textContent = isService
         ? "Qual serviço você faz? *"
         : "O que você precisa? *";
       document.getElementById("jobTitle").placeholder = isService
-        ? "Ex: Manicure, Faxina, Garçom, Pedreiro..."
+        ? "Ex: Manicure, Entregas, Faxina, Pedreiro..."
         : "Ex: Atendente, Faxina, Pedreiro, Garçom...";
       document.getElementById("pubPayLabel").textContent = isService
         ? "Valor (R$)"
         : "Valor da Diária (R$) *";
       document.getElementById("pubNeighborhoodLabel").textContent = isService
-        ? "Bairro ou região que atende *"
-        : "Bairro ou Endereço *";
-      document.getElementById("pubScheduleLabel").textContent = isService
-        ? "Dias e horários livres *"
-        : "Dia e Horário *";
-      document.getElementById("jobSchedule").placeholder = isService
-        ? "Ex: Livre hoje o dia todo / Sexta e Sábado"
-        : "Ex: Hoje, das 18h às 00h";
+        ? "Bairro (opcional)"
+        : "Bairro *";
+      document.getElementById("jobNeighborhood").placeholder = isService
+        ? "Deixe em branco se atende a cidade toda"
+        : "Ex: Centro, Jardim do Lago...";
+      document.getElementById("pubDescLabel").textContent = isService
+        ? "Detalhes (dias, horários, experiência...)"
+        : "Detalhes (horário, observações...)";
+      document.getElementById("jobDesc").placeholder = isService
+        ? "Informe os dias e horários em que atende e fale um pouco do seu serviço..."
+        : "Informe o horário (ex: das 8h às 17h) e o que precisa ser feito...";
+
+      if (!isService && !document.getElementById("jobDate").value) {
+        document.getElementById("jobDate").value = getTodayIsoDate();
+      }
 
       const btn = document.getElementById("btnPublish");
-      btn.textContent = isService ? "Publicar Disponibilidade" : "Publicar Vaga Agora";
+      btn.textContent = isService ? "Publicar Meu Serviço" : "Publicar Vaga Agora";
       btn.classList.toggle("btn-success", isService);
       btn.classList.toggle("btn-accent", !isService);
     }
@@ -2448,10 +2477,65 @@
       }
     }
 
+    async function loadUserProfileData(user) {
+      const savedToken = localStorage.getItem("dp_fcm_token") || "";
+      let profile = {
+        uid: user.uid,
+        email: user.email,
+        accountType: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.accountType) || "person",
+        name: user.displayName || (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.name) || (user.email ? user.email.split("@")[0] : "Usuário"),
+        phone: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.phone) || "",
+        city: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.city) || "",
+        profession: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.profession) || "Não informada",
+        businessType: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.businessType) || "",
+        businessAddress: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.businessAddress) || "",
+        cnpj: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.cnpj) || "",
+        bio: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.bio) || "",
+        photoURL: (currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.photoURL) || "",
+        availableToday: !!(currentUserProfile && currentUserProfile.uid === user.uid && currentUserProfile.availableToday)
+      };
+
+      try {
+        const doc = await db.collection("usuarios").doc(user.uid).get();
+        if (doc.exists) {
+          profile = { ...profile, ...doc.data() };
+        }
+        if (findAllowedCity(profile.city) && !alertCity) {
+          alertCity = findAllowedCity(profile.city);
+          localStorage.setItem("dp_alert_city", alertCity);
+        }
+        const updatePayload = {
+          name: profile.name,
+          phone: profile.phone,
+          city: profile.city || "",
+          alertCity: alertCity || profile.city || "",
+          alertScope,
+          alertCategory,
+          email: profile.email,
+          updatedAt: Date.now()
+        };
+        if (savedToken) updatePayload.fcmToken = savedToken;
+        db.collection("usuarios").doc(user.uid).set(updatePayload, { merge: true }).catch(() => {});
+      } catch (e) {}
+
+      currentUserProfile = profile;
+      localStorage.setItem("dp_saved_profile", JSON.stringify(profile));
+
+      if (findAllowedCity(profile.city) && !selectedCityFilter) {
+        selectedCityFilter = findAllowedCity(profile.city);
+        localStorage.setItem("dp_selected_city", selectedCityFilter);
+        updateHeaderCityLabel();
+      }
+
+      updateUserUI();
+      return profile;
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
       populateProfessionSelect();
       renderQuickCategoriesBar();
       updateHeaderCityLabel();
+      document.getElementById("jobDate").value = getTodayIsoDate();
       updateUserUI();
       renderJobs();
       renderReviews();
@@ -2459,59 +2543,13 @@
 
       auth.onAuthStateChanged(async (user) => {
         if (user) {
-          const savedToken = localStorage.getItem("dp_fcm_token") || "";
-          let profile = {
-            uid: user.uid,
-            email: user.email,
-            accountType: (currentUserProfile && currentUserProfile.accountType) || "person",
-            name: user.displayName || (currentUserProfile && currentUserProfile.name) || user.email.split("@")[0],
-            phone: (currentUserProfile && currentUserProfile.phone) || "",
-            city: (currentUserProfile && currentUserProfile.city) || "",
-            profession: (currentUserProfile && currentUserProfile.profession) || "Não informada",
-            businessType: (currentUserProfile && currentUserProfile.businessType) || "",
-            businessAddress: (currentUserProfile && currentUserProfile.businessAddress) || "",
-            cnpj: (currentUserProfile && currentUserProfile.cnpj) || "",
-            bio: (currentUserProfile && currentUserProfile.bio) || "",
-            photoURL: (currentUserProfile && currentUserProfile.photoURL) || "",
-            availableToday: !!(currentUserProfile && currentUserProfile.availableToday)
-          };
-          try {
-            const doc = await db.collection("usuarios").doc(user.uid).get();
-            if (doc.exists) {
-              profile = { ...profile, ...doc.data() };
-            }
-            if (findAllowedCity(profile.city) && !alertCity) {
-              alertCity = findAllowedCity(profile.city);
-              localStorage.setItem("dp_alert_city", alertCity);
-            }
-            const updatePayload = {
-              name: profile.name,
-              phone: profile.phone,
-              city: profile.city || "",
-              alertCity: alertCity || profile.city || "",
-              alertScope,
-              alertCategory,
-              email: profile.email,
-              updatedAt: Date.now()
-            };
-            if (savedToken) updatePayload.fcmToken = savedToken;
-            await db.collection("usuarios").doc(user.uid).set(updatePayload, { merge: true });
-          } catch (e) {}
-
-          currentUserProfile = profile;
-          localStorage.setItem("dp_saved_profile", JSON.stringify(profile));
-
-          if (findAllowedCity(profile.city) && !selectedCityFilter) {
-            selectedCityFilter = findAllowedCity(profile.city);
-            localStorage.setItem("dp_selected_city", selectedCityFilter);
-            updateHeaderCityLabel();
-          }
+          await loadUserProfileData(user);
           initPushNotifications(true);
         } else {
           currentUserProfile = null;
           localStorage.removeItem("dp_saved_profile");
+          updateUserUI();
         }
-        updateUserUI();
         renderJobs();
         renderReviews();
       });
@@ -2770,6 +2808,11 @@
       document.getElementById(id).classList.remove("open");
     }
 
+    function cancelAuthModal() {
+      pendingAction = null;
+      closeModal("authModal");
+    }
+
     function hasOffensiveLanguage(text) {
       const words = normalizeText(text).split(/[^a-z0-9]+/);
       return words.some((w) => OFFENSIVE_WORDS.includes(w));
@@ -2784,6 +2827,14 @@
       }
       if (!trimmed.toLowerCase().includes("r$") && /\d/.test(trimmed)) return "R$ " + trimmed;
       return trimmed;
+    }
+
+    function formatCityNeighborhood(city, neighborhood, fallbackLocation) {
+      const c = String(city || "").trim();
+      const n = String(neighborhood || "").trim();
+      if (!c) return fallbackLocation || "";
+      if (!n || normalizeText(n) === normalizeText(c)) return c;
+      return `${c} • ${n}`;
     }
 
     function openWhatsAppChat(phone, message, targetUid) {
@@ -2805,7 +2856,7 @@
       const j = jobs.find((item) => item.id === jobId);
       if (!j) return;
       const isService = j.listingType === "service";
-      const cityLabel = j.city ? `${j.city}${j.neighborhood ? " (" + j.neighborhood + ")" : ""}` : (j.location || "Catanduva");
+      const cityLabel = formatCityNeighborhood(j.city, j.neighborhood, j.location || "Catanduva");
       const formattedPay = formatPayValue(j.pay || "");
       const headerLine = isService
         ? `🙋 *PROFISSIONAL DISPONÍVEL EM ${(j.city || "CATANDUVA").toUpperCase()}*\n\n`
@@ -2816,7 +2867,7 @@
         `💼 *${isService ? "Serviço" : "Vaga"}:* ${j.title}\n` +
         `💰 *Valor:* ${formattedPay}\n` +
         `📍 *Local:* ${cityLabel}\n` +
-        `🕒 *Horário:* ${j.schedule || "A combinar"}\n` +
+        (j.schedule ? `📅 *Data:* ${j.schedule}\n` : "") +
         (j.desc ? `📝 *Detalhes:* ${j.desc}\n` : "") +
         `\n📲 Veja no app *Quero Diária*:\nhttps://diariapix-app.github.io/diaria-pix/`;
 
@@ -2933,7 +2984,8 @@
         btn.disabled = true;
         btn.textContent = "Entrando...";
         try {
-          await auth.signInWithEmailAndPassword(email, password);
+          const cred = await auth.signInWithEmailAndPassword(email, password);
+          await loadUserProfileData(cred.user);
           closeModal("authModal");
           showToast("Login realizado.");
           initPushNotifications(true);
@@ -2966,7 +3018,7 @@
       if (pendingAction) {
         const fn = pendingAction;
         pendingAction = null;
-        setTimeout(fn, 150);
+        fn();
       }
     }
 
@@ -3066,7 +3118,7 @@
       if (findAllowedCity(currentUserProfile.city) && !document.getElementById("jobCity").value) {
         document.getElementById("jobCity").value = findAllowedCity(currentUserProfile.city);
       }
-      if (isBiz && currentUserProfile.businessAddress && !document.getElementById("jobNeighborhood").value) {
+      if (isBiz && currentUserProfile.businessAddress && !document.getElementById("jobNeighborhood").value && publishType === "job") {
         document.getElementById("jobNeighborhood").value = currentUserProfile.businessAddress;
       }
 
@@ -3075,10 +3127,20 @@
 
     function switchTab(tab) {
       if ((tab === "publicar" || tab === "perfil") && !currentUserProfile) {
-        pendingAction = () => switchTab(tab);
-        setAuthMode("login");
-        openModal("authModal");
-        return;
+        if (auth.currentUser) {
+          currentUserProfile = {
+            uid: auth.currentUser.uid,
+            email: auth.currentUser.email,
+            name: auth.currentUser.displayName || (auth.currentUser.email ? auth.currentUser.email.split("@")[0] : "Usuário"),
+            accountType: "person"
+          };
+          loadUserProfileData(auth.currentUser);
+        } else {
+          pendingAction = () => switchTab(tab);
+          setAuthMode("login");
+          openModal("authModal");
+          return;
+        }
       }
 
       document.querySelectorAll(".section").forEach((s) => s.classList.remove("active"));
@@ -3087,10 +3149,18 @@
       document.getElementById("sec-" + tab).classList.add("active");
       document.getElementById("nav-" + tab).classList.add("active");
 
+      const searchWrap = document.getElementById("headerSearchWrap");
+      if (searchWrap) {
+        searchWrap.style.display = tab === "mural" ? "block" : "none";
+      }
+
       if (tab === "avaliacoes") {
         renderReviews();
       } else if (tab === "perfil" || tab === "publicar") {
         updateUserUI();
+        if (tab === "publicar" && !document.getElementById("jobDate").value) {
+          document.getElementById("jobDate").value = getTodayIsoDate();
+        }
       }
     }
 
@@ -3167,14 +3237,21 @@
       const isNegotiable = document.getElementById("jobPayNegotiable").checked;
       const rawPay = isNegotiable ? "A combinar" : document.getElementById("jobPay").value.trim();
       const city = findAllowedCity(document.getElementById("jobCity").value.trim());
-      const neighborhood = document.getElementById("jobNeighborhood").value.trim();
-      const schedule = document.getElementById("jobSchedule").value.trim();
+      const rawNeighborhood = document.getElementById("jobNeighborhood").value.trim();
+      const neighborhood = normalizeText(rawNeighborhood) === normalizeText(city) ? "" : rawNeighborhood;
+      const isoDate = isService ? "" : document.getElementById("jobDate").value.trim();
+      const schedule = isService ? "" : formatIsoDateBR(isoDate);
       const whatsapp = document.getElementById("jobWhatsapp").value.replace(/\D/g, "");
       const desc = document.getElementById("jobDesc").value.trim();
       const category = detectCategoryFromText(title, desc);
 
-      if (!title || (!isService && !rawPay) || !city || !neighborhood || !schedule || !whatsapp) {
-        showToast("Preencha todos os campos obrigatórios (*).");
+      if (!title || !city || !whatsapp) {
+        showToast("Preencha os campos obrigatórios (*).");
+        return;
+      }
+
+      if (!isService && (!rawPay || !rawNeighborhood || !isoDate)) {
+        showToast("Preencha valor, bairro e data da diária.");
         return;
       }
 
@@ -3207,7 +3284,7 @@
           pay,
           city,
           neighborhood,
-          location: city + " - " + neighborhood,
+          location: neighborhood ? `${city} - ${neighborhood}` : city,
           schedule,
           whatsapp,
           desc,
@@ -3246,15 +3323,16 @@
         document.getElementById("jobPay").value = "";
         document.getElementById("jobPay").disabled = false;
         document.getElementById("jobPayNegotiable").checked = false;
-        document.getElementById("jobSchedule").value = "";
+        document.getElementById("jobDate").value = getTodayIsoDate();
         document.getElementById("jobDesc").value = "";
         document.getElementById("jobIsUrgent").checked = false;
         document.getElementById("jobHasMeal").checked = false;
+        document.getElementById("serviceAvailableNow").checked = false;
         if (!isEst) document.getElementById("jobNeighborhood").value = "";
 
         selectCityFilter(city);
         setFeedType(isService ? "service" : "job");
-        showToast(isService ? "Disponibilidade publicada." : "Vaga publicada em " + city + ".");
+        showToast(isService ? "Serviço publicado em Profissionais." : "Vaga publicada em " + city + ".");
         switchTab("mural");
       } catch (e) {
         showToast("Erro ao publicar. Confira sua internet.");
@@ -3308,10 +3386,10 @@
           <div class="empty-state">
             <div class="empty-icon-circle">${ic(isServiceTab ? "user-check" : "briefcase", "ic-lg")}</div>
             <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px;">
-              ${isServiceTab ? "Nenhum profissional livre encontrado" : "Nenhuma vaga aberta encontrada"}
+              ${isServiceTab ? "Nenhum profissional anunciado ainda" : "Nenhuma vaga aberta encontrada"}
             </div>
             <p style="font-size:13px; margin-bottom:14px;">
-              ${isServiceTab ? "Faz bicos ou presta serviços? Anuncie sua disponibilidade aqui." : "Tente mudar o filtro ou publique uma nova diária."}
+              ${isServiceTab ? "Faz bicos ou presta serviços? Divulgue seu trabalho aqui." : "Tente mudar o filtro ou publique uma nova diária."}
             </p>
             <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
               <button class="btn ${isServiceTab ? "btn-success" : "btn-accent"}" onclick="openPublishForCity('${escapeHtml(rawCity)}', '${isServiceTab ? "service" : "job"}')">
@@ -3326,7 +3404,7 @@
       container.innerHTML = filtered.map((j) => {
         const isService = j.listingType === "service";
         const canDelete = currentUserProfile && (j.authorUid === currentUserProfile.uid || j.isSample === true || !j.authorUid);
-        const cityLabel = j.city ? `${j.city}${j.neighborhood ? " • " + j.neighborhood : ""}` : (j.location || "");
+        const cityLabel = formatCityNeighborhood(j.city, j.neighborhood, j.location);
         const formattedPay = formatPayValue(j.pay || "");
         const isNegotiable = formattedPay === "A combinar";
         const timeAgo = formatTimeAgo(j.createdAt);
@@ -3372,7 +3450,7 @@
 
             <div class="job-meta-list">
               <div class="job-meta-item">${ic("pin", "ic-sm")}<span>${escapeHtml(cityLabel)}</span></div>
-              <div class="job-meta-item">${ic("clock", "ic-sm")}<span>${escapeHtml(j.schedule || "A combinar")}</span></div>
+              ${j.schedule ? `<div class="job-meta-item">${ic("calendar", "ic-sm")}<span>${escapeHtml(j.schedule)}</span></div>` : ""}
             </div>
 
             ${extrasHtml ? `<div class="extras-row">${extrasHtml}</div>` : ""}
@@ -3392,7 +3470,7 @@
       }).join("");
     }
 
-    /* ================= AVALIAÇÕES (SEM CÓDIGO DE 4 DÍGITOS) ================= */
+    /* ================= AVALIAÇÕES ================= */
     function getInitials(name) {
       const parts = String(name || "U").trim().split(/\s+/);
       if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
@@ -3447,6 +3525,10 @@
 
     function openReviewModal(preselectUid) {
       if (!currentUserProfile) {
+        if (auth.currentUser) {
+          loadUserProfileData(auth.currentUser).then(() => openReviewModal(preselectUid));
+          return;
+        }
         pendingAction = () => openReviewModal(preselectUid);
         setAuthMode("login");
         openModal("authModal");
