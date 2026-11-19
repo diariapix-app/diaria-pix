@@ -17,6 +17,7 @@
       --muted: #64748b;
       --border: #e2e8f0;
       --success: #16a34a;
+      --success-bg: #dcfce7;
       --danger: #dc2626;
     }
 
@@ -35,10 +36,29 @@
     body {
       background-color: #FFFFFF;
       color: var(--text);
-      padding-bottom: 96px;
+      padding-bottom: 92px;
       overflow-x: hidden;
       min-height: 100vh;
     }
+
+    /* Ícones SVG Minimalistas */
+    .ic {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .ic-sm { width: 14px; height: 14px; }
+    .ic-md { width: 18px; height: 18px; }
+    .ic-lg { width: 22px; height: 22px; }
+    .ic-xl { width: 34px; height: 34px; }
+    .ic-fill { fill: currentColor; stroke: none; }
 
     /* Tela de Abertura */
     #splashScreen {
@@ -95,14 +115,14 @@
       to { transform: scaleX(1); }
     }
 
-    /* Header — Azul-Marinho Profundo (#0A2240) apenas na parte de cima */
+    /* Header — Azul-Marinho Profundo (#0A2240) mais limpo */
     header {
       background: #0A2240;
       color: #FFFFFF;
-      padding: 14px 16px 18px;
+      padding: 14px 16px 16px;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.25);
+      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.22);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -112,8 +132,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
+      margin-bottom: 11px;
     }
     .brand {
       display: flex;
@@ -121,15 +140,15 @@
       gap: 10px;
     }
     .brand-logo-svg {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 11px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       flex-shrink: 0;
       display: block;
     }
     .brand h1 {
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 900;
       letter-spacing: -0.3px;
       line-height: 1.1;
@@ -139,7 +158,7 @@
     }
     .cloud-status {
       font-size: 11px;
-      background: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.13);
       padding: 3px 9px;
       border-radius: 999px;
       display: inline-flex;
@@ -154,50 +173,42 @@
       background: #4ade80;
       flex-shrink: 0;
     }
-    .header-actions {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
     .btn-bell {
-      background: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.15);
       color: #FFFFFF;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.16);
       width: 40px;
       height: 40px;
       border-radius: 12px;
-      font-size: 19px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
+    .btn-bell:active {
+      background: rgba(255, 255, 255, 0.25);
+    }
 
-    /* Barra de Cidade Separada + Busca */
-    .filter-row {
+    /* Busca e Cidade no Topo (sem duplicação) */
+    .header-filters {
       display: flex;
+      flex-direction: column;
       gap: 8px;
-      margin-bottom: 8px;
-      position: relative;
-      flex-wrap: wrap;
     }
     .city-box-wrapper {
-      flex: 1 1 180px;
+      width: 100%;
       position: relative;
     }
     .city-box {
       width: 100%;
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.14);
-      border: 1px solid rgba(255, 255, 255, 0.28);
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
       border-radius: 12px;
-      padding: 0 10px;
-    }
-    .city-box span {
-      font-size: 14px;
-      margin-right: 6px;
+      padding: 0 11px;
+      color: #FFFFFF;
     }
     .city-box input {
       width: 100%;
@@ -210,17 +221,37 @@
       outline: none;
     }
     .city-box input::placeholder {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.82);
       font-weight: 600;
     }
     .city-clear {
       background: none;
       border: none;
       color: #FFFFFF;
-      font-size: 14px;
       cursor: pointer;
-      padding: 2px 4px;
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
       opacity: 0.85;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 0 12px;
+      color: var(--muted);
+    }
+    .search-box input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      padding: 10px 0;
+      font-size: 14px;
+      outline: none;
     }
 
     .city-suggestions,
@@ -253,7 +284,6 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
       background: #FFFFFF;
       color: var(--text);
     }
@@ -275,48 +305,63 @@
       background: #dcfce7;
       color: #15803d;
     }
-
     .city-input-wrap {
       position: relative;
       width: 100%;
     }
 
-    .search-bar {
-      display: flex;
-      gap: 8px;
+    /* Alternador Principal: Vagas Abertas vs Profissionais Livres */
+    .feed-switcher {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      border: 1px solid #e2e8f0;
     }
-    .search-bar input, .filter-row select {
+    .feed-tab-btn {
       border: none;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      outline: none;
-    }
-    .search-bar input {
-      flex: 1;
-      background: #FFFFFF;
-      color: var(--text);
-    }
-    .filter-row select {
-      background: #FFFFFF;
-      color: var(--text);
-      font-weight: 700;
+      background: transparent;
+      color: #475569;
+      padding: 10px 8px;
+      border-radius: 11px;
       font-size: 13px;
-      flex: 0 1 auto;
-      min-width: 125px;
-      max-width: 165px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.16s ease;
+    }
+    .feed-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(10, 34, 64, 0.1);
+    }
+    .feed-tab-btn.active.service-active {
+      color: #15803d;
+    }
+    .feed-count-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .feed-tab-btn.active .feed-count-pill {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .feed-tab-btn.active.service-active .feed-count-pill {
+      background: #dcfce7;
+      color: #15803d;
     }
 
     /* Cidades e Categorias Rápidas */
-    .quick-sec-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text);
-      margin: 4px 0 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
     .city-chips,
     .quick-cat-bar,
     .role-suggestions-bar {
@@ -324,7 +369,7 @@
       gap: 7px;
       overflow-x: auto;
       padding-bottom: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       scrollbar-width: none;
     }
     .city-chips::-webkit-scrollbar,
@@ -336,12 +381,15 @@
       background: #FFFFFF;
       border: 1px solid #cbd5e1;
       color: #475569;
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
     .chip.active {
       background: var(--primary);
@@ -371,14 +419,17 @@
 
     .cat-pill {
       background: #FFFFFF;
-      border: 1.5px solid #cbd5e1;
+      border: 1.5px solid #e2e8f0;
       color: #334155;
-      padding: 7px 14px;
+      padding: 7px 13px;
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.15s ease;
     }
     .cat-pill.active {
@@ -388,7 +439,7 @@
     }
 
     main {
-      padding: 14px 16px;
+      padding: 12px 16px;
       max-width: 640px;
       margin: 0 auto;
       background: #FFFFFF;
@@ -400,21 +451,26 @@
       display: block;
     }
 
-    /* Cards sobre fundo branco puro */
+    /* Cards */
     .card {
       background: #FFFFFF;
       border: 1px solid #e2e8f0;
       border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 10px rgba(10, 34, 64, 0.06);
+      padding: 15px;
+      margin-bottom: 13px;
+      box-shadow: 0 2px 10px rgba(10, 34, 64, 0.05);
       word-wrap: break-word;
       overflow-wrap: break-word;
     }
     .card.establishment-card {
       border: 1.5px solid #0A2240;
-      border-left: 5px solid #0A2240;
-      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.11);
+      border-left: 4px solid #0A2240;
+      box-shadow: 0 4px 14px rgba(10, 34, 64, 0.1);
+    }
+    .card.service-card {
+      border: 1.5px solid #bbf7d0;
+      border-left: 4px solid #16a34a;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);
     }
     .establishment-ribbon {
       display: flex;
@@ -431,7 +487,22 @@
       font-size: 11px;
       font-weight: 800;
     }
-    .establishment-ribbon-left {
+    .service-ribbon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .ribbon-left {
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -443,6 +514,9 @@
       border-radius: 999px;
       font-size: 10px;
       font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .job-header {
@@ -451,23 +525,26 @@
       align-items: flex-start;
       gap: 10px;
       margin-bottom: 8px;
-      flex-wrap: wrap;
     }
     .job-title {
-      font-size: 17px;
+      font-size: 16.5px;
       font-weight: 800;
       color: var(--text);
       line-height: 1.3;
-      flex: 1 1 180px;
+      flex: 1;
     }
     .job-pay {
       background: #dcfce7;
       color: #15803d;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       padding: 5px 10px;
       border-radius: 10px;
       white-space: nowrap;
+    }
+    .job-pay.negotiable {
+      background: #f1f5f9;
+      color: #334155;
     }
     .tags {
       display: flex;
@@ -483,10 +560,18 @@
       padding: 4px 9px;
       border-radius: 8px;
       line-height: 1.3;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
     .tag.orange {
       background: #ffedd5;
       color: #c2410c;
+    }
+    .tag.green {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 700;
     }
     .tag.urgent {
       background: #fee2e2;
@@ -498,26 +583,38 @@
       color: #854d0e;
       font-weight: 700;
     }
+    .tag.time-meta {
+      background: #f8fafc;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+      font-weight: 600;
+    }
     .job-desc {
-      font-size: 14px;
+      font-size: 13.5px;
       color: #334155;
       line-height: 1.45;
       margin-bottom: 12px;
     }
     .job-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       border-top: 1px solid var(--border);
       padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .author-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 8px;
-      flex-wrap: wrap;
+      cursor: pointer;
+      padding: 2px 0;
     }
     .author-box {
       display: flex;
       align-items: center;
-      gap: 8px;
-      cursor: pointer;
+      gap: 9px;
+      min-width: 0;
     }
     .author-mini-avatar {
       width: 36px;
@@ -542,9 +639,25 @@
       font-size: 12px;
       color: var(--muted);
       line-height: 1.3;
+      min-width: 0;
+    }
+    .author-chevron {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .card-actions-row {
+      display: flex;
+      gap: 7px;
+      align-items: center;
     }
 
-    /* Seletor de Tipo de Conta (Pessoa vs Estabelecimento) */
+    /* Seletor de Tipo (Pessoa/Estabelecimento e Contratar/Trabalhar) */
     .account-type-selector {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -555,26 +668,24 @@
       border: 2px solid var(--border);
       background: #f8fafc;
       border-radius: 14px;
-      padding: 10px 8px;
+      padding: 11px 8px;
       text-align: center;
       cursor: pointer;
       color: #475569;
       transition: all 0.15s ease;
-    }
-    .account-type-btn .at-icon {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
     .account-type-btn .at-title {
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 800;
       display: block;
     }
     .account-type-btn .at-sub {
-      font-size: 10px;
+      font-size: 10.5px;
       display: block;
-      margin-top: 2px;
       opacity: 0.85;
     }
     .account-type-btn.active {
@@ -587,10 +698,22 @@
       background: #fff7ed;
       color: var(--primary);
     }
+    .account-type-btn.active.service-mode-active {
+      border-color: #16a34a;
+      background: #f0fdf4;
+      color: #15803d;
+    }
 
-    /* Painel Exclusivo de Estabelecimento na aba Publicar */
+    /* Painéis da aba Publicar */
     .biz-publish-panel {
       background: linear-gradient(135deg, #0A2240, #133866);
+      color: #FFFFFF;
+      border-radius: 14px;
+      padding: 13px 14px;
+      margin-bottom: 14px;
+    }
+    .service-publish-panel {
+      background: linear-gradient(135deg, #15803d, #16a34a);
       color: #FFFFFF;
       border-radius: 14px;
       padding: 13px 14px;
@@ -601,7 +724,7 @@
       flex-direction: column;
       gap: 8px;
       margin-top: 10px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.12);
       padding: 10px 12px;
       border-radius: 10px;
     }
@@ -613,6 +736,11 @@
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
+    }
+    .biz-check-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
     }
     .biz-check-row input {
       width: 20px;
@@ -631,6 +759,21 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+    .inline-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+    }
+    .inline-check-label input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--primary);
+    }
 
     /* Cartão de Perfil */
     .profile-hero-card {
@@ -643,27 +786,27 @@
       text-align: center;
     }
     .profile-cover {
-      height: 88px;
+      height: 86px;
       background: linear-gradient(135deg, #0A2240 0%, #133866 60%, #F26500 135%);
       position: relative;
     }
     .profile-avatar-wrap {
       position: relative;
-      width: 96px;
-      height: 96px;
-      margin: -48px auto 8px;
+      width: 94px;
+      height: 94px;
+      margin: -47px auto 8px;
     }
     .profile-avatar-img,
     .profile-avatar-placeholder {
-      width: 96px;
-      height: 96px;
+      width: 94px;
+      height: 94px;
       border-radius: 50%;
       border: 4px solid #FFFFFF;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
       object-fit: cover;
       background: #0A2240;
       color: #FFFFFF;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -682,7 +825,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
@@ -719,6 +861,18 @@
       padding: 12px 14px;
       border-radius: 14px;
       margin-bottom: 14px;
+    }
+    .my-post-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #f1f5f9;
+    }
+    .my-post-row:first-of-type {
+      border-top: none;
+      padding-top: 4px;
     }
 
     /* Caixa do Código de Segurança da Diária (4 dígitos) */
@@ -818,12 +972,16 @@
       border: 1px solid var(--border);
       background: #FFFFFF;
       border-radius: 12px;
-      padding: 8px 6px;
-      font-size: 13px;
+      padding: 8px 4px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--muted);
       cursor: pointer;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
     }
     .star-btn.active {
       background: #ffedd5;
@@ -869,7 +1027,7 @@
     .biz-mini-badge {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       background: #0A2240;
       color: #FFFFFF;
       font-size: 10px;
@@ -885,6 +1043,9 @@
       padding: 4px 10px;
       border-radius: 10px;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
     .review-item {
       border-top: 1px solid #f1f5f9;
@@ -907,8 +1068,8 @@
     .btn {
       border: none;
       border-radius: 12px;
-      padding: 11px 16px;
-      font-size: 14px;
+      padding: 10px 14px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -951,11 +1112,6 @@
       color: var(--primary);
       border: 1px solid var(--border);
     }
-    .btn-profile-orange {
-      background: #fff7ed;
-      color: #c2410c;
-      border: 1px solid #fed7aa;
-    }
     .btn-full {
       width: 100%;
     }
@@ -973,7 +1129,12 @@
       color: #334155;
       line-height: 1.3;
     }
-    .form-group input, .form-group select, .form-group textarea {
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group select,
+    .form-group textarea {
       width: 100%;
       padding: 11px 12px;
       border: 1px solid #cbd5e1;
@@ -991,6 +1152,9 @@
       color: var(--muted);
       margin-top: 6px;
       line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
     }
 
     /* Bottom Navigation */
@@ -1003,8 +1167,9 @@
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
-      padding: 8px 4px;
+      padding: 7px 4px 9px;
       z-index: 60;
+      box-shadow: 0 -2px 10px rgba(10, 34, 64, 0.04);
     }
     .nav-item {
       background: none;
@@ -1015,17 +1180,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       cursor: pointer;
-      padding: 4px 10px;
-      border-radius: 10px;
+      padding: 5px 14px;
+      border-radius: 12px;
     }
     .nav-item.active {
       color: var(--primary);
       background: var(--primary-light);
-    }
-    .nav-icon {
-      font-size: 18px;
     }
 
     /* Custom Modals */
@@ -1063,6 +1225,9 @@
       font-weight: 800;
       margin-bottom: 4px;
       color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
     .modal-subtitle {
       font-size: 13px;
@@ -1124,7 +1289,7 @@
 
     #toast {
       position: fixed;
-      bottom: 76px;
+      bottom: 78px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       opacity: 0;
@@ -1155,13 +1320,33 @@
       text-align: center;
       padding: 28px 16px;
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.45;
+    }
+    .empty-icon-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+    .section-heading {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Logo Oficial QD (#0A2240, #FFFFFF e #F26500) -->
+  <!-- Logo Oficial QD + Biblioteca de Ícones Minimalistas SVG -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
       <g id="quero-diaria-logo">
@@ -1179,11 +1364,186 @@
           d="M 278 164 C 278 146 290 136 308 136 H 344 C 402 136 440 180 440 246 C 440 312 402 356 344 356 H 308 C 290 356 278 346 278 328 Z M 322 182 V 310 H 344 C 378 310 396 286 396 246 C 396 206 378 182 344 182 Z"
         />
       </g>
+
+      <symbol id="ic-bell" viewBox="0 0 24 24">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </symbol>
+      <symbol id="ic-pin" viewBox="0 0 24 24">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </symbol>
+      <symbol id="ic-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </symbol>
+      <symbol id="ic-x" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </symbol>
+      <symbol id="ic-briefcase" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+      </symbol>
+      <symbol id="ic-user-check" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="8.5" cy="7" r="4"/>
+        <polyline points="17 11 19 13 23 9"/>
+      </symbol>
+      <symbol id="ic-plus" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </symbol>
+      <symbol id="ic-star" viewBox="0 0 24 24">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </symbol>
+      <symbol id="ic-user" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </symbol>
+      <symbol id="ic-building" viewBox="0 0 24 24">
+        <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+        <path d="M9 22v-4h6v4"/>
+        <line x1="8" y1="6" x2="8.01" y2="6"/>
+        <line x1="12" y1="6" x2="12.01" y2="6"/>
+        <line x1="16" y1="6" x2="16.01" y2="6"/>
+        <line x1="8" y1="10" x2="8.01" y2="10"/>
+        <line x1="12" y1="10" x2="12.01" y2="10"/>
+        <line x1="16" y1="10" x2="16.01" y2="10"/>
+        <line x1="8" y1="14" x2="8.01" y2="14"/>
+        <line x1="12" y1="14" x2="12.01" y2="14"/>
+        <line x1="16" y1="14" x2="16.01" y2="14"/>
+      </symbol>
+      <symbol id="ic-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </symbol>
+      <symbol id="ic-whatsapp" viewBox="0 0 24 24">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </symbol>
+      <symbol id="ic-share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </symbol>
+      <symbol id="ic-camera" viewBox="0 0 24 24">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </symbol>
+      <symbol id="ic-check" viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"/>
+      </symbol>
+      <symbol id="ic-shield" viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <polyline points="9 12 11 14 15 10"/>
+      </symbol>
+      <symbol id="ic-lock" viewBox="0 0 24 24">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </symbol>
+      <symbol id="ic-refresh" viewBox="0 0 24 24">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </symbol>
+      <symbol id="ic-send" viewBox="0 0 24 24">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </symbol>
+      <symbol id="ic-flame" viewBox="0 0 24 24">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+      </symbol>
+      <symbol id="ic-utensils" viewBox="0 0 24 24">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+        <path d="M7 2v20"/>
+        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+      </symbol>
+      <symbol id="ic-home" viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </symbol>
+      <symbol id="ic-trash" viewBox="0 0 24 24">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </symbol>
+      <symbol id="ic-chevron-right" viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6"/>
+      </symbol>
+      <symbol id="ic-chevron-left" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"/>
+      </symbol>
+      <symbol id="ic-globe" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </symbol>
+      <symbol id="ic-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+      </symbol>
+      <symbol id="ic-sparkles" viewBox="0 0 24 24">
+        <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3z"/>
+        <path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"/>
+      </symbol>
+      <symbol id="ic-wrench" viewBox="0 0 24 24">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </symbol>
+      <symbol id="ic-hammer" viewBox="0 0 24 24">
+        <path d="M15 12l-8.5 8.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0a2.12 2.12 0 0 1 0-3L12 9"/>
+        <path d="M17.64 15L22 10.64"/>
+        <path d="M20.91 11.7l-1.25-1.25c-.6-.6-.93-1.4-.93-2.25v-.86L16.01 4.6a5.56 5.56 0 0 0-3.94-1.64H9l.92.82A6.18 6.18 0 0 1 12 8.4v1.56l2 2h2.47l2.26 1.91"/>
+      </symbol>
+      <symbol id="ic-truck" viewBox="0 0 24 24">
+        <rect x="1" y="3" width="15" height="13"/>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+        <circle cx="5.5" cy="18.5" r="2.5"/>
+        <circle cx="18.5" cy="18.5" r="2.5"/>
+      </symbol>
+      <symbol id="ic-bike" viewBox="0 0 24 24">
+        <circle cx="5.5" cy="17.5" r="3.5"/>
+        <circle cx="18.5" cy="17.5" r="3.5"/>
+        <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="M12 17.5V14l-3-3 4-3 2 3h2"/>
+      </symbol>
+      <symbol id="ic-bag" viewBox="0 0 24 24">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </symbol>
+      <symbol id="ic-leaf" viewBox="0 0 24 24">
+        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+      </symbol>
+      <symbol id="ic-scissors" viewBox="0 0 24 24">
+        <circle cx="6" cy="6" r="3"/>
+        <circle cx="6" cy="18" r="3"/>
+        <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+        <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+        <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+      </symbol>
+      <symbol id="ic-save" viewBox="0 0 24 24">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </symbol>
+      <symbol id="ic-logout" viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </symbol>
+      <symbol id="ic-phone" viewBox="0 0 24 24">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </symbol>
     </defs>
   </svg>
 
   <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'profile')" />
   <input type="file" id="regPhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event, 'register')" />
+  <input type="hidden" id="categoryFilter" value="Todas" />
 
   <div id="splashScreen" onclick="this.classList.add('hide')">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
@@ -1197,7 +1557,7 @@
 
   <div id="toast"></div>
 
-  <!-- Header (Apenas parte de cima em azul #0A2240 e somente o sino de notificações) -->
+  <!-- Header Limpo -->
   <header>
     <div class="header-top">
       <div class="brand">
@@ -1208,130 +1568,185 @@
           <h1>Quero <span>Diária</span></h1>
           <div class="cloud-status">
             <span class="dot" id="syncDot"></span>
-            <span id="syncLabel">Conectando nuvem...</span>
+            <span id="syncLabel">Conectando...</span>
           </div>
         </div>
       </div>
-      <div class="header-actions">
-        <button class="btn-bell" onclick="openAlertModal()" aria-label="Notificações" title="Notificações">🔔</button>
-      </div>
+      <button class="btn-bell" onclick="openAlertModal()" aria-label="Notificações" title="Notificações">
+        <svg class="ic ic-md"><use href="#ic-bell"></use></svg>
+      </button>
     </div>
 
-    <div class="filter-row">
+    <div class="header-filters">
       <div class="city-box-wrapper">
         <div class="city-box">
-          <span>📍</span>
+          <svg class="ic ic-sm" style="color:#F26500;"><use href="#ic-pin"></use></svg>
           <input
             type="text"
             id="cityFilterInput"
-            placeholder="Cidade (ex: Catanduva, Pindorama)..."
+            placeholder="Filtrar cidade..."
             autocomplete="off"
             oninput="onCityInput()"
             onfocus="showCitySuggestions()"
           />
-          <button class="city-clear" id="clearCityBtn" style="display:none;" onclick="setCityFilter('')">✕</button>
+          <button class="city-clear" id="clearCityBtn" style="display:none;" onclick="setCityFilter('')" aria-label="Limpar cidade">
+            <svg class="ic ic-sm"><use href="#ic-x"></use></svg>
+          </button>
         </div>
         <div class="city-suggestions" id="citySuggestions"></div>
       </div>
-      <select id="categoryFilter" onchange="onCategorySelectChange()">
-        <option value="Todas">Todas Áreas</option>
-        <option value="Limpeza & Diarista">🧹 Limpeza</option>
-        <option value="Obras & Ajudante">🧱 Construção & Obras</option>
-        <option value="Entregas & Moto">🛵 Delivery & Entregas</option>
-        <option value="Assistência & Reparos">🛠️ Assistência & Reparos</option>
-        <option value="Eventos & Garçom">🍽️ Eventos & Garçom</option>
-        <option value="Cozinha & Gastronomia">🍳 Cozinha & Gastronomia</option>
-        <option value="Comércio & Caixa">🛒 Comércio & Caixa</option>
-        <option value="Jardinagem & Piscina">🌿 Jardinagem & Rural</option>
-        <option value="Carga & Mudanças">🚚 Carga & Mudanças</option>
-        <option value="Beleza & Estética">💇 Beleza & Estética</option>
-        <option value="Outros Serviços">✨ Outros Serviços</option>
-      </select>
-    </div>
 
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="🔍 Digite sua necessidade (ex: Faxina, Pedreiro, Garçom)..." oninput="renderJobs()" />
+      <div class="search-box">
+        <svg class="ic ic-sm"><use href="#ic-search"></use></svg>
+        <input type="text" id="searchInput" placeholder="Buscar função, serviço ou bairro..." oninput="renderJobs()" />
+      </div>
     </div>
   </header>
 
   <main>
-    <!-- Aba 1: Vagas -->
+    <!-- Aba 1: Vagas Abertas e Profissionais Livres -->
     <section id="sec-mural" class="section active">
-      <div class="quick-sec-title">
-        <span>Categorias rápidas</span>
+      <div class="feed-switcher">
+        <button type="button" class="feed-tab-btn active" id="feedTabJobs" onclick="setFeedType('job')">
+          <svg class="ic ic-sm"><use href="#ic-briefcase"></use></svg>
+          <span>Vagas Abertas</span>
+          <span class="feed-count-pill" id="countJobsPill">0</span>
+        </button>
+        <button type="button" class="feed-tab-btn" id="feedTabServices" onclick="setFeedType('service')">
+          <svg class="ic ic-sm"><use href="#ic-user-check"></use></svg>
+          <span>Profissionais</span>
+          <span class="feed-count-pill" id="countServicesPill">0</span>
+        </button>
       </div>
-      <div class="quick-cat-bar" id="quickCatBar"></div>
 
+      <div class="quick-cat-bar" id="quickCatBar"></div>
       <div class="city-chips" id="cityChips"></div>
       <div id="jobsList"></div>
     </section>
 
-    <!-- Aba 2: Publicar Vaga -->
+    <!-- Aba 2: Publicar (Contratar ou Oferecer Serviço) -->
     <section id="sec-publicar" class="section">
-      <!-- Painel Exclusivo para Estabelecimento Registrado -->
+      <div class="account-type-selector">
+        <button type="button" class="account-type-btn active" id="pubModeJobBtn" onclick="setPublishType('job')">
+          <svg class="ic ic-lg"><use href="#ic-briefcase"></use></svg>
+          <span class="at-title">Quero Contratar</span>
+          <span class="at-sub">Anunciar vaga / diária</span>
+        </button>
+        <button type="button" class="account-type-btn" id="pubModeServiceBtn" onclick="setPublishType('service')">
+          <svg class="ic ic-lg"><use href="#ic-user-check"></use></svg>
+          <span class="at-title">Quero Trabalhar</span>
+          <span class="at-sub">Oferecer serviço / bico</span>
+        </button>
+      </div>
+
+      <!-- Painel Exclusivo para Estabelecimento (modo Contratar) -->
       <div class="biz-publish-panel" id="bizPublishPanel" style="display:none;">
         <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;">
           <div>
-            <div style="font-size:11px; font-weight:800; color:#fdba74; letter-spacing:0.4px;">🏢 PAINEL EXCLUSIVO DO ESTABELECIMENTO</div>
-            <div id="bizPublishName" style="font-size:16px; font-weight:900; margin-top:2px;">Estabelecimento</div>
+            <div style="font-size:11px; font-weight:800; color:#fdba74; letter-spacing:0.4px; display:flex; align-items:center; gap:5px;">
+              <svg class="ic ic-sm"><use href="#ic-building"></use></svg>
+              PAINEL DO ESTABELECIMENTO
+            </div>
+            <div id="bizPublishName" style="font-size:15px; font-weight:900; margin-top:2px;">Estabelecimento</div>
           </div>
           <span class="cnpj-pill" style="background:#F26500;">Selo Oficial Ativo</span>
         </div>
         <div style="font-size:12px; color:#cbd5e1; margin-top:4px;">
-          Sua vaga será destacada automaticamente no app com o selo de Estabelecimento Registrado.
+          Sua vaga recebe destaque automático com o selo de Estabelecimento Registrado.
         </div>
         <div class="biz-publish-options">
           <label class="biz-check-row">
-            <span>🔥 Marcar como Urgente / Para Hoje</span>
+            <span>
+              <svg class="ic ic-sm"><use href="#ic-flame"></use></svg>
+              Marcar como Urgente / Para Hoje
+            </span>
             <input type="checkbox" id="jobIsUrgent" />
           </label>
           <label class="biz-check-row">
-            <span>🍔 Oferece refeição ou lanche no local</span>
+            <span>
+              <svg class="ic ic-sm"><use href="#ic-utensils"></use></svg>
+              Oferece refeição ou lanche no local
+            </span>
             <input type="checkbox" id="jobHasMeal" />
           </label>
         </div>
       </div>
 
-      <!-- Chamada para quem é dono de estabelecimento e ainda está em conta pessoal -->
+      <!-- Painel Informativo do Profissional (modo Quero Trabalhar) -->
+      <div class="service-publish-panel" id="servicePublishPanel" style="display:none;">
+        <div style="font-size:11px; font-weight:800; color:#dcfce7; letter-spacing:0.4px; display:flex; align-items:center; gap:5px;">
+          <svg class="ic ic-sm"><use href="#ic-user-check"></use></svg>
+          ANÚNCIO DE PROFISSIONAL LIVRE
+        </div>
+        <div style="font-size:13px; color:#FFFFFF; margin-top:4px; line-height:1.35;">
+          Mostre para moradores e estabelecimentos da região que você está disponível para diárias ou bicos.
+        </div>
+        <div class="biz-publish-options">
+          <label class="biz-check-row">
+            <span>
+              <svg class="ic ic-sm"><use href="#ic-clock"></use></svg>
+              Estou disponível para trabalhar hoje
+            </span>
+            <input type="checkbox" id="serviceAvailableNow" checked />
+          </label>
+          <label class="biz-check-row">
+            <span>
+              <svg class="ic ic-sm"><use href="#ic-home"></use></svg>
+              Atendo a domicílio / vou até o local
+            </span>
+            <input type="checkbox" id="serviceAtHome" checked />
+          </label>
+        </div>
+      </div>
+
+      <!-- Chamada para dono de estabelecimento -->
       <div class="biz-promo-banner" id="bizPromoBanner" style="display:none;">
         <div style="flex:1; min-width:180px;">
-          <div style="font-size:12px; font-weight:800; color:var(--primary);">🏢 É dono de bar, loja ou empresa?</div>
+          <div style="font-size:12px; font-weight:800; color:var(--primary); display:flex; align-items:center; gap:5px;">
+            <svg class="ic ic-sm"><use href="#ic-building"></use></svg>
+            É dono de bar, loja ou empresa?
+          </div>
           <div style="font-size:11px; color:#475569; margin-top:2px;">Ative o Perfil de Estabelecimento para ganhar selo oficial nas suas diárias.</div>
         </div>
         <button type="button" class="btn btn-primary" style="padding:7px 12px; font-size:12px;" onclick="activateEstablishmentFromPublish()">Ativar agora</button>
       </div>
 
       <div class="card">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">Publicar Nova Diária</h2>
-        <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
+        <h2 id="pubFormTitle" class="section-heading">Publicar Nova Diária</h2>
+        <p id="pubFormSub" style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
 
         <div class="form-group">
           <label>Categoria / Área *</label>
           <select id="jobCategory" onchange="renderRoleSuggestions()">
-            <option value="Limpeza & Diarista">🧹 Limpeza & Diarista</option>
-            <option value="Obras & Ajudante">🧱 Construção, Obras & Ajudante</option>
-            <option value="Entregas & Moto">🛵 Delivery, Entregas & Moto</option>
-            <option value="Assistência & Reparos">🛠️ Assistência Técnica & Reparos</option>
-            <option value="Eventos & Garçom">🍽️ Eventos, Garçom & Festas</option>
-            <option value="Cozinha & Gastronomia">🍳 Cozinha, Restaurante & Marmita</option>
-            <option value="Comércio & Caixa">🛒 Comércio, Loja & Caixa</option>
-            <option value="Jardinagem & Piscina">🌿 Jardinagem, Piscina & Rural</option>
-            <option value="Carga & Mudanças">🚚 Carga, Descarga & Mudanças</option>
-            <option value="Beleza & Estética">💇 Beleza, Salão & Estética</option>
-            <option value="Outros Serviços">✨ Outros Serviços</option>
+            <option value="Limpeza & Diarista">Limpeza & Diarista</option>
+            <option value="Obras & Ajudante">Construção, Obras & Ajudante</option>
+            <option value="Entregas & Moto">Delivery, Entregas & Moto</option>
+            <option value="Assistência & Reparos">Assistência Técnica & Reparos</option>
+            <option value="Eventos & Garçom">Eventos, Garçom & Festas</option>
+            <option value="Cozinha & Gastronomia">Cozinha, Restaurante & Marmita</option>
+            <option value="Comércio & Caixa">Comércio, Loja & Caixa</option>
+            <option value="Jardinagem & Piscina">Jardinagem, Piscina & Rural</option>
+            <option value="Carga & Mudanças">Carga, Descarga & Mudanças</option>
+            <option value="Beleza & Estética">Beleza, Salão & Estética</option>
+            <option value="Outros Serviços">Outros Serviços</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label>Função / Profissão (toque para preencher ou digite) *</label>
+          <label id="pubTitleLabel">Função / Profissão (toque para preencher ou digite) *</label>
           <div class="role-suggestions-bar" id="roleSuggestionsBar"></div>
           <input type="text" id="jobTitle" placeholder="Ex: Faxina Residencial, Pedreiro, Garçom..." />
         </div>
 
         <div class="form-group">
-          <label>Valor da Diária (R$) *</label>
+          <label id="pubPayLabel">Valor da Diária (R$) *</label>
           <input type="text" id="jobPay" placeholder="Ex: 160 ou R$ 160,00 na hora" />
+          <label class="inline-check-label">
+            <input type="checkbox" id="jobPayNegotiable" onchange="togglePayNegotiable()" />
+            <span>Valor a combinar</span>
+          </label>
         </div>
+
         <div class="form-group">
           <label>Cidade *</label>
           <div class="city-input-wrap">
@@ -1346,20 +1761,24 @@
             <div class="field-city-dropdown" id="jobCityDropdown"></div>
           </div>
         </div>
+
         <div class="form-group">
-          <label>Bairro / Endereço do Local *</label>
+          <label id="pubNeighborhoodLabel">Bairro / Endereço do Local *</label>
           <input type="text" id="jobNeighborhood" placeholder="Ex: Centro ou Rua Brasil, 120" />
         </div>
+
         <div class="form-group">
-          <label>Data e Horário *</label>
+          <label id="pubScheduleLabel">Data e Horário *</label>
           <input type="text" id="jobSchedule" placeholder="Ex: Hoje, das 18h às 00h" />
         </div>
+
         <div class="form-group">
           <label>WhatsApp para Contato (com DDD) *</label>
           <input type="tel" id="jobWhatsapp" placeholder="Ex: 17999999999" />
         </div>
+
         <div class="form-group">
-          <label>Detalhes do Serviço</label>
+          <label id="pubDescLabel">Detalhes do Serviço</label>
           <textarea id="jobDesc" rows="3" placeholder="Explique o que precisa ser feito, requisitos ou observações..."></textarea>
         </div>
 
@@ -1371,7 +1790,10 @@
     <section id="sec-reputacao" class="section">
       <div class="pin-banner" id="myPinBanner" style="display:none;">
         <div style="flex:1; min-width:180px;">
-          <div style="font-size:12px; font-weight:800; color:var(--primary);">🔐 SEU CÓDIGO SECRETO DE DIÁRIA</div>
+          <div style="font-size:12px; font-weight:800; color:var(--primary); display:flex; align-items:center; gap:5px;">
+            <svg class="ic ic-sm"><use href="#ic-lock"></use></svg>
+            SEU CÓDIGO SECRETO DE DIÁRIA
+          </div>
           <div style="font-size:11px; color:#334155; line-height:1.35; margin-top:2px;">
             Passe este código apenas para quem realmente concluiu uma diária com você:
           </div>
@@ -1379,16 +1801,21 @@
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
           <span class="pin-code-display" id="myPinCodeText">----</span>
           <button type="button" class="btn btn-outline" style="padding:8px 10px; font-size:12px;" onclick="regenerateMyPin()">
-            🔄 Trocar
+            <svg class="ic ic-sm"><use href="#ic-refresh"></use></svg>
+            Trocar
           </button>
           <button type="button" class="btn btn-primary" style="padding:8px 11px; font-size:12px;" onclick="shareMyPinOnWhatsApp()">
-            📲 Enviar
+            <svg class="ic ic-sm"><use href="#ic-send"></use></svg>
+            Enviar
           </button>
         </div>
       </div>
 
       <div class="card">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--primary);">⭐ Avaliar Serviço Realizado</h2>
+        <h2 class="section-heading">
+          <svg class="ic ic-md" style="color:var(--accent);"><use href="#ic-star"></use></svg>
+          Avaliar Serviço Realizado
+        </h2>
         <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">Protegido contra avaliações falsas: exige o código secreto de 4 dígitos de quem trabalhou ou contratou você.</p>
 
         <div class="form-group">
@@ -1397,7 +1824,7 @@
             type="text"
             id="userCandidateSearch"
             class="user-picker-search"
-            placeholder="🔎 Filtrar por nome, estabelecimento, cidade ou telefone..."
+            placeholder="Filtrar por nome, estabelecimento, cidade ou telefone..."
             oninput="populateReviewTargets()"
           />
           <div class="user-picker-list" id="userPickerList"></div>
@@ -1412,31 +1839,49 @@
             placeholder="Ex: 4829 (peça no WhatsApp após a diária)"
             style="font-weight:800; letter-spacing:2px;"
           />
-          <div class="helper-note">🔒 O código é validado com assinatura criptográfica para impedir avaliações falsas.</div>
+          <div class="helper-note">
+            <svg class="ic ic-sm" style="margin-top:1px;"><use href="#ic-shield"></use></svg>
+            <span>O código é validado com assinatura criptográfica para impedir avaliações falsas.</span>
+          </div>
         </div>
 
         <div class="form-group">
           <label>3. Qual a sua nota? *</label>
           <input type="hidden" id="revRating" value="5" />
           <div class="star-selector" id="starSelector">
-            <button type="button" class="star-btn active" onclick="selectRating(5)">⭐ 5<br><span style="font-size:10px;">Excelente</span></button>
-            <button type="button" class="star-btn" onclick="selectRating(4)">⭐ 4<br><span style="font-size:10px;">Bom</span></button>
-            <button type="button" class="star-btn" onclick="selectRating(3)">⭐ 3<br><span style="font-size:10px;">Regular</span></button>
-            <button type="button" class="star-btn" onclick="selectRating(2)">⭐ 2<br><span style="font-size:10px;">Atrasou</span></button>
-            <button type="button" class="star-btn" onclick="selectRating(1)">⭐ 1<br><span style="font-size:10px;">Falhou</span></button>
+            <button type="button" class="star-btn active" onclick="selectRating(5)">
+              <span style="display:inline-flex; align-items:center; gap:3px;"><svg class="ic ic-sm ic-fill" style="color:var(--accent);"><use href="#ic-star"></use></svg> 5</span>
+              <span style="font-size:10px;">Excelente</span>
+            </button>
+            <button type="button" class="star-btn" onclick="selectRating(4)">
+              <span style="display:inline-flex; align-items:center; gap:3px;"><svg class="ic ic-sm ic-fill" style="color:var(--accent);"><use href="#ic-star"></use></svg> 4</span>
+              <span style="font-size:10px;">Bom</span>
+            </button>
+            <button type="button" class="star-btn" onclick="selectRating(3)">
+              <span style="display:inline-flex; align-items:center; gap:3px;"><svg class="ic ic-sm ic-fill" style="color:var(--accent);"><use href="#ic-star"></use></svg> 3</span>
+              <span style="font-size:10px;">Regular</span>
+            </button>
+            <button type="button" class="star-btn" onclick="selectRating(2)">
+              <span style="display:inline-flex; align-items:center; gap:3px;"><svg class="ic ic-sm ic-fill" style="color:var(--accent);"><use href="#ic-star"></use></svg> 2</span>
+              <span style="font-size:10px;">Atrasou</span>
+            </button>
+            <button type="button" class="star-btn" onclick="selectRating(1)">
+              <span style="display:inline-flex; align-items:center; gap:3px;"><svg class="ic ic-sm ic-fill" style="color:var(--accent);"><use href="#ic-star"></use></svg> 1</span>
+              <span style="font-size:10px;">Falhou</span>
+            </button>
           </div>
         </div>
 
         <div class="form-group">
           <label>4. O que se destacou? (Toque para marcar)</label>
           <div class="quick-tags-grid" id="quickTagsGrid">
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚡ Pagou na hora')">⚡ Pagou na hora</button>
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏰ Muito pontual')">⏰ Muito pontual</button>
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '✨ Serviço caprichado')">✨ Serviço caprichado</button>
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '🤝 Boa comunicação')">🤝 Boa comunicação</button>
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '🍔 Ambiente / lanche bom')">🍔 Ambiente / lanche bom</button>
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⏳ Atrasou horário')">⏳ Atrasou horário</button>
-            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, '⚠️ Demorou a pagar')">⚠️ Demorou a pagar</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Pagou na hora')">Pagou na hora</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Muito pontual')">Muito pontual</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Serviço caprichado')">Serviço caprichado</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Boa comunicação')">Boa comunicação</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Bom ambiente / lanche')">Bom ambiente / lanche</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Atrasou horário')">Atrasou horário</button>
+            <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Demorou a pagar')">Demorou a pagar</button>
           </div>
         </div>
 
@@ -1448,14 +1893,16 @@
         <button class="btn btn-primary btn-full" id="btnReview" onclick="publishReview()">Enviar Avaliação Autenticada</button>
       </div>
 
-      <div class="card" style="padding: 12px 14px;">
-        <input
-          type="text"
-          id="reviewSearchInput"
-          placeholder="🔍 Consultar reputação pelo nome, estabelecimento ou final do telefone..."
-          oninput="renderReviews()"
-          style="width:100%; border:1px solid #cbd5e1; border-radius:10px; padding:10px 12px; font-size:14px; outline:none;"
-        />
+      <div class="card" style="padding: 10px 12px;">
+        <div class="search-box" style="border:1px solid #cbd5e1;">
+          <svg class="ic ic-sm"><use href="#ic-search"></use></svg>
+          <input
+            type="text"
+            id="reviewSearchInput"
+            placeholder="Consultar reputação pelo nome, local ou final do telefone..."
+            oninput="renderReviews()"
+          />
+        </div>
       </div>
 
       <div id="reviewsList"></div>
@@ -1469,22 +1916,38 @@
           <img id="myProfileAvatarImg" class="profile-avatar-img" style="display:none;" alt="Foto de Perfil" />
           <div id="myProfileAvatarPlaceholder" class="profile-avatar-placeholder">U</div>
           <button type="button" class="profile-cam-btn" onclick="document.getElementById('profilePhotoInput').click()" title="Trocar foto">
-            📷
+            <svg class="ic ic-sm"><use href="#ic-camera"></use></svg>
           </button>
         </div>
         <div style="padding: 0 16px 16px;">
           <h2 id="myProfileNameDisplay" style="font-size:19px; font-weight:900; color:var(--text);">Meu Perfil</h2>
           <div id="myProfileProfessionBadge" class="profile-pill-badge">Quero Diária</div>
           <div id="myProfileEstBadgeWrap" style="margin-top:6px; display:none;">
-            <span class="biz-mini-badge">🏢 ESTABELECIMENTO REGISTRADO</span>
-            <span class="verified-badge" id="myProfileCnpjBadge" style="display:none; margin-left:4px;">✓ CNPJ Verificado</span>
+            <span class="biz-mini-badge">
+              <svg class="ic ic-sm" style="width:11px; height:11px;"><use href="#ic-building"></use></svg>
+              ESTABELECIMENTO REGISTRADO
+            </span>
+            <span class="verified-badge" id="myProfileCnpjBadge" style="display:none; margin-left:4px;">
+              <svg class="ic ic-sm" style="width:11px; height:11px;"><use href="#ic-shield"></use></svg>
+              CNPJ Informado
+            </span>
           </div>
           <div class="profile-stars-row" id="myProfileStarsDisplay">★★★★★ —</div>
           <div id="myProfileSubLine" style="font-size:12px; color:var(--muted); margin-top:2px;">Perfil Verificado</div>
           <button type="button" class="btn btn-outline" id="btnProfilePhotoText" style="margin-top:10px; padding:7px 14px; font-size:12px;" onclick="document.getElementById('profilePhotoInput').click()">
-            📷 Escolher / Trocar Foto de Perfil
+            <svg class="ic ic-sm"><use href="#ic-camera"></use></svg>
+            <span>Escolher / Trocar Foto</span>
           </button>
         </div>
+      </div>
+
+      <!-- Minhas Publicações Ativas -->
+      <div class="card" id="myActivePostsCard" style="display:none;">
+        <div class="section-heading" style="font-size:15px; margin-bottom:6px;">
+          <svg class="ic ic-sm"><use href="#ic-briefcase"></use></svg>
+          <span>Minhas Publicações Ativas</span>
+        </div>
+        <div id="myActivePostsList"></div>
       </div>
 
       <div class="card">
@@ -1492,12 +1955,12 @@
           <label>Tipo de Perfil no Aplicativo *</label>
           <div class="account-type-selector">
             <button type="button" class="account-type-btn active" id="profTypePersonBtn" onclick="setProfileAccountType('person')">
-              <span class="at-icon">👤</span>
+              <svg class="ic ic-lg"><use href="#ic-user"></use></svg>
               <span class="at-title">Pessoa / Profissional</span>
               <span class="at-sub">Trabalhador ou contratante</span>
             </button>
             <button type="button" class="account-type-btn" id="profTypeBizBtn" onclick="setProfileAccountType('establishment')">
-              <span class="at-icon">🏢</span>
+              <svg class="ic ic-lg"><use href="#ic-building"></use></svg>
               <span class="at-title">Estabelecimento</span>
               <span class="at-sub">Bar, loja, mercado, empresa</span>
             </button>
@@ -1506,7 +1969,7 @@
 
         <div class="avail-toggle-box">
           <div>
-            <div id="profAvailTitle" style="font-size:13px; font-weight:800; color:#15803d;">🟢 Disponível para diária hoje</div>
+            <div id="profAvailTitle" style="font-size:13px; font-weight:800; color:#15803d;">Disponível para diária hoje</div>
             <div id="profAvailSub" style="font-size:11px; color:#334155;">Mostra no seu perfil que você pode trabalhar hoje</div>
           </div>
           <input type="checkbox" id="profAvailableToday" style="width:22px; height:22px; accent-color:#16a34a;" />
@@ -1532,7 +1995,7 @@
             <input type="text" id="profBusinessAddress" placeholder="Ex: Rua Brasil, 450 - Centro" />
           </div>
           <div class="form-group">
-            <label>CNPJ (opcional — libera selo CNPJ Verificado)</label>
+            <label>CNPJ (opcional)</label>
             <input type="tel" id="profBusinessCnpj" maxlength="18" placeholder="Ex: 12.345.678/0001-90 (opcional)" />
           </div>
         </div>
@@ -1563,7 +2026,8 @@
         </div>
 
         <button type="button" class="btn btn-primary btn-full" id="btnSaveProfile" onclick="saveMyProfile()">
-          💾 Salvar Alterações do Perfil
+          <svg class="ic ic-sm"><use href="#ic-save"></use></svg>
+          <span>Salvar Alterações do Perfil</span>
         </button>
 
         <div style="border-top:1px solid var(--border); margin-top:16px; padding-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -1572,30 +2036,36 @@
             <div id="profPinValue" style="font-size:18px; font-weight:900; color:var(--primary); letter-spacing:2px;">----</div>
           </div>
           <div style="display:flex; gap:6px;">
-            <button type="button" class="btn btn-outline" style="padding:8px 12px; font-size:12px;" onclick="regenerateMyPin()">🔄 Trocar Código</button>
-            <button type="button" class="btn btn-danger" style="padding:8px 12px; font-size:12px;" onclick="confirmLogout()">Sair da Conta</button>
+            <button type="button" class="btn btn-outline" style="padding:8px 12px; font-size:12px;" onclick="regenerateMyPin()">
+              <svg class="ic ic-sm"><use href="#ic-refresh"></use></svg>
+              Trocar Código
+            </button>
+            <button type="button" class="btn btn-danger" style="padding:8px 12px; font-size:12px;" onclick="confirmLogout()">
+              <svg class="ic ic-sm"><use href="#ic-logout"></use></svg>
+              Sair
+            </button>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Navegação Inferior com 4 Abas -->
+  <!-- Navegação Inferior Minimalista -->
   <nav class="bottom-nav">
     <button class="nav-item active" id="nav-mural" onclick="switchTab('mural')">
-      <span class="nav-icon">💼</span>
-      <span>Vagas</span>
+      <svg class="ic ic-md"><use href="#ic-briefcase"></use></svg>
+      <span>Início</span>
     </button>
     <button class="nav-item" id="nav-publicar" onclick="switchTab('publicar')">
-      <span class="nav-icon">➕</span>
+      <svg class="ic ic-md"><use href="#ic-plus"></use></svg>
       <span>Publicar</span>
     </button>
     <button class="nav-item" id="nav-reputacao" onclick="switchTab('reputacao')">
-      <span class="nav-icon">⭐</span>
+      <svg class="ic ic-md"><use href="#ic-star"></use></svg>
       <span>Reputação</span>
     </button>
     <button class="nav-item" id="nav-perfil" onclick="switchTab('perfil')">
-      <span class="nav-icon">👤</span>
+      <svg class="ic ic-md"><use href="#ic-user"></use></svg>
       <span>Perfil</span>
     </button>
   </nav>
@@ -1604,7 +2074,7 @@
   <div class="modal-backdrop" id="authModal">
     <div class="modal-box">
       <div class="modal-title">Conta Quero Diária</div>
-      <div class="modal-subtitle">Acesse com seu e-mail e senha para publicar diárias, cadastrar seu estabelecimento ou avaliar profissionais.</div>
+      <div class="modal-subtitle">Acesse com seu e-mail e senha para anunciar vagas, oferecer seus serviços ou avaliar profissionais.</div>
 
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabLoginBtn" onclick="setAuthMode('login')">Já tenho conta</button>
@@ -1618,12 +2088,12 @@
           <label>Como você vai usar o app? *</label>
           <div class="account-type-selector">
             <button type="button" class="account-type-btn active" id="regTypePersonBtn" onclick="setRegAccountType('person')">
-              <span class="at-icon">👤</span>
+              <svg class="ic ic-lg"><use href="#ic-user"></use></svg>
               <span class="at-title">Pessoa</span>
               <span class="at-sub">Diarista ou contratante</span>
             </button>
             <button type="button" class="account-type-btn" id="regTypeBizBtn" onclick="setRegAccountType('establishment')">
-              <span class="at-icon">🏢</span>
+              <svg class="ic ic-lg"><use href="#ic-building"></use></svg>
               <span class="at-title">Estabelecimento</span>
               <span class="at-sub">Bar, loja, mercado, etc.</span>
             </button>
@@ -1632,7 +2102,9 @@
 
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; background:#f8fafc; padding:10px; border-radius:12px; border:1px solid var(--border);">
           <img id="regAvatarPreview" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:none; border:2px solid var(--primary);" />
-          <div id="regAvatarIcon" style="width:52px; height:52px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;">📷</div>
+          <div id="regAvatarIcon" style="width:52px; height:52px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center;">
+            <svg class="ic ic-lg"><use href="#ic-camera"></use></svg>
+          </div>
           <div style="flex:1;">
             <div id="regPhotoTitle" style="font-size:13px; font-weight:800; color:var(--text);">Foto de Perfil (opcional)</div>
             <button type="button" class="btn btn-outline" style="padding:5px 10px; font-size:12px; margin-top:4px;" onclick="document.getElementById('regPhotoInput').click()">Escolher foto do celular</button>
@@ -1660,7 +2132,7 @@
           </div>
           <div class="form-group">
             <label>CNPJ (opcional)</label>
-            <input type="tel" id="regBusinessCnpj" maxlength="18" placeholder="Opcional — libera selo CNPJ Verificado" />
+            <input type="tel" id="regBusinessCnpj" maxlength="18" placeholder="Opcional" />
           </div>
         </div>
 
@@ -1707,8 +2179,11 @@
   <!-- Modal 2: Visualizar Perfil Público -->
   <div class="modal-backdrop" id="viewProfileModal">
     <div class="modal-box" style="padding:0; overflow:hidden;">
-      <div class="profile-cover" style="height:92px;">
-        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.35); color:#FFFFFF; border:none; border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800; cursor:pointer;">‹ Voltar</button>
+      <div class="profile-cover" style="height:90px;">
+        <button onclick="closeModal('viewProfileModal')" style="position:absolute; top:12px; left:14px; background:rgba(0,0,0,0.38); color:#FFFFFF; border:none; border-radius:999px; padding:5px 11px; font-size:12.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:3px;">
+          <svg class="ic ic-sm"><use href="#ic-chevron-left"></use></svg>
+          Voltar
+        </button>
       </div>
       <div style="padding: 0 18px 18px; text-align:center;">
         <div class="profile-avatar-wrap" style="margin-top:-46px;">
@@ -1719,7 +2194,7 @@
         <div id="pubProfileBadge" class="profile-pill-badge">Profissional</div>
         <div id="pubProfileBizSeal" style="margin-top:6px; display:none;"></div>
         <div id="pubProfileStars" class="profile-stars-row">★★★★★ 5,0</div>
-        <div id="pubProfileSub" style="font-size:12px; color:var(--muted); margin-top:3px;">📍 SP</div>
+        <div id="pubProfileSub" style="font-size:12px; color:var(--muted); margin-top:3px;">SP</div>
         <div id="pubProfileAddress" style="font-size:12px; color:var(--primary); font-weight:700; margin-top:4px; display:none;"></div>
         <div id="pubProfileAvail" style="margin-top:6px;"></div>
 
@@ -1728,8 +2203,14 @@
         <div id="pubProfileReviewsBox" style="text-align:left; margin-top:12px; max-height:170px; overflow-y:auto;"></div>
 
         <div class="modal-actions" style="margin-top:14px;">
-          <button type="button" class="btn btn-success" style="flex:1;" id="pubProfileZapBtn">💬 Chamar no WhatsApp</button>
-          <button type="button" class="btn btn-accent" style="flex:1;" id="pubProfileEvalBtn">⭐ Avaliar Perfil</button>
+          <button type="button" class="btn btn-success" style="flex:1;" id="pubProfileZapBtn">
+            <svg class="ic ic-sm"><use href="#ic-whatsapp"></use></svg>
+            WhatsApp
+          </button>
+          <button type="button" class="btn btn-accent" style="flex:1;" id="pubProfileEvalBtn">
+            <svg class="ic ic-sm"><use href="#ic-star"></use></svg>
+            Avaliar
+          </button>
         </div>
       </div>
     </div>
@@ -1738,8 +2219,11 @@
   <!-- Modal 3: Notificações por Cidade e Região -->
   <div class="modal-backdrop" id="alertModal">
     <div class="modal-box">
-      <div class="modal-title">🔔 Notificações da Sua Região</div>
-      <div class="modal-subtitle">Receba notificações no celular somente de vagas na sua cidade ou nas cidades vizinhas da região.</div>
+      <div class="modal-title">
+        <svg class="ic ic-md" style="color:var(--accent);"><use href="#ic-bell"></use></svg>
+        Notificações da Sua Região
+      </div>
+      <div class="modal-subtitle">Receba avisos no celular somente de novas vagas publicadas na sua cidade ou nas cidades vizinhas.</div>
 
       <div class="form-group">
         <label>Sua Cidade Base *</label>
@@ -1759,8 +2243,8 @@
       <div class="form-group">
         <label>Alcance das Notificações</label>
         <select id="alertScopeSelect" onchange="updateNearbyPreview()">
-          <option value="nearby">📍 Minha cidade + cidades vizinhas próximas</option>
-          <option value="exact">🎯 Somente na minha cidade exata</option>
+          <option value="nearby">Minha cidade + cidades vizinhas da região</option>
+          <option value="exact">Somente na minha cidade exata</option>
         </select>
         <div class="helper-note" id="nearbyCitiesPreview"></div>
       </div>
@@ -1769,17 +2253,17 @@
         <label>Categoria de Interesse</label>
         <select id="alertCategorySelect">
           <option value="Todas">Todas as categorias</option>
-          <option value="Limpeza & Diarista">🧹 Limpeza & Diarista</option>
-          <option value="Obras & Ajudante">🧱 Construção & Obras</option>
-          <option value="Entregas & Moto">🛵 Delivery & Entregas</option>
-          <option value="Assistência & Reparos">🛠️ Assistência & Reparos</option>
-          <option value="Eventos & Garçom">🍽️ Eventos & Garçom</option>
-          <option value="Cozinha & Gastronomia">🍳 Cozinha & Gastronomia</option>
-          <option value="Comércio & Caixa">🛒 Comércio & Caixa</option>
-          <option value="Jardinagem & Piscina">🌿 Jardinagem & Rural</option>
-          <option value="Carga & Mudanças">🚚 Carga & Mudanças</option>
-          <option value="Beleza & Estética">💇 Beleza & Estética</option>
-          <option value="Outros Serviços">✨ Outros Serviços</option>
+          <option value="Limpeza & Diarista">Limpeza & Diarista</option>
+          <option value="Obras & Ajudante">Construção & Obras</option>
+          <option value="Entregas & Moto">Delivery & Entregas</option>
+          <option value="Assistência & Reparos">Assistência & Reparos</option>
+          <option value="Eventos & Garçom">Eventos & Garçom</option>
+          <option value="Cozinha & Gastronomia">Cozinha & Gastronomia</option>
+          <option value="Comércio & Caixa">Comércio & Caixa</option>
+          <option value="Jardinagem & Piscina">Jardinagem & Rural</option>
+          <option value="Carga & Mudanças">Carga & Mudanças</option>
+          <option value="Beleza & Estética">Beleza & Estética</option>
+          <option value="Outros Serviços">Outros Serviços</option>
         </select>
       </div>
 
@@ -1797,6 +2281,10 @@
 
   <script>
     const PUSH_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyHeel2MPNKVFvCQcUwx4a9FOB1JiwHeSEmkBdk23dVqeYH3R4ivvnDpkSPVx0MuGtW/exec";
+
+    function ic(name, extraClass = "") {
+      return `<svg class="ic ${extraClass}"><use href="#ic-${name}"></use></svg>`;
+    }
 
     setTimeout(() => {
       const splash = document.getElementById("splashScreen");
@@ -1839,18 +2327,18 @@
     } catch (e) {}
 
     const QUICK_CATEGORIES = [
-      { value: "Todas", label: "Todas" },
-      { value: "Limpeza & Diarista", label: "🧹 Limpeza" },
-      { value: "Obras & Ajudante", label: "🧱 Construção" },
-      { value: "Entregas & Moto", label: "🛵 Delivery" },
-      { value: "Assistência & Reparos", label: "🛠️ Assistência" },
-      { value: "Eventos & Garçom", label: "🍽️ Eventos" },
-      { value: "Cozinha & Gastronomia", label: "🍳 Cozinha" },
-      { value: "Comércio & Caixa", label: "🛒 Comércio" },
-      { value: "Jardinagem & Piscina", label: "🌿 Jardinagem" },
-      { value: "Carga & Mudanças", label: "🚚 Mudanças" },
-      { value: "Beleza & Estética", label: "💇 Beleza" },
-      { value: "Outros Serviços", label: "✨ Outros" }
+      { value: "Todas", label: "Todas", icon: "grid" },
+      { value: "Limpeza & Diarista", label: "Limpeza", icon: "sparkles" },
+      { value: "Obras & Ajudante", label: "Construção", icon: "hammer" },
+      { value: "Entregas & Moto", label: "Delivery", icon: "bike" },
+      { value: "Assistência & Reparos", label: "Assistência", icon: "wrench" },
+      { value: "Eventos & Garçom", label: "Eventos", icon: "utensils" },
+      { value: "Cozinha & Gastronomia", label: "Cozinha", icon: "flame" },
+      { value: "Comércio & Caixa", label: "Comércio", icon: "bag" },
+      { value: "Jardinagem & Piscina", label: "Jardinagem", icon: "leaf" },
+      { value: "Carga & Mudanças", label: "Mudanças", icon: "truck" },
+      { value: "Beleza & Estética", label: "Beleza", icon: "scissors" },
+      { value: "Outros Serviços", label: "Outros", icon: "grid" }
     ];
 
     const PROFESSIONS_BY_CATEGORY = {
@@ -1968,6 +2456,8 @@
     let pendingRegPhotoBase64 = "";
     let regAccountType = "person";
     let profileAccountType = "person";
+    let activeFeedType = "job";
+    let publishType = "job";
     let onlyEstablishmentsFilter = false;
     let currentCandidatesList = [];
     let selectedCandidateKey = "";
@@ -2000,6 +2490,120 @@
     function isValidCnpj(raw) {
       const digits = String(raw || "").replace(/\D/g, "");
       return digits.length === 14;
+    }
+
+    function formatTimeAgo(ts) {
+      if (!ts) return "";
+      const diffMs = Date.now() - Number(ts);
+      if (diffMs < 0) return "Agora";
+      const mins = Math.floor(diffMs / 60000);
+      if (mins < 2) return "Agora";
+      if (mins < 60) return `Há ${mins} min`;
+      const hours = Math.floor(mins / 60);
+      if (hours < 24) return `Há ${hours}h`;
+      const days = Math.floor(hours / 24);
+      if (days === 1) return "Ontem";
+      if (days <= 7) return `Há ${days} dias`;
+      const d = new Date(Number(ts));
+      const dd = String(d.getDate()).padStart(2, "0");
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      return `Em ${dd}/${mm}`;
+    }
+
+    function setFeedType(type) {
+      activeFeedType = type === "service" ? "service" : "job";
+      const isService = activeFeedType === "service";
+
+      const btnJobs = document.getElementById("feedTabJobs");
+      const btnServ = document.getElementById("feedTabServices");
+
+      btnJobs.classList.toggle("active", !isService);
+      btnServ.classList.toggle("active", isService);
+      btnServ.classList.toggle("service-active", isService);
+
+      if (isService) {
+        onlyEstablishmentsFilter = false;
+      }
+
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) {
+        searchInput.placeholder = isService
+          ? "Buscar profissional (ex: Manicure, Pedreiro, Faxina)..."
+          : "Buscar função, serviço ou bairro...";
+      }
+
+      renderCityChips();
+      renderJobs();
+    }
+
+    function setPublishType(type) {
+      publishType = type === "service" ? "service" : "job";
+      const isService = publishType === "service";
+
+      const btnJob = document.getElementById("pubModeJobBtn");
+      const btnServ = document.getElementById("pubModeServiceBtn");
+      btnJob.classList.toggle("active", !isService);
+      btnServ.classList.toggle("active", isService);
+      btnServ.classList.toggle("service-mode-active", isService);
+
+      const isBiz = currentUserProfile && currentUserProfile.accountType === "establishment";
+      document.getElementById("servicePublishPanel").style.display = isService ? "block" : "none";
+      document.getElementById("bizPublishPanel").style.display = (!isService && isBiz) ? "block" : "none";
+      document.getElementById("bizPromoBanner").style.display = (!isService && !isBiz && currentUserProfile) ? "flex" : "none";
+
+      document.getElementById("pubFormTitle").textContent = isService
+        ? "Anunciar Minha Disponibilidade"
+        : "Publicar Nova Diária";
+      document.getElementById("pubFormSub").textContent = isService
+        ? "Informe o serviço que você faz para clientes e estabelecimentos te chamarem:"
+        : "Escolha a categoria ou toque em uma profissão rápida abaixo:";
+      document.getElementById("pubTitleLabel").textContent = isService
+        ? "Serviço / Profissão que você faz *"
+        : "Função / Profissão (toque para preencher ou digite) *";
+      document.getElementById("jobTitle").placeholder = isService
+        ? "Ex: Manicure e Pedicure, Faxina, Garçom Extra..."
+        : "Ex: Faxina Residencial, Pedreiro, Garçom...";
+      document.getElementById("pubPayLabel").textContent = isService
+        ? "Valor da Diária ou Serviço (R$)"
+        : "Valor da Diária (R$) *";
+      document.getElementById("jobPay").placeholder = isService
+        ? "Ex: 80 ou A partir de R$ 50"
+        : "Ex: 160 ou R$ 160,00 na hora";
+      document.getElementById("pubNeighborhoodLabel").textContent = isService
+        ? "Bairro ou Região que você atende *"
+        : "Bairro / Endereço do Local *";
+      document.getElementById("jobNeighborhood").placeholder = isService
+        ? "Ex: Centro e bairros próximos"
+        : "Ex: Centro ou Rua Brasil, 120";
+      document.getElementById("pubScheduleLabel").textContent = isService
+        ? "Dias e Horários Disponíveis *"
+        : "Data e Horário *";
+      document.getElementById("jobSchedule").placeholder = isService
+        ? "Ex: Livre hoje o dia todo / Sexta e Sábado"
+        : "Ex: Hoje, das 18h às 00h";
+      document.getElementById("pubDescLabel").textContent = isService
+        ? "Sobre seu serviço / Experiência"
+        : "Detalhes do Serviço";
+      document.getElementById("jobDesc").placeholder = isService
+        ? "Ex: Levo meus materiais, tenho experiência em unhas em gel, pé e mão..."
+        : "Explique o que precisa ser feito, requisitos ou observações...";
+
+      const submitBtn = document.getElementById("btnPublish");
+      submitBtn.textContent = isService ? "Publicar Minha Disponibilidade" : "Publicar Vaga Agora";
+      submitBtn.classList.toggle("btn-success", isService);
+      submitBtn.classList.toggle("btn-accent", !isService);
+    }
+
+    function togglePayNegotiable() {
+      const checked = document.getElementById("jobPayNegotiable").checked;
+      const input = document.getElementById("jobPay");
+      if (checked) {
+        input.value = "A combinar";
+        input.disabled = true;
+      } else {
+        if (input.value === "A combinar") input.value = "";
+        input.disabled = false;
+      }
     }
 
     function setRegAccountType(type) {
@@ -2037,8 +2641,8 @@
         : "Conte o que você faz, anos de experiência, se tem ferramentas próprias ou condução...";
 
       document.getElementById("profAvailTitle").textContent = isBiz
-        ? "🟢 Precisando de diária / extra hoje"
-        : "🟢 Disponível para diária hoje";
+        ? "Precisando de diária / extra hoje"
+        : "Disponível para diária hoje";
       document.getElementById("profAvailSub").textContent = isBiz
         ? "Destaca no perfil que o estabelecimento está contratando hoje"
         : "Mostra no seu perfil que você pode trabalhar hoje";
@@ -2047,7 +2651,7 @@
     function activateEstablishmentFromPublish() {
       switchTab("perfil");
       setProfileAccountType("establishment");
-      showToast("🏢 Preencha os dados do seu estabelecimento e toque em Salvar!");
+      showToast("Preencha os dados do seu estabelecimento e toque em Salvar.");
     }
 
     function handleProfilePhotoUpload(event, targetMode) {
@@ -2074,13 +2678,13 @@
           if (targetMode === "register") {
             pendingRegPhotoBase64 = dataUrl;
             const prev = document.getElementById("regAvatarPreview");
-            const ic = document.getElementById("regAvatarIcon");
-            if (prev && ic) {
+            const icEl = document.getElementById("regAvatarIcon");
+            if (prev && icEl) {
               prev.src = dataUrl;
               prev.style.display = "block";
-              ic.style.display = "none";
+              icEl.style.display = "none";
             }
-            showToast("📷 Foto pronta para o cadastro!");
+            showToast("Foto pronta para o cadastro.");
           } else if (currentUserProfile && currentUserProfile.uid) {
             currentUserProfile.photoURL = dataUrl;
             localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
@@ -2090,9 +2694,9 @@
                 photoURL: dataUrl,
                 updatedAt: Date.now()
               }, { merge: true });
-              showToast("✅ Foto atualizada!");
+              showToast("Foto atualizada com sucesso.");
             } catch (err) {
-              showToast("⚠️ Foto salva no aparelho.");
+              showToast("Foto salva no aparelho.");
             }
           }
         };
@@ -2121,17 +2725,12 @@
       const currentCat = document.getElementById("categoryFilter").value;
       bar.innerHTML = QUICK_CATEGORIES.map((item) => {
         const isActive = currentCat === item.value;
-        return `<button type="button" class="cat-pill ${isActive ? "active" : ""}" onclick="selectQuickCategory('${escapeHtml(item.value)}')">${escapeHtml(item.label)}</button>`;
+        return `<button type="button" class="cat-pill ${isActive ? "active" : ""}" onclick="selectQuickCategory('${escapeHtml(item.value)}')">${ic(item.icon, "ic-sm")}<span>${escapeHtml(item.label)}</span></button>`;
       }).join("");
     }
 
     function selectQuickCategory(catValue) {
       document.getElementById("categoryFilter").value = catValue;
-      renderQuickCategoriesBar();
-      renderJobs();
-    }
-
-    function onCategorySelectChange() {
       renderQuickCategoriesBar();
       renderJobs();
     }
@@ -2193,7 +2792,7 @@
         .map(
           (city) => `
           <div class="city-suggestion-item" onclick="selectFieldCity('${inputId}', '${dropdownId}', '${escapeHtml(city)}')">
-            <span>📍 ${escapeHtml(city)} - SP</span>
+            <span style="display:inline-flex; align-items:center; gap:6px;">${ic("pin", "ic-sm")} ${escapeHtml(city)} - SP</span>
           </div>`
         )
         .join("");
@@ -2275,7 +2874,7 @@
         PushNotifications.addListener("pushNotificationReceived", (notification) => {
           const title = notification.title || "Nova diária disponível!";
           const body = notification.body ? ": " + notification.body : "";
-          showToast("🔔 " + title + body);
+          showToast(title + body);
         });
         PushNotifications.addListener("pushNotificationActionPerformed", () => {
           switchTab("mural");
@@ -2328,7 +2927,7 @@
 
       if (currentUserProfile && findAllowedCity(currentUserProfile.city) && !document.getElementById("cityFilterInput").value) {
         document.getElementById("cityFilterInput").value = findAllowedCity(currentUserProfile.city);
-        document.getElementById("clearCityBtn").style.display = "inline-block";
+        document.getElementById("clearCityBtn").style.display = "inline-flex";
       }
 
       updateUserUI();
@@ -2447,33 +3046,33 @@
       const availableToday = document.getElementById("profAvailableToday").checked;
 
       if (!name || !rawCity || phone.length < 10) {
-        showToast("⚠️ Preencha o nome, cidade e WhatsApp com DDD.");
+        showToast("Preencha o nome, cidade e WhatsApp com DDD.");
         return;
       }
 
       if (!city) {
-        showToast("⚠️ Escolha uma das cidades atendidas pelo aplicativo na lista.");
+        showToast("Escolha uma das cidades atendidas pelo aplicativo na lista.");
         return;
       }
 
       if (isBiz && !businessAddress) {
-        showToast("⚠️ Informe o endereço ou bairro do estabelecimento.");
+        showToast("Informe o endereço ou bairro do estabelecimento.");
         return;
       }
 
       if (cnpj && cnpj.length !== 14) {
-        showToast("⚠️ Se informar o CNPJ, digite os 14 números (ou deixe em branco).");
+        showToast("Se informar o CNPJ, digite os 14 números (ou deixe em branco).");
         return;
       }
 
       if (hasOffensiveLanguage(name) || hasOffensiveLanguage(bio)) {
-        showToast("⚠️ Remova palavras ofensivas antes de salvar.");
+        showToast("Remova palavras ofensivas antes de salvar.");
         return;
       }
 
       const btn = document.getElementById("btnSaveProfile");
       btn.disabled = true;
-      btn.textContent = "Salvando...";
+      btn.innerHTML = "Salvando...";
 
       try {
         currentUserProfile = {
@@ -2510,12 +3109,12 @@
 
         updateUserUI();
         setCityFilter(city);
-        showToast(isBiz ? "🏢 Perfil do estabelecimento salvo!" : "✅ Perfil atualizado com sucesso!");
+        showToast(isBiz ? "Perfil do estabelecimento salvo." : "Perfil atualizado com sucesso.");
       } catch (e) {
-        showToast("⚠️ Erro ao salvar na nuvem.");
+        showToast("Erro ao salvar na nuvem.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "💾 Salvar Alterações do Perfil";
+        btn.innerHTML = `${ic("save", "ic-sm")}<span>Salvar Alterações do Perfil</span>`;
       }
     }
 
@@ -2574,7 +3173,7 @@
       }
 
       const stats = getUserRatingStats(targetUid, phoneKey);
-      document.getElementById("pubProfileName").textContent = (isBiz ? "🏢 " : "") + displayName;
+      document.getElementById("pubProfileName").textContent = displayName;
 
       const badgeEl = document.getElementById("pubProfileBadge");
       badgeEl.textContent = displayProf;
@@ -2584,8 +3183,8 @@
       if (isBiz) {
         bizSealEl.style.display = "block";
         bizSealEl.innerHTML =
-          `<span class="biz-mini-badge">🏢 ESTABELECIMENTO REGISTRADO</span>` +
-          (hasCnpj ? ` <span class="verified-badge">✓ CNPJ Verificado</span>` : "");
+          `<span class="biz-mini-badge">${ic("building", "ic-sm")} ESTABELECIMENTO REGISTRADO</span>` +
+          (hasCnpj ? ` <span class="verified-badge">${ic("shield", "ic-sm")} CNPJ Informado</span>` : "");
       } else {
         bizSealEl.style.display = "none";
       }
@@ -2593,7 +3192,7 @@
       const addrEl = document.getElementById("pubProfileAddress");
       if (isBiz && foundUser.businessAddress) {
         addrEl.style.display = "block";
-        addrEl.textContent = "📍 Endereço: " + foundUser.businessAddress;
+        addrEl.textContent = "Endereço: " + foundUser.businessAddress;
       } else {
         addrEl.style.display = "none";
       }
@@ -2601,11 +3200,11 @@
       document.getElementById("pubProfileStars").innerHTML =
         `<span style="color:#F26500;">${stats.stars}</span> <span>${stats.avg}</span> <span style="font-size:12px; color:var(--muted);">(${stats.count} ${stats.count === 1 ? "avaliação" : "avaliações"})</span>`;
       document.getElementById("pubProfileSub").textContent =
-        `📍 ${displayCity} - SP` + (displayPhone ? ` • 📱 Final ${displayPhone.slice(-4)}` : "");
+        `${displayCity} - SP` + (displayPhone ? ` • Final ${displayPhone.slice(-4)}` : "");
 
       document.getElementById("pubProfileAvail").innerHTML = isAvail
-        ? `<span class="verified-badge">${isBiz ? "🟢 Contratando diária hoje" : "🟢 Disponível para diária hoje"}</span>`
-        : `<span class="verified-badge">✓ Perfil Verificado</span>`;
+        ? `<span class="verified-badge">${ic("check", "ic-sm")} ${isBiz ? "Contratando diária hoje" : "Disponível para diária hoje"}</span>`
+        : `<span class="verified-badge">${ic("check", "ic-sm")} Perfil Verificado</span>`;
 
       document.getElementById("pubProfileBio").textContent = displayBio;
 
@@ -2661,9 +3260,9 @@
           pinHash: newHash,
           updatedAt: Date.now()
         }, { merge: true });
-        showToast("🔄 Novo código secreto gerado: " + newPin);
+        showToast("Novo código secreto gerado: " + newPin);
       } catch (e) {
-        showToast("⚠️ Erro ao salvar novo código na nuvem.");
+        showToast("Erro ao salvar novo código na nuvem.");
       }
     }
 
@@ -2702,12 +3301,12 @@
 
     function formatPayValue(raw) {
       const trimmed = String(raw || "").trim();
-      if (!trimmed) return "R$ 0,00";
+      if (!trimmed || normalizeText(trimmed) === "a combinar") return "A combinar";
       if (/^\d+([.,]\d{1,2})?$/.test(trimmed)) {
         const num = parseFloat(trimmed.replace(",", "."));
-        return "R$ " + num.toFixed(2).replace(".", ",");
+        return "R$ " + num.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
-      if (!trimmed.toLowerCase().includes("r$")) {
+      if (!trimmed.toLowerCase().includes("r$") && /\d/.test(trimmed)) {
         return "R$ " + trimmed;
       }
       return trimmed;
@@ -2742,18 +3341,25 @@
       const j = jobs.find((item) => item.id === jobId);
       if (!j) return;
 
+      const isService = j.listingType === "service";
       const cityLabel = j.city ? `${j.city}${j.neighborhood ? " (" + j.neighborhood + ")" : ""}` : (j.location || "Catanduva");
       const formattedPay = formatPayValue(j.pay || "");
-      const bizLine = j.isEstablishment ? `🏢 *Estabelecimento:* ${j.authorName}\n` : "";
+      const bizLine = (!isService && j.isEstablishment) ? `🏢 *Estabelecimento:* ${j.authorName}\n` : "";
+
+      const headerLine = isService
+        ? `🙋 *PROFISSIONAL DISPONÍVEL EM ${(j.city || "CATANDUVA").toUpperCase()}*\n\n`
+        : `🔥 *NOVA DIÁRIA EM ${(j.city || "CATANDUVA").toUpperCase()}*\n\n`;
+
       const shareText =
-        `🔥 *NOVA DIÁRIA EM ${(j.city || "CATANDUVA").toUpperCase()}*\n\n` +
+        headerLine +
         bizLine +
-        `💼 *Função:* ${j.title}\n` +
+        (isService ? `👤 *Profissional:* ${j.authorName}\n` : "") +
+        `💼 *${isService ? "Serviço" : "Função"}:* ${j.title}\n` +
         `💰 *Valor:* ${formattedPay}\n` +
         `📍 *Local:* ${cityLabel}\n` +
-        `🕒 *Horário:* ${j.schedule || "A combinar"}\n` +
+        `🕒 *${isService ? "Disponibilidade" : "Horário"}:* ${j.schedule || "A combinar"}\n` +
         (j.desc ? `📝 *Detalhes:* ${j.desc}\n` : "") +
-        `\n📲 Veja essa vaga e chame o contratante no app *Quero Diária*:\nhttps://diariapix-app.github.io/diaria-pix/`;
+        `\n📲 Veja no app *Quero Diária*:\nhttps://diariapix-app.github.io/diaria-pix/`;
 
       const a = document.createElement("a");
       a.href = `whatsapp://send?text=${encodeURIComponent(shareText)}`;
@@ -2922,7 +3528,7 @@
           setCityFilter(city);
           updateUserUI();
           closeModal("authModal");
-          showToast(isBiz ? "🏢 Estabelecimento registrado em " + city + "!" : "✅ Conta criada em " + city + "! Código secreto: " + pinCode);
+          showToast(isBiz ? "Estabelecimento registrado em " + city + "." : "Conta criada em " + city + ". Código secreto: " + pinCode);
           initPushNotifications(true);
           runPendingAction();
         } catch (err) {
@@ -2937,7 +3543,7 @@
         try {
           await auth.signInWithEmailAndPassword(email, password);
           closeModal("authModal");
-          showToast("✅ Login realizado com sucesso!");
+          showToast("Login realizado com sucesso.");
           initPushNotifications(true);
           runPendingAction();
         } catch (err) {
@@ -2958,7 +3564,7 @@
       }
       try {
         await auth.sendPasswordResetEmail(email);
-        showToast("📧 Link de redefinição enviado para " + email);
+        showToast("Link de redefinição enviado para " + email);
       } catch (err) {
         showAuthError(translateFirebaseAuthError(err.code));
       }
@@ -2972,15 +3578,6 @@
       }
     }
 
-    function handleUserButton() {
-      if (!currentUserProfile) {
-        setAuthMode("login");
-        openModal("authModal");
-      } else {
-        switchTab("perfil");
-      }
-    }
-
     async function confirmLogout() {
       await auth.signOut();
       currentUserProfile = null;
@@ -2990,10 +3587,47 @@
       showToast("Você saiu da sua conta.");
     }
 
+    function renderMyActivePosts() {
+      const card = document.getElementById("myActivePostsCard");
+      const listEl = document.getElementById("myActivePostsList");
+      if (!card || !listEl || !currentUserProfile) {
+        if (card) card.style.display = "none";
+        return;
+      }
+
+      const myPosts = jobs.filter((j) => j.authorUid === currentUserProfile.uid);
+      if (myPosts.length === 0) {
+        card.style.display = "none";
+        return;
+      }
+
+      card.style.display = "block";
+      listEl.innerHTML = myPosts.map((j) => {
+        const isService = j.listingType === "service";
+        const badge = isService
+          ? `<span class="tag green" style="font-size:10.5px; padding:2px 7px;">Profissional Livre</span>`
+          : `<span class="tag" style="font-size:10.5px; padding:2px 7px;">Vaga Aberta</span>`;
+        return `
+          <div class="my-post-row">
+            <div style="min-width:0; flex:1;">
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:2px;">
+                ${badge}
+                <span style="font-size:11px; color:var(--muted);">${escapeHtml(formatTimeAgo(j.createdAt))}</span>
+              </div>
+              <div style="font-size:13.5px; font-weight:800; color:var(--text);">${escapeHtml(j.title)}</div>
+              <div style="font-size:11.5px; color:var(--muted);">${escapeHtml(j.city || "")} • ${escapeHtml(formatPayValue(j.pay))}</div>
+            </div>
+            <button type="button" class="btn btn-danger" style="padding:7px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">
+              ${ic("trash", "ic-sm")}
+              Encerrar
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
     function updateUserUI() {
       const pinBanner = document.getElementById("myPinBanner");
-      const bizPublishPanel = document.getElementById("bizPublishPanel");
-      const bizPromoBanner = document.getElementById("bizPromoBanner");
 
       if (currentUserProfile) {
         const isBiz = currentUserProfile.accountType === "establishment";
@@ -3004,23 +3638,16 @@
         document.getElementById("profPinValue").textContent = pin;
         pinBanner.style.display = "flex";
 
-        // Painel exclusivo na aba Publicar
         if (isBiz) {
-          bizPublishPanel.style.display = "block";
-          bizPromoBanner.style.display = "none";
           document.getElementById("bizPublishName").textContent =
             currentUserProfile.name + (currentUserProfile.businessType ? " • " + currentUserProfile.businessType : "");
           if (currentUserProfile.businessAddress && !document.getElementById("jobNeighborhood").value) {
             document.getElementById("jobNeighborhood").value = currentUserProfile.businessAddress;
           }
-        } else {
-          bizPublishPanel.style.display = "none";
-          bizPromoBanner.style.display = "flex";
         }
+        setPublishType(publishType);
 
-        // Cabeçalho do Perfil
-        document.getElementById("myProfileNameDisplay").textContent =
-          (isBiz ? "🏢 " : "") + (currentUserProfile.name || "Meu Perfil");
+        document.getElementById("myProfileNameDisplay").textContent = currentUserProfile.name || "Meu Perfil";
 
         const profBadgeEl = document.getElementById("myProfileProfessionBadge");
         profBadgeEl.textContent = isBiz
@@ -3031,11 +3658,10 @@
         document.getElementById("myProfileEstBadgeWrap").style.display = isBiz ? "block" : "none";
         document.getElementById("myProfileCnpjBadge").style.display = hasCnpj ? "inline-flex" : "none";
         document.getElementById("myProfileSubLine").textContent = isBiz && currentUserProfile.businessAddress
-          ? "📍 " + currentUserProfile.businessAddress
+          ? currentUserProfile.businessAddress
           : "Perfil Verificado";
-        document.getElementById("btnProfilePhotoText").textContent = isBiz
-          ? "📷 Escolher / Trocar Logo ou Fachada"
-          : "📷 Escolher / Trocar Foto de Perfil";
+        document.getElementById("btnProfilePhotoText").innerHTML =
+          `${ic("camera", "ic-sm")}<span>${isBiz ? "Escolher / Trocar Logo ou Fachada" : "Escolher / Trocar Foto"}</span>`;
 
         const cleanPhone = String(currentUserProfile.phone || "").replace(/\D/g, "");
         const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
@@ -3055,7 +3681,6 @@
           phEl.textContent = getInitials(currentUserProfile.name);
         }
 
-        // Campos do formulário de Perfil
         setProfileAccountType(isBiz ? "establishment" : "person");
         document.getElementById("profName").value = currentUserProfile.name || "";
         document.getElementById("profCity").value = findAllowedCity(currentUserProfile.city) || "";
@@ -3078,10 +3703,12 @@
         if (findAllowedCity(currentUserProfile.city) && !document.getElementById("jobCity").value) {
           document.getElementById("jobCity").value = findAllowedCity(currentUserProfile.city);
         }
+        renderMyActivePosts();
       } else {
         pinBanner.style.display = "none";
-        bizPublishPanel.style.display = "none";
-        bizPromoBanner.style.display = "none";
+        document.getElementById("bizPublishPanel").style.display = "none";
+        document.getElementById("bizPromoBanner").style.display = "none";
+        document.getElementById("myActivePostsCard").style.display = "none";
       }
     }
 
@@ -3092,6 +3719,7 @@
 
       const sampleJobs = [
         {
+          listingType: "job",
           title: "Faxina Residencial - 6h",
           category: "Limpeza & Diarista",
           pay: "R$ 160,00",
@@ -3105,21 +3733,6 @@
           authorUid: "sample",
           isSample: true,
           createdAt: Date.now() - 30000
-        },
-        {
-          title: "Ajudante de Pedreiro / Construção",
-          category: "Obras & Ajudante",
-          pay: "R$ 180,00",
-          city: "Catanduva",
-          neighborhood: "Jardim do Lago",
-          location: "Catanduva - Jardim do Lago",
-          schedule: "Amanhã, 07h30 às 17h",
-          whatsapp: "17999999999",
-          desc: "Apoio em obra residencial e preparo de massa. Pagamento no final do dia.",
-          authorName: "Equipe Quero Diária (Exemplo)",
-          authorUid: "sample",
-          isSample: true,
-          createdAt: Date.now() - 20000
         }
       ];
 
@@ -3147,17 +3760,19 @@
 
             if (!isFirstLoad && updated.length > jobs.length) {
               const newest = updated[0];
-              const myBaseCity =
-                alertCity ||
-                (currentUserProfile && currentUserProfile.city) ||
-                document.getElementById("cityFilterInput").value.trim();
+              if (newest.listingType !== "service") {
+                const myBaseCity =
+                  alertCity ||
+                  (currentUserProfile && currentUserProfile.city) ||
+                  document.getElementById("cityFilterInput").value.trim();
 
-              const matchCity = myBaseCity
-                ? doesCityMatchUserRegion(myBaseCity, newest.city || "", alertScope)
-                : false;
+                const matchCity = myBaseCity
+                  ? doesCityMatchUserRegion(myBaseCity, newest.city || "", alertScope)
+                  : false;
 
-              if (matchCity && (alertCategory === "Todas" || newest.category === alertCategory)) {
-                showToast("🔔 Nova vaga em " + (newest.city || "sua região") + ": " + newest.title);
+                if (matchCity && (alertCategory === "Todas" || newest.category === alertCategory)) {
+                  showToast("Nova vaga em " + (newest.city || "sua região") + ": " + newest.title);
+                }
               }
             }
 
@@ -3167,6 +3782,7 @@
             document.getElementById("syncLabel").textContent = "Online • Tempo real";
             renderCityChips();
             renderJobs();
+            renderMyActivePosts();
             populateReviewTargets();
           },
           (err) => {
@@ -3343,17 +3959,17 @@
               <div class="user-pick-info">
                 <div class="user-pick-name">
                   ${escapeHtml(c.name)}
-                  ${isBiz ? `<span class="biz-mini-badge" style="margin-left:4px;">🏢 Estabelecimento</span>` : ""}
+                  ${isBiz ? `<span class="biz-mini-badge" style="margin-left:4px;">Estabelecimento</span>` : ""}
                 </div>
                 <div class="user-pick-sub">
                   ${c.profession ? `<span style="color:var(--primary); font-weight:700;">${escapeHtml(c.profession)}</span> • ` : ""}
-                  ${last4 ? `<span>📱 Final ${escapeHtml(last4)}</span>` : `<span>👤 Verificado</span>`}
-                  ${c.city ? `<span>• 📍 ${escapeHtml(c.city)}</span>` : ""}
-                  ${contacted ? `<span class="verified-badge">✓ Contato</span>` : ""}
+                  ${last4 ? `<span>Final ${escapeHtml(last4)}</span>` : `<span>Verificado</span>`}
+                  ${c.city ? `<span>• ${escapeHtml(c.city)}</span>` : ""}
+                  ${contacted ? `<span class="verified-badge">${ic("check", "ic-sm")} Contato</span>` : ""}
                 </div>
               </div>
-              <div style="font-size:18px; color:var(--primary); font-weight:900;">
-                ${isSelected ? "✔" : "○"}
+              <div style="color:var(--primary);">
+                ${isSelected ? ic("check", "ic-md") : ""}
               </div>
             </div>`;
         })
@@ -3393,12 +4009,18 @@
 
       box.innerHTML = matches
         .map((city) => {
-          const count = jobs.filter((j) => normalizeText(j.city || j.location) === normalizeText(city)).length;
+          const count = jobs.filter((j) => {
+            const matchType = activeFeedType === "service" ? j.listingType === "service" : j.listingType !== "service";
+            return matchType && normalizeText(j.city || j.location) === normalizeText(city);
+          }).length;
+          const unit = activeFeedType === "service"
+            ? (count === 1 ? "profissional" : "profissionais")
+            : (count === 1 ? "vaga" : "vagas");
           return `
             <div class="city-suggestion-item" onclick="selectSuggestedCity('${escapeHtml(city)}')">
-              <span>📍 ${escapeHtml(city)} - SP</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">${ic("pin", "ic-sm")} ${escapeHtml(city)} - SP</span>
               <span class="city-badge-count ${count > 0 ? "has-jobs" : ""}">
-                ${count > 0 ? count + (count === 1 ? " vaga" : " vagas") : "0 vagas"}
+                ${count} ${unit}
               </span>
             </div>`;
         })
@@ -3414,7 +4036,7 @@
 
     function onCityInput() {
       const val = document.getElementById("cityFilterInput").value;
-      document.getElementById("clearCityBtn").style.display = val ? "inline-block" : "none";
+      document.getElementById("clearCityBtn").style.display = val ? "inline-flex" : "none";
       showCitySuggestions();
       renderCityChips();
       renderJobs();
@@ -3423,7 +4045,7 @@
     function setCityFilter(city) {
       const input = document.getElementById("cityFilterInput");
       input.value = city;
-      document.getElementById("clearCityBtn").style.display = city ? "inline-block" : "none";
+      document.getElementById("clearCityBtn").style.display = city ? "inline-flex" : "none";
       document.getElementById("citySuggestions").classList.remove("open");
       renderCityChips();
       renderJobs();
@@ -3447,22 +4069,28 @@
       const rawCity = document.getElementById("cityFilterInput").value.trim();
       const currentCity = normalizeText(rawCity);
 
-      let html = `<button class="chip biz-filter ${onlyEstablishmentsFilter ? "active" : ""}" onclick="toggleOnlyEstablishments()">🏢 Só Estabelecimentos</button>`;
-      html += `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">🌍 Todas as cidades</button>`;
+      let html = "";
+      if (activeFeedType === "job") {
+        html += `<button class="chip biz-filter ${onlyEstablishmentsFilter ? "active" : ""}" onclick="toggleOnlyEstablishments()">${ic("building", "ic-sm")} Só Estabelecimentos</button>`;
+      }
+      html += `<button class="chip ${currentCity === "" ? "active" : ""}" onclick="setCityFilter('')">${ic("globe", "ic-sm")} Todas as cidades</button>`;
       if (rawCity) {
-        html += `<button class="chip nearby-toggle ${includeNearbyInMural ? "active" : ""}" onclick="toggleMuralNearby()">${includeNearbyInMural ? "✔ + Cidades vizinhas" : "Só " + escapeHtml(rawCity)}</button>`;
+        html += `<button class="chip nearby-toggle ${includeNearbyInMural ? "active" : ""}" onclick="toggleMuralNearby()">${includeNearbyInMural ? ic("check", "ic-sm") + " + Cidades vizinhas" : "Só " + escapeHtml(rawCity)}</button>`;
       }
       SP_CITIES.forEach((c) => {
         const isActive = currentCity === normalizeText(c);
-        html += `<button class="chip ${isActive ? "active" : ""}" onclick="setCityFilter('${escapeHtml(c)}')">📍 ${escapeHtml(c)}</button>`;
+        html += `<button class="chip ${isActive ? "active" : ""}" onclick="setCityFilter('${escapeHtml(c)}')">${ic("pin", "ic-sm")} ${escapeHtml(c)}</button>`;
       });
       chipContainer.innerHTML = html;
     }
 
-    function openPublishForCity(city) {
+    function openPublishForCity(city, mode) {
       const validCity = findAllowedCity(city);
       if (validCity) {
         document.getElementById("jobCity").value = validCity;
+      }
+      if (mode) {
+        setPublishType(mode);
       }
       switchTab("publicar");
     }
@@ -3531,11 +4159,11 @@
       const rawCity = document.getElementById("alertCityInput").value.trim();
       const chosenCity = findAllowedCity(rawCity);
       if (!rawCity) {
-        showToast("⚠️ Selecione sua cidade para receber vagas da sua região.");
+        showToast("Selecione sua cidade para receber vagas da sua região.");
         return;
       }
       if (!chosenCity) {
-        showToast("⚠️ Escolha uma das cidades atendidas pelo aplicativo na lista.");
+        showToast("Escolha uma das cidades atendidas pelo aplicativo na lista.");
         return;
       }
 
@@ -3570,11 +4198,11 @@
 
       const scopeLabel = alertScope === "exact" ? "somente " + alertCity : alertCity + " e cidades próximas";
       if (pushRes.ok) {
-        showToast("🔔 Notificações ativadas para " + scopeLabel + "!");
+        showToast("Notificações ativadas para " + scopeLabel + ".");
       } else if (pushRes.reason === "denied") {
-        showToast("⚠️ Permissão negada. Libere em Configurações > Apps > Quero Diária > Notificações.");
+        showToast("Permissão negada. Libere em Configurações > Apps > Quero Diária > Notificações.");
       } else {
-        showToast("🔔 Notificações salvas para " + scopeLabel + "!");
+        showToast("Notificações salvas para " + scopeLabel + ".");
       }
     }
 
@@ -3586,9 +4214,11 @@
         return;
       }
 
+      const isService = publishType === "service";
       const title = document.getElementById("jobTitle").value.trim();
       const category = document.getElementById("jobCategory").value;
-      const rawPay = document.getElementById("jobPay").value.trim();
+      const isNegotiable = document.getElementById("jobPayNegotiable").checked;
+      const rawPay = isNegotiable ? "A combinar" : document.getElementById("jobPay").value.trim();
       const rawCity = document.getElementById("jobCity").value.trim();
       const city = findAllowedCity(rawCity);
       const neighborhood = document.getElementById("jobNeighborhood").value.trim();
@@ -3596,34 +4226,45 @@
       const whatsapp = document.getElementById("jobWhatsapp").value.replace(/\D/g, "");
       const desc = document.getElementById("jobDesc").value.trim();
 
-      if (!title || !rawPay || !rawCity || !neighborhood || !schedule || !whatsapp) {
-        showToast("Preencha todos os campos obrigatórios (*)");
+      if (!title || (!isService && !rawPay) || !rawCity || !neighborhood || !schedule || !whatsapp) {
+        showToast("Preencha todos os campos obrigatórios (*).");
         return;
       }
 
       if (!city) {
-        showToast("⚠️ Selecione uma das cidades atendidas pelo aplicativo na lista.");
+        showToast("Selecione uma das cidades atendidas pelo aplicativo na lista.");
         return;
+      }
+
+      if (!isNegotiable && /^\d+([.,]\d{1,2})?$/.test(rawPay)) {
+        const numericPay = parseFloat(rawPay.replace(",", "."));
+        if (numericPay > 50000) {
+          showToast("Confira o valor digitado — parece alto demais para uma diária.");
+          return;
+        }
       }
 
       if (hasOffensiveLanguage(title) || hasOffensiveLanguage(desc)) {
-        showToast("⚠️ Remova palavras ofensivas antes de publicar.");
+        showToast("Remova palavras ofensivas antes de publicar.");
         return;
       }
 
-      const isEst = currentUserProfile.accountType === "establishment";
+      const isEst = !isService && currentUserProfile.accountType === "establishment";
       const isUrgent = isEst && document.getElementById("jobIsUrgent").checked;
       const hasMeal = isEst && document.getElementById("jobHasMeal").checked;
       const hasCnpj = isEst && isValidCnpj(currentUserProfile.cnpj);
+      const availableNow = isService && document.getElementById("serviceAvailableNow").checked;
+      const atHome = isService && document.getElementById("serviceAtHome").checked;
 
-      const pay = formatPayValue(rawPay);
+      const pay = formatPayValue(rawPay || "A combinar");
       const authorPinHash = computePinHash(currentUserProfile.pinCode || legacyFallbackPin(currentUserProfile.uid, whatsapp));
       const btn = document.getElementById("btnPublish");
       btn.disabled = true;
-      btn.textContent = "Publicando na nuvem...";
+      btn.textContent = "Publicando...";
 
       try {
         await db.collection("vagas").add({
+          listingType: publishType,
           title,
           category,
           pay,
@@ -3643,11 +4284,13 @@
           hasCnpj: hasCnpj,
           isUrgent: isUrgent,
           hasMeal: hasMeal,
+          availableNow: availableNow,
+          atHome: atHome,
           authorPinHash,
           createdAt: Date.now()
         });
 
-        if (PUSH_WEBHOOK_URL) {
+        if (!isService && PUSH_WEBHOOK_URL) {
           const rawTokens = registeredUsers
             .filter((u) => {
               if (!u.fcmToken || u.uid === currentUserProfile.uid) return false;
@@ -3667,7 +4310,7 @@
               mode: "no-cors",
               headers: { "Content-Type": "text/plain;charset=utf-8" },
               body: JSON.stringify({
-                title: isEst ? "🏢 " + currentUserProfile.name + ": " + title : title,
+                title: isEst ? currentUserProfile.name + ": " + title : title,
                 category,
                 pay,
                 city,
@@ -3686,6 +4329,8 @@
 
         document.getElementById("jobTitle").value = "";
         document.getElementById("jobPay").value = "";
+        document.getElementById("jobPay").disabled = false;
+        document.getElementById("jobPayNegotiable").checked = false;
         document.getElementById("jobSchedule").value = "";
         document.getElementById("jobDesc").value = "";
         document.getElementById("jobIsUrgent").checked = false;
@@ -3695,23 +4340,45 @@
         }
 
         setCityFilter(city);
-        showToast(isEst ? "🏢 Vaga publicada com Selo de Estabelecimento!" : "✅ Vaga publicada em " + city + "!");
+        setFeedType(isService ? "service" : "job");
+        showToast(isService
+          ? "Disponibilidade publicada em Profissionais Livres."
+          : (isEst ? "Vaga publicada com Selo de Estabelecimento." : "Vaga publicada em " + city + "."));
         switchTab("mural");
       } catch (e) {
         showToast("Erro ao salvar. Verifique sua internet.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "Publicar Vaga Agora";
+        setPublishType(publishType);
       }
     }
 
     async function deleteJob(id) {
       try {
         await db.collection("vagas").doc(id).delete();
-        showToast("Vaga encerrada e removida.");
+        showToast("Publicação encerrada e removida.");
       } catch (e) {
-        showToast("Apenas o autor da vaga pode encerrá-la.");
+        showToast("Apenas o autor pode encerrar esta publicação.");
       }
+    }
+
+    function matchesFilters(j, rawCity, cityQuery, roleQuery, cat) {
+      const matchCat = cat === "Todas" || j.category === cat;
+
+      let matchCity = true;
+      if (cityQuery) {
+        const jobCityClean = j.city || j.location || "";
+        const directInclude = normalizeText(jobCityClean).includes(cityQuery);
+        const nearbyInclude = includeNearbyInMural && doesCityMatchUserRegion(rawCity, j.city || "", "nearby");
+        matchCity = directInclude || nearbyInclude;
+      }
+
+      const jobRoleText = normalizeText(
+        (j.title || "") + " " + (j.category || "") + " " + (j.desc || "") + " " + (j.neighborhood || "") + " " + (j.authorName || "")
+      );
+      const matchRole = !roleQuery || jobRoleText.includes(roleQuery);
+
+      return matchCat && matchCity && matchRole;
     }
 
     function renderJobs() {
@@ -3721,49 +4388,51 @@
       const cityQuery = normalizeText(rawCity);
       const cat = document.getElementById("categoryFilter").value;
 
-      const filtered = jobs.filter((j) => {
+      const jobsFiltered = jobs.filter((j) => {
+        if (j.listingType === "service") return false;
         const authorUser = registeredUsers.find((u) => u.uid === j.authorUid) || {};
         const isEstJob = !!(j.isEstablishment || authorUser.accountType === "establishment");
-
         if (onlyEstablishmentsFilter && !isEstJob) return false;
-
-        const matchCat = cat === "Todas" || j.category === cat;
-
-        let matchCity = true;
-        if (cityQuery) {
-          const jobCityClean = j.city || j.location || "";
-          const directInclude = normalizeText(jobCityClean).includes(cityQuery);
-          const nearbyInclude = includeNearbyInMural && doesCityMatchUserRegion(rawCity, j.city || "", "nearby");
-          matchCity = directInclude || nearbyInclude;
-        }
-
-        const jobRoleText = normalizeText(
-          (j.title || "") + " " + (j.category || "") + " " + (j.desc || "") + " " + (j.neighborhood || "") + " " + (j.authorName || "")
-        );
-        const matchRole = !roleQuery || jobRoleText.includes(roleQuery);
-
-        return matchCat && matchCity && matchRole;
+        return matchesFilters(j, rawCity, cityQuery, roleQuery, cat);
       });
 
+      const servicesFiltered = jobs.filter((j) => {
+        if (j.listingType !== "service") return false;
+        return matchesFilters(j, rawCity, cityQuery, roleQuery, cat);
+      });
+
+      document.getElementById("countJobsPill").textContent = String(jobsFiltered.length);
+      document.getElementById("countServicesPill").textContent = String(servicesFiltered.length);
+
+      const isServiceTab = activeFeedType === "service";
+      const filtered = isServiceTab ? servicesFiltered : jobsFiltered;
+
       if (filtered.length === 0) {
-        const cityMsg = onlyEstablishmentsFilter
-          ? `Ainda não há diárias de <strong>estabelecimentos registrados</strong> para esse filtro hoje.`
-          : rawCity
-            ? `Ainda não há diárias abertas em <strong>${escapeHtml(rawCity)} e região próxima</strong> hoje.`
-            : `Nenhuma vaga encontrada para esse filtro.`;
+        const emptyIcon = isServiceTab ? "user-check" : (onlyEstablishmentsFilter ? "building" : "pin");
+        const cityMsg = isServiceTab
+          ? (rawCity
+              ? `Nenhum profissional anunciou disponibilidade em <strong>${escapeHtml(rawCity)} e região</strong> ainda.`
+              : `Nenhum profissional livre anunciado para esse filtro ainda.`)
+          : (onlyEstablishmentsFilter
+              ? `Ainda não há diárias de <strong>estabelecimentos registrados</strong> para esse filtro.`
+              : rawCity
+                ? `Ainda não há diárias abertas em <strong>${escapeHtml(rawCity)} e região</strong> hoje.`
+                : `Nenhuma vaga encontrada para esse filtro.`);
+
+        const actionBtn = isServiceTab
+          ? `<button class="btn btn-success" onclick="openPublishForCity('${escapeHtml(findAllowedCity(rawCity))}', 'service')">${ic("plus", "ic-sm")} Anunciar minha disponibilidade</button>`
+          : (findAllowedCity(rawCity)
+              ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(findAllowedCity(rawCity))}', 'job')">${ic("plus", "ic-sm")} Publicar vaga em ${escapeHtml(findAllowedCity(rawCity))}</button>`
+              : `<button class="btn btn-accent" onclick="openPublishForCity('', 'job')">${ic("plus", "ic-sm")} Publicar nova vaga</button>`);
 
         container.innerHTML = `
           <div class="empty-state">
-            <div style="font-size: 40px; margin-bottom: 8px;">${onlyEstablishmentsFilter ? "🏢" : "📍"}</div>
+            <div class="empty-icon-circle">${ic(emptyIcon, "ic-lg")}</div>
             <div style="font-size: 15px; color: var(--text); margin-bottom: 6px;">${cityMsg}</div>
-            <p style="font-size: 13px; margin-bottom: 14px;">Você pode anunciar a primeira vaga dessa região agora mesmo ou limpar os filtros.</p>
+            <p style="font-size: 13px; margin-bottom: 14px;">${isServiceTab ? "Faz bicos ou presta serviços? Seja o primeiro a aparecer aqui para clientes e comércios." : "Você pode anunciar uma vaga agora mesmo ou limpar os filtros."}</p>
             <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-              ${
-                findAllowedCity(rawCity)
-                  ? `<button class="btn btn-accent" onclick="openPublishForCity('${escapeHtml(findAllowedCity(rawCity))}')">➕ Publicar vaga em ${escapeHtml(findAllowedCity(rawCity))}</button>`
-                  : ""
-              }
-              <button class="btn btn-outline" onclick="onlyEstablishmentsFilter=false; setCityFilter(''); selectQuickCategory('Todas'); document.getElementById('searchInput').value=''; renderCityChips(); renderJobs();">Ver Todas as Vagas</button>
+              ${actionBtn}
+              <button class="btn btn-outline" onclick="onlyEstablishmentsFilter=false; setCityFilter(''); selectQuickCategory('Todas'); document.getElementById('searchInput').value=''; renderCityChips(); renderJobs();">Limpar Filtros</button>
             </div>
           </div>`;
         return;
@@ -3771,6 +4440,7 @@
 
       container.innerHTML = filtered
         .map((j) => {
+          const isService = j.listingType === "service";
           const jobPhone = String(j.whatsapp || "").replace(/\D/g, "");
           const canDelete =
             currentUserProfile &&
@@ -3778,68 +4448,92 @@
 
           const cityLabel = j.city ? `${j.city}${j.neighborhood ? " • " + j.neighborhood : ""}` : j.location;
           const formattedPay = formatPayValue(j.pay || "");
+          const isNegotiable = formattedPay === "A combinar";
           const last4 = jobPhone.length >= 4 ? jobPhone.slice(-4) : "";
+          const timeAgo = formatTimeAgo(j.createdAt);
 
           const authorUser = registeredUsers.find((u) => u.uid === j.authorUid) || {};
-          const isEstJob = !!(j.isEstablishment || authorUser.accountType === "establishment");
+          const isEstJob = !isService && !!(j.isEstablishment || authorUser.accountType === "establishment");
           const hasCnpj = !!(j.hasCnpj || (authorUser.accountType === "establishment" && isValidCnpj(authorUser.cnpj)));
           const bizType = j.businessType || authorUser.businessType || "";
           const displayAuthor = authorUser.name || j.authorName || "Anunciante";
 
-          const zapMsg = `Olá ${displayAuthor}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Quero Diária e tenho interesse.`;
+          const zapMsg = isService
+            ? `Olá ${displayAuthor}! Vi no app Quero Diária que você está disponível para "${j.title}" em ${cityLabel} e gostaria de combinar um serviço.`
+            : `Olá ${displayAuthor}! Vi a vaga "${j.title}" (${formattedPay}) em ${cityLabel} no app Quero Diária e tenho interesse.`;
 
           const authorPhoto = authorUser.photoURL || j.authorPhoto || "";
           const avatarHtml = authorPhoto
             ? `<img src="${authorPhoto}" class="author-mini-avatar ${isEstJob ? "biz-avatar" : ""}" alt="Foto" />`
             : `<div class="author-mini-avatar ${isEstJob ? "biz-avatar" : ""}">${escapeHtml(getInitials(displayAuthor))}</div>`;
 
-          const establishmentRibbonHtml = isEstJob
-            ? `
-              <div class="establishment-ribbon">
-                <span class="establishment-ribbon-left">
-                  🏢 ESTABELECIMENTO REGISTRADO${bizType ? " • " + escapeHtml(bizType) : ""}
+          let ribbonHtml = "";
+          if (isService) {
+            ribbonHtml = `
+              <div class="service-ribbon">
+                <span class="ribbon-left">
+                  ${ic("user-check", "ic-sm")}
+                  DISPONÍVEL PARA DIÁRIA / SERVIÇO
                 </span>
-                ${hasCnpj ? `<span class="cnpj-pill">✓ CNPJ Verificado</span>` : `<span class="cnpj-pill" style="background:#F26500;">Local Oficial</span>`}
-              </div>`
-            : "";
+                ${j.availableNow ? `<span class="cnpj-pill" style="background:#16a34a;">Livre hoje</span>` : ""}
+              </div>`;
+          } else if (isEstJob) {
+            ribbonHtml = `
+              <div class="establishment-ribbon">
+                <span class="ribbon-left">
+                  ${ic("building", "ic-sm")}
+                  ESTABELECIMENTO REGISTRADO${bizType ? " • " + escapeHtml(bizType) : ""}
+                </span>
+                ${hasCnpj ? `<span class="cnpj-pill">${ic("shield", "ic-sm")} CNPJ</span>` : `<span class="cnpj-pill" style="background:#F26500;">Local Oficial</span>`}
+              </div>`;
+          }
+
+          const cardClass = isService ? "service-card" : (isEstJob ? "establishment-card" : "");
 
           return `
-            <div class="card ${isEstJob ? "establishment-card" : ""}">
-              ${establishmentRibbonHtml}
+            <div class="card ${cardClass}">
+              ${ribbonHtml}
               <div class="job-header">
                 <div class="job-title">${escapeHtml(j.title)}</div>
-                <div class="job-pay">${escapeHtml(formattedPay)}</div>
+                <div class="job-pay ${isNegotiable ? "negotiable" : ""}">${escapeHtml(formattedPay)}</div>
               </div>
               <div class="tags">
-                ${j.isUrgent ? `<span class="tag urgent">🔥 Urgente / Para Hoje</span>` : ""}
-                ${j.hasMeal ? `<span class="tag meal">🍔 Refeição no local</span>` : ""}
-                <span class="tag orange">📍 ${escapeHtml(cityLabel)}</span>
+                ${j.isUrgent ? `<span class="tag urgent">${ic("flame", "ic-sm")} Urgente</span>` : ""}
+                ${j.hasMeal ? `<span class="tag meal">${ic("utensils", "ic-sm")} Refeição no local</span>` : ""}
+                ${isService && j.atHome ? `<span class="tag green">${ic("home", "ic-sm")} Atende a domicílio</span>` : ""}
+                <span class="tag orange">${ic("pin", "ic-sm")} ${escapeHtml(cityLabel)}</span>
                 <span class="tag">${escapeHtml(j.category)}</span>
-                <span class="tag">🕒 ${escapeHtml(j.schedule)}</span>
+                <span class="tag">${ic("clock", "ic-sm")} ${escapeHtml(j.schedule)}</span>
+                ${timeAgo ? `<span class="tag time-meta">${escapeHtml(timeAgo)}</span>` : ""}
               </div>
               ${j.desc ? `<div class="job-desc">${escapeHtml(j.desc)}</div>` : ""}
               <div class="job-footer">
-                <div class="author-box" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(displayAuthor)}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
-                  ${avatarHtml}
-                  <div class="author-info">
-                    ${isEstJob ? "🏢 " : "Por "}<strong>${escapeHtml(displayAuthor)}</strong><br>
-                    ${last4 ? `<span style="opacity:0.85;">Final ${escapeHtml(last4)} • ${isEstJob ? "Toque p/ ver estabelecimento" : "Toque p/ ver perfil"}</span>` : ""}
+                <div class="author-row" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(displayAuthor)}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
+                  <div class="author-box">
+                    ${avatarHtml}
+                    <div class="author-info">
+                      <strong>${escapeHtml(displayAuthor)}</strong><br>
+                      <span>${isService ? "Profissional" : (isEstJob ? "Estabelecimento" : "Contratante")}${last4 ? ` • Final ${escapeHtml(last4)}` : ""}</span>
+                    </div>
                   </div>
+                  <span class="author-chevron">
+                    ${isEstJob ? "Ver local" : "Ver perfil"}
+                    ${ic("chevron-right", "ic-sm")}
+                  </span>
                 </div>
-                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <div class="card-actions-row">
                   ${
                     canDelete
-                      ? `<button class="btn btn-danger" style="padding:8px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">Encerrar</button>`
+                      ? `<button class="btn btn-danger" style="padding:9px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">${ic("trash", "ic-sm")}</button>`
                       : ""
                   }
-                  <button class="btn btn-profile-orange" style="padding:8px 10px; font-size:12px;" onclick='openPublicProfile(${JSON.stringify(j.authorUid || "")}, ${JSON.stringify(displayAuthor)}, ${JSON.stringify(j.whatsapp || "")}, ${JSON.stringify(j.city || "")})'>
-                    ${isEstJob ? "🏢 Ver Local" : "👤 Ver Perfil"}
+                  <button class="btn btn-share" style="padding:9px 12px; font-size:12.5px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
+                    ${ic("share", "ic-sm")}
+                    Compartilhar
                   </button>
-                  <button class="btn btn-share" style="padding:8px 10px; font-size:12px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
-                    📤 Compartilhar
-                  </button>
-                  <button class="btn btn-success" style="padding:8px 12px; font-size:13px;" onclick='openWhatsAppChat(${JSON.stringify(j.whatsapp)}, ${JSON.stringify(zapMsg)}, ${JSON.stringify(j.authorUid || "")})'>
-                    💬 Chamar no WhatsApp
+                  <button class="btn btn-success" style="flex:1; padding:9px 12px; font-size:13px;" onclick='openWhatsAppChat(${JSON.stringify(j.whatsapp)}, ${JSON.stringify(zapMsg)}, ${JSON.stringify(j.authorUid || "")})'>
+                    ${ic("whatsapp", "ic-sm")}
+                    Chamar no WhatsApp
                   </button>
                 </div>
               </div>
@@ -3862,33 +4556,33 @@
       const comment = document.getElementById("revComment").value.trim();
 
       if (!candidate) {
-        showToast("⚠️ Passo 1: Toque primeiro no cartão da pessoa ou estabelecimento que você quer avaliar.");
+        showToast("Passo 1: Toque primeiro no cartão da pessoa ou estabelecimento que você quer avaliar.");
         return;
       }
 
       if (candidate.uid === currentUserProfile.uid) {
-        showToast("⚠️ Você não pode avaliar a sua própria conta.");
+        showToast("Você não pode avaliar a sua própria conta.");
         return;
       }
 
       if (!typedPin || typedPin.length !== 4) {
-        showToast("🔒 Digite o código secreto de 4 dígitos para confirmar a diária.");
+        showToast("Digite o código secreto de 4 dígitos para confirmar a diária.");
         return;
       }
 
       const typedHash = computePinHash(typedPin);
       if (candidate.pinHash && typedHash !== candidate.pinHash) {
-        showToast("❌ Código de 4 dígitos incorreto! Peça o código atualizado no WhatsApp.");
+        showToast("Código de 4 dígitos incorreto. Peça o código atualizado no WhatsApp.");
         return;
       }
 
       if (comment.length < 4 && selectedQuickTags.length === 0) {
-        showToast("⚠️ Marque pelo menos uma etiqueta acima ou escreva um comentário.");
+        showToast("Marque pelo menos uma etiqueta acima ou escreva um comentário.");
         return;
       }
 
       if (hasOffensiveLanguage(comment)) {
-        showToast("⚠️ Use apenas comentários profissionais sobre o trabalho, sem ofensas pessoais.");
+        showToast("Use apenas comentários profissionais sobre o trabalho, sem ofensas pessoais.");
         return;
       }
 
@@ -3921,10 +4615,10 @@
 
         if (existing) {
           await db.collection("avaliacoes").doc(existing.id).update(payload);
-          showToast("✅ Sua avaliação para " + candidate.name + " foi atualizada!");
+          showToast("Sua avaliação para " + candidate.name + " foi atualizada.");
         } else {
           await db.collection("avaliacoes").add(payload);
-          showToast("⭐ Avaliação autenticada com código registrada!");
+          showToast("Avaliação autenticada com código registrada.");
         }
 
         selectedCandidateKey = "";
@@ -4029,8 +4723,8 @@
                     <span class="stars">${stars}</span>
                     ${
                       r.verifiedByPin
-                        ? `<span class="verified-badge">🔒 Diária confirmada com código</span>`
-                        : `<span class="verified-badge">✓ Usuário verificado</span>`
+                        ? `<span class="verified-badge">${ic("shield", "ic-sm")} Diária confirmada</span>`
+                        : `<span class="verified-badge">${ic("check", "ic-sm")} Usuário verificado</span>`
                     }
                   </div>
                   ${tagsHtml}
@@ -4053,18 +4747,18 @@
                 <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick='openPublicProfile(${JSON.stringify(group.uid || "")}, ${JSON.stringify(group.name || "")}, ${JSON.stringify(group.phoneKey || "")}, ${JSON.stringify(group.city || "")})'>
                   ${avatarHtml}
                   <div>
-                    <strong style="font-size:16px; display:block;">
+                    <strong style="font-size:15.5px; display:block;">
                       ${escapeHtml(group.name)}
-                      ${isBiz ? `<span class="biz-mini-badge" style="margin-left:4px;">🏢 Estabelecimento</span>` : ""}
+                      ${isBiz ? `<span class="biz-mini-badge" style="margin-left:4px;">Estabelecimento</span>` : ""}
                     </strong>
                     <span style="font-size:11px; color:var(--muted);">
                       ${(foundUser.businessType || foundUser.profession) ? `<strong style="color:var(--primary);">${escapeHtml(foundUser.businessType || foundUser.profession)}</strong> • ` : ""}
-                      ${last4 ? `📱 Final ${escapeHtml(last4)}` : "👤 Conta verificada"}
-                      ${group.city ? ` • 📍 ${escapeHtml(group.city)}` : ""}
+                      ${last4 ? `Final ${escapeHtml(last4)}` : "Conta verificada"}
+                      ${group.city ? ` • ${escapeHtml(group.city)}` : ""}
                     </span>
                   </div>
                 </div>
-                <span class="rating-summary-badge">⭐ ${avg} • ${countLabel}</span>
+                <span class="rating-summary-badge">${ic("star", "ic-sm ic-fill")} ${avg} • ${countLabel}</span>
               </div>
               ${itemsHtml}
             </div>`;
