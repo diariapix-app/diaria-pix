@@ -189,7 +189,7 @@
       background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Busca e Cidade no Topo (sem duplicação) */
+    /* Busca e Cidade no Topo */
     .header-filters {
       display: flex;
       flex-direction: column;
@@ -363,8 +363,7 @@
 
     /* Cidades e Categorias Rápidas */
     .city-chips,
-    .quick-cat-bar,
-    .role-suggestions-bar {
+    .quick-cat-bar {
       display: flex;
       gap: 7px;
       overflow-x: auto;
@@ -373,8 +372,7 @@
       scrollbar-width: none;
     }
     .city-chips::-webkit-scrollbar,
-    .quick-cat-bar::-webkit-scrollbar,
-    .role-suggestions-bar::-webkit-scrollbar {
+    .quick-cat-bar::-webkit-scrollbar {
       display: none;
     }
     .chip {
@@ -655,6 +653,15 @@
       display: flex;
       gap: 7px;
       align-items: center;
+      flex-wrap: wrap;
+    }
+    .card-actions-row .btn {
+      white-space: nowrap;
+    }
+    .btn-zap-main {
+      flex: 1 1 168px;
+      padding: 10px 12px;
+      font-size: 13px;
     }
 
     /* Seletor de Tipo (Pessoa/Estabelecimento e Contratar/Trabalhar) */
@@ -1535,9 +1542,6 @@
         <polyline points="16 17 21 12 16 7"/>
         <line x1="21" y1="12" x2="9" y2="12"/>
       </symbol>
-      <symbol id="ic-phone" viewBox="0 0 24 24">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-      </symbol>
     </defs>
   </svg>
 
@@ -1713,29 +1717,11 @@
 
       <div class="card">
         <h2 id="pubFormTitle" class="section-heading">Publicar Nova Diária</h2>
-        <p id="pubFormSub" style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Escolha a categoria ou toque em uma profissão rápida abaixo:</p>
+        <p id="pubFormSub" style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">Escreva o que você precisa e publique em poucos segundos:</p>
 
         <div class="form-group">
-          <label>Categoria / Área *</label>
-          <select id="jobCategory" onchange="renderRoleSuggestions()">
-            <option value="Limpeza & Diarista">Limpeza & Diarista</option>
-            <option value="Obras & Ajudante">Construção, Obras & Ajudante</option>
-            <option value="Entregas & Moto">Delivery, Entregas & Moto</option>
-            <option value="Assistência & Reparos">Assistência Técnica & Reparos</option>
-            <option value="Eventos & Garçom">Eventos, Garçom & Festas</option>
-            <option value="Cozinha & Gastronomia">Cozinha, Restaurante & Marmita</option>
-            <option value="Comércio & Caixa">Comércio, Loja & Caixa</option>
-            <option value="Jardinagem & Piscina">Jardinagem, Piscina & Rural</option>
-            <option value="Carga & Mudanças">Carga, Descarga & Mudanças</option>
-            <option value="Beleza & Estética">Beleza, Salão & Estética</option>
-            <option value="Outros Serviços">Outros Serviços</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label id="pubTitleLabel">Função / Profissão (toque para preencher ou digite) *</label>
-          <div class="role-suggestions-bar" id="roleSuggestionsBar"></div>
-          <input type="text" id="jobTitle" placeholder="Ex: Faxina Residencial, Pedreiro, Garçom..." />
+          <label id="pubTitleLabel">O que você precisa? (Função / Diária) *</label>
+          <input type="text" id="jobTitle" placeholder="Ex: Atendente de mesa, Faxina, Pedreiro, Garçom..." />
         </div>
 
         <div class="form-group">
@@ -2341,19 +2327,36 @@
       { value: "Outros Serviços", label: "Outros", icon: "grid" }
     ];
 
-    const PROFESSIONS_BY_CATEGORY = {
-      "Limpeza & Diarista": ["Diarista / Faxina Residencial", "Faxina Pós-Obra", "Passadeira de Roupas", "Auxiliar de Limpeza Comercial", "Zelador(a)"],
-      "Obras & Ajudante": ["Pedreiro", "Ajudante de Pedreiro / Servente", "Pintor Residencial", "Eletricista de Obras", "Gesseiro / Drywall", "Azulejista", "Carpinteiro"],
-      "Entregas & Moto": ["Motoboy / Entregador", "Entregador com Carro", "Entregador de Bicicleta", "Panfletagem / Divulgação"],
-      "Assistência & Reparos": ["Marido de Aluguel (Reparos Gerais)", "Eletricista", "Encanador", "Montador de Móveis", "Técnico de Ar-Condicionado", "Serralheiro"],
-      "Eventos & Garçom": ["Garçom / Garçonete", "Churrasqueiro", "Barman / Bartender", "Copeira de Eventos", "Recepcionista de Festa", "Segurança / Portaria", "Monitor Infantil"],
-      "Cozinha & Gastronomia": ["Cozinheiro(a)", "Auxiliar de Cozinha", "Chapeiro / Lancheiro", "Salgadeiro(a)", "Confeiteiro(a)", "Pizzaiolo", "Lavador de Louças"],
-      "Comércio & Caixa": ["Atendente de Loja", "Operador(a) de Caixa", "Repositor de Mercadorias", "Balconista", "Promotor(a) de Vendas", "Empacotador"],
-      "Jardinagem & Piscina": ["Jardineiro / Corte de Grama", "Roçador de Terreno", "Piscineiro", "Trabalhador Rural / Colheita", "Caseiro"],
-      "Carga & Mudanças": ["Ajudante Carga e Descarga", "Ajudante de Mudança", "Ajudante de Caminhão", "Motorista / Frete / Carreto / Mudanças"],
-      "Beleza & Estética": ["Manicure / Pedicure", "Cabeleireiro(a) / Escovista", "Barbeiro", "Maquiadora", "Designer de Sobrancelhas"],
-      "Outros Serviços": ["Costureira", "Lavador de Carros / Estética Automotiva", "Passeador de Cães", "Serviços Gerais", "Contratante / Empresa"]
-    };
+    const CATEGORY_KEYWORDS = [
+      { category: "Beleza & Estética", words: ["manicur", "pedicur", "cabel", "barbeir", "maquiad", "sobrancelh", "unha", "salao", "estetic", "depilac", "cilios", "escov"] },
+      { category: "Carga & Mudanças", words: ["carga", "descarga", "mudanc", "frete", "carreto", "motorist", "caminhao", "chapa", "descarreg", "carreg"] },
+      { category: "Entregas & Moto", words: ["motoboy", "entreg", "delivery", "panflet", "moto"] },
+      { category: "Limpeza & Diarista", words: ["faxin", "diarist", "limpez", "passadeir", "zelador", "lavar roupa", "domestic"] },
+      { category: "Jardinagem & Piscina", words: ["jardim", "jardineir", "grama", "rocad", "rocar", "piscin", "rural", "chacara", "sitio", "fazenda", "colheit", "caseir", "poda"] },
+      { category: "Assistência & Reparos", words: ["eletricist", "encanador", "montador", "reparo", "manutenc", "ar condicionado", "ar-condicionado", "serralheir", "marido de aluguel", "tecnic", "consert"] },
+      { category: "Obras & Ajudante", words: ["pedreir", "obra", "servent", "pintor", "pintura", "construc", "azulejist", "gesseir", "carpinteir", "reboco", "massa"] },
+      { category: "Eventos & Garçom", words: ["garcom", "garconet", "churrasqueir", "barman", "bartender", "evento", "festa", "copeir", "seguranc", "portaria", "porteir", "recepcionist", "monitor", "buffet", "atendente de mesa"] },
+      { category: "Cozinha & Gastronomia", words: ["cozinh", "cozinheir", "chapeir", "pizzaiol", "salgadeir", "confeiteir", "restaurante", "marmit", "louca", "hamburgu", "sorvet", "acai", "padaria", "padeir", "acougu", "espetinh", "lanchonete"] },
+      { category: "Comércio & Caixa", words: ["loja", "caixa", "atendente", "balconist", "repositor", "vendedor", "venda", "mercado", "supermercado", "comercio", "empacotador", "promotor", "estoquist"] }
+    ];
+
+    function detectCategoryFromText(title, desc) {
+      const normTitle = normalizeText(title);
+      for (const rule of CATEGORY_KEYWORDS) {
+        if (rule.words.some((w) => normTitle.includes(w))) {
+          return rule.category;
+        }
+      }
+      const normDesc = normalizeText(desc);
+      if (normDesc) {
+        for (const rule of CATEGORY_KEYWORDS) {
+          if (rule.words.some((w) => normDesc.includes(w))) {
+            return rule.category;
+          }
+        }
+      }
+      return "Outros Serviços";
+    }
 
     const ALL_PROFESSIONS_LIST = [
       "Trabalhador Geral (Faço várias funções)",
@@ -2555,14 +2558,14 @@
         ? "Anunciar Minha Disponibilidade"
         : "Publicar Nova Diária";
       document.getElementById("pubFormSub").textContent = isService
-        ? "Informe o serviço que você faz para clientes e estabelecimentos te chamarem:"
-        : "Escolha a categoria ou toque em uma profissão rápida abaixo:";
+        ? "Escreva o serviço que você faz para clientes e estabelecimentos te chamarem:"
+        : "Escreva o que você precisa e publique em poucos segundos:";
       document.getElementById("pubTitleLabel").textContent = isService
-        ? "Serviço / Profissão que você faz *"
-        : "Função / Profissão (toque para preencher ou digite) *";
+        ? "Qual serviço você faz? *"
+        : "O que você precisa? (Função / Diária) *";
       document.getElementById("jobTitle").placeholder = isService
         ? "Ex: Manicure e Pedicure, Faxina, Garçom Extra..."
-        : "Ex: Faxina Residencial, Pedreiro, Garçom...";
+        : "Ex: Atendente de mesa, Faxina, Pedreiro, Garçom...";
       document.getElementById("pubPayLabel").textContent = isService
         ? "Valor da Diária ou Serviço (R$)"
         : "Valor da Diária (R$) *";
@@ -2733,16 +2736,6 @@
       document.getElementById("categoryFilter").value = catValue;
       renderQuickCategoriesBar();
       renderJobs();
-    }
-
-    function renderRoleSuggestions() {
-      const bar = document.getElementById("roleSuggestionsBar");
-      const cat = document.getElementById("jobCategory").value;
-      if (!bar) return;
-      const list = PROFESSIONS_BY_CATEGORY[cat] || [];
-      bar.innerHTML = list.map((role) =>
-        `<button type="button" class="chip" onclick="document.getElementById('jobTitle').value='${escapeHtml(role)}'">+ ${escapeHtml(role)}</button>`
-      ).join("");
     }
 
     function getNearbyCitiesFor(baseCity) {
@@ -2923,7 +2916,6 @@
     window.addEventListener("DOMContentLoaded", () => {
       populateProfessionSelects();
       renderQuickCategoriesBar();
-      renderRoleSuggestions();
 
       if (currentUserProfile && findAllowedCity(currentUserProfile.city) && !document.getElementById("cityFilterInput").value) {
         document.getElementById("cityFilterInput").value = findAllowedCity(currentUserProfile.city);
@@ -4216,7 +4208,6 @@
 
       const isService = publishType === "service";
       const title = document.getElementById("jobTitle").value.trim();
-      const category = document.getElementById("jobCategory").value;
       const isNegotiable = document.getElementById("jobPayNegotiable").checked;
       const rawPay = isNegotiable ? "A combinar" : document.getElementById("jobPay").value.trim();
       const rawCity = document.getElementById("jobCity").value.trim();
@@ -4225,6 +4216,7 @@
       const schedule = document.getElementById("jobSchedule").value.trim();
       const whatsapp = document.getElementById("jobWhatsapp").value.replace(/\D/g, "");
       const desc = document.getElementById("jobDesc").value.trim();
+      const category = detectCategoryFromText(title, desc);
 
       if (!title || (!isService && !rawPay) || !rawCity || !neighborhood || !schedule || !whatsapp) {
         showToast("Preencha todos os campos obrigatórios (*).");
@@ -4502,7 +4494,7 @@
                 ${j.hasMeal ? `<span class="tag meal">${ic("utensils", "ic-sm")} Refeição no local</span>` : ""}
                 ${isService && j.atHome ? `<span class="tag green">${ic("home", "ic-sm")} Atende a domicílio</span>` : ""}
                 <span class="tag orange">${ic("pin", "ic-sm")} ${escapeHtml(cityLabel)}</span>
-                <span class="tag">${escapeHtml(j.category)}</span>
+                ${j.category && j.category !== "Outros Serviços" ? `<span class="tag">${escapeHtml(j.category)}</span>` : ""}
                 <span class="tag">${ic("clock", "ic-sm")} ${escapeHtml(j.schedule)}</span>
                 ${timeAgo ? `<span class="tag time-meta">${escapeHtml(timeAgo)}</span>` : ""}
               </div>
@@ -4524,14 +4516,14 @@
                 <div class="card-actions-row">
                   ${
                     canDelete
-                      ? `<button class="btn btn-danger" style="padding:9px 10px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')">${ic("trash", "ic-sm")}</button>`
+                      ? `<button class="btn btn-danger" style="padding:10px 11px; font-size:12px;" onclick="deleteJob('${escapeHtml(j.id)}')" aria-label="Encerrar">${ic("trash", "ic-sm")}</button>`
                       : ""
                   }
-                  <button class="btn btn-share" style="padding:9px 12px; font-size:12.5px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
+                  <button class="btn btn-share" style="padding:10px 12px; font-size:12.5px;" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')">
                     ${ic("share", "ic-sm")}
                     Compartilhar
                   </button>
-                  <button class="btn btn-success" style="flex:1; padding:9px 12px; font-size:13px;" onclick='openWhatsAppChat(${JSON.stringify(j.whatsapp)}, ${JSON.stringify(zapMsg)}, ${JSON.stringify(j.authorUid || "")})'>
+                  <button class="btn btn-success btn-zap-main" onclick='openWhatsAppChat(${JSON.stringify(j.whatsapp)}, ${JSON.stringify(zapMsg)}, ${JSON.stringify(j.authorUid || "")})'>
                     ${ic("whatsapp", "ic-sm")}
                     Chamar no WhatsApp
                   </button>
