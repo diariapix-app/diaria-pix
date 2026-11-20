@@ -4,6 +4,7 @@
   "description": "Quero Diária - Trabalhou, Recebeu!",
   "dependencies": {
     "@capacitor/android": "^6.1.2",
+    "@capacitor/app": "^6.0.1",
     "@capacitor/cli": "^6.1.2",
     "@capacitor/core": "^6.1.2",
     "@capacitor/push-notifications": "^6.0.2",
