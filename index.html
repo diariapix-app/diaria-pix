@@ -57,7 +57,7 @@
     .ic-lg { width: 22px; height: 22px; }
     .ic-fill { fill: currentColor; stroke: none; }
 
-    /* Tela de Abertura */
+    /* Tela de Abertura (2,6 segundos com barra suave) */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -67,7 +67,7 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
     }
     #splashScreen.hide {
       opacity: 0;
@@ -75,15 +75,15 @@
       pointer-events: none;
     }
     .splash-logo-svg {
-      width: 112px;
-      height: 112px;
-      border-radius: 26px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      width: 118px;
+      height: 118px;
+      border-radius: 28px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
       display: block;
     }
     .splash-title {
-      margin-top: 14px;
-      font-size: 26px;
+      margin-top: 16px;
+      font-size: 27px;
       font-weight: 900;
       color: #FFFFFF;
       letter-spacing: -0.5px;
@@ -92,8 +92,8 @@
       color: var(--accent);
     }
     .splash-loader {
-      margin-top: 18px;
-      width: 116px;
+      margin-top: 20px;
+      width: 140px;
       height: 5px;
       background: rgba(255, 255, 255, 0.16);
       border-radius: 999px;
@@ -104,11 +104,11 @@
       height: 100%;
       background: var(--accent);
       border-radius: 999px;
-      animation: splashLoad 0.6s ease-out forwards;
+      animation: splashLoad 2.5s ease-in-out forwards;
       transform-origin: left;
     }
     @keyframes splashLoad {
-      from { transform: scaleX(0.25); }
+      from { transform: scaleX(0.08); }
       to { transform: scaleX(1); }
     }
 
@@ -485,7 +485,7 @@
       white-space: nowrap;
     }
 
-    /* Seletor Contratar vs Trabalhar */
+    /* Seletor de Modo (Contratar/Trabalhar e Pessoa/Estabelecimento) */
     .mode-selector {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -496,7 +496,7 @@
       border: 1.5px solid #cbd5e1;
       background: #FFFFFF;
       border-radius: 14px;
-      padding: 12px 8px;
+      padding: 11px 8px;
       text-align: center;
       cursor: pointer;
       color: #475569;
@@ -510,7 +510,7 @@
       font-weight: 800;
     }
     .mode-btn .m-sub {
-      font-size: 11px;
+      font-size: 10.5px;
       opacity: 0.85;
     }
     .mode-btn.active {
@@ -522,6 +522,11 @@
       border-color: #16a34a;
       background: #f0fdf4;
       color: #15803d;
+    }
+    .mode-btn.active.biz-active {
+      border-color: var(--accent);
+      background: #fff7ed;
+      color: var(--primary);
     }
 
     /* Checkboxes simples no formulário */
@@ -709,9 +714,8 @@
     }
     .menu-content {
       display: none;
-      padding: 0 14px 16px;
+      padding: 14px 14px 16px;
       border-top: 1px solid #f1f5f9;
-      padding-top: 14px;
     }
     .menu-content.open {
       display: block;
@@ -723,10 +727,6 @@
       border-radius: 999px;
       background: #f1f5f9;
       color: #475569;
-    }
-    .menu-badge.active-green {
-      background: #dcfce7;
-      color: #15803d;
     }
 
     .my-post-row {
@@ -753,7 +753,7 @@
       display: flex;
       flex-direction: column;
       gap: 7px;
-      max-height: 200px;
+      max-height: 210px;
       overflow-y: auto;
       padding: 2px;
     }
@@ -770,6 +770,16 @@
     .user-pick-card.selected {
       border-color: var(--primary);
       background: var(--primary-light);
+    }
+    .direct-target-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f0f6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
     }
     .user-avatar {
       width: 38px;
@@ -863,9 +873,9 @@
       gap: 4px;
       background: #dcfce7;
       color: #15803d;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 999px;
     }
 
@@ -911,6 +921,11 @@
       background: #FFFFFF;
       color: var(--text);
       border: 1px solid #cbd5e1;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
     }
     .btn-icon-soft {
       background: #f1f5f9;
@@ -958,6 +973,25 @@
       color: var(--muted);
       margin-top: 5px;
       line-height: 1.4;
+    }
+    .inline-msg {
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 9px 11px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: none;
+      line-height: 1.35;
+    }
+    .inline-msg.error {
+      background: #fee2e2;
+      color: var(--danger);
+      display: block;
+    }
+    .inline-msg.success {
+      background: #dcfce7;
+      color: #15803d;
+      display: block;
     }
 
     /* Navegação Inferior */
@@ -1057,7 +1091,7 @@
     .modal-actions {
       display: flex;
       gap: 8px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     .city-modal-item {
@@ -1136,11 +1170,12 @@
       line-height: 1.35;
     }
 
+    /* Toast no TOPO da tela para nunca ficar escondido atrás do teclado */
     #toast {
       position: fixed;
-      bottom: 78px;
+      top: 16px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(-100px);
       opacity: 0;
       pointer-events: none;
       background: #0A2240;
@@ -1148,12 +1183,13 @@
       padding: 11px 18px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 600;
-      z-index: 400;
+      font-weight: 700;
+      z-index: 600;
       transition: transform 0.25s ease, opacity 0.25s ease;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.3);
       max-width: 92vw;
       text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.16);
     }
     #toast.show {
       transform: translateX(-50%) translateY(0);
@@ -1360,7 +1396,7 @@
   <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event)" />
   <input type="hidden" id="categoryFilter" value="Todas" />
 
-  <div id="splashScreen" onclick="this.classList.add('hide')">
+  <div id="splashScreen" onclick="finishSplash()">
     <svg class="splash-logo-svg" viewBox="0 0 512 512">
       <use href="#quero-diaria-logo"></use>
     </svg>
@@ -1586,15 +1622,15 @@
         <div class="menu-content" id="editDataMenuContent">
           <div class="check-stack" style="margin-bottom:12px;">
             <label class="check-row">
-              <span>Disponível para diária hoje</span>
+              <span id="profAvailLabel">Disponível para diária hoje</span>
               <input type="checkbox" id="profAvailableToday" />
             </label>
           </div>
           <div class="form-group">
-            <label>Nome *</label>
-            <input type="text" id="profName" placeholder="Seu nome ou nome do local" />
+            <label id="profNameLabel">Nome *</label>
+            <input type="text" id="profName" placeholder="Seu nome" />
           </div>
-          <div class="form-group">
+          <div class="form-group" id="profPersonRoleWrap">
             <label>Profissão / Área (opcional)</label>
             <select id="profProfessionSelect"></select>
           </div>
@@ -1605,7 +1641,7 @@
                 type="text"
                 id="profCity"
                 autocomplete="off"
-                placeholder="Selecione sua cidade..."
+                placeholder="Escolha uma cidade da região..."
                 oninput="showFieldCityDropdown('profCity', 'profCityDropdown')"
                 onfocus="showFieldCityDropdown('profCity', 'profCityDropdown')"
               />
@@ -1617,47 +1653,39 @@
             <input type="tel" id="profPhone" placeholder="Ex: 17999999999" />
           </div>
           <div class="form-group">
-            <label>Sobre você (opcional)</label>
+            <label>Sobre (opcional)</label>
             <textarea id="profBio" rows="2" placeholder="Experiência, horários que atende, etc."></textarea>
           </div>
+
+          <div id="profSaveFeedback" class="inline-msg"></div>
           <button type="button" class="btn btn-primary btn-full" id="btnSaveProfile" onclick="saveMyProfile()">Salvar Dados</button>
         </div>
       </div>
 
-      <!-- Menu 3: Sou um Estabelecimento -->
-      <div class="menu-card">
+      <!-- Menu 3: Dados do Estabelecimento (visível SOMENTE para contas de Estabelecimento) -->
+      <div class="menu-card" id="bizMenuCard" style="display:none;">
         <button type="button" class="menu-trigger" onclick="toggleProfileSection('bizMenuContent')">
           <span class="menu-trigger-left">
             <span class="menu-icon-box"><svg class="ic ic-md"><use href="#ic-building"></use></svg></span>
-            <span>Sou um Estabelecimento</span>
+            <span>Dados do Estabelecimento</span>
           </span>
-          <span style="display:inline-flex; align-items:center; gap:6px;">
-            <span class="menu-badge" id="bizStatusBadge">Desativado</span>
-            <svg class="ic ic-sm" style="color:var(--muted);"><use href="#ic-chevron-down"></use></svg>
-          </span>
+          <svg class="ic ic-sm" style="color:var(--muted);"><use href="#ic-chevron-down"></use></svg>
         </button>
         <div class="menu-content" id="bizMenuContent">
-          <div class="check-stack">
-            <label class="check-row">
-              <span>Ativar selo de Estabelecimento</span>
-              <input type="checkbox" id="profIsEstablishment" onchange="toggleBizFieldsVisibility()" />
-            </label>
+          <div class="form-group">
+            <label>O que é o estabelecimento? (opcional)</label>
+            <input type="text" id="profBusinessType" placeholder="Ex: Sorveteria, Bar, Mercado, Loja..." />
           </div>
-          <div id="profBizInputsWrap" style="display:none;">
-            <div class="form-group">
-              <label>O que é o estabelecimento? (opcional)</label>
-              <input type="text" id="profBusinessType" placeholder="Ex: Sorveteria, Bar, Mercado, Loja..." />
-            </div>
-            <div class="form-group">
-              <label>Bairro / Endereço</label>
-              <input type="text" id="profBusinessAddress" placeholder="Ex: Centro ou Rua Brasil, 450" />
-            </div>
-            <div class="form-group">
-              <label>CNPJ (opcional)</label>
-              <input type="tel" id="profBusinessCnpj" maxlength="18" placeholder="Opcional" />
-            </div>
+          <div class="form-group">
+            <label>Bairro / Endereço</label>
+            <input type="text" id="profBusinessAddress" placeholder="Ex: Centro ou Rua Brasil, 450" />
           </div>
-          <button type="button" class="btn btn-primary btn-full" id="btnSaveBiz" onclick="saveBusinessSettings()">Salvar Estabelecimento</button>
+          <div class="form-group">
+            <label>CNPJ (opcional)</label>
+            <input type="tel" id="profBusinessCnpj" maxlength="18" placeholder="Opcional" />
+          </div>
+          <div id="bizSaveFeedback" class="inline-msg"></div>
+          <button type="button" class="btn btn-primary btn-full" id="btnSaveBiz" onclick="saveBusinessSettings()">Salvar Dados do Local</button>
         </div>
       </div>
 
@@ -1711,34 +1739,38 @@
     </div>
   </div>
 
-  <!-- Modal 2: Avaliar Pessoa / Estabelecimento -->
+  <!-- Modal 2: Avaliar Pessoa / Estabelecimento (Direto pelo Perfil ou pela Busca) -->
   <div class="modal-backdrop" id="reviewModal">
     <div class="modal-box">
       <div class="modal-header-row">
         <div class="modal-title">
           <svg class="ic ic-md" style="color:var(--accent);"><use href="#ic-star"></use></svg>
-          Avaliar Pessoa ou Local
+          <span id="reviewModalHeading">Avaliar Pessoa ou Local</span>
         </div>
         <button type="button" class="modal-close-btn" onclick="closeModal('reviewModal')">
           <svg class="ic ic-sm"><use href="#ic-x"></use></svg>
         </button>
       </div>
-      <div class="modal-subtitle">Escolha quem trabalhou ou contratou você e deixe sua nota.</div>
+      <div class="modal-subtitle" id="reviewModalSub">Escolha quem trabalhou ou contratou você e deixe sua nota.</div>
 
-      <div class="form-group">
+      <!-- Quando abre direto pelo perfil de alguém -->
+      <div id="reviewDirectTargetWrap" style="display:none;"></div>
+
+      <!-- Quando abre pela aba Avaliações -->
+      <div class="form-group" id="reviewPickerGroup">
         <label>1. Quem você quer avaliar? *</label>
         <input
           type="text"
           id="userCandidateSearch"
           style="margin-bottom:8px;"
-          placeholder="Buscar pelo nome ou cidade..."
+          placeholder="Buscar por nome, cidade ou telefone..."
           oninput="populateReviewTargets()"
         />
         <div class="user-picker-list" id="userPickerList"></div>
       </div>
 
       <div class="form-group">
-        <label>2. Sua nota *</label>
+        <label id="reviewRatingLabel">2. Sua nota *</label>
         <input type="hidden" id="revRating" value="5" />
         <div class="star-selector" id="starSelector">
           <button type="button" class="star-btn active" onclick="selectRating(5)">
@@ -1760,7 +1792,7 @@
       </div>
 
       <div class="form-group">
-        <label>3. Pontos principais (opcional)</label>
+        <label id="reviewTagsLabel">3. Pontos principais (opcional)</label>
         <div class="quick-tags-grid" id="quickTagsGrid">
           <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Pagou na hora')">Pagou na hora</button>
           <button type="button" class="quick-tag-btn" onclick="toggleQuickTag(this, 'Muito pontual')">Muito pontual</button>
@@ -1771,7 +1803,7 @@
       </div>
 
       <div class="form-group">
-        <label>4. Comentário (opcional)</label>
+        <label id="reviewCommentLabel">4. Comentário (opcional)</label>
         <textarea id="revComment" rows="2" placeholder="Conte rapidamente como foi..."></textarea>
       </div>
 
@@ -1788,7 +1820,7 @@
           <svg class="ic ic-sm"><use href="#ic-x"></use></svg>
         </button>
       </div>
-      <div class="modal-subtitle">Acesse sua conta para publicar ou avaliar.</div>
+      <div class="modal-subtitle">Entre na sua conta para publicar vagas, anunciar seus serviços ou avaliar.</div>
 
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabLoginBtn" onclick="setAuthMode('login')">Já tenho conta</button>
@@ -1799,9 +1831,31 @@
 
       <div id="registerFields" style="display:none;">
         <div class="form-group">
-          <label>Seu Nome (ou nome do local) *</label>
+          <label>Tipo de conta *</label>
+          <div class="mode-selector" style="margin-bottom:4px;">
+            <button type="button" class="mode-btn active" id="regTypePersonBtn" onclick="setRegAccountType('person')">
+              <svg class="ic ic-md"><use href="#ic-user"></use></svg>
+              <span class="m-title">Pessoa</span>
+              <span class="m-sub">Diarista ou contratante</span>
+            </button>
+            <button type="button" class="mode-btn" id="regTypeBizBtn" onclick="setRegAccountType('establishment')">
+              <svg class="ic ic-md"><use href="#ic-building"></use></svg>
+              <span class="m-title">Estabelecimento</span>
+              <span class="m-sub">Bar, loja, comércio...</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label id="regNameLabel">Seu Nome *</label>
           <input type="text" id="regName" placeholder="Ex: Maria Aparecida" />
         </div>
+
+        <div class="form-group" id="regBizTypeGroup" style="display:none;">
+          <label>O que é o estabelecimento? (opcional)</label>
+          <input type="text" id="regBizType" placeholder="Ex: Sorveteria, Bar, Mercado, Loja..." />
+        </div>
+
         <div class="form-group">
           <label>WhatsApp (com DDD) *</label>
           <input type="tel" id="regPhone" placeholder="Ex: 17999999999" />
@@ -1835,8 +1889,9 @@
         <button type="button" class="link-btn" onclick="resetPassword()">Esqueci minha senha</button>
       </div>
 
-      <div class="modal-actions">
+      <div class="modal-actions" style="flex-direction:column; gap:8px;">
         <button class="btn btn-primary btn-full" id="authSubmitBtn" onclick="submitAuth()">Entrar</button>
+        <button type="button" class="btn btn-outline btn-full" onclick="cancelAuthModal()">Ver vagas sem entrar</button>
       </div>
     </div>
   </div>
@@ -1954,10 +2009,28 @@
       return `<svg class="ic ${extraClass}"><use href="#ic-${name}"></use></svg>`;
     }
 
-    setTimeout(() => {
+    let splashDone = false;
+    let authStateResolved = false;
+    let initialAuthPromptDone = false;
+
+    function finishSplash() {
+      if (splashDone) return;
+      splashDone = true;
       const splash = document.getElementById("splashScreen");
       if (splash) splash.classList.add("hide");
-    }, 600);
+      maybeShowInitialAuthPrompt();
+    }
+
+    function maybeShowInitialAuthPrompt() {
+      if (!splashDone || !authStateResolved || initialAuthPromptDone) return;
+      initialAuthPromptDone = true;
+      if (!auth.currentUser && !currentUserProfile) {
+        setAuthMode("login");
+        openModal("authModal");
+      }
+    }
+
+    setTimeout(finishSplash, 2600);
 
     const firebaseConfig = {
       apiKey: "AIzaSyBov7_CP1kzn541zq3Ztl-6bgrGSini9M4",
@@ -2089,8 +2162,10 @@
     let includeNearbyInMural = localStorage.getItem("dp_mural_nearby") !== "false";
     let activeFeedType = "job";
     let publishType = "job";
+    let regAccountType = "person";
     let currentCandidatesList = [];
     let selectedCandidateKey = "";
+    let lockedReviewTarget = null;
     let selectedQuickTags = [];
     let authMode = "login";
     let alertCategory = localStorage.getItem("dp_alert_cat") || "Todas";
@@ -2293,6 +2368,20 @@
       btn.classList.toggle("btn-accent", !isService);
     }
 
+    function setRegAccountType(type) {
+      regAccountType = type === "establishment" ? "establishment" : "person";
+      const isBiz = regAccountType === "establishment";
+
+      document.getElementById("regTypePersonBtn").classList.toggle("active", !isBiz);
+      const bizBtn = document.getElementById("regTypeBizBtn");
+      bizBtn.classList.toggle("active", isBiz);
+      bizBtn.classList.toggle("biz-active", isBiz);
+
+      document.getElementById("regNameLabel").textContent = isBiz ? "Nome do Estabelecimento *" : "Seu Nome *";
+      document.getElementById("regName").placeholder = isBiz ? "Ex: Sorveteria da Rô, Bar Central..." : "Ex: Maria Aparecida";
+      document.getElementById("regBizTypeGroup").style.display = isBiz ? "block" : "none";
+    }
+
     function togglePayNegotiable() {
       const checked = document.getElementById("jobPayNegotiable").checked;
       const input = document.getElementById("jobPay");
@@ -2310,9 +2399,11 @@
       if (el) el.classList.toggle("open");
     }
 
-    function toggleBizFieldsVisibility() {
-      const checked = document.getElementById("profIsEstablishment").checked;
-      document.getElementById("profBizInputsWrap").style.display = checked ? "block" : "none";
+    function showInlineFeedback(id, type, msg) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.className = "inline-msg" + (msg ? " " + type : "");
+      el.textContent = msg || "";
     }
 
     function handleProfilePhotoUpload(event) {
@@ -2550,6 +2641,8 @@
           localStorage.removeItem("dp_saved_profile");
           updateUserUI();
         }
+        authStateResolved = true;
+        maybeShowInitialAuthPrompt();
         renderJobs();
         renderReviews();
       });
@@ -2603,42 +2696,81 @@
     }
 
     async function saveMyProfile() {
+      showInlineFeedback("profSaveFeedback", "", "");
       if (!currentUserProfile || !currentUserProfile.uid) return;
+
+      const isBiz = currentUserProfile.accountType === "establishment";
       const name = document.getElementById("profName").value.trim();
-      const profession = document.getElementById("profProfessionSelect").value;
+      const profession = isBiz ? (currentUserProfile.profession || "") : document.getElementById("profProfessionSelect").value;
       const rawCity = document.getElementById("profCity").value.trim();
       const city = findAllowedCity(rawCity);
       const phone = document.getElementById("profPhone").value.replace(/\D/g, "");
       const bio = document.getElementById("profBio").value.trim();
       const availableToday = document.getElementById("profAvailableToday").checked;
 
-      if (!name || !rawCity || phone.length < 10) {
-        showToast("Preencha nome, cidade e WhatsApp com DDD.");
+      if (!name) {
+        showInlineFeedback("profSaveFeedback", "error", "Digite seu nome antes de salvar.");
+        showToast("Digite seu nome.");
         return;
       }
-      if (!city) {
-        showToast("Escolha uma das 15 cidades da região na lista.");
+      if (!rawCity || !city) {
+        showInlineFeedback("profSaveFeedback", "error", "Toque no campo Cidade e escolha uma das 15 cidades da região.");
+        showToast("Escolha uma das 15 cidades da região.");
+        return;
+      }
+      if (phone.length < 10) {
+        showInlineFeedback("profSaveFeedback", "error", "Informe seu WhatsApp com DDD (ex: 17999999999).");
+        showToast("Informe o WhatsApp com DDD.");
         return;
       }
       if (hasOffensiveLanguage(name) || hasOffensiveLanguage(bio)) {
-        showToast("Remova palavras ofensivas antes de salvar.");
+        showInlineFeedback("profSaveFeedback", "error", "Remova palavras ofensivas antes de salvar.");
         return;
       }
 
       const btn = document.getElementById("btnSaveProfile");
       btn.disabled = true;
       btn.textContent = "Salvando...";
+
       try {
         currentUserProfile = { ...currentUserProfile, name, profession, city, phone, bio, availableToday };
         localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
         alertCity = city;
         localStorage.setItem("dp_alert_city", city);
+
+        if (auth.currentUser) {
+          auth.currentUser.updateProfile({ displayName: name }).catch(() => {});
+        }
+
         await db.collection("usuarios").doc(currentUserProfile.uid).set({
-          name, profession, city, alertCity: city, phone, bio, availableToday, updatedAt: Date.now()
+          name,
+          profession,
+          city,
+          alertCity: city,
+          phone,
+          bio,
+          availableToday,
+          updatedAt: Date.now()
         }, { merge: true });
+
+        // Atualiza imediatamente a lista local de usuários e os anúncios já publicados com o novo nome
+        const idx = registeredUsers.findIndex((u) => u.uid === currentUserProfile.uid);
+        if (idx >= 0) {
+          registeredUsers[idx] = { ...registeredUsers[idx], name, city, phone, bio, profession, availableToday };
+        }
+
+        const myPostedJobs = jobs.filter((j) => j.authorUid === currentUserProfile.uid);
+        myPostedJobs.forEach((j) => {
+          j.authorName = name;
+          db.collection("vagas").doc(j.id).update({ authorName: name }).catch(() => {});
+        });
+
         updateUserUI();
-        showToast("Dados atualizados.");
+        renderJobs();
+        showInlineFeedback("profSaveFeedback", "success", "Alterações salvas com sucesso!");
+        showToast("Nome e dados atualizados!");
       } catch (e) {
+        showInlineFeedback("profSaveFeedback", "error", "Não foi possível salvar. Verifique sua conexão.");
         showToast("Erro ao salvar. Confira sua internet.");
       } finally {
         btn.disabled = false;
@@ -2647,14 +2779,14 @@
     }
 
     async function saveBusinessSettings() {
+      showInlineFeedback("bizSaveFeedback", "", "");
       if (!currentUserProfile || !currentUserProfile.uid) return;
-      const isEst = document.getElementById("profIsEstablishment").checked;
-      const businessType = isEst ? document.getElementById("profBusinessType").value.trim() : "";
-      const businessAddress = isEst ? document.getElementById("profBusinessAddress").value.trim() : "";
-      const cnpj = isEst ? document.getElementById("profBusinessCnpj").value.replace(/\D/g, "") : "";
+      const businessType = document.getElementById("profBusinessType").value.trim();
+      const businessAddress = document.getElementById("profBusinessAddress").value.trim();
+      const cnpj = document.getElementById("profBusinessCnpj").value.replace(/\D/g, "");
 
-      if (isEst && cnpj && cnpj.length !== 14) {
-        showToast("Se informar o CNPJ, digite os 14 números ou deixe em branco.");
+      if (cnpj && cnpj.length !== 14) {
+        showInlineFeedback("bizSaveFeedback", "error", "Se informar o CNPJ, digite os 14 números ou deixe em branco.");
         return;
       }
 
@@ -2662,19 +2794,23 @@
       btn.disabled = true;
       btn.textContent = "Salvando...";
       try {
-        const accountType = isEst ? "establishment" : "person";
-        currentUserProfile = { ...currentUserProfile, accountType, businessType, businessAddress, cnpj };
+        currentUserProfile = { ...currentUserProfile, accountType: "establishment", businessType, businessAddress, cnpj };
         localStorage.setItem("dp_saved_profile", JSON.stringify(currentUserProfile));
         await db.collection("usuarios").doc(currentUserProfile.uid).set({
-          accountType, businessType, businessAddress, cnpj, updatedAt: Date.now()
+          accountType: "establishment",
+          businessType,
+          businessAddress,
+          cnpj,
+          updatedAt: Date.now()
         }, { merge: true });
         updateUserUI();
-        showToast(isEst ? "Selo de Estabelecimento ativado." : "Perfil alterado para conta pessoal.");
+        showInlineFeedback("bizSaveFeedback", "success", "Dados do estabelecimento salvos!");
+        showToast("Dados do estabelecimento salvos.");
       } catch (e) {
-        showToast("Erro ao salvar. Confira sua internet.");
+        showInlineFeedback("bizSaveFeedback", "error", "Erro ao salvar. Confira sua internet.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "Salvar Estabelecimento";
+        btn.textContent = "Salvar Dados do Local";
       }
     }
 
@@ -2710,7 +2846,12 @@
       const displayPhone = foundUser.phone || cleanPhone;
       const displayBio = foundUser.bio || "";
       const photoURL = foundUser.photoURL || "";
-      const targetUid = foundUser.uid || uid || "";
+      const targetUid = foundUser.uid || uid || ("phone_" + (phoneKey || "anon"));
+
+      const isOwnProfile = currentUserProfile && (
+        (targetUid && targetUid === currentUserProfile.uid) ||
+        (phoneKey && currentUserProfile.phone && String(currentUserProfile.phone).replace(/\D/g, "").slice(-8) === phoneKey)
+      );
 
       const imgEl = document.getElementById("pubProfileImg");
       const phEl = document.getElementById("pubProfilePlaceholder");
@@ -2767,7 +2908,7 @@
       }
 
       const zapBtn = document.getElementById("pubProfileZapBtn");
-      if (displayPhone) {
+      if (displayPhone && !isOwnProfile) {
         zapBtn.style.display = "inline-flex";
         zapBtn.onclick = () => {
           closeModal("viewProfileModal");
@@ -2777,10 +2918,24 @@
         zapBtn.style.display = "none";
       }
 
-      document.getElementById("pubProfileEvalBtn").onclick = () => {
-        closeModal("viewProfileModal");
-        openReviewModal(targetUid);
-      };
+      const evalBtn = document.getElementById("pubProfileEvalBtn");
+      if (isOwnProfile) {
+        evalBtn.style.display = "none";
+      } else {
+        evalBtn.style.display = "inline-flex";
+        evalBtn.onclick = () => {
+          closeModal("viewProfileModal");
+          openReviewModal(targetUid, {
+            key: targetUid,
+            uid: targetUid,
+            name: displayName,
+            city: displayCity,
+            photoURL: photoURL,
+            phone: displayPhone,
+            phoneKey: phoneKey
+          });
+        };
+      }
 
       openModal("viewProfileModal");
     }
@@ -2841,6 +2996,10 @@
       const cleanPhone = String(phone || "").replace(/\D/g, "");
       if (targetUid && !contactedKeys.includes(targetUid)) contactedKeys.push(targetUid);
       if (cleanPhone && !contactedKeys.includes(cleanPhone)) contactedKeys.push(cleanPhone);
+      if (cleanPhone.length >= 8) {
+        const last8 = cleanPhone.slice(-8);
+        if (!contactedKeys.includes(last8)) contactedKeys.push(last8);
+      }
       localStorage.setItem("dp_contacted_keys", JSON.stringify(contactedKeys));
 
       const fullPhone = cleanPhone.startsWith("55") ? cleanPhone : "55" + cleanPhone;
@@ -2927,7 +3086,9 @@
       }
 
       if (authMode === "register") {
+        const isBiz = regAccountType === "establishment";
         const name = document.getElementById("regName").value.trim();
+        const bizType = isBiz ? document.getElementById("regBizType").value.trim() : "";
         const phone = document.getElementById("regPhone").value.replace(/\D/g, "");
         const rawCity = document.getElementById("regCity").value.trim();
         const city = findAllowedCity(rawCity);
@@ -2951,9 +3112,12 @@
           await cred.user.updateProfile({ displayName: name });
 
           const userDoc = {
-            accountType: "person",
+            accountType: regAccountType,
             name,
-            profession: "Não informada",
+            profession: isBiz ? bizType : "Não informada",
+            businessType: bizType,
+            businessAddress: "",
+            cnpj: "",
             phone,
             city,
             availableToday: true,
@@ -3070,12 +3234,14 @@
       const isBiz = currentUserProfile.accountType === "establishment";
 
       document.getElementById("myProfileNameDisplay").textContent = currentUserProfile.name || "Meu Perfil";
-      document.getElementById("myProfileSubLine").textContent = (currentUserProfile.city || "Catanduva") + " - SP";
+      document.getElementById("myProfileSubLine").textContent = (currentUserProfile.city || "Região") + " - SP";
       document.getElementById("myProfileEstBadgeWrap").style.display = isBiz ? "block" : "none";
 
-      const bizBadge = document.getElementById("bizStatusBadge");
-      bizBadge.textContent = isBiz ? "Ativo" : "Desativado";
-      bizBadge.classList.toggle("active-green", isBiz);
+      // Mostra "Dados do Estabelecimento" SOMENTE para contas de Estabelecimento
+      document.getElementById("bizMenuCard").style.display = isBiz ? "block" : "none";
+      document.getElementById("profPersonRoleWrap").style.display = isBiz ? "none" : "block";
+      document.getElementById("profNameLabel").textContent = isBiz ? "Nome do Estabelecimento *" : "Nome *";
+      document.getElementById("profAvailLabel").textContent = isBiz ? "Contratando diária hoje" : "Disponível para diária hoje";
 
       const cleanPhone = String(currentUserProfile.phone || "").replace(/\D/g, "");
       const phoneKey = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : "";
@@ -3105,8 +3271,6 @@
         document.getElementById("profProfessionSelect").value = currentUserProfile.profession;
       }
 
-      document.getElementById("profIsEstablishment").checked = isBiz;
-      document.getElementById("profBizInputsWrap").style.display = isBiz ? "block" : "none";
       const cleanBizType = (currentUserProfile.businessType && !currentUserProfile.businessType.includes(" / ")) ? currentUserProfile.businessType : "";
       document.getElementById("profBusinessType").value = cleanBizType;
       document.getElementById("profBusinessAddress").value = currentUserProfile.businessAddress || "";
@@ -3157,6 +3321,8 @@
       if (tab === "avaliacoes") {
         renderReviews();
       } else if (tab === "perfil" || tab === "publicar") {
+        showInlineFeedback("profSaveFeedback", "", "");
+        showInlineFeedback("bizSaveFeedback", "", "");
         updateUserUI();
         if (tab === "publicar" && !document.getElementById("jobDate").value) {
           document.getElementById("jobDate").value = getTodayIsoDate();
@@ -3477,6 +3643,14 @@
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
 
+    function isContactedCandidate(uid, phone, phoneKey) {
+      return (
+        (uid && contactedKeys.includes(uid)) ||
+        (phone && contactedKeys.includes(phone)) ||
+        (phoneKey && contactedKeys.includes(phoneKey))
+      );
+    }
+
     function buildUnifiedCandidates() {
       const rawList = [];
       registeredUsers.forEach((u) => {
@@ -3515,27 +3689,82 @@
           if (item.name.length > existing.name.length) existing.name = item.name;
           if (!existing.city && item.city) existing.city = item.city;
           if (!existing.photoURL && item.photoURL) existing.photoURL = item.photoURL;
+          if (!existing.phone && item.phone) {
+            existing.phone = item.phone;
+            existing.phoneKey = itemPhoneKey;
+          }
         } else {
           const safeKey = item.uid || ("phone_" + (itemPhoneKey || Math.random().toString(36).slice(2)));
-          unified.push({ ...item, key: safeKey, uid: safeKey, phoneKey: itemPhoneKey });
+          unified.push({
+            ...item,
+            key: safeKey,
+            uid: safeKey,
+            phoneKey: itemPhoneKey
+          });
         }
       });
+
+      // Contatos recentes no WhatsApp aparecem primeiro para facilitar a avaliação mútua
+      unified.forEach((c) => {
+        c.isContacted = isContactedCandidate(c.uid, c.phone, c.phoneKey);
+      });
+      unified.sort((a, b) => Number(b.isContacted) - Number(a.isContacted));
       return unified;
     }
 
-    function openReviewModal(preselectUid) {
+    function openReviewModal(preselectUid, directData) {
       if (!currentUserProfile) {
         if (auth.currentUser) {
-          loadUserProfileData(auth.currentUser).then(() => openReviewModal(preselectUid));
+          loadUserProfileData(auth.currentUser).then(() => openReviewModal(preselectUid, directData));
           return;
         }
-        pendingAction = () => openReviewModal(preselectUid);
+        pendingAction = () => openReviewModal(preselectUid, directData);
         setAuthMode("login");
         openModal("authModal");
         return;
       }
-      if (preselectUid) selectedCandidateKey = preselectUid;
-      populateReviewTargets();
+
+      const directWrap = document.getElementById("reviewDirectTargetWrap");
+      const pickerGroup = document.getElementById("reviewPickerGroup");
+
+      if (directData && directData.name) {
+        lockedReviewTarget = directData;
+        selectedCandidateKey = directData.key || directData.uid || "";
+
+        const avatarHtml = directData.photoURL
+          ? `<img src="${directData.photoURL}" class="user-avatar" alt="Foto" />`
+          : `<div class="user-avatar">${escapeHtml(getInitials(directData.name))}</div>`;
+
+        directWrap.innerHTML = `
+          <div class="direct-target-box">
+            ${avatarHtml}
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:14px; font-weight:800; color:var(--primary);">${escapeHtml(directData.name)}</div>
+              <div style="font-size:12px; color:var(--muted);">${escapeHtml(directData.city || "Região")} - SP</div>
+            </div>
+          </div>`;
+        directWrap.style.display = "block";
+        pickerGroup.style.display = "none";
+
+        document.getElementById("reviewModalHeading").textContent = "Avaliar Perfil";
+        document.getElementById("reviewModalSub").textContent = "Deixe sua nota e comentário sobre a diária ou serviço:";
+        document.getElementById("reviewRatingLabel").textContent = "1. Sua nota *";
+        document.getElementById("reviewTagsLabel").textContent = "2. Pontos principais (opcional)";
+        document.getElementById("reviewCommentLabel").textContent = "3. Comentário (opcional)";
+      } else {
+        lockedReviewTarget = null;
+        if (preselectUid) selectedCandidateKey = preselectUid;
+        directWrap.style.display = "none";
+        pickerGroup.style.display = "block";
+
+        document.getElementById("reviewModalHeading").textContent = "Avaliar Pessoa ou Local";
+        document.getElementById("reviewModalSub").textContent = "Escolha quem trabalhou ou contratou você (busque por nome ou telefone):";
+        document.getElementById("reviewRatingLabel").textContent = "2. Sua nota *";
+        document.getElementById("reviewTagsLabel").textContent = "3. Pontos principais (opcional)";
+        document.getElementById("reviewCommentLabel").textContent = "4. Comentário (opcional)";
+        populateReviewTargets();
+      }
+
       openModal("reviewModal");
     }
 
@@ -3548,10 +3777,14 @@
       const listEl = document.getElementById("userPickerList");
       if (!listEl) return;
       const searchVal = normalizeText(document.getElementById("userCandidateSearch").value || "");
+      const digitsVal = searchVal.replace(/\D/g, "");
       currentCandidatesList = buildUnifiedCandidates();
 
       const candidates = currentCandidatesList.filter((c) =>
-        !searchVal || normalizeText(c.name).includes(searchVal) || normalizeText(c.city).includes(searchVal)
+        !searchVal ||
+        normalizeText(c.name).includes(searchVal) ||
+        normalizeText(c.city).includes(searchVal) ||
+        (digitsVal && c.phone && c.phone.includes(digitsVal))
       );
 
       if (candidates.length === 0) {
@@ -3564,12 +3797,18 @@
         const avatarHtml = c.photoURL
           ? `<img src="${c.photoURL}" class="user-avatar" alt="Foto" />`
           : `<div class="user-avatar">${escapeHtml(getInitials(c.name))}</div>`;
+        const last4 = c.phone && c.phone.length >= 4 ? c.phone.slice(-4) : "";
         return `
           <div class="user-pick-card ${isSelected ? "selected" : ""}" onclick="selectCandidateByKey('${escapeHtml(c.key)}')">
             ${avatarHtml}
             <div style="flex:1; min-width:0;">
-              <div style="font-size:13.5px; font-weight:800; color:var(--text);">${escapeHtml(c.name)}</div>
-              <div style="font-size:11.5px; color:var(--muted);">${c.city ? escapeHtml(c.city) : "Região"}</div>
+              <div style="font-size:13.5px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                <span>${escapeHtml(c.name)}</span>
+                ${c.isContacted ? `<span class="verified-badge">Chamou no WhatsApp</span>` : ""}
+              </div>
+              <div style="font-size:11.5px; color:var(--muted); margin-top:2px;">
+                ${c.city ? escapeHtml(c.city) : "Região"}${last4 ? ` • Final ${escapeHtml(last4)}` : ""}
+              </div>
             </div>
             <div style="color:var(--primary);">${isSelected ? ic("check", "ic-md") : ""}</div>
           </div>`;
@@ -3596,7 +3835,7 @@
 
     async function publishReview() {
       if (!currentUserProfile) return;
-      const candidate = currentCandidatesList.find((c) => c.key === selectedCandidateKey);
+      const candidate = lockedReviewTarget || currentCandidatesList.find((c) => c.key === selectedCandidateKey);
       const rating = Number(document.getElementById("revRating").value);
       const comment = document.getElementById("revComment").value.trim();
 
@@ -3632,7 +3871,7 @@
           rating,
           tags: [...selectedQuickTags],
           comment,
-          verifiedContact: contactedKeys.includes(candidate.uid) || (candidate.phone && contactedKeys.includes(candidate.phone)),
+          verifiedContact: isContactedCandidate(candidate.uid, candidate.phone, candidate.phoneKey),
           authorName: currentUserProfile.name,
           authorUid: currentUserProfile.uid,
           createdAt: Date.now()
@@ -3643,9 +3882,10 @@
           showToast("Avaliação atualizada.");
         } else {
           await db.collection("avaliacoes").add(payload);
-          showToast("Avaliação publicada.");
+          showToast("Avaliação publicada!");
         }
 
+        lockedReviewTarget = null;
         selectedCandidateKey = "";
         document.getElementById("revComment").value = "";
         selectedQuickTags = [];
@@ -3678,7 +3918,7 @@
           <div class="empty-state">
             <div class="empty-icon-circle">${ic("star", "ic-lg")}</div>
             <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:5px;">Nenhuma avaliação ainda</div>
-            <p style="font-size:13px;">Toque em <strong>Avaliar</strong> acima para deixar a primeira nota.</p>
+            <p style="font-size:13px;">Toque em <strong>Avaliar</strong> acima ou avalie direto pelo perfil de quem trabalhou ou contratou você.</p>
           </div>`;
         return;
       }
@@ -3709,9 +3949,10 @@
         const foundUser = registeredUsers.find((u) =>
           (group.uid && u.uid === group.uid) || (group.phoneKey && String(u.phone || "").replace(/\D/g, "").slice(-8) === group.phoneKey)
         ) || {};
+        const displayName = foundUser.name || group.name;
         const avatarHtml = foundUser.photoURL
           ? `<img src="${foundUser.photoURL}" class="user-avatar" alt="Foto" />`
-          : `<div class="user-avatar">${escapeHtml(getInitials(group.name))}</div>`;
+          : `<div class="user-avatar">${escapeHtml(getInitials(displayName))}</div>`;
 
         const itemsHtml = group.items.map((r) => {
           const stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
@@ -3738,10 +3979,10 @@
         return `
           <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-              <div style="display:flex; align-items:center; gap:9px; cursor:pointer; min-width:0;" onclick='openPublicProfile(${JSON.stringify(group.uid || "")}, ${JSON.stringify(group.name || "")}, ${JSON.stringify(group.phoneKey || "")}, ${JSON.stringify(group.city || "")})'>
+              <div style="display:flex; align-items:center; gap:9px; cursor:pointer; min-width:0;" onclick='openPublicProfile(${JSON.stringify(group.uid || "")}, ${JSON.stringify(displayName || "")}, ${JSON.stringify(group.phoneKey || "")}, ${JSON.stringify(group.city || "")})'>
                 ${avatarHtml}
                 <div style="min-width:0;">
-                  <strong style="font-size:15px; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(group.name)}</strong>
+                  <strong style="font-size:15px; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(displayName)}</strong>
                   <span style="font-size:11.5px; color:var(--muted);">${group.city ? escapeHtml(group.city) : "Região"}</span>
                 </div>
               </div>
