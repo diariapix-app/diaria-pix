@@ -1739,7 +1739,7 @@
     </div>
   </div>
 
-  <!-- Modal 2: Avaliar Pessoa / Estabelecimento (Direto pelo Perfil ou pela Busca) -->
+  <!-- Modal 2: Avaliar Pessoa / Estabelecimento -->
   <div class="modal-backdrop" id="reviewModal">
     <div class="modal-box">
       <div class="modal-header-row">
@@ -1753,10 +1753,8 @@
       </div>
       <div class="modal-subtitle" id="reviewModalSub">Escolha quem trabalhou ou contratou você e deixe sua nota.</div>
 
-      <!-- Quando abre direto pelo perfil de alguém -->
       <div id="reviewDirectTargetWrap" style="display:none;"></div>
 
-      <!-- Quando abre pela aba Avaliações -->
       <div class="form-group" id="reviewPickerGroup">
         <label>1. Quem você quer avaliar? *</label>
         <input
@@ -2012,6 +2010,9 @@
     let splashDone = false;
     let authStateResolved = false;
     let initialAuthPromptDone = false;
+    let lastBackPressTime = 0;
+    let nativeBackReady = false;
+    let cachedAppPlugin = null;
 
     function finishSplash() {
       if (splashDone) return;
@@ -2048,22 +2049,86 @@
 
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
 
-    try {
-      window.history.replaceState({ page: "mural" }, "", window.location.pathname);
-      window.addEventListener("popstate", () => {
-        const openModalEl = document.querySelector(".modal-backdrop.open");
-        if (openModalEl) {
-          openModalEl.classList.remove("open");
-          window.history.pushState({ page: "mural" }, "", window.location.pathname);
-          return;
+    /* ================= CONTROLE DO BOTÃO VOLTAR / GESTOS ANDROID ================= */
+    function getAppPlugin() {
+      if (cachedAppPlugin) return cachedAppPlugin;
+      if (!window.Capacitor) return null;
+      if (window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        cachedAppPlugin = window.Capacitor.Plugins.App;
+        return cachedAppPlugin;
+      }
+      if (typeof window.Capacitor.registerPlugin === "function") {
+        try {
+          cachedAppPlugin = window.Capacitor.registerPlugin("App");
+          return cachedAppPlugin;
+        } catch (e) {}
+      }
+      return null;
+    }
+
+    function handleBackAction(appPlugin) {
+      // 1. Se houver lista de cidade aberta em algum campo, fecha primeiro
+      const openDropdowns = document.querySelectorAll(".field-city-dropdown.open");
+      if (openDropdowns.length > 0) {
+        openDropdowns.forEach((el) => el.classList.remove("open"));
+        return;
+      }
+
+      // 2. Se houver alguma janela (modal) aberta, fecha a janela
+      const openModals = document.querySelectorAll(".modal-backdrop.open");
+      if (openModals.length > 0) {
+        const topModal = openModals[openModals.length - 1];
+        if (topModal.id === "authModal") {
+          cancelAuthModal();
+        } else {
+          topModal.classList.remove("open");
         }
-        const muralActive = document.getElementById("sec-mural").classList.contains("active");
-        if (!muralActive) {
-          switchTab("mural");
-          window.history.pushState({ page: "mural" }, "", window.location.pathname);
+        return;
+      }
+
+      // 3. Se estiver em Publicar, Avaliações ou Perfil, volta para o Início
+      const muralEl = document.getElementById("sec-mural");
+      if (muralEl && !muralEl.classList.contains("active")) {
+        switchTab("mural");
+        return;
+      }
+
+      // 4. Já estando no Início, exige dois toques seguidos para sair do app
+      const now = Date.now();
+      if (now - lastBackPressTime < 2200) {
+        if (appPlugin && typeof appPlugin.exitApp === "function") {
+          appPlugin.exitApp();
         }
-      });
-    } catch (e) {}
+      } else {
+        lastBackPressTime = now;
+        showToast("Toque novamente para sair");
+      }
+    }
+
+    function initBackButtonHandler() {
+      const appPlugin = getAppPlugin();
+      if (appPlugin && typeof appPlugin.addListener === "function") {
+        nativeBackReady = true;
+        appPlugin.addListener("backButton", () => {
+          handleBackAction(appPlugin);
+        });
+      } else {
+        // Fallback caso seja aberto no navegador fora do APK
+        try {
+          window.history.replaceState({ page: "mural" }, "", window.location.pathname);
+          window.addEventListener("popstate", () => {
+            const openDropdowns = document.querySelectorAll(".field-city-dropdown.open");
+            const openModals = document.querySelectorAll(".modal-backdrop.open");
+            const muralActive = document.getElementById("sec-mural").classList.contains("active");
+
+            if (openDropdowns.length > 0 || openModals.length > 0 || !muralActive) {
+              handleBackAction(null);
+              window.history.pushState({ page: "mural" }, "", window.location.pathname);
+            }
+          });
+        } catch (e) {}
+      }
+    }
 
     const QUICK_CATEGORIES = [
       { value: "Todas", label: "Todas", icon: "grid" },
@@ -2623,6 +2688,7 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      initBackButtonHandler();
       populateProfessionSelect();
       renderQuickCategoriesBar();
       updateHeaderCityLabel();
@@ -2753,7 +2819,6 @@
           updatedAt: Date.now()
         }, { merge: true });
 
-        // Atualiza imediatamente a lista local de usuários e os anúncios já publicados com o novo nome
         const idx = registeredUsers.findIndex((u) => u.uid === currentUserProfile.uid);
         if (idx >= 0) {
           registeredUsers[idx] = { ...registeredUsers[idx], name, city, phone, bio, profession, availableToday };
@@ -2951,12 +3016,14 @@
       t.textContent = msg;
       t.classList.add("show");
       if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
+      toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
     }
 
     function openModal(id) {
       document.getElementById(id).classList.add("open");
-      try { window.history.pushState({ modal: id }, "", window.location.pathname); } catch (e) {}
+      if (!nativeBackReady) {
+        try { window.history.pushState({ modal: id }, "", window.location.pathname); } catch (e) {}
+      }
     }
 
     function closeModal(id) {
@@ -3237,7 +3304,6 @@
       document.getElementById("myProfileSubLine").textContent = (currentUserProfile.city || "Região") + " - SP";
       document.getElementById("myProfileEstBadgeWrap").style.display = isBiz ? "block" : "none";
 
-      // Mostra "Dados do Estabelecimento" SOMENTE para contas de Estabelecimento
       document.getElementById("bizMenuCard").style.display = isBiz ? "block" : "none";
       document.getElementById("profPersonRoleWrap").style.display = isBiz ? "none" : "block";
       document.getElementById("profNameLabel").textContent = isBiz ? "Nome do Estabelecimento *" : "Nome *";
@@ -3312,6 +3378,10 @@
 
       document.getElementById("sec-" + tab).classList.add("active");
       document.getElementById("nav-" + tab).classList.add("active");
+
+      if (!nativeBackReady && tab !== "mural") {
+        try { window.history.pushState({ tab }, "", window.location.pathname); } catch (e) {}
+      }
 
       const searchWrap = document.getElementById("headerSearchWrap");
       if (searchWrap) {
@@ -3704,7 +3774,6 @@
         }
       });
 
-      // Contatos recentes no WhatsApp aparecem primeiro para facilitar a avaliação mútua
       unified.forEach((c) => {
         c.isContacted = isContactedCandidate(c.uid, c.phone, c.phoneKey);
       });
