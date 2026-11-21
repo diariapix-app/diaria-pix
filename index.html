@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#09172e" />
-  <title>Quero Diária • Trabalhou, recebeu!</title>
+  <title>Quero Diária</title>
 
   <!-- Firebase Compat SDK v10 -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -94,15 +94,9 @@
       font-size: 26px;
       font-weight: 900;
       letter-spacing: 1px;
-      margin-top: 14px;
+      margin-top: 16px;
     }
     .splash-title span { color: var(--accent); }
-    .splash-slogan {
-      color: #cbd5e1;
-      font-size: 13px;
-      font-weight: 500;
-      margin-top: 4px;
-    }
     .splash-bar-wrap {
       width: 180px;
       height: 5px;
@@ -128,7 +122,7 @@
       100% { width: 100%; }
     }
 
-    /* Header (Estilo Navy com busca integrada no Início) */
+    /* Header */
     .app-header {
       position: sticky;
       top: 0;
@@ -221,7 +215,7 @@
       flex-shrink: 0;
     }
 
-    /* Busca integrada dentro do topo azul */
+    /* Busca integrada */
     .header-search-wrap {
       margin-top: 12px;
       position: relative;
@@ -256,7 +250,7 @@
     .section { display: none; }
     .section.active { display: block; }
 
-    /* Feed Mode Switcher (Vagas / Profissionais com contador) */
+    /* Feed Mode Switcher */
     .mode-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -301,7 +295,6 @@
       color: var(--navy);
     }
 
-    /* Search box (usado em Avaliações / Admin) */
     .search-box {
       position: relative;
       margin-bottom: 10px;
@@ -326,7 +319,7 @@
     }
     .search-box input:focus { border-color: var(--navy); }
 
-    /* Category Chips Minimalistas */
+    /* Category Chips */
     .chips-row {
       display: flex;
       gap: 8px;
@@ -428,8 +421,8 @@
       min-width: 0;
     }
     .avatar {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: var(--navy);
       color: #fff;
@@ -439,6 +432,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .avatar-est { background: #047857; }
     .author-name {
@@ -644,7 +645,7 @@
       color: var(--navy-deep);
     }
 
-    /* Profile Menu */
+    /* Profile Hero & Photo Upload */
     .profile-hero {
       background: linear-gradient(135deg, var(--navy-deep), var(--navy-light));
       color: #fff;
@@ -653,14 +654,54 @@
       margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 14px;
     }
-    .profile-hero .avatar {
-      width: 52px;
-      height: 52px;
+    .profile-avatar-btn {
+      position: relative;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .profile-avatar-btn .avatar {
+      width: 60px;
+      height: 60px;
       font-size: 20px;
       background: var(--accent);
+      border: 2px solid rgba(255,255,255,0.35);
     }
+    .cam-badge {
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .photo-edit-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .photo-edit-row .avatar {
+      width: 56px;
+      height: 56px;
+      font-size: 19px;
+      background: var(--navy);
+    }
+
     .menu-btn {
       width: 100%;
       background: #fff;
@@ -734,7 +775,7 @@
       border-color: var(--navy);
     }
 
-    /* Bottom Navigation (Minimalista igual ao print 40308) */
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -908,12 +949,16 @@
       min-height: 16px;
     }
     .cnpj-ok { color: #15803d; }
+    .cnpj-warn { color: #b45309; }
     .cnpj-err { color: var(--danger); }
   </style>
 </head>
 <body>
 
-  <!-- Splash Screen -->
+  <!-- Input oculto para foto de perfil -->
+  <input type="file" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="handleProfilePhotoSelected(this)" />
+
+  <!-- Splash Screen (Limpa, sem slogan) -->
   <div id="splashScreen">
     <svg class="splash-logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
       <rect width="512" height="512" rx="110" fill="#09172e" />
@@ -923,7 +968,6 @@
       <path fill="#f35b04" fill-rule="evenodd" d="M 278 164 C 278 146 290 136 308 136 H 344 C 402 136 440 180 440 246 C 440 312 402 356 344 356 H 308 C 290 356 278 346 278 328 Z M 322 182 V 310 H 344 C 378 310 396 286 396 246 C 396 206 378 182 344 182 Z" />
     </svg>
     <div class="splash-title">QUERO <span>DIÁRIA</span></div>
-    <div class="splash-slogan">Trabalhou, recebeu!</div>
     <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
   </div>
 
@@ -962,7 +1006,7 @@
       </div>
     </div>
 
-    <!-- Busca integrada no topo (oculta nas outras abas) -->
+    <!-- Busca integrada no topo -->
     <div class="header-search-wrap" id="headerSearchWrap">
       <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input type="text" id="searchInput" placeholder="Buscar vaga, serviço ou bairro..." oninput="renderFeed()" />
@@ -993,7 +1037,7 @@
       </div>
     </section>
 
-    <!-- ABA 2: PUBLICAR -->
+    <!-- ABA 2: PUBLICAR (Formulário enxuto sem lista fechada de categoria) -->
     <section id="sec-publicar" class="section">
       <div class="card">
         <h2 id="publishHeading" style="font-size:18px; font-weight:800; color:var(--navy-deep); margin-bottom:4px;">Publicar Anúncio</h2>
@@ -1018,13 +1062,9 @@
         </div>
 
         <div class="form-group">
-          <label id="lblTitle">Função / Vaga *</label>
-          <input type="text" id="jobTitle" maxlength="70" placeholder="Ex: Diarista, Garçom, Ajudante de Obra" />
-        </div>
-
-        <div class="form-group">
-          <label>Área / Categoria *</label>
-          <select id="jobCategory"></select>
+          <label id="lblTitle">O que você procura *</label>
+          <input type="text" id="jobTitle" maxlength="70" placeholder="Ex: Diarista, Jardineiro, Garçom, Ajudante..." />
+          <div class="helper-text" id="titleHelperText">A categoria é identificada automaticamente pelo que você escrever.</div>
         </div>
 
         <div class="form-group">
@@ -1098,7 +1138,12 @@
 
       <div id="profileLoggedView" style="display:none;">
         <div class="profile-hero">
-          <div class="avatar" id="profAvatar">U</div>
+          <button type="button" class="profile-avatar-btn" onclick="triggerPhotoPicker('direct')" title="Alterar foto de perfil">
+            <div class="avatar" id="profAvatar">U</div>
+            <span class="cam-badge">
+              <svg class="ico" style="width:13px; height:13px;" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </span>
+          </button>
           <div style="min-width:0; flex:1;">
             <div style="font-size:17px; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="profName">Usuário</div>
             <div style="font-size:12.5px; color:#cbd5e1;" id="profSub">Catanduva • SP</div>
@@ -1117,7 +1162,7 @@
         <button class="menu-btn" onclick="openEditProfileModal()">
           <span class="menu-left">
             <svg class="ico" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Editar meus dados
+            Editar meus dados e foto
           </span>
           <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
@@ -1168,7 +1213,7 @@
 
   </main>
 
-  <!-- Bottom Navigation (Ícones Minimalistas SVG) -->
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <button class="nav-btn active" id="nav-inicio" onclick="switchTab('inicio')">
       <span class="nav-ico-wrap">
@@ -1255,7 +1300,7 @@
         <div id="signupEstFields" style="display:none;">
           <div class="security-note">
             <svg class="ico ico-sm" style="margin-top:2px;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <div>Contas de <strong>Estabelecimento</strong> exigem um <strong>CNPJ ou MEI ativo em SP</strong> (validado na Receita Federal e único por conta).</div>
+            <div>Contas de <strong>Estabelecimento</strong> exigem um <strong>CNPJ ou MEI válido em SP</strong> (único por conta). MEIs recém-abertos também são aceitos.</div>
           </div>
           <div class="form-group">
             <label>CNPJ ou MEI (somente números) *</label>
@@ -1264,7 +1309,7 @@
           </div>
           <div class="form-group">
             <label>Tipo de Estabelecimento *</label>
-            <input type="text" id="signupEstType" maxlength="40" placeholder="Ex: Sorveteria, Restaurante, Mercado, Salão..." />
+            <input type="text" id="signupEstType" maxlength="40" placeholder="Ex: Sorveteria, Padaria, Restaurante, Salão..." />
           </div>
           <div class="form-group">
             <label>Bairro do Estabelecimento *</label>
@@ -1454,7 +1499,7 @@
     </div>
   </div>
 
-  <!-- MODAL: EDITAR MEUS DADOS -->
+  <!-- MODAL: EDITAR MEUS DADOS E FOTO -->
   <div class="modal-overlay" id="editProfileModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -1463,6 +1508,21 @@
           <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+
+      <div class="photo-edit-row">
+        <div class="avatar" id="editPhotoPreview">U</div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+          <div style="font-size:13px; font-weight:700; color:var(--navy-deep);">Foto de perfil</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="triggerPhotoPicker('modal')">
+              <svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Escolher foto
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" id="btnRemoveEditPhoto" style="display:none;" onclick="clearPendingEditPhoto()">Remover</button>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label>Nome *</label>
         <input type="text" id="editNameInput" maxlength="60" />
@@ -1491,7 +1551,7 @@
       <div class="security-note" id="editEstCnpjBox"></div>
       <div class="form-group">
         <label>Tipo de Estabelecimento *</label>
-        <input type="text" id="editEstTypeInput" maxlength="40" placeholder="Ex: Sorveteria, Restaurante, Salão..." />
+        <input type="text" id="editEstTypeInput" maxlength="40" placeholder="Ex: Sorveteria, Padaria, Restaurante, Salão..." />
       </div>
       <div class="form-group">
         <label>Bairro *</label>
@@ -1514,7 +1574,7 @@
         </button>
       </div>
       <p style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">
-        Você também pode remover qualquer anúncio diretamente no mural pelo botão vermelho <strong>Remover (Admin)</strong>. Abaixo você gerencia contas:
+        Você também pode remover qualquer anúncio diretamente no mural pelo botão vermelho <strong>Remover</strong>. Abaixo você gerencia contas:
       </p>
       <div class="search-box">
         <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1537,8 +1597,8 @@
         <p><strong>1. Natureza do Aplicativo:</strong> O <strong>Quero Diária</strong> atua exclusivamente como um mural regional gratuito de divulgação de serviços avulsos (diárias/bicos) e profissionais autônomos. Não somos agência de empregos, não intermediamos pagamentos e <strong>não possuímos vínculo trabalhista</strong> com contratantes ou trabalhadores.</p>
         <p><strong>2. Idade Mínima:</strong> O uso do aplicativo é permitido exclusivamente para <strong>maiores de 18 anos</strong>.</p>
         <p><strong>3. Responsabilidade e Segurança:</strong> Todas as negociações (valor, horário, local e pagamento) ocorrem diretamente entre as partes. É proibido publicar anúncios falsos, cobrar taxas adiantadas, inserir links externos ou divulgar endereços residenciais completos (rua e número) nos anúncios públicos.</p>
-        <p><strong>4. Estabelecimentos (CNPJ/MEI):</strong> Contas de Estabelecimento utilizam validação pública do CNPJ junto à Receita Federal para verificar situação ativa em SP e evitar falsificação de empresas. Cada CNPJ pode ser vinculado a apenas uma conta.</p>
-        <p><strong>5. Privacidade e LGPD:</strong> Seus dados (nome, cidade, e-mail e WhatsApp) são usados apenas para o funcionamento do aplicativo e contato autorizado entre usuários cadastrados. O número de WhatsApp não é exibido abertamente a visitantes sem login.</p>
+        <p><strong>4. Estabelecimentos (CNPJ/MEI):</strong> Contas de Estabelecimento utilizam validação de CNPJ junto à Receita Federal para verificar situação ativa em SP e evitar falsificação de empresas. Cada CNPJ pode ser vinculado a apenas uma conta.</p>
+        <p><strong>5. Privacidade e LGPD:</strong> Seus dados (nome, foto opcional, cidade, e-mail e WhatsApp) são usados apenas para o funcionamento do aplicativo e contato autorizado entre usuários cadastrados. O número de WhatsApp não é exibido abertamente a visitantes sem login.</p>
         <p><strong>6. Exclusão de Dados e Contato Oficial:</strong> Você pode excluir sua conta e todos os seus dados a qualquer momento em <em>Perfil → Excluir minha conta e meus dados</em>. Para suporte ou solicitações, escreva para <strong>suportequerodiaria@gmail.com</strong>.</p>
       </div>
       <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="closeModal('termsModal')">Entendi</button>
@@ -1596,11 +1656,14 @@
       "matheusmatiasfds13@gmail.com"
     ];
 
-    // Biblioteca de Ícones Minimalistas SVG (Zero Emojis)
+    // Biblioteca de Ícones Minimalistas SVG
     const SVG = {
       grid: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
       sparkle: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/></svg>`,
+      leaf: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`,
       tool: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+      brush: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M18.37 2.63L14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/></svg>`,
+      zap: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
       truck: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`,
       box: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`,
       utensils: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3v7"/></svg>`,
@@ -1644,20 +1707,92 @@
       "Novo Horizonte"
     ];
 
-    // Categorias com ícones minimalistas
+    // Categorias automáticas com detecção inteligente por palavras-chave
     const CATEGORIES = [
-      { name: "Limpeza & Diarista", short: "Limpeza", icon: "sparkle" },
-      { name: "Obras & Reformas", short: "Construção", icon: "tool" },
-      { name: "Entregas & Moto", short: "Delivery", icon: "truck" },
-      { name: "Eventos & Garçom", short: "Eventos", icon: "utensils" },
-      { name: "Ajudante Carga e Descarga", short: "Carga e Descarga", icon: "box" },
-      { name: "Motorista / Frete / Carreto / Mudanças", short: "Frete / Mudanças", icon: "truck" },
-      { name: "Cozinha & Alimentação", short: "Cozinha", icon: "utensils" },
-      { name: "Comércio & Vendas", short: "Comércio", icon: "bag" },
-      { name: "Beleza & Estética", short: "Beleza", icon: "scissors" },
-      { name: "Costura & Reparos", short: "Costura", icon: "scissors" },
-      { name: "Cuidados & Babá", short: "Cuidados", icon: "heart" },
-      { name: "Outros Serviços", short: "Outros", icon: "briefcase" }
+      {
+        id: "Limpeza",
+        label: "Limpeza",
+        icon: "sparkle",
+        keywords: ["limpeza", "diarista", "faxina", "faxineira", "passadeira", "passar roupa", "lavar", "lavanderia", "higienizacao", "zelador", "piscina", "piscineiro", "domestica", "servicos gerais"]
+      },
+      {
+        id: "Jardinagem",
+        label: "Jardinagem",
+        icon: "leaf",
+        keywords: ["jardinagem", "jardineiro", "jardim", "grama", "rocar", "rocadeira", "poda", "podar", "arvore", "quintal", "mato", "capinar", "paisagismo", "terreno", "lote", "chacara", "sitio"]
+      },
+      {
+        id: "Construção",
+        label: "Construção",
+        icon: "tool",
+        keywords: ["obra", "pedreiro", "servente", "ajudante de obra", "reforma", "alvenaria", "piso", "azulejo", "gesso", "gesseiro", "reboco", "telhado", "calha", "marceneiro", "carpinteiro", "serralheiro", "soldador", "construcao"]
+      },
+      {
+        id: "Pintura",
+        label: "Pintura",
+        icon: "brush",
+        keywords: ["pintor", "pintura", "pintar", "textura", "grafiato", "massa corrida", "verniz", "parede", "portao"]
+      },
+      {
+        id: "Manutenção",
+        label: "Elétrica & Hidráulica",
+        icon: "zap",
+        keywords: ["eletricista", "eletrica", "chuveiro", "tomada", "fio", "encanador", "hidraulica", "vazamento", "cano", "ar condicionado", "manutencao", "marido de aluguel", "montador", "moveis", "reparo", "conserto", "tecnico"]
+      },
+      {
+        id: "Delivery",
+        label: "Delivery & Frete",
+        icon: "truck",
+        keywords: ["entrega", "entregador", "motoboy", "delivery", "moto", "bike", "ifood", "frete", "freteiro", "carreto", "mudanca", "mudancas", "motorista", "caminhao", "van"]
+      },
+      {
+        id: "Carga e Descarga",
+        label: "Carga e Descarga",
+        icon: "box",
+        keywords: ["carga", "descarga", "chapa", "descarregar", "carregar", "estoque", "estoquista", "deposito", "ajudante carga", "embalagem"]
+      },
+      {
+        id: "Eventos",
+        label: "Eventos",
+        icon: "utensils",
+        keywords: ["garcom", "garconete", "evento", "eventos", "festa", "buffet", "churrasqueiro", "barman", "bartender", "copeiro", "recepcionista", "seguranca", "monitor", "casamento", "aniversario"]
+      },
+      {
+        id: "Cozinha",
+        label: "Cozinha",
+        icon: "utensils",
+        keywords: ["cozinha", "cozinheiro", "cozinheira", "auxiliar de cozinha", "salgado", "salgados", "bolo", "boleira", "confeiteiro", "confeiteira", "padeiro", "padaria", "pizzaiolo", "chapeiro", "lanchonete", "restaurante", "sorveteria", "acaiteria", "marmita", "acougue"]
+      },
+      {
+        id: "Comércio",
+        label: "Comércio",
+        icon: "bag",
+        keywords: ["loja", "vendedor", "vendedora", "vendas", "caixa", "operador de caixa", "atendente", "balconista", "mercado", "supermercado", "repositor", "farmacia", "comercio", "panfleto", "panfletagem"]
+      },
+      {
+        id: "Beleza",
+        label: "Beleza",
+        icon: "scissors",
+        keywords: ["manicure", "pedicure", "unha", "cabeleireiro", "cabeleireira", "cabelo", "barbeiro", "barbearia", "sobrancelha", "cilios", "maquiagem", "maquiadora", "depilacao", "estetica", "salao", "tranca", "massagem"]
+      },
+      {
+        id: "Costura",
+        label: "Costura",
+        icon: "scissors",
+        keywords: ["costura", "costureira", "bainha", "ajuste", "ziper", "bordado", "croche", "roupa", "roupas", "conserto de roupa"]
+      },
+      {
+        id: "Cuidados",
+        label: "Cuidados & Pet",
+        icon: "heart",
+        keywords: ["baba", "cuidador", "cuidadora", "idoso", "idosos", "crianca", "enfermagem", "acompanhante", "pet", "cachorro", "passeador", "banho e tosa"]
+      },
+      {
+        id: "Outros",
+        label: "Outros",
+        icon: "briefcase",
+        keywords: []
+      }
     ];
 
     const PROFANITY_LIST = ["puta", "caralho", "porra", "foder", "foda-se", "fdp", "arrombado", "desgraçado", "vagabundo", "ladrão", "estelionatario", "cuzao", "cuzão"];
@@ -1681,6 +1816,9 @@
     let selectedCategoryFilter = "Todas";
     let signupAccountType = "pessoa";
 
+    let photoPickerMode = "direct";
+    let pendingEditPhotoData = null; // null = sem alteração, "" = remover, "data:image/..." = nova foto
+
     let pendingWhatsAppJob = null;
     let reviewTargetUid = null;
     let reviewSelectedStars = 5;
@@ -1691,7 +1829,7 @@
     let promptedLoginOnce = false;
 
     // =========================================================
-    // 3. UTILITÁRIOS DE SEGURANÇA E FORMATAÇÃO
+    // 3. UTILITÁRIOS DE SEGURANÇA, FOTO E CATEGORIA AUTOMÁTICA
     // =========================================================
     function escapeHtml(str) {
       return String(str || "")
@@ -1712,6 +1850,58 @@
 
     function onlyDigits(str) {
       return String(str || "").replace(/\D/g, "");
+    }
+
+    function isSafePhotoUrl(url) {
+      const s = String(url || "").trim();
+      return s.startsWith("data:image/") || s.startsWith("https://");
+    }
+
+    function getUserPhoto(uid, fallbackPhoto = "") {
+      const u = allUsers.find(x => x.uid === uid);
+      const url = (u && u.photoURL) || fallbackPhoto || "";
+      return isSafePhotoUrl(url) ? url : "";
+    }
+
+    function renderAvatarInner(name, photoUrl) {
+      if (isSafePhotoUrl(photoUrl)) {
+        return `<img src="${photoUrl}" alt="Foto" />`;
+      }
+      return escapeHtml((name || "U").trim().slice(0, 2).toUpperCase());
+    }
+
+    function detectCategoryAuto(title, description) {
+      const text = normalizeText(`${title} ${description}`);
+      for (const cat of CATEGORIES) {
+        if (!cat.keywords.length) continue;
+        if (cat.keywords.some(k => text.includes(k))) {
+          return cat.id;
+        }
+      }
+      return "Outros";
+    }
+
+    function jobMatchesCategory(job, catId) {
+      if (catId === "Todas") return true;
+      const cat = CATEGORIES.find(c => c.id === catId);
+      if (!cat) return true;
+
+      // Verifica categoria salva (inclusive compatibilidade com categorias antigas)
+      const saved = normalizeText(job.category || "");
+      if (saved && (saved === normalizeText(cat.id) || saved.includes(normalizeText(cat.id)))) {
+        return true;
+      }
+
+      const fullText = normalizeText(`${job.title} ${job.description} ${job.category}`);
+      if (cat.id === "Outros") {
+        // Pertence a Outros se não bater com nenhuma categoria específica
+        const matchesAnySpecific = CATEGORIES.some(c =>
+          c.id !== "Outros" && c.keywords.some(k => fullText.includes(k))
+        );
+        return !matchesAnySpecific;
+      }
+
+      return cat.keywords.some(k => fullText.includes(k));
     }
 
     function formatPhoneInput(input) {
@@ -1763,13 +1953,13 @@
         return { ok: false, msg: "Número de CNPJ inválido. Confira os 14 dígitos." };
       }
 
+      // 1) Consulta BrasilAPI
       try {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 9000);
+        const timer = setTimeout(() => controller.abort(), 8000);
         const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, { signal: controller.signal });
         clearTimeout(timer);
 
-        if (res.status === 404) return { ok: false, msg: "CNPJ não encontrado na Receita Federal." };
         if (res.ok) {
           const data = await res.json();
           const situacao = String(data.descricao_situacao_cadastral || "").toUpperCase();
@@ -1777,17 +1967,17 @@
           const uf = String(data.uf || "").toUpperCase();
           if (!isAtiva) return { ok: false, msg: `CNPJ com situação "${situacao || "INATIVA"}" na Receita Federal.` };
           if (uf && uf !== "SP") return { ok: false, msg: `Este CNPJ está registrado em ${uf}. Aceitamos apenas estabelecimentos de SP.` };
-          return { ok: true, cnpj, uf: uf || "SP", razaoSocial: data.nome_fantasia || data.razao_social || "" };
+          return { ok: true, verified: true, pending: false, cnpj, uf: uf || "SP" };
         }
       } catch (e) {}
 
+      // 2) Fallback: publica.cnpj.ws
       try {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 9000);
+        const timer = setTimeout(() => controller.abort(), 8000);
         const res = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`, { signal: controller.signal });
         clearTimeout(timer);
 
-        if (res.status === 404) return { ok: false, msg: "CNPJ não encontrado na Receita Federal." };
         if (res.ok) {
           const data = await res.json();
           const est = data.estabelecimento || {};
@@ -1795,11 +1985,19 @@
           const uf = String((est.estado && est.estado.sigla) || "").toUpperCase();
           if (!situacao.includes("ATIVA")) return { ok: false, msg: `CNPJ com situação "${situacao || "INATIVA"}" na Receita Federal.` };
           if (uf && uf !== "SP") return { ok: false, msg: `Este CNPJ está registrado em ${uf}. Aceitamos apenas estabelecimentos de SP.` };
-          return { ok: true, cnpj, uf: uf || "SP", razaoSocial: est.nome_fantasia || data.razao_social || "" };
+          return { ok: true, verified: true, pending: false, cnpj, uf: uf || "SP" };
         }
       } catch (e) {}
 
-      return { ok: false, msg: "Não foi possível consultar a Receita Federal agora. Verifique sua internet e tente novamente." };
+      // 3) Se o número do CNPJ é matematicamente verdadeiro mas ainda não sincronizou na base pública (MEI recém-aberto)
+      return {
+        ok: true,
+        verified: false,
+        pending: true,
+        cnpj,
+        uf: "SP",
+        msg: "CNPJ válido (MEI recém-aberto — em verificação)."
+      };
     }
 
     function containsExternalLink(text) {
@@ -1863,7 +2061,100 @@
     }
 
     // =========================================================
-    // 4. NAVEGAÇÃO, MODAIS E CONTROLE DO BOTÃO VOLTAR / GESTOS
+    // 4. UPLOAD E COMPRESSÃO DE FOTO DE PERFIL
+    // =========================================================
+    function triggerPhotoPicker(mode) {
+      if (!currentUser) return;
+      photoPickerMode = mode;
+      const input = document.getElementById("profilePhotoInput");
+      input.value = "";
+      input.click();
+    }
+
+    function compressImageToAvatar(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("Erro ao ler imagem"));
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onerror = () => reject(new Error("Imagem inválida"));
+          img.onload = () => {
+            const size = 200;
+            const canvas = document.createElement("canvas");
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext("2d");
+
+            const minSide = Math.min(img.width, img.height);
+            const sx = (img.width - minSide) / 2;
+            const sy = (img.height - minSide) / 2;
+            ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.72);
+            resolve(dataUrl);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleProfilePhotoSelected(input) {
+      const file = input.files && input.files[0];
+      if (!file || !currentUser) return;
+
+      if (!file.type.startsWith("image/")) {
+        showToast("Selecione um arquivo de imagem válido.", "error");
+        return;
+      }
+
+      try {
+        showToast("Ajustando foto...");
+        const compressed = await compressImageToAvatar(file);
+
+        if (photoPickerMode === "modal") {
+          pendingEditPhotoData = compressed;
+          updateEditPhotoPreview(compressed);
+          showToast("Foto pronta! Toque em Salvar Alterações.", "success");
+        } else {
+          await savePhotoDirectly(compressed);
+        }
+      } catch (err) {
+        showToast("Não foi possível carregar essa imagem. Tente outra foto.", "error");
+      }
+    }
+
+    async function savePhotoDirectly(dataUrl) {
+      if (!currentUser) return;
+      try {
+        await db.collection("usuarios").doc(currentUser.uid).update({ photoURL: dataUrl });
+        const myJobs = allJobs.filter(j => j.authorUid === currentUser.uid);
+        for (const j of myJobs) {
+          try { await db.collection("vagas").doc(j.id).update({ authorPhoto: dataUrl }); } catch (e) {}
+        }
+        if (currentUserProfile) currentUserProfile.photoURL = dataUrl;
+        renderProfileTab();
+        renderFeed();
+        showToast("Foto de perfil atualizada!", "success");
+      } catch (e) {
+        showToast("Erro ao salvar foto. Tente novamente.", "error");
+      }
+    }
+
+    function updateEditPhotoPreview(photoUrl) {
+      const box = document.getElementById("editPhotoPreview");
+      const name = document.getElementById("editNameInput").value || (currentUserProfile && currentUserProfile.name) || "U";
+      box.innerHTML = renderAvatarInner(name, photoUrl);
+      document.getElementById("btnRemoveEditPhoto").style.display = isSafePhotoUrl(photoUrl) ? "inline-flex" : "none";
+    }
+
+    function clearPendingEditPhoto() {
+      pendingEditPhotoData = "";
+      updateEditPhotoPreview("");
+    }
+
+    // =========================================================
+    // 5. NAVEGAÇÃO, MODAIS E BOTÃO VOLTAR / GESTOS
     // =========================================================
     function getOpenModalIds() {
       return Array.from(document.querySelectorAll(".modal-overlay.open")).map(el => el.id);
@@ -1900,7 +2191,6 @@
       const targetNav = document.getElementById("nav-" + tab);
       if (targetNav) targetNav.classList.add("active");
 
-      // Mostra a barra de busca no topo azul apenas na aba Início
       const searchWrap = document.getElementById("headerSearchWrap");
       const headerEl = document.getElementById("appHeader");
       if (tab === "inicio") {
@@ -1971,7 +2261,7 @@
     }
 
     // =========================================================
-    // 5. POPULAR LISTAS (CIDADES E CATEGORIAS)
+    // 6. POPULAR LISTAS (CIDADES E CHIPS DE CATEGORIAS)
     // =========================================================
     function initStaticControls() {
       const citySelectIds = ["jobCity", "signupCity", "editCitySelect", "alertCitySelect"];
@@ -1984,9 +2274,6 @@
         });
         sel.innerHTML = opts;
       });
-
-      const jobCatSel = document.getElementById("jobCategory");
-      jobCatSel.innerHTML = CATEGORIES.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join("");
 
       const dateInput = document.getElementById("jobDate");
       const today = getTodayDateStr();
@@ -2001,14 +2288,14 @@
       const wrap = document.getElementById("categoryChips");
       let html = `<button class="chip ${selectedCategoryFilter === "Todas" ? "active" : ""}" onclick="setCategoryFilter('Todas')">${SVG.grid}<span>Todas</span></button>`;
       CATEGORIES.forEach(c => {
-        const active = selectedCategoryFilter === c.name ? "active" : "";
-        html += `<button class="chip ${active}" onclick="setCategoryFilter('${escapeHtml(c.name)}')">${SVG[c.icon] || SVG.briefcase}<span>${escapeHtml(c.short)}</span></button>`;
+        const active = selectedCategoryFilter === c.id ? "active" : "";
+        html += `<button class="chip ${active}" onclick="setCategoryFilter('${escapeHtml(c.id)}')">${SVG[c.icon] || SVG.briefcase}<span>${escapeHtml(c.label)}</span></button>`;
       });
       wrap.innerHTML = html;
     }
 
-    function setCategoryFilter(cat) {
-      selectedCategoryFilter = cat;
+    function setCategoryFilter(catId) {
+      selectedCategoryFilter = catId;
       renderCategoryChips();
       renderFeed();
     }
@@ -2032,7 +2319,7 @@
     }
 
     // =========================================================
-    // 6. AUTENTICAÇÃO, CADASTRO COM CNPJ/MEI E LGPD
+    // 7. AUTENTICAÇÃO, CADASTRO COM CNPJ/MEI E LGPD
     // =========================================================
     function openAuthModal(mode = "login") {
       setAuthMode(mode);
@@ -2055,7 +2342,7 @@
       document.getElementById("accTypeEst").classList.toggle("active", isEst);
       document.getElementById("signupEstFields").style.display = isEst ? "block" : "none";
       document.getElementById("lblSignupName").textContent = isEst ? "Nome do Estabelecimento *" : "Seu Nome Completo *";
-      document.getElementById("signupName").placeholder = isEst ? "Ex: Sorveteria da Rô" : "Ex: Maria da Silva";
+      document.getElementById("signupName").placeholder = isEst ? "Ex: Padaria Souza" : "Ex: Maria da Silva";
     }
 
     async function doLogin() {
@@ -2107,6 +2394,8 @@
       let cnpjClean = "";
       let estType = "";
       let estNeighborhood = "";
+      let cnpjVerified = false;
+      let cnpjPending = false;
 
       const btn = document.getElementById("btnDoSignup");
       const statusEl = document.getElementById("signupCnpjStatus");
@@ -2121,9 +2410,9 @@
           if (!estType) return showToast("Informe o tipo do seu estabelecimento.", "error");
           if (!estNeighborhood) return showToast("Informe apenas o bairro do estabelecimento.", "error");
 
-          btn.textContent = "Verificando CNPJ na Receita...";
+          btn.textContent = "Verificando CNPJ...";
           statusEl.className = "cnpj-status";
-          statusEl.textContent = "Consultando situação do CNPJ/MEI...";
+          statusEl.textContent = "Validando CNPJ/MEI...";
 
           const check = await verifyCnpjReceita(cnpjClean);
           if (!check.ok) {
@@ -2142,8 +2431,11 @@
             return;
           }
 
-          statusEl.className = "cnpj-status cnpj-ok";
-          statusEl.textContent = "CNPJ Ativo em SP confirmado.";
+          cnpjVerified = Boolean(check.verified);
+          cnpjPending = Boolean(check.pending);
+
+          statusEl.className = cnpjVerified ? "cnpj-status cnpj-ok" : "cnpj-status cnpj-warn";
+          statusEl.textContent = cnpjVerified ? "CNPJ Ativo em SP confirmado." : check.msg;
         }
 
         btn.textContent = "Criando conta...";
@@ -2154,6 +2446,8 @@
           if (isEst) {
             await db.collection("cnpjs").doc(cnpjClean).set({
               ownerUid: uid,
+              verified: cnpjVerified,
+              pending: cnpjPending,
               createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
           }
@@ -2162,10 +2456,12 @@
             uid,
             name,
             city,
+            photoURL: "",
             whatsappLast4: phone.slice(-4),
             accountType: isEst ? "estabelecimento" : "pessoa",
             isEstablishment: isEst,
-            cnpjVerified: isEst,
+            cnpjVerified: isEst && cnpjVerified,
+            cnpjPending: isEst && cnpjPending,
             establishmentType: isEst ? estType : "",
             establishmentNeighborhood: isEst ? estNeighborhood : "",
             suspended: false,
@@ -2264,7 +2560,7 @@
     }
 
     // =========================================================
-    // 7. PUBLICAÇÃO, EDIÇÃO E LIMITES
+    // 8. PUBLICAÇÃO, EDIÇÃO E LIMITES
     // =========================================================
     function setPublishType(type) {
       publishType = type;
@@ -2272,8 +2568,8 @@
       document.getElementById("pubTypeVaga").classList.toggle("active", isVaga);
       document.getElementById("pubTypeProf").classList.toggle("active", !isVaga);
 
-      document.getElementById("lblTitle").textContent = isVaga ? "Função / Vaga *" : "Seu Serviço / Profissão *";
-      document.getElementById("jobTitle").placeholder = isVaga ? "Ex: Diarista, Garçom, Ajudante de Obra" : "Ex: Manicure, Costureira, Pedreiro, Entregador";
+      document.getElementById("lblTitle").textContent = isVaga ? "O que você procura *" : "Qual serviço você faz? *";
+      document.getElementById("jobTitle").placeholder = isVaga ? "Ex: Diarista, Jardineiro, Garçom, Ajudante..." : "Ex: Manicure, Jardineiro, Costureira, Pedreiro...";
       document.getElementById("lblPay").textContent = isVaga ? "Valor da Diária (R$)" : "Valor / A partir de (R$)";
       document.getElementById("lblNeighborhood").textContent = isVaga ? "Bairro *" : "Bairro que atende (opcional)";
       document.getElementById("jobNeighborhood").placeholder = isVaga ? "Ex: Centro (nunca coloque rua nem número)" : "Opcional — deixe vazio se atende a cidade toda";
@@ -2297,14 +2593,13 @@
 
       const editingId = document.getElementById("editingJobId").value.trim();
       const title = document.getElementById("jobTitle").value.trim();
-      const category = document.getElementById("jobCategory").value;
       const payFormatted = formatMoneyField(document.getElementById("jobPay").value);
       const city = document.getElementById("jobCity").value;
       const neighborhood = document.getElementById("jobNeighborhood").value.trim();
       const jobDate = publishType === "vaga" ? document.getElementById("jobDate").value : "";
       const description = document.getElementById("jobDesc").value.trim();
 
-      if (!title || title.length < 3) return showToast("Informe o título do serviço ou vaga.", "error");
+      if (!title || title.length < 3) return showToast("Informe o que você procura ou o serviço que faz.", "error");
       if (payFormatted === null) return showToast("Valor muito alto. Confira o valor digitado.", "error");
       if (publishType === "vaga" && !neighborhood) return showToast("Informe o bairro da diária (sem rua nem número).", "error");
       if (publishType === "vaga" && !jobDate) return showToast("Escolha a data da diária.", "error");
@@ -2331,6 +2626,7 @@
         }
       }
 
+      const autoCategory = detectCategoryAuto(title, description);
       const btn = document.getElementById("btnPublish");
       btn.disabled = true;
       btn.textContent = editingId ? "Salvando..." : "Publicando...";
@@ -2339,7 +2635,7 @@
         const payload = {
           type: publishType,
           title,
-          category,
+          category: autoCategory,
           pay: payFormatted,
           city,
           neighborhood: neighborhood || "Toda a cidade",
@@ -2347,7 +2643,9 @@
           description,
           authorUid: currentUser.uid,
           authorName: currentUserProfile.name,
+          authorPhoto: currentUserProfile.photoURL || "",
           authorIsEst: Boolean(currentUserProfile.isEstablishment),
+          authorCnpjVerified: Boolean(currentUserProfile.cnpjVerified),
           authorEstType: currentUserProfile.establishmentType || "",
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         };
@@ -2392,8 +2690,6 @@
       document.getElementById("publishTypeTabs").style.display = "none";
 
       document.getElementById("jobTitle").value = job.title || "";
-      const validCat = CATEGORIES.some(c => c.name === job.category);
-      document.getElementById("jobCategory").value = validCat ? job.category : CATEGORIES[0].name;
       document.getElementById("jobPay").value = job.pay === "A combinar" ? "" : String(job.pay || "").replace(/[^\d.,]/g, "");
       if (REGIONAL_CITIES.includes(job.city)) document.getElementById("jobCity").value = job.city;
       document.getElementById("jobNeighborhood").value = job.neighborhood === "Toda a cidade" ? "" : (job.neighborhood || "");
@@ -2448,7 +2744,7 @@
     }
 
     // =========================================================
-    // 8. MURAL (INÍCIO) E PROTEÇÃO DO WHATSAPP
+    // 9. MURAL (INÍCIO) E PROTEÇÃO DO WHATSAPP
     // =========================================================
     function setFeedMode(mode) {
       feedMode = mode;
@@ -2471,7 +2767,7 @@
       const baseFiltered = allJobs.filter(j => {
         if (isJobExpired(j)) return false;
         if (selectedCityFilter && j.city !== selectedCityFilter) return false;
-        if (selectedCategoryFilter !== "Todas" && j.category !== selectedCategoryFilter) return false;
+        if (!jobMatchesCategory(j, selectedCategoryFilter)) return false;
         if (q) {
           const hay = normalizeText(`${j.title} ${j.category} ${j.neighborhood} ${j.description} ${j.authorName}`);
           if (!hay.includes(q)) return false;
@@ -2509,11 +2805,13 @@
 
       container.innerHTML = list.map(j => {
         const stats = getUserRatingStats(j.authorUid);
-        const initials = escapeHtml((j.authorName || "U").trim().slice(0, 2).toUpperCase());
+        const photoUrl = getUserPhoto(j.authorUid, j.authorPhoto);
         const isOwner = currentUser && j.authorUid === currentUser.uid;
         const estLabel = j.authorIsEst
-          ? `${j.authorEstType ? escapeHtml(j.authorEstType) : "Estabelecimento Verificado"}`
+          ? `${j.authorEstType ? escapeHtml(j.authorEstType) : "Estabelecimento"}`
           : (j.type === "profissional" ? "Profissional" : "Particular");
+
+        const estBadgeText = j.authorCnpjVerified ? "CNPJ Verificado" : "Estabelecimento";
 
         return `
           <article class="card">
@@ -2523,8 +2821,7 @@
             </div>
 
             <div class="badge-row">
-              <span class="badge badge-cat">${escapeHtml(j.category)}</span>
-              ${j.authorIsEst ? `<span class="badge badge-est">${SVG.building}<span>CNPJ Verificado</span></span>` : ""}
+              ${j.authorIsEst ? `<span class="badge badge-est">${SVG.building}<span>${estBadgeText}</span></span>` : ""}
               ${j.type === "profissional"
                 ? `<span class="badge badge-prof">${SVG.user}<span>Profissional</span></span>`
                 : (j.jobDate ? `<span class="badge badge-date">${SVG.calendar}<span>${escapeHtml(formatDateBR(j.jobDate))}</span></span>` : "")}
@@ -2532,7 +2829,7 @@
 
             <div class="author-line" onclick="openPublicProfile('${escapeHtml(j.authorUid)}')">
               <div class="author-left">
-                <div class="avatar ${j.authorIsEst ? "avatar-est" : ""}">${initials}</div>
+                <div class="avatar ${j.authorIsEst ? "avatar-est" : ""}">${renderAvatarInner(j.authorName, photoUrl)}</div>
                 <div style="min-width:0;">
                   <div class="author-name">${escapeHtml(j.authorName || "Usuário")}</div>
                   <div class="author-sub">${estLabel} • Ver perfil</div>
@@ -2623,7 +2920,7 @@
     }
 
     // =========================================================
-    // 9. PERFIL PÚBLICO E AVALIAÇÕES
+    // 10. PERFIL PÚBLICO E AVALIAÇÕES
     // =========================================================
     function openPublicProfile(uid) {
       const user = allUsers.find(u => u.uid === uid);
@@ -2634,16 +2931,17 @@
       const name = user ? user.name : "Usuário";
       const city = user ? user.city : "Região de Catanduva";
       const isEst = user && user.isEstablishment;
+      const photoUrl = getUserPhoto(uid);
 
       let html = `
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
-          <div class="avatar ${isEst ? "avatar-est" : ""}" style="width:52px; height:52px; font-size:18px;">${escapeHtml(name.slice(0, 2).toUpperCase())}</div>
+          <div class="avatar ${isEst ? "avatar-est" : ""}" style="width:56px; height:56px; font-size:18px;">${renderAvatarInner(name, photoUrl)}</div>
           <div>
             <div style="font-size:17px; font-weight:800; color:var(--navy-deep);">${escapeHtml(name)}</div>
             <div style="font-size:13px; color:var(--muted); display:inline-flex; align-items:center; gap:4px;">
               ${SVG.pin}<span>${escapeHtml(city)}${isEst && user.establishmentNeighborhood ? " • " + escapeHtml(user.establishmentNeighborhood) : ""}</span>
             </div>
-            ${isEst ? `<div style="margin-top:5px;"><span class="badge badge-est">${SVG.building}<span>${escapeHtml(user.establishmentType || "Estabelecimento")} • CNPJ Verificado</span></span></div>` : ""}
+            ${isEst ? `<div style="margin-top:5px;"><span class="badge badge-est">${SVG.building}<span>${escapeHtml(user.establishmentType || "Estabelecimento")}${user.cnpjVerified ? " • CNPJ Verificado" : ""}</span></span></div>` : ""}
           </div>
         </div>
         <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:11px 13px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
@@ -2733,11 +3031,14 @@
         const isRecent = recents.includes(u.uid);
         return `
           <button type="button" onclick="selectReviewCandidate('${escapeHtml(u.uid)}')"
-            style="text-align:left; padding:9px 11px; border-radius:10px; border:1.5px solid ${isSel ? "var(--navy)" : "var(--border)"}; background:${isSel ? "#eff6ff" : "#fff"}; cursor:pointer;">
-            <div style="font-size:13.5px; font-weight:800; color:var(--navy-deep);">
-              ${escapeHtml(u.name)} ${isRecent ? '<span style="font-size:10.5px; color:#15803d;">• Contatado recente</span>' : ""}
+            style="text-align:left; padding:9px 11px; border-radius:10px; border:1.5px solid ${isSel ? "var(--navy)" : "var(--border)"}; background:${isSel ? "#eff6ff" : "#fff"}; cursor:pointer; display:flex; align-items:center; gap:9px;">
+            <div class="avatar" style="width:30px; height:30px; font-size:11px;">${renderAvatarInner(u.name, u.photoURL)}</div>
+            <div style="min-width:0;">
+              <div style="font-size:13.5px; font-weight:800; color:var(--navy-deep);">
+                ${escapeHtml(u.name)} ${isRecent ? '<span style="font-size:10.5px; color:#15803d;">• Contatado recente</span>' : ""}
+              </div>
+              <div style="font-size:11.5px; color:var(--muted);">${escapeHtml(u.city || "SP")}${u.whatsappLast4 ? ` • Final ${escapeHtml(u.whatsappLast4)}` : ""}</div>
             </div>
-            <div style="font-size:11.5px; color:var(--muted);">${escapeHtml(u.city || "SP")}${u.whatsappLast4 ? ` • Final ${escapeHtml(u.whatsappLast4)}` : ""}</div>
           </button>`;
       }).join("");
     }
@@ -2830,12 +3131,16 @@
 
       container.innerHTML = list.map(r => {
         const canDel = (currentUser && r.authorUid === currentUser.uid) || isAdminUser;
+        const targetPhoto = getUserPhoto(r.targetUid);
         return `
           <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:6px;">
-              <div onclick="openPublicProfile('${escapeHtml(r.targetUid)}')" style="cursor:pointer;">
-                <div style="font-size:15px; font-weight:800; color:var(--navy-deep);">${escapeHtml(r.targetName)}</div>
-                <div style="font-size:11.5px; color:var(--muted);">Avaliado por ${escapeHtml(r.authorName)}</div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
+              <div onclick="openPublicProfile('${escapeHtml(r.targetUid)}')" style="cursor:pointer; display:flex; align-items:center; gap:9px;">
+                <div class="avatar" style="width:34px; height:34px; font-size:12px;">${renderAvatarInner(r.targetName, targetPhoto)}</div>
+                <div>
+                  <div style="font-size:15px; font-weight:800; color:var(--navy-deep);">${escapeHtml(r.targetName)}</div>
+                  <div style="font-size:11.5px; color:var(--muted);">Avaliado por ${escapeHtml(r.authorName)}</div>
+                </div>
               </div>
               <div class="rating-pill">${SVG.starFill}<span>${Number(r.rating).toFixed(1)}</span></div>
             </div>
@@ -2849,7 +3154,7 @@
     }
 
     // =========================================================
-    // 10. PERFIL DO USUÁRIO, MINHAS PUBLICAÇÕES E ADMIN
+    // 11. PERFIL DO USUÁRIO, MINHAS PUBLICAÇÕES E ADMIN
     // =========================================================
     function renderProfileTab() {
       const guest = document.getElementById("profileGuestView");
@@ -2862,13 +3167,14 @@
       guest.style.display = "none";
       logged.style.display = "block";
 
-      document.getElementById("profAvatar").textContent = (currentUserProfile.name || "U").trim().slice(0, 2).toUpperCase();
+      document.getElementById("profAvatar").innerHTML = renderAvatarInner(currentUserProfile.name, currentUserProfile.photoURL);
       document.getElementById("profName").textContent = currentUserProfile.name || "Usuário";
       document.getElementById("profSub").textContent = `${currentUserProfile.city || "SP"} • ${currentUser.email}`;
 
       const badgeArea = document.getElementById("profBadgeArea");
       if (currentUserProfile.isEstablishment) {
-        badgeArea.innerHTML = `<span class="badge badge-est">${SVG.building}<span>${escapeHtml(currentUserProfile.establishmentType || "Estabelecimento")} • CNPJ Verificado</span></span>`;
+        const cnpjTag = currentUserProfile.cnpjVerified ? "CNPJ Verificado" : "CNPJ em verificação";
+        badgeArea.innerHTML = `<span class="badge badge-est">${SVG.building}<span>${escapeHtml(currentUserProfile.establishmentType || "Estabelecimento")} • ${cnpjTag}</span></span>`;
       } else {
         badgeArea.innerHTML = `<span class="badge" style="background:rgba(255,255,255,0.16); color:#fff;">${SVG.user}<span>Conta Pessoal</span></span>`;
       }
@@ -2910,11 +3216,13 @@
 
     function openEditProfileModal() {
       if (!currentUserProfile || !currentUserPrivate) return;
+      pendingEditPhotoData = null;
       document.getElementById("editNameInput").value = currentUserProfile.name || "";
       document.getElementById("editPhoneInput").value = currentUserPrivate.whatsapp || "";
       formatPhoneInput(document.getElementById("editPhoneInput"));
       const sel = document.getElementById("editCitySelect");
       sel.value = REGIONAL_CITIES.includes(currentUserProfile.city) ? currentUserProfile.city : REGIONAL_CITIES[0];
+      updateEditPhotoPreview(currentUserProfile.photoURL || "");
       openModal("editProfileModal");
     }
 
@@ -2927,6 +3235,10 @@
       if (!newName || newName.length < 2) return showToast("Informe um nome válido.", "error");
       if (newPhone.length < 10 || newPhone.length > 11) return showToast("Informe um WhatsApp válido com DDD.", "error");
 
+      const finalPhoto = pendingEditPhotoData !== null
+        ? pendingEditPhotoData
+        : (currentUserProfile.photoURL || "");
+
       const btn = document.getElementById("btnSaveProfile");
       btn.disabled = true;
       btn.textContent = "Salvando...";
@@ -2935,6 +3247,7 @@
         await db.collection("usuarios").doc(currentUser.uid).update({
           name: newName,
           city: newCity,
+          photoURL: finalPhoto,
           whatsappLast4: newPhone.slice(-4)
         });
         await db.collection("usuarios_privados").doc(currentUser.uid).set({
@@ -2944,16 +3257,22 @@
 
         const myJobs = allJobs.filter(j => j.authorUid === currentUser.uid);
         for (const j of myJobs) {
-          await db.collection("vagas").doc(j.id).update({ authorName: newName });
+          await db.collection("vagas").doc(j.id).update({
+            authorName: newName,
+            authorPhoto: finalPhoto
+          });
           await db.collection("contatos").doc(j.id).set({ authorUid: currentUser.uid, whatsapp: newPhone }, { merge: true });
         }
 
         currentUserProfile.name = newName;
         currentUserProfile.city = newCity;
+        currentUserProfile.photoURL = finalPhoto;
         currentUserProfile.whatsappLast4 = newPhone.slice(-4);
         currentUserPrivate.whatsapp = newPhone;
+        pendingEditPhotoData = null;
 
         renderProfileTab();
+        renderFeed();
         closeModal("editProfileModal");
         showToast("Dados atualizados com sucesso!", "success");
       } catch (e) {
@@ -2967,8 +3286,9 @@
     function openEditEstablishmentModal() {
       if (!currentUserProfile || !currentUserProfile.isEstablishment) return;
       const cnpj = (currentUserPrivate && currentUserPrivate.cnpj) || "";
-      const masked = cnpj.length === 14 ? `${cnpj.slice(0,2)}.${cnpj.slice(2,5)}.${cnpj.slice(5,8)}/${cnpj.slice(8,12)}-${cnpj.slice(12)}` : "Verificado";
-      document.getElementById("editEstCnpjBox").innerHTML = `${SVG.check}<div><strong>CNPJ/MEI verificado:</strong> ${escapeHtml(masked)}</div>`;
+      const masked = cnpj.length === 14 ? `${cnpj.slice(0,2)}.${cnpj.slice(2,5)}.${cnpj.slice(5,8)}/${cnpj.slice(8,12)}-${cnpj.slice(12)}` : "Registrado";
+      const labelStatus = currentUserProfile.cnpjVerified ? "CNPJ/MEI verificado" : "CNPJ/MEI em verificação";
+      document.getElementById("editEstCnpjBox").innerHTML = `${SVG.check}<div><strong>${labelStatus}:</strong> ${escapeHtml(masked)}</div>`;
       document.getElementById("editEstTypeInput").value = currentUserProfile.establishmentType || "";
       document.getElementById("editEstNeighborhoodInput").value = currentUserProfile.establishmentNeighborhood || "";
       openModal("editEstModal");
@@ -3028,11 +3348,14 @@
 
       box.innerHTML = list.map(u => `
         <div class="card" style="box-shadow:none; border:1px solid var(--border); padding:11px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-          <div style="min-width:0;">
-            <div style="font-size:14px; font-weight:800; color:var(--navy-deep);">${escapeHtml(u.name)}</div>
-            <div style="font-size:11.5px; color:var(--muted);">
-              ${u.isEstablishment ? "Estabelecimento" : "Pessoa"} • ${escapeHtml(u.city || "SP")}
-              ${u.suspended ? " • <strong style='color:var(--danger);'>SUSPENSO</strong>" : ""}
+          <div style="display:flex; align-items:center; gap:9px; min-width:0;">
+            <div class="avatar" style="width:32px; height:32px; font-size:12px;">${renderAvatarInner(u.name, u.photoURL)}</div>
+            <div style="min-width:0;">
+              <div style="font-size:14px; font-weight:800; color:var(--navy-deep);">${escapeHtml(u.name)}</div>
+              <div style="font-size:11.5px; color:var(--muted);">
+                ${u.isEstablishment ? "Estabelecimento" : "Pessoa"} • ${escapeHtml(u.city || "SP")}
+                ${u.suspended ? " • <strong style='color:var(--danger);'>SUSPENSO</strong>" : ""}
+              </div>
             </div>
           </div>
           <button class="btn ${u.suspended ? "btn-outline" : "btn-danger-solid"} btn-sm" onclick="toggleSuspendUser('${escapeHtml(u.uid)}', ${Boolean(u.suspended)})">
@@ -3056,7 +3379,7 @@
     }
 
     // =========================================================
-    // 11. NOTIFICAÇÕES PUSH (CAPACITOR ANDROID)
+    // 12. NOTIFICAÇÕES PUSH (CAPACITOR ANDROID)
     // =========================================================
     async function activatePushAlerts() {
       const city = document.getElementById("alertCitySelect").value;
@@ -3087,7 +3410,7 @@
     }
 
     // =========================================================
-    // 12. SINCRONIZAÇÃO EM TEMPO REAL E INICIALIZAÇÃO
+    // 13. SINCRONIZAÇÃO EM TEMPO REAL E INICIALIZAÇÃO
     // =========================================================
     function startRealtimeListeners() {
       db.collection("vagas").onSnapshot((snap) => {
@@ -3097,7 +3420,15 @@
 
       db.collection("usuarios").onSnapshot((snap) => {
         allUsers = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+        if (currentUser) {
+          const me = allUsers.find(u => u.uid === currentUser.uid);
+          if (me) {
+            currentUserProfile = me;
+            renderProfileTab();
+          }
+        }
         renderFeed();
+        renderReviews();
       }, () => {});
 
       db.collection("avaliacoes").onSnapshot((snap) => {
@@ -3133,6 +3464,7 @@
               uid: user.uid,
               name: user.displayName || user.email.split("@")[0],
               city: "Catanduva",
+              photoURL: "",
               isEstablishment: false,
               suspended: false
             };
