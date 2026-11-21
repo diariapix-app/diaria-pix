@@ -15,7 +15,7 @@
     :root {
       --navy-deep: #09172e;
       --navy: #0a2240;
-      --navy-light: #153560;
+      --navy-light: #16345c;
       --accent: #f35b04;
       --accent-dark: #d94e00;
       --bg: #f1f5f9;
@@ -24,11 +24,12 @@
       --muted: #64748b;
       --border: #e2e8f0;
       --green: #16a34a;
-      --green-wa: #22c55e;
+      --green-bg: #dcfce7;
+      --green-text: #15803d;
       --danger: #dc2626;
       --gold: #f59e0b;
       --radius: 16px;
-      --shadow: 0 4px 14px rgba(9, 23, 46, 0.07);
+      --shadow: 0 3px 12px rgba(9, 23, 46, 0.06);
     }
 
     * {
@@ -49,6 +50,22 @@
     body {
       padding-bottom: 84px;
     }
+
+    .ico {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .ico-sm { width: 15px; height: 15px; }
+    .ico-lg { width: 22px; height: 22px; }
+    .ico-fill { fill: currentColor; stroke: none; }
 
     /* Splash Screen */
     #splashScreen {
@@ -111,19 +128,26 @@
       100% { width: 100%; }
     }
 
-    /* Header */
+    /* Header (Estilo Navy com busca integrada no Início) */
     .app-header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--navy-deep);
+      background: var(--navy);
       color: #fff;
-      padding: 12px 14px;
+      padding: 12px 14px 14px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 16px rgba(9, 23, 46, 0.18);
+    }
+    .app-header.compact {
+      border-radius: 0;
+      padding-bottom: 12px;
+    }
+    .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      box-shadow: 0 2px 12px rgba(9, 23, 46, 0.25);
     }
     .brand-row {
       display: flex;
@@ -132,8 +156,8 @@
       min-width: 0;
     }
     .brand-icon {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       flex-shrink: 0;
     }
     .brand-name {
@@ -152,8 +176,11 @@
       padding: 2px 7px;
       border-radius: 999px;
       text-transform: uppercase;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
     }
-    .admin-pill.show { display: inline-block; }
+    .admin-pill.show { display: inline-flex; }
 
     .header-actions {
       display: flex;
@@ -161,54 +188,79 @@
       gap: 8px;
     }
     .city-pill-btn {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
       color: #fff;
       padding: 7px 11px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 700;
-      display: flex;
+      font-weight: 600;
+      display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       cursor: pointer;
-      max-width: 150px;
+      max-width: 158px;
     }
-    .city-pill-btn span {
+    .city-pill-btn .city-txt {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .city-pill-btn .pin-ico { color: var(--accent); }
     .icon-btn {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
       color: #fff;
       width: 36px;
       height: 36px;
-      border-radius: 50%;
-      font-size: 16px;
-      display: flex;
+      border-radius: 12px;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
     }
 
+    /* Busca integrada dentro do topo azul */
+    .header-search-wrap {
+      margin-top: 12px;
+      position: relative;
+    }
+    .header-search-wrap .search-ico {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+      pointer-events: none;
+    }
+    .header-search-wrap input {
+      width: 100%;
+      background: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 14px 11px 40px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
     /* Main Container */
     .container {
       max-width: 680px;
       margin: 0 auto;
-      padding: 12px 14px 20px;
+      padding: 14px 14px 20px;
     }
 
     .section { display: none; }
     .section.active { display: block; }
 
-    /* Feed Mode Switcher (Vagas vs Profissionais) */
+    /* Feed Mode Switcher (Vagas / Profissionais com contador) */
     .mode-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
       background: #e2e8f0;
       padding: 4px;
       border-radius: 14px;
@@ -219,40 +271,65 @@
       background: transparent;
       padding: 10px 8px;
       border-radius: 11px;
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 13.5px;
+      font-weight: 700;
       color: #475569;
       cursor: pointer;
-      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: 0.18s;
     }
     .mode-tab.active {
-      background: var(--navy);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(9, 23, 46, 0.2);
+      background: #ffffff;
+      color: var(--navy-deep);
+      box-shadow: 0 2px 8px rgba(9, 23, 46, 0.1);
+    }
+    .tab-count {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      min-width: 22px;
+      text-align: center;
+    }
+    .mode-tab.active .tab-count {
+      background: #e0e7ff;
+      color: var(--navy);
     }
 
-    /* Search & Categories */
+    /* Search box (usado em Avaliações / Admin) */
     .search-box {
       position: relative;
       margin-bottom: 10px;
+    }
+    .search-box .search-ico {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+      pointer-events: none;
     }
     .search-box input {
       width: 100%;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 11px 14px;
+      padding: 11px 14px 11px 38px;
       font-size: 14px;
       outline: none;
       color: var(--text);
     }
-    .search-box input:focus {
-      border-color: var(--navy);
-    }
+    .search-box input:focus { border-color: var(--navy); }
 
+    /* Category Chips Minimalistas */
     .chips-row {
       display: flex;
-      gap: 7px;
+      gap: 8px;
       overflow-x: auto;
       padding-bottom: 6px;
       margin-bottom: 10px;
@@ -263,16 +340,19 @@
       border: 1px solid var(--border);
       background: #fff;
       color: #334155;
-      padding: 7px 13px;
+      padding: 8px 13px;
       border-radius: 999px;
       font-size: 12.5px;
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .chip.active {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--navy);
+      border-color: var(--navy);
       color: #fff;
     }
 
@@ -280,10 +360,10 @@
     .card {
       background: var(--card);
       border-radius: var(--radius);
-      padding: 15px;
+      padding: 16px;
       margin-bottom: 12px;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(226, 232, 240, 0.85);
+      border: 1px solid rgba(226, 232, 240, 0.9);
     }
 
     .job-card-top {
@@ -300,12 +380,11 @@
       line-height: 1.25;
     }
     .job-pay {
-      background: #fff7ed;
-      color: var(--accent-dark);
-      border: 1px solid #fed7aa;
+      background: var(--green-bg);
+      color: var(--green-text);
       font-size: 13px;
       font-weight: 800;
-      padding: 5px 9px;
+      padding: 5px 10px;
       border-radius: 10px;
       white-space: nowrap;
       flex-shrink: 0;
@@ -315,21 +394,21 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 9px;
+      margin-bottom: 10px;
     }
     .badge {
       font-size: 11px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 7px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
-    .badge-cat { background: #eff6ff; color: #1d4ed8; }
+    .badge-cat { background: #f1f5f9; color: #334155; }
     .badge-est { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
-    .badge-prof { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
-    .badge-date { background: #fef3c7; color: #92400e; }
+    .badge-prof { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .badge-date { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
 
     .author-line {
       display: flex;
@@ -338,7 +417,7 @@
       gap: 8px;
       padding: 8px 10px;
       background: #f8fafc;
-      border-radius: 10px;
+      border-radius: 11px;
       margin-bottom: 10px;
       cursor: pointer;
     }
@@ -354,7 +433,7 @@
       border-radius: 50%;
       background: var(--navy);
       color: #fff;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -379,37 +458,45 @@
       font-weight: 800;
       color: #b45309;
       background: #fef9c3;
-      padding: 3px 7px;
+      padding: 3px 8px;
       border-radius: 8px;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .job-meta {
       font-size: 13px;
-      color: #334155;
+      color: #475569;
       margin-bottom: 8px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .job-desc {
       font-size: 13.5px;
       color: #475569;
       line-height: 1.45;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       white-space: pre-line;
       word-break: break-word;
+    }
+    .posted-time {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 10px;
     }
     .job-footer {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       align-items: center;
-    }
-    .posted-time {
-      font-size: 11px;
-      color: #94a3b8;
-      margin-bottom: 8px;
     }
 
     /* Buttons */
@@ -418,12 +505,12 @@
       border-radius: 12px;
       padding: 11px 14px;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
       transition: transform 0.1s, opacity 0.2s;
     }
     .btn:active { transform: scale(0.98); }
@@ -477,18 +564,24 @@
       border-radius: 11px;
       padding: 10px 12px;
       font-size: 12px;
-      line-height: 1.4;
+      line-height: 1.45;
       margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
     }
     .warn-note {
       background: #fff7ed;
       border: 1px solid #fed7aa;
       color: #9a3412;
       border-radius: 11px;
-      padding: 10px 12px;
-      font-size: 12px;
-      line-height: 1.4;
-      margin-bottom: 12px;
+      padding: 11px 12px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
     }
     .check-row {
       display: flex;
@@ -509,8 +602,8 @@
     .link-btn {
       background: none;
       border: none;
-      color: var(--accent-dark);
-      font-weight: 800;
+      color: var(--navy);
+      font-weight: 700;
       text-decoration: underline;
       cursor: pointer;
       padding: 0;
@@ -525,7 +618,7 @@
       margin-bottom: 14px;
     }
     .type-option {
-      border: 2px solid var(--border);
+      border: 1.5px solid var(--border);
       background: #fff;
       border-radius: 12px;
       padding: 11px 8px;
@@ -534,13 +627,16 @@
       font-weight: 800;
       font-size: 13px;
       color: #475569;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
     .type-option small {
       display: block;
       font-weight: 500;
       font-size: 11px;
       color: var(--muted);
-      margin-top: 2px;
     }
     .type-option.active {
       border-color: var(--navy);
@@ -560,9 +656,9 @@
       gap: 13px;
     }
     .profile-hero .avatar {
-      width: 54px;
-      height: 54px;
-      font-size: 22px;
+      width: 52px;
+      height: 52px;
+      font-size: 20px;
       background: var(--accent);
     }
     .menu-btn {
@@ -575,10 +671,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--text);
       cursor: pointer;
+    }
+    .menu-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
     .menu-btn.danger-menu {
       color: var(--danger);
@@ -597,11 +698,14 @@
       background: #fff;
       border-radius: 10px;
       padding: 8px 2px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 800;
       color: #475569;
       cursor: pointer;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
     }
     .star-btn.active {
       background: #fef9c3;
@@ -618,7 +722,7 @@
       border: 1px solid var(--border);
       background: #f8fafc;
       color: #334155;
-      padding: 6px 10px;
+      padding: 6px 11px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
@@ -630,7 +734,7 @@
       border-color: var(--navy);
     }
 
-    /* Bottom Navigation */
+    /* Bottom Navigation (Minimalista igual ao print 40308) */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -640,9 +744,9 @@
       border-top: 1px solid var(--border);
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      padding: 6px 4px calc(8px + env(safe-area-inset-bottom));
+      padding: 7px 6px calc(9px + env(safe-area-inset-bottom));
       z-index: 200;
-      box-shadow: 0 -2px 12px rgba(9, 23, 46, 0.06);
+      box-shadow: 0 -2px 12px rgba(9, 23, 46, 0.05);
     }
     .nav-btn {
       background: none;
@@ -653,18 +757,31 @@
       gap: 3px;
       color: #64748b;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       padding: 4px 0;
     }
-    .nav-btn .nav-ico { font-size: 20px; line-height: 1; }
-    .nav-btn.active { color: var(--accent); }
+    .nav-ico-wrap {
+      padding: 4px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.18s;
+    }
+    .nav-btn.active {
+      color: var(--navy);
+      font-weight: 800;
+    }
+    .nav-btn.active .nav-ico-wrap {
+      background: #e2e8f0;
+    }
 
     /* Modals */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(9, 23, 46, 0.65);
+      background: rgba(9, 23, 46, 0.6);
       z-index: 1000;
       display: none;
       align-items: flex-end;
@@ -679,15 +796,15 @@
       max-height: 90vh;
       overflow-y: auto;
       border-radius: 22px 22px 0 0;
-      padding: 18px 16px 26px;
-      animation: slideUp 0.22s ease;
+      padding: 20px 16px 26px;
+      animation: slideUp 0.2s ease;
     }
     @media (min-width: 600px) {
       .modal-overlay { align-items: center; padding: 16px; }
       .modal-sheet { border-radius: 20px; }
     }
     @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0.7; }
+      from { transform: translateY(28px); opacity: 0.7; }
       to { transform: translateY(0); opacity: 1; }
     }
     .modal-head {
@@ -701,6 +818,9 @@
       font-size: 17px;
       font-weight: 800;
       color: var(--navy-deep);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
     .close-x {
       background: #f1f5f9;
@@ -708,13 +828,14 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      font-size: 16px;
-      font-weight: 800;
       color: #475569;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    /* Toast (top-centered below header so keyboard never hides it) */
+    /* Toast */
     #toast {
       position: fixed;
       top: 68px;
@@ -743,10 +864,20 @@
 
     .empty-state {
       text-align: center;
-      padding: 34px 18px;
+      padding: 36px 18px;
       color: var(--muted);
     }
-    .empty-state .big-ico { font-size: 38px; margin-bottom: 8px; }
+    .empty-ico-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #f1f5f9;
+      color: var(--navy);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
     .city-list-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -756,17 +887,19 @@
       border: 1.5px solid var(--border);
       background: #fff;
       border-radius: 11px;
-      padding: 10px 8px;
-      font-size: 13.5px;
+      padding: 10px 10px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text);
       cursor: pointer;
-      text-align: left;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .city-opt-btn.active {
-      border-color: var(--accent);
-      background: #fff7ed;
-      color: var(--accent-dark);
+      border-color: var(--navy);
+      background: #eff6ff;
+      color: var(--navy-deep);
     }
     .cnpj-status {
       font-size: 12px;
@@ -798,26 +931,41 @@
   <div id="toast"></div>
 
   <!-- Top Header -->
-  <header class="app-header">
-    <div class="brand-row">
-      <svg class="brand-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-        <rect width="512" height="512" rx="110" fill="#0f294d" />
-        <path fill="#ffffff" fill-rule="evenodd" d="M 176 136 C 232 136 270 182 270 246 C 270 310 232 356 176 356 C 120 356 82 310 82 246 C 82 182 120 136 176 136 Z M 176 182 C 144 182 126 208 126 246 C 126 284 144 310 176 310 C 208 310 226 284 226 246 C 226 208 208 182 176 182 Z" />
-        <line x1="196" y1="274" x2="254" y2="366" stroke="#0f294d" stroke-width="58" stroke-linecap="round" />
-        <line x1="194" y1="272" x2="254" y2="366" stroke="#ffffff" stroke-width="44" stroke-linecap="round" />
-        <path fill="#f35b04" fill-rule="evenodd" d="M 278 164 C 278 146 290 136 308 136 H 344 C 402 136 440 180 440 246 C 440 312 402 356 344 356 H 308 C 290 356 278 346 278 328 Z M 322 182 V 310 H 344 C 378 310 396 286 396 246 C 396 206 378 182 344 182 Z" />
-      </svg>
-      <div>
-        <div class="brand-name">Quero <span>Diária</span></div>
-        <span class="admin-pill" id="adminHeaderBadge">🛡️ Admin</span>
+  <header class="app-header" id="appHeader">
+    <div class="header-top">
+      <div class="brand-row">
+        <svg class="brand-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <rect width="512" height="512" rx="110" fill="#0f294d" />
+          <path fill="#ffffff" fill-rule="evenodd" d="M 176 136 C 232 136 270 182 270 246 C 270 310 232 356 176 356 C 120 356 82 310 82 246 C 82 182 120 136 176 136 Z M 176 182 C 144 182 126 208 126 246 C 126 284 144 310 176 310 C 208 310 226 284 226 246 C 226 208 208 182 176 182 Z" />
+          <line x1="196" y1="274" x2="254" y2="366" stroke="#0f294d" stroke-width="58" stroke-linecap="round" />
+          <line x1="194" y1="272" x2="254" y2="366" stroke="#ffffff" stroke-width="44" stroke-linecap="round" />
+          <path fill="#f35b04" fill-rule="evenodd" d="M 278 164 C 278 146 290 136 308 136 H 344 C 402 136 440 180 440 246 C 440 312 402 356 344 356 H 308 C 290 356 278 346 278 328 Z M 322 182 V 310 H 344 C 378 310 396 286 396 246 C 396 206 378 182 344 182 Z" />
+        </svg>
+        <div>
+          <div class="brand-name">Quero <span>Diária</span></div>
+          <span class="admin-pill" id="adminHeaderBadge">
+            <svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Admin
+          </span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="city-pill-btn" onclick="openModal('cityModal')">
+          <svg class="ico ico-sm pin-ico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="city-txt" id="headerCityLabel">Todas cidades</span>
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <button class="icon-btn" onclick="openModal('alertsModal')" title="Notificações">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
       </div>
     </div>
 
-    <div class="header-actions">
-      <button class="city-pill-btn" onclick="openModal('cityModal')">
-        📍 <span id="headerCityLabel">Todas cidades</span> ▾
-      </button>
-      <button class="icon-btn" onclick="openModal('alertsModal')" title="Alertas">🔔</button>
+    <!-- Busca integrada no topo (oculta nas outras abas) -->
+    <div class="header-search-wrap" id="headerSearchWrap">
+      <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar vaga, serviço ou bairro..." oninput="renderFeed()" />
     </div>
   </header>
 
@@ -826,12 +974,16 @@
     <!-- ABA 1: INÍCIO -->
     <section id="sec-inicio" class="section active">
       <div class="mode-tabs">
-        <button class="mode-tab active" id="tabFeedVagas" onclick="setFeedMode('vaga')">💼 Vagas</button>
-        <button class="mode-tab" id="tabFeedProfs" onclick="setFeedMode('profissional')">🙋 Profissionais</button>
-      </div>
-
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 Buscar função, serviço ou bairro..." oninput="renderFeed()" />
+        <button class="mode-tab active" id="tabFeedVagas" onclick="setFeedMode('vaga')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <span>Vagas</span>
+          <span class="tab-count" id="countVagas">0</span>
+        </button>
+        <button class="mode-tab" id="tabFeedProfs" onclick="setFeedMode('profissional')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profissionais</span>
+          <span class="tab-count" id="countProfs">0</span>
+        </button>
       </div>
 
       <div class="chips-row" id="categoryChips"></div>
@@ -845,17 +997,24 @@
     <section id="sec-publicar" class="section">
       <div class="card">
         <h2 id="publishHeading" style="font-size:18px; font-weight:800; color:var(--navy-deep); margin-bottom:4px;">Publicar Anúncio</h2>
-        <p id="publishSubtitle" style="font-size:13px; color:var(--muted); margin-bottom:14px;">Escolha abaixo se você quer contratar ou oferecer seu trabalho.</p>
+        <p id="publishSubtitle" style="font-size:13px; color:var(--muted); margin-bottom:14px;">Escolha se você quer contratar ou divulgar seu serviço.</p>
 
         <input type="hidden" id="editingJobId" value="" />
 
         <div class="mode-tabs" id="publishTypeTabs">
-          <button type="button" class="mode-tab active" id="pubTypeVaga" onclick="setPublishType('vaga')">💼 Quero Contratar</button>
-          <button type="button" class="mode-tab" id="pubTypeProf" onclick="setPublishType('profissional')">🙋 Quero Trabalhar</button>
+          <button type="button" class="mode-tab active" id="pubTypeVaga" onclick="setPublishType('vaga')">
+            <svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            Quero Contratar
+          </button>
+          <button type="button" class="mode-tab" id="pubTypeProf" onclick="setPublishType('profissional')">
+            <svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Quero Trabalhar
+          </button>
         </div>
 
-        <div id="publishRuleHint" class="security-note">
-          🔒 <strong>Segurança:</strong> Informe apenas o <strong>Bairro</strong> (nunca coloque rua ou número). O WhatsApp fica protegido e só abre para usuários cadastrados.
+        <div class="security-note">
+          <svg class="ico ico-sm" style="margin-top:2px;" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div><strong>Segurança:</strong> Informe apenas o <strong>Bairro</strong> (nunca coloque rua ou número). O WhatsApp fica protegido e só abre para usuários cadastrados.</div>
         </div>
 
         <div class="form-group">
@@ -891,7 +1050,7 @@
         </div>
 
         <div class="form-group">
-          <label id="lblDesc">Detalhes do Serviço</label>
+          <label id="lblDesc">Detalhes e Horário do Serviço</label>
           <textarea id="jobDesc" rows="3" maxlength="380" placeholder="Informe o horário e o que precisa ser feito..."></textarea>
           <div class="helper-text">Links externos não são permitidos por segurança.</div>
         </div>
@@ -907,14 +1066,18 @@
     <section id="sec-avaliacoes" class="section">
       <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
         <div>
-          <h2 style="font-size:17px; font-weight:800; color:var(--navy-deep);">⭐ Avaliações</h2>
+          <h2 style="font-size:17px; font-weight:800; color:var(--navy-deep);">Avaliações</h2>
           <p style="font-size:12.5px; color:var(--muted);">Consulte a reputação de quem anuncia e trabalha na região.</p>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="openReviewModal(null)">⭐ Avaliar</button>
+        <button class="btn btn-primary btn-sm" onclick="openReviewModal(null)">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Avaliar
+        </button>
       </div>
 
       <div class="search-box">
-        <input type="text" id="reviewSearchInput" placeholder="🔍 Buscar pessoa ou estabelecimento..." oninput="renderReviews()" />
+        <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="reviewSearchInput" placeholder="Buscar pessoa ou estabelecimento..." oninput="renderReviews()" />
       </div>
 
       <div id="reviewsList">
@@ -925,9 +1088,11 @@
     <!-- ABA 4: PERFIL -->
     <section id="sec-perfil" class="section">
       <div id="profileGuestView" class="card" style="text-align:center; padding:28px 18px;">
-        <div style="font-size:44px; margin-bottom:8px;">👤</div>
+        <div class="empty-ico-circle">
+          <svg class="ico ico-lg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
         <h2 style="font-size:18px; font-weight:800; color:var(--navy-deep); margin-bottom:6px;">Entre na sua conta</h2>
-        <p style="font-size:13.5px; color:var(--muted); margin-bottom:16px;">Faça login para publicar vagas, divulgar seu trabalho, chamar no WhatsApp e avaliar serviços.</p>
+        <p style="font-size:13.5px; color:var(--muted); margin-bottom:16px;">Acesse sua conta para publicar vagas, divulgar seu serviço, chamar no WhatsApp e avaliar.</p>
         <button class="btn btn-primary btn-full" onclick="openAuthModal('login')">Entrar ou Criar Conta</button>
       </div>
 
@@ -937,57 +1102,97 @@
           <div style="min-width:0; flex:1;">
             <div style="font-size:17px; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="profName">Usuário</div>
             <div style="font-size:12.5px; color:#cbd5e1;" id="profSub">Catanduva • SP</div>
-            <div style="margin-top:5px;" id="profBadgeArea"></div>
+            <div style="margin-top:6px;" id="profBadgeArea"></div>
           </div>
         </div>
 
         <button class="menu-btn" onclick="openMyPostsModal()">
-          <span>📋 Minhas Publicações</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Minhas Publicações
+          </span>
+          <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <button class="menu-btn" onclick="openEditProfileModal()">
-          <span>✏️ Editar meus dados</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Editar meus dados
+          </span>
+          <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <!-- Visível APENAS para quem tem conta de Estabelecimento -->
         <button class="menu-btn" id="btnEstProfileMenu" style="display:none;" onclick="openEditEstablishmentModal()">
-          <span>🏢 Dados do Estabelecimento</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9h.01"/><path d="M9 13h.01"/><path d="M9 17h.01"/></svg>
+            Dados do Estabelecimento
+          </span>
+          <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <!-- Visível APENAS para Administradores -->
         <button class="menu-btn" id="btnAdminPanelMenu" style="display:none; border-color:#fecaca; background:#fff5f5; color:#991b1b;" onclick="openAdminModal()">
-          <span>🛡️ Painel de Moderação (Admin)</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Painel de Moderação (Admin)
+          </span>
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <button class="menu-btn" onclick="openModal('termsModal')">
-          <span>📄 Termos de Uso e Privacidade</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Termos de Uso e Privacidade
+          </span>
+          <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <button class="menu-btn" onclick="logoutAccount()">
-          <span>🚪 Sair da Conta</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sair da Conta
+          </span>
+          <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <button class="menu-btn danger-menu" onclick="openModal('deleteAccountModal')">
-          <span>🗑️ Excluir minha conta e meus dados</span> <span>›</span>
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Excluir minha conta e meus dados
+          </span>
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
     </section>
 
   </main>
 
-  <!-- Bottom Navigation -->
+  <!-- Bottom Navigation (Ícones Minimalistas SVG) -->
   <nav class="bottom-nav">
     <button class="nav-btn active" id="nav-inicio" onclick="switchTab('inicio')">
-      <span class="nav-ico">🏠</span><span>Início</span>
+      <span class="nav-ico-wrap">
+        <svg class="ico" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </span>
+      <span>Início</span>
     </button>
     <button class="nav-btn" id="nav-publicar" onclick="switchTab('publicar')">
-      <span class="nav-ico">➕</span><span>Publicar</span>
+      <span class="nav-ico-wrap">
+        <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </span>
+      <span>Publicar</span>
     </button>
     <button class="nav-btn" id="nav-avaliacoes" onclick="switchTab('avaliacoes')">
-      <span class="nav-ico">⭐</span><span>Avaliações</span>
+      <span class="nav-ico-wrap">
+        <svg class="ico" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span>
+      <span>Avaliações</span>
     </button>
     <button class="nav-btn" id="nav-perfil" onclick="switchTab('perfil')">
-      <span class="nav-ico">👤</span><span>Perfil</span>
+      <span class="nav-ico-wrap">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      <span>Perfil</span>
     </button>
   </nav>
 
@@ -995,29 +1200,34 @@
   <div class="modal-overlay" id="authModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3 id="authModalTitle">Entrar no Quero Diária</h3>
-        <button class="close-x" onclick="closeModal('authModal')">✕</button>
+        <div>
+          <h3 id="authModalTitle">Entrar no Quero Diária</h3>
+          <p style="font-size:12.5px; color:var(--muted); margin-top:2px;">Acesse sua conta para publicar, chamar no WhatsApp ou avaliar.</p>
+        </div>
+        <button class="close-x" onclick="closeModal('authModal')" aria-label="Fechar">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <div class="mode-tabs" style="margin-bottom:14px;">
-        <button type="button" class="mode-tab active" id="authTabLogin" onclick="setAuthMode('login')">Entrar</button>
-        <button type="button" class="mode-tab" id="authTabSignup" onclick="setAuthMode('signup')">Criar Conta</button>
+        <button type="button" class="mode-tab active" id="authTabLogin" onclick="setAuthMode('login')">Já tenho conta</button>
+        <button type="button" class="mode-tab" id="authTabSignup" onclick="setAuthMode('signup')">Criar conta</button>
       </div>
 
       <!-- Form Login -->
       <div id="loginFormArea">
         <div class="form-group">
-          <label>E-mail</label>
-          <input type="email" id="loginEmail" placeholder="seuemail@gmail.com" autocomplete="email" />
+          <label>E-mail *</label>
+          <input type="email" id="loginEmail" placeholder="Digite seu e-mail" autocomplete="email" />
         </div>
         <div class="form-group">
-          <label>Senha</label>
-          <input type="password" id="loginPassword" placeholder="Sua senha" autocomplete="current-password" />
+          <label>Senha *</label>
+          <input type="password" id="loginPassword" placeholder="Digite sua senha" autocomplete="current-password" />
+        </div>
+        <div style="text-align:right; margin:-4px 0 14px;">
+          <button type="button" class="link-btn" style="font-size:12.5px;" onclick="doPasswordReset()">Esqueci minha senha</button>
         </div>
         <button type="button" class="btn btn-primary btn-full" id="btnDoLogin" onclick="doLogin()">Entrar</button>
-        <div style="text-align:center; margin-top:12px;">
-          <button type="button" class="link-btn" style="font-size:13px;" onclick="doPasswordReset()">Esqueci minha senha</button>
-        </div>
       </div>
 
       <!-- Form Signup -->
@@ -1025,11 +1235,13 @@
         <label style="display:block; font-size:13px; font-weight:700; margin-bottom:6px;">Tipo de conta:</label>
         <div class="type-grid">
           <div class="type-option active" id="accTypePessoa" onclick="setSignupAccountType('pessoa')">
-            👤 Pessoa
+            <svg class="ico" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Pessoa</span>
             <small>Trabalhador ou particular</small>
           </div>
           <div class="type-option" id="accTypeEst" onclick="setSignupAccountType('estabelecimento')">
-            🏢 Estabelecimento
+            <svg class="ico" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+            <span>Estabelecimento</span>
             <small>Comércio / MEI / CNPJ</small>
           </div>
         </div>
@@ -1042,7 +1254,8 @@
         <!-- Campos exclusivos para Estabelecimento -->
         <div id="signupEstFields" style="display:none;">
           <div class="security-note">
-            🏢 Para segurança da região, contas de <strong>Estabelecimento</strong> exigem um <strong>CNPJ ou MEI ativo em SP</strong> (validado automaticamente na Receita Federal e único por conta).
+            <svg class="ico ico-sm" style="margin-top:2px;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>Contas de <strong>Estabelecimento</strong> exigem um <strong>CNPJ ou MEI ativo em SP</strong> (validado na Receita Federal e único por conta).</div>
           </div>
           <div class="form-group">
             <label>CNPJ ou MEI (somente números) *</label>
@@ -1071,7 +1284,7 @@
 
         <div class="form-group">
           <label>E-mail *</label>
-          <input type="email" id="signupEmail" placeholder="seuemail@gmail.com" autocomplete="email" />
+          <input type="email" id="signupEmail" placeholder="Digite seu e-mail" autocomplete="email" />
         </div>
 
         <div class="form-group">
@@ -1097,26 +1310,39 @@
   <div class="modal-overlay" id="cityModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>📍 Escolher Cidade</h3>
-        <button class="close-x" onclick="closeModal('cityModal')">✕</button>
+        <h3>
+          <svg class="ico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Escolher Cidade
+        </h3>
+        <button class="close-x" onclick="closeModal('cityModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div class="city-list-grid" id="cityModalGrid"></div>
     </div>
   </div>
 
-  <!-- MODAL: ALERTAS / NOTIFICAÇÕES -->
+  <!-- MODAL: NOTIFICAÇÕES -->
   <div class="modal-overlay" id="alertsModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>🔔 Alertas de Novas Vagas</h3>
-        <button class="close-x" onclick="closeModal('alertsModal')">✕</button>
+        <h3>
+          <svg class="ico" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notificações da Região
+        </h3>
+        <button class="close-x" onclick="closeModal('alertsModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Ative os avisos no celular para saber quando surgirem novas diárias na sua cidade.</p>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Ative as notificações para saber quando surgirem novas diárias na sua cidade.</p>
       <div class="form-group">
         <label>Cidade de interesse</label>
         <select id="alertCitySelect"></select>
       </div>
-      <button class="btn btn-primary btn-full" onclick="activatePushAlerts()">🔔 Ativar Alertas no Celular</button>
+      <button class="btn btn-primary btn-full" onclick="activatePushAlerts()">
+        <svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Ativar Notificações no Celular
+      </button>
     </div>
   </div>
 
@@ -1124,18 +1350,26 @@
   <div class="modal-overlay" id="waSafetyModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>💬 Abrir conversa no WhatsApp</h3>
-        <button class="close-x" onclick="closeModal('waSafetyModal')">✕</button>
+        <h3>
+          <svg class="ico" style="color:var(--green);" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Abrir conversa no WhatsApp
+        </h3>
+        <button class="close-x" onclick="closeModal('waSafetyModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div class="warn-note">
-        ⚠️ <strong>Dicas de Segurança:</strong><br>
-        • <strong>Nunca pague nenhuma taxa adiantada</strong> para conseguir vaga ou diária.<br>
-        • Só informe seu endereço completo (rua e número) após conversar e confirmar quem vai realizar o serviço.<br>
-        • Combine valor, horário e forma de pagamento diretamente no WhatsApp.
+        <svg class="ico ico-sm" style="margin-top:2px;" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>
+          <strong>Dicas de Segurança:</strong><br>
+          • <strong>Nunca pague taxa adiantada</strong> para conseguir vaga ou diária.<br>
+          • Só informe rua e número após conversar e confirmar o serviço.<br>
+          • Combine valor, horário e pagamento diretamente no WhatsApp.
+        </div>
       </div>
       <div style="display:flex; gap:8px;">
         <button class="btn btn-outline" onclick="closeModal('waSafetyModal')">Cancelar</button>
-        <button class="btn btn-wa" id="btnConfirmWa" onclick="confirmOpenWhatsApp()">💬 Continuar para WhatsApp</button>
+        <button class="btn btn-wa" id="btnConfirmWa" onclick="confirmOpenWhatsApp()">Continuar para WhatsApp</button>
       </div>
     </div>
   </div>
@@ -1145,7 +1379,9 @@
     <div class="modal-sheet">
       <div class="modal-head">
         <h3>Perfil</h3>
-        <button class="close-x" onclick="closeModal('viewProfileModal')">✕</button>
+        <button class="close-x" onclick="closeModal('viewProfileModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div id="viewProfileContent"></div>
     </div>
@@ -1155,8 +1391,13 @@
   <div class="modal-overlay" id="reviewModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>⭐ Enviar Avaliação</h3>
-        <button class="close-x" onclick="closeModal('reviewModal')">✕</button>
+        <h3>
+          <svg class="ico" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Enviar Avaliação
+        </h3>
+        <button class="close-x" onclick="closeModal('reviewModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <div id="reviewTargetLocked" style="display:none; background:#f8fafc; padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border);"></div>
@@ -1172,22 +1413,22 @@
       <div class="form-group">
         <label>Nota *</label>
         <div class="star-row" id="reviewStarRow">
-          <button type="button" class="star-btn active" onclick="selectReviewStar(5)">⭐ 5<br>Ótimo</button>
-          <button type="button" class="star-btn" onclick="selectReviewStar(4)">⭐ 4<br>Bom</button>
-          <button type="button" class="star-btn" onclick="selectReviewStar(3)">⭐ 3<br>Regular</button>
-          <button type="button" class="star-btn" onclick="selectReviewStar(2)">⭐ 2<br>Ruim</button>
-          <button type="button" class="star-btn" onclick="selectReviewStar(1)">⭐ 1<br>Falhou</button>
+          <button type="button" class="star-btn active" onclick="selectReviewStar(5)"><span>5</span><span>Ótimo</span></button>
+          <button type="button" class="star-btn" onclick="selectReviewStar(4)"><span>4</span><span>Bom</span></button>
+          <button type="button" class="star-btn" onclick="selectReviewStar(3)"><span>3</span><span>Regular</span></button>
+          <button type="button" class="star-btn" onclick="selectReviewStar(2)"><span>2</span><span>Ruim</span></button>
+          <button type="button" class="star-btn" onclick="selectReviewStar(1)"><span>1</span><span>Falhou</span></button>
         </div>
       </div>
 
       <div class="form-group">
         <label>Destaques (opcional)</label>
         <div class="tag-row" id="reviewQuickTags">
-          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, '⚡ Pagou certinho')">⚡ Pagou certinho</button>
-          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, '⏰ Pontual')">⏰ Pontual</button>
-          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, '✨ Serviço caprichado')">✨ Serviço caprichado</button>
-          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, '🤝 Boa comunicação')">🤝 Boa comunicação</button>
-          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, '⏳ Atrasou')">⏳ Atrasou</button>
+          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, 'Pagou certinho')">Pagou certinho</button>
+          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, 'Muito pontual')">Muito pontual</button>
+          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, 'Serviço caprichado')">Serviço caprichado</button>
+          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, 'Boa comunicação')">Boa comunicação</button>
+          <button type="button" class="tag-btn" onclick="toggleReviewTag(this, 'Atrasou horário')">Atrasou horário</button>
         </div>
       </div>
 
@@ -1204,8 +1445,10 @@
   <div class="modal-overlay" id="myPostsModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>📋 Minhas Publicações</h3>
-        <button class="close-x" onclick="closeModal('myPostsModal')">✕</button>
+        <h3>Minhas Publicações</h3>
+        <button class="close-x" onclick="closeModal('myPostsModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div id="myPostsList"></div>
     </div>
@@ -1215,8 +1458,10 @@
   <div class="modal-overlay" id="editProfileModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>✏️ Editar Meus Dados</h3>
-        <button class="close-x" onclick="closeModal('editProfileModal')">✕</button>
+        <h3>Editar Meus Dados</h3>
+        <button class="close-x" onclick="closeModal('editProfileModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div class="form-group">
         <label>Nome *</label>
@@ -1238,8 +1483,10 @@
   <div class="modal-overlay" id="editEstModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>🏢 Dados do Estabelecimento</h3>
-        <button class="close-x" onclick="closeModal('editEstModal')">✕</button>
+        <h3>Dados do Estabelecimento</h3>
+        <button class="close-x" onclick="closeModal('editEstModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div class="security-note" id="editEstCnpjBox"></div>
       <div class="form-group">
@@ -1258,14 +1505,20 @@
   <div class="modal-overlay" id="adminModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>🛡️ Painel de Moderação</h3>
-        <button class="close-x" onclick="closeModal('adminModal')">✕</button>
+        <h3>
+          <svg class="ico" style="color:var(--danger);" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Painel de Moderação
+        </h3>
+        <button class="close-x" onclick="closeModal('adminModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <p style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">
-        Você também pode remover qualquer anúncio diretamente no mural pelo botão vermelho <strong>Remover (Admin)</strong>. Abaixo você pode suspender ou reativar contas:
+        Você também pode remover qualquer anúncio diretamente no mural pelo botão vermelho <strong>Remover (Admin)</strong>. Abaixo você gerencia contas:
       </p>
       <div class="search-box">
-        <input type="text" id="adminUserSearch" placeholder="🔍 Filtrar usuário por nome ou cidade..." oninput="renderAdminUsers()" />
+        <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="adminUserSearch" placeholder="Filtrar usuário por nome ou cidade..." oninput="renderAdminUsers()" />
       </div>
       <div id="adminUsersList"></div>
     </div>
@@ -1275,8 +1528,10 @@
   <div class="modal-overlay" id="termsModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3>📄 Termos de Uso e Privacidade</h3>
-        <button class="close-x" onclick="closeModal('termsModal')">✕</button>
+        <h3>Termos de Uso e Privacidade</h3>
+        <button class="close-x" onclick="closeModal('termsModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div style="font-size:13px; color:#334155; line-height:1.55; display:flex; flex-direction:column; gap:10px;">
         <p><strong>1. Natureza do Aplicativo:</strong> O <strong>Quero Diária</strong> atua exclusivamente como um mural regional gratuito de divulgação de serviços avulsos (diárias/bicos) e profissionais autônomos. Não somos agência de empregos, não intermediamos pagamentos e <strong>não possuímos vínculo trabalhista</strong> com contratantes ou trabalhadores.</p>
@@ -1294,11 +1549,14 @@
   <div class="modal-overlay" id="deleteAccountModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h3 style="color:var(--danger);">🗑️ Excluir Conta e Dados</h3>
-        <button class="close-x" onclick="closeModal('deleteAccountModal')">✕</button>
+        <h3 style="color:var(--danger);">Excluir Conta e Dados</h3>
+        <button class="close-x" onclick="closeModal('deleteAccountModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <div class="warn-note">
-        ⚠️ <strong>Ação permanente:</strong> Todos os seus anúncios ativos, dados de perfil e cadastro serão apagados definitivamente.
+        <svg class="ico ico-sm" style="margin-top:2px;" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div><strong>Ação permanente:</strong> Todos os seus anúncios ativos, dados de perfil e cadastro serão apagados definitivamente.</div>
       </div>
       <div class="form-group">
         <label>Digite sua senha atual para confirmar *</label>
@@ -1334,8 +1592,38 @@
 
     // E-mails com permissão de Administrador
     const ADMIN_EMAILS = [
-      "suportequerodiaria@gmail.com"
+      "suportequerodiaria@gmail.com",
+      "matheusmatiasfds13@gmail.com"
     ];
+
+    // Biblioteca de Ícones Minimalistas SVG (Zero Emojis)
+    const SVG = {
+      grid: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+      sparkle: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/></svg>`,
+      tool: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+      truck: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`,
+      box: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`,
+      utensils: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3v7"/></svg>`,
+      bag: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+      scissors: `<svg class="ico ico-sm" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`,
+      heart: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+      briefcase: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>`,
+      briefcaseLg: `<svg class="ico ico-lg" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>`,
+      user: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+      userLg: `<svg class="ico ico-lg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+      building: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>`,
+      pin: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+      calendar: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+      star: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+      starFill: `<svg class="ico ico-sm ico-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+      wa: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
+      trash: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`,
+      edit: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+      up: `<svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`,
+      check: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
+      plus: `<svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      globe: `<svg class="ico ico-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`
+    };
 
     // 15 Cidades da Região de Catanduva (SP)
     const REGIONAL_CITIES = [
@@ -1356,20 +1644,20 @@
       "Novo Horizonte"
     ];
 
-    // Categorias de Serviços e Vagas
+    // Categorias com ícones minimalistas
     const CATEGORIES = [
-      "Limpeza & Diarista",
-      "Eventos & Garçom",
-      "Obras & Reformas",
-      "Ajudante Carga e Descarga",
-      "Motorista / Frete / Carreto / Mudanças",
-      "Entregas & Moto",
-      "Cozinha & Alimentação",
-      "Comércio & Vendas",
-      "Beleza & Estética",
-      "Costura & Reparos",
-      "Cuidados & Babá",
-      "Outros Serviços"
+      { name: "Limpeza & Diarista", short: "Limpeza", icon: "sparkle" },
+      { name: "Obras & Reformas", short: "Construção", icon: "tool" },
+      { name: "Entregas & Moto", short: "Delivery", icon: "truck" },
+      { name: "Eventos & Garçom", short: "Eventos", icon: "utensils" },
+      { name: "Ajudante Carga e Descarga", short: "Carga e Descarga", icon: "box" },
+      { name: "Motorista / Frete / Carreto / Mudanças", short: "Frete / Mudanças", icon: "truck" },
+      { name: "Cozinha & Alimentação", short: "Cozinha", icon: "utensils" },
+      { name: "Comércio & Vendas", short: "Comércio", icon: "bag" },
+      { name: "Beleza & Estética", short: "Beleza", icon: "scissors" },
+      { name: "Costura & Reparos", short: "Costura", icon: "scissors" },
+      { name: "Cuidados & Babá", short: "Cuidados", icon: "heart" },
+      { name: "Outros Serviços", short: "Outros", icon: "briefcase" }
     ];
 
     const PROFANITY_LIST = ["puta", "caralho", "porra", "foder", "foda-se", "fdp", "arrombado", "desgraçado", "vagabundo", "ladrão", "estelionatario", "cuzao", "cuzão"];
@@ -1387,9 +1675,9 @@
     let allReviews = [];
 
     let activeTab = "inicio";
-    let feedMode = "vaga"; // 'vaga' | 'profissional'
+    let feedMode = "vaga";
     let publishType = "vaga";
-    let selectedCityFilter = ""; // "" = Todas
+    let selectedCityFilter = "";
     let selectedCategoryFilter = "Todas";
     let signupAccountType = "pessoa";
 
@@ -1463,8 +1751,7 @@
           sum += Number(base.charAt(base.length - i)) * pos--;
           if (pos < 2) pos = 9;
         }
-        const res = sum % 11 < 2 ? 0 : 11 - (sum % 11);
-        return res;
+        return sum % 11 < 2 ? 0 : 11 - (sum % 11);
       };
       return calc(c.slice(0, 12)) === Number(c.charAt(12)) &&
              calc(c.slice(0, 13)) === Number(c.charAt(13));
@@ -1476,69 +1763,43 @@
         return { ok: false, msg: "Número de CNPJ inválido. Confira os 14 dígitos." };
       }
 
-      // 1) Tenta BrasilAPI (oficial e gratuita)
       try {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 9000);
         const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, { signal: controller.signal });
         clearTimeout(timer);
 
-        if (res.status === 404) {
-          return { ok: false, msg: "CNPJ não encontrado na Receita Federal." };
-        }
+        if (res.status === 404) return { ok: false, msg: "CNPJ não encontrado na Receita Federal." };
         if (res.ok) {
           const data = await res.json();
           const situacao = String(data.descricao_situacao_cadastral || "").toUpperCase();
           const isAtiva = situacao.includes("ATIVA") || Number(data.situacao_cadastral) === 2;
           const uf = String(data.uf || "").toUpperCase();
-
-          if (!isAtiva) {
-            return { ok: false, msg: `CNPJ com situação "${situacao || "INATIVA"}" na Receita Federal.` };
-          }
-          if (uf && uf !== "SP") {
-            return { ok: false, msg: `Este CNPJ está registrado em ${uf}. Aceitamos apenas estabelecimentos de SP.` };
-          }
-          return {
-            ok: true,
-            cnpj,
-            uf: uf || "SP",
-            razaoSocial: data.nome_fantasia || data.razao_social || ""
-          };
+          if (!isAtiva) return { ok: false, msg: `CNPJ com situação "${situacao || "INATIVA"}" na Receita Federal.` };
+          if (uf && uf !== "SP") return { ok: false, msg: `Este CNPJ está registrado em ${uf}. Aceitamos apenas estabelecimentos de SP.` };
+          return { ok: true, cnpj, uf: uf || "SP", razaoSocial: data.nome_fantasia || data.razao_social || "" };
         }
       } catch (e) {}
 
-      // 2) Fallback: publica.cnpj.ws
       try {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 9000);
         const res = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`, { signal: controller.signal });
         clearTimeout(timer);
 
-        if (res.status === 404) {
-          return { ok: false, msg: "CNPJ não encontrado na Receita Federal." };
-        }
+        if (res.status === 404) return { ok: false, msg: "CNPJ não encontrado na Receita Federal." };
         if (res.ok) {
           const data = await res.json();
           const est = data.estabelecimento || {};
           const situacao = String(est.situacao_cadastral || "").toUpperCase();
           const uf = String((est.estado && est.estado.sigla) || "").toUpperCase();
-
-          if (!situacao.includes("ATIVA")) {
-            return { ok: false, msg: `CNPJ com situação "${situacao || "INATIVA"}" na Receita Federal.` };
-          }
-          if (uf && uf !== "SP") {
-            return { ok: false, msg: `Este CNPJ está registrado em ${uf}. Aceitamos apenas estabelecimentos de SP.` };
-          }
-          return {
-            ok: true,
-            cnpj,
-            uf: uf || "SP",
-            razaoSocial: est.nome_fantasia || data.razao_social || ""
-          };
+          if (!situacao.includes("ATIVA")) return { ok: false, msg: `CNPJ com situação "${situacao || "INATIVA"}" na Receita Federal.` };
+          if (uf && uf !== "SP") return { ok: false, msg: `Este CNPJ está registrado em ${uf}. Aceitamos apenas estabelecimentos de SP.` };
+          return { ok: true, cnpj, uf: uf || "SP", razaoSocial: est.nome_fantasia || data.razao_social || "" };
         }
       } catch (e) {}
 
-      return { ok: false, msg: "Não foi possível consultar a Receita Federal agora. Verifique sua internet e tente novamente em 1 minuto." };
+      return { ok: false, msg: "Não foi possível consultar a Receita Federal agora. Verifique sua internet e tente novamente." };
     }
 
     function containsExternalLink(text) {
@@ -1557,28 +1818,23 @@
       const numeric = clean.replace(/[^\d.,]/g, "").replace(",", ".");
       const num = parseFloat(numeric);
       if (isNaN(num) || num <= 0) return "A combinar";
-      if (num > 50000) return null; // Bloqueia valores absurdos de erro de digitação
+      if (num > 50000) return null;
       return "R$ " + num.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     function getTodayDateStr() {
       const now = new Date();
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, "0");
-      const d = String(now.getDate()).padStart(2, "0");
-      return `${y}-${m}-${d}`;
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     }
 
     function formatDateBR(isoDate) {
       if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return "";
       const [y, m, d] = isoDate.split("-");
-      const today = getTodayDateStr();
-      if (isoDate === today) return "Hoje (" + d + "/" + m + ")";
+      if (isoDate === getTodayDateStr()) return `Hoje (${d}/${m})`;
       return `${d}/${m}/${y}`;
     }
 
     function isJobExpired(job) {
-      // Profissionais ("Quero Trabalhar") NUNCA expiram automaticamente
       if (job.type === "profissional") return false;
       if (!job.jobDate) return false;
       return job.jobDate < getTodayDateStr();
@@ -1588,12 +1844,13 @@
       if (!ts) return "Agora";
       const ms = ts.toMillis ? ts.toMillis() : Number(ts);
       const diffMin = Math.max(0, Math.floor((Date.now() - ms) / 60000));
-      if (diffMin < 2) return "Publicado agora";
+      if (diffMin < 2) return "Agora";
       if (diffMin < 60) return `Há ${diffMin} min`;
       const diffH = Math.floor(diffMin / 60);
       if (diffH < 24) return `Há ${diffH}h`;
       const diffD = Math.floor(diffH / 24);
-      return `Há ${diffD} dia${diffD > 1 ? "s" : ""}`;
+      if (diffD === 1) return "Ontem";
+      return `Há ${diffD} dias`;
     }
 
     let toastTimer = null;
@@ -1643,7 +1900,18 @@
       const targetNav = document.getElementById("nav-" + tab);
       if (targetNav) targetNav.classList.add("active");
 
-      if (tab === "inicio") renderFeed();
+      // Mostra a barra de busca no topo azul apenas na aba Início
+      const searchWrap = document.getElementById("headerSearchWrap");
+      const headerEl = document.getElementById("appHeader");
+      if (tab === "inicio") {
+        searchWrap.style.display = "block";
+        headerEl.classList.remove("compact");
+        renderFeed();
+      } else {
+        searchWrap.style.display = "none";
+        headerEl.classList.add("compact");
+      }
+
       if (tab === "avaliacoes") renderReviews();
       if (tab === "perfil") renderProfileTab();
       if (tab === "publicar" && !document.getElementById("editingJobId").value) {
@@ -1659,8 +1927,7 @@
     function handleBackAction() {
       const openModals = getOpenModalIds();
       if (openModals.length > 0) {
-        const topId = openModals[openModals.length - 1];
-        document.getElementById(topId).classList.remove("open");
+        document.getElementById(openModals[openModals.length - 1]).classList.remove("open");
         return true;
       }
       if (activeTab !== "inicio") {
@@ -1680,29 +1947,22 @@
     }
 
     function setupBackButtonControl() {
-      // Capacitor Native Android Back Button & Swipe Gesture
       try {
         const capApp = window.Capacitor && (window.Capacitor.Plugins && window.Capacitor.Plugins.App || window.Capacitor.registerPlugin && window.Capacitor.registerPlugin("App"));
         if (capApp && capApp.addListener) {
-          capApp.addListener("backButton", () => {
-            handleBackAction();
-          });
+          capApp.addListener("backButton", () => { handleBackAction(); });
         }
       } catch (e) {}
 
-      // Web / WebView popstate fallback
       window.addEventListener("popstate", () => {
         const openModals = getOpenModalIds();
         if (openModals.length > 0) {
           document.getElementById(openModals[openModals.length - 1]).classList.remove("open");
           return;
         }
-        if (activeTab !== "inicio") {
-          switchTab("inicio", true);
-        }
+        if (activeTab !== "inicio") switchTab("inicio", true);
       });
 
-      // Fechar modal ao tocar no fundo escuro
       document.querySelectorAll(".modal-overlay").forEach(overlay => {
         overlay.addEventListener("click", (ev) => {
           if (ev.target === overlay) closeModal(overlay.id);
@@ -1726,7 +1986,7 @@
       });
 
       const jobCatSel = document.getElementById("jobCategory");
-      jobCatSel.innerHTML = CATEGORIES.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+      jobCatSel.innerHTML = CATEGORIES.map(c => `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join("");
 
       const dateInput = document.getElementById("jobDate");
       const today = getTodayDateStr();
@@ -1739,10 +1999,10 @@
 
     function renderCategoryChips() {
       const wrap = document.getElementById("categoryChips");
-      let html = `<button class="chip ${selectedCategoryFilter === "Todas" ? "active" : ""}" onclick="setCategoryFilter('Todas')">Todas</button>`;
+      let html = `<button class="chip ${selectedCategoryFilter === "Todas" ? "active" : ""}" onclick="setCategoryFilter('Todas')">${SVG.grid}<span>Todas</span></button>`;
       CATEGORIES.forEach(c => {
-        const active = selectedCategoryFilter === c ? "active" : "";
-        html += `<button class="chip ${active}" onclick="setCategoryFilter('${escapeHtml(c)}')">${escapeHtml(c)}</button>`;
+        const active = selectedCategoryFilter === c.name ? "active" : "";
+        html += `<button class="chip ${active}" onclick="setCategoryFilter('${escapeHtml(c.name)}')">${SVG[c.icon] || SVG.briefcase}<span>${escapeHtml(c.short)}</span></button>`;
       });
       wrap.innerHTML = html;
     }
@@ -1755,10 +2015,10 @@
 
     function renderCityModalGrid() {
       const grid = document.getElementById("cityModalGrid");
-      let html = `<button class="city-opt-btn ${selectedCityFilter === "" ? "active" : ""}" style="grid-column:1/-1;" onclick="selectCityFilter('')">🌍 Todas as 15 cidades da região</button>`;
+      let html = `<button class="city-opt-btn ${selectedCityFilter === "" ? "active" : ""}" style="grid-column:1/-1;" onclick="selectCityFilter('')">${SVG.globe}<span>Todas as 15 cidades da região</span></button>`;
       REGIONAL_CITIES.forEach(c => {
         const active = selectedCityFilter === c ? "active" : "";
-        html += `<button class="city-opt-btn ${active}" onclick="selectCityFilter('${escapeHtml(c)}')">📍 ${escapeHtml(c)}</button>`;
+        html += `<button class="city-opt-btn ${active}" onclick="selectCityFilter('${escapeHtml(c)}')">${SVG.pin}<span>${escapeHtml(c)}</span></button>`;
       });
       grid.innerHTML = html;
     }
@@ -1842,7 +2102,7 @@
       if (phone.length < 10 || phone.length > 11) return showToast("Informe um WhatsApp válido com DDD.", "error");
       if (!email || !email.includes("@")) return showToast("Informe um e-mail válido.", "error");
       if (pass.length < 6) return showToast("A senha precisa ter pelo menos 6 caracteres.", "error");
-      if (!acceptedTerms) return showToast("Você precisa aceitar os Termos de Uso e confirmar ter 18+ anos.", "error");
+      if (!acceptedTerms) return showToast("Aceite os Termos de Uso e confirme ter 18+ anos.", "error");
 
       let cnpjClean = "";
       let estType = "";
@@ -1858,14 +2118,8 @@
           estType = document.getElementById("signupEstType").value.trim();
           estNeighborhood = document.getElementById("signupEstNeighborhood").value.trim();
 
-          if (!estType) {
-            showToast("Informe o tipo do seu estabelecimento.", "error");
-            return;
-          }
-          if (!estNeighborhood) {
-            showToast("Informe apenas o bairro do estabelecimento.", "error");
-            return;
-          }
+          if (!estType) return showToast("Informe o tipo do seu estabelecimento.", "error");
+          if (!estNeighborhood) return showToast("Informe apenas o bairro do estabelecimento.", "error");
 
           btn.textContent = "Verificando CNPJ na Receita...";
           statusEl.className = "cnpj-status";
@@ -1874,23 +2128,22 @@
           const check = await verifyCnpjReceita(cnpjClean);
           if (!check.ok) {
             statusEl.className = "cnpj-status cnpj-err";
-            statusEl.textContent = "❌ " + check.msg;
+            statusEl.textContent = check.msg;
             showToast(check.msg, "error");
             return;
           }
 
-          // Confere no Firebase se o CNPJ já pertence a outra conta
           const existingCnpj = await db.collection("cnpjs").doc(cnpjClean).get();
           if (existingCnpj.exists) {
             const msg = "Este CNPJ já está cadastrado em outra conta no aplicativo.";
             statusEl.className = "cnpj-status cnpj-err";
-            statusEl.textContent = "❌ " + msg;
+            statusEl.textContent = msg;
             showToast(msg, "error");
             return;
           }
 
           statusEl.className = "cnpj-status cnpj-ok";
-          statusEl.textContent = "✅ CNPJ Ativo em SP confirmado!";
+          statusEl.textContent = "CNPJ Ativo em SP confirmado.";
         }
 
         btn.textContent = "Criando conta...";
@@ -1938,13 +2191,12 @@
           showToast("Conta criada com sucesso!", "success");
           renderProfileTab();
         } catch (dbErr) {
-          // Se falhar a trava de CNPJ, remove a conta recém-criada para não deixar órfã
           try { await cred.user.delete(); } catch (e) {}
           throw dbErr;
         }
       } catch (err) {
         if (err && err.code === "auth/email-already-in-use") {
-          showToast("Este e-mail já está cadastrado. Use a aba Entrar.", "error");
+          showToast("Este e-mail já está cadastrado. Use a aba Já tenho conta.", "error");
         } else {
           showToast("Erro ao criar conta. Confira seus dados e tente novamente.", "error");
         }
@@ -1981,29 +2233,23 @@
         await currentUser.reauthenticateWithCredential(credential);
 
         const uid = currentUser.uid;
-
-        // 1. Apaga anúncios e contatos do usuário
         const userJobsSnap = await db.collection("vagas").where("authorUid", "==", uid).get();
         for (const doc of userJobsSnap.docs) {
           await db.collection("vagas").doc(doc.id).delete();
           try { await db.collection("contatos").doc(doc.id).delete(); } catch (e) {}
         }
 
-        // 2. Libera trava de CNPJ se houver
         if (currentUserPrivate && currentUserPrivate.cnpj) {
           try { await db.collection("cnpjs").doc(currentUserPrivate.cnpj).delete(); } catch (e) {}
         }
 
-        // 3. Apaga perfis público e privado
         await db.collection("usuarios_privados").doc(uid).delete();
         await db.collection("usuarios").doc(uid).delete();
-
-        // 4. Exclui conta do Firebase Auth
         await currentUser.delete();
 
         document.getElementById("deleteConfirmPassword").value = "";
         closeModal("deleteAccountModal");
-        showToast("Sua conta e seus dados foram excluídos permanentemente.", "success");
+        showToast("Conta e dados excluídos permanentemente.", "success");
         switchTab("inicio");
       } catch (err) {
         if (err && (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential")) {
@@ -2018,7 +2264,7 @@
     }
 
     // =========================================================
-    // 7. PUBLICAÇÃO, EDIÇÃO E REGRAS DE LIMITE / EXPIRAÇÃO
+    // 7. PUBLICAÇÃO, EDIÇÃO E LIMITES
     // =========================================================
     function setPublishType(type) {
       publishType = type;
@@ -2033,7 +2279,7 @@
       document.getElementById("jobNeighborhood").placeholder = isVaga ? "Ex: Centro (nunca coloque rua nem número)" : "Opcional — deixe vazio se atende a cidade toda";
       document.getElementById("jobDateGroup").style.display = isVaga ? "block" : "none";
       document.getElementById("lblDesc").textContent = isVaga ? "Detalhes e Horário do Serviço" : "Sobre seu trabalho e horários";
-      document.getElementById("jobDesc").placeholder = isVaga ? "Informe o horário e o que precisa ser feito..." : "Conte sua experiência, serviços que faz e dias/horários de atendimento...";
+      document.getElementById("jobDesc").placeholder = isVaga ? "Informe o horário e o que precisa ser feito..." : "Conte sua experiência, serviços que faz e dias/horários...";
     }
 
     function prefillPublishCity() {
@@ -2070,18 +2316,15 @@
         return showToast("Remova palavras ofensivas do anúncio.", "error");
       }
 
-      // Valida limites por tipo (apenas na criação de novo anúncio)
       if (!editingId && !isAdminUser) {
         const myActive = allJobs.filter(j => j.authorUid === currentUser.uid && !isJobExpired(j));
         if (publishType === "profissional") {
-          const hasProf = myActive.some(j => j.type === "profissional");
-          if (hasProf) {
+          if (myActive.some(j => j.type === "profissional")) {
             showToast("Você já tem 1 anúncio em Profissionais. Edite o existente em Perfil → Minhas Publicações.", "error");
             return;
           }
         } else {
-          const myVagas = myActive.filter(j => j.type !== "profissional");
-          if (myVagas.length >= 3) {
+          if (myActive.filter(j => j.type !== "profissional").length >= 3) {
             showToast("Limite de 3 vagas ativas por conta atingido. Encerre uma vaga antiga para publicar outra.", "error");
             return;
           }
@@ -2130,7 +2373,7 @@
         setFeedMode(publishType);
         switchTab("inicio");
       } catch (err) {
-        showToast("Erro ao publicar. Verifique sua conexão e as regras do Firebase.", "error");
+        showToast("Erro ao publicar. Verifique sua conexão.", "error");
       } finally {
         btn.disabled = false;
         btn.textContent = "Publicar Agora";
@@ -2149,7 +2392,8 @@
       document.getElementById("publishTypeTabs").style.display = "none";
 
       document.getElementById("jobTitle").value = job.title || "";
-      document.getElementById("jobCategory").value = CATEGORIES.includes(job.category) ? job.category : CATEGORIES[0];
+      const validCat = CATEGORIES.some(c => c.name === job.category);
+      document.getElementById("jobCategory").value = validCat ? job.category : CATEGORIES[0].name;
       document.getElementById("jobPay").value = job.pay === "A combinar" ? "" : String(job.pay || "").replace(/[^\d.,]/g, "");
       if (REGIONAL_CITIES.includes(job.city)) document.getElementById("jobCity").value = job.city;
       document.getElementById("jobNeighborhood").value = job.neighborhood === "Toda a cidade" ? "" : (job.neighborhood || "");
@@ -2224,19 +2468,24 @@
       const container = document.getElementById("feedList");
       const q = normalizeText(document.getElementById("searchInput").value);
 
-      const list = allJobs
-        .filter(j => {
-          const t = j.type === "profissional" ? "profissional" : "vaga";
-          if (t !== feedMode) return false;
-          if (isJobExpired(j)) return false;
-          if (selectedCityFilter && j.city !== selectedCityFilter) return false;
-          if (selectedCategoryFilter !== "Todas" && j.category !== selectedCategoryFilter) return false;
-          if (q) {
-            const hay = normalizeText(`${j.title} ${j.category} ${j.neighborhood} ${j.description} ${j.authorName}`);
-            if (!hay.includes(q)) return false;
-          }
-          return true;
-        })
+      const baseFiltered = allJobs.filter(j => {
+        if (isJobExpired(j)) return false;
+        if (selectedCityFilter && j.city !== selectedCityFilter) return false;
+        if (selectedCategoryFilter !== "Todas" && j.category !== selectedCategoryFilter) return false;
+        if (q) {
+          const hay = normalizeText(`${j.title} ${j.category} ${j.neighborhood} ${j.description} ${j.authorName}`);
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const vagasCount = baseFiltered.filter(j => j.type !== "profissional").length;
+      const profsCount = baseFiltered.filter(j => j.type === "profissional").length;
+      document.getElementById("countVagas").textContent = vagasCount;
+      document.getElementById("countProfs").textContent = profsCount;
+
+      const list = baseFiltered
+        .filter(j => (j.type === "profissional" ? "profissional" : "vaga") === feedMode)
         .sort((a, b) => {
           const ta = (a.updatedAt && a.updatedAt.toMillis ? a.updatedAt.toMillis() : (a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0));
           const tb = (b.updatedAt && b.updatedAt.toMillis ? b.updatedAt.toMillis() : (b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0));
@@ -2246,25 +2495,25 @@
       if (list.length === 0) {
         container.innerHTML = `
           <div class="empty-state card">
-            <div class="big-ico">${feedMode === "vaga" ? "💼" : "🙋"}</div>
+            <div class="empty-ico-circle">${feedMode === "vaga" ? SVG.briefcaseLg : SVG.userLg}</div>
             <div style="font-weight:800; color:var(--navy-deep); margin-bottom:5px;">
               ${feedMode === "vaga" ? "Nenhuma vaga aberta com esse filtro" : "Nenhum profissional encontrado"}
             </div>
-            <p style="font-size:13px; margin-bottom:14px;">
+            <p style="font-size:13px; margin-bottom:16px;">
               ${selectedCityFilter ? `Ainda não há anúncios em ${escapeHtml(selectedCityFilter)}.` : "Seja o primeiro a publicar na região!"}
             </p>
-            <button class="btn btn-accent btn-sm" onclick="switchTab('publicar')">➕ Publicar Agora</button>
+            <button class="btn btn-accent btn-sm" onclick="switchTab('publicar')">${SVG.plus}<span>Publicar Agora</span></button>
           </div>`;
         return;
       }
 
       container.innerHTML = list.map(j => {
         const stats = getUserRatingStats(j.authorUid);
-        const initial = escapeHtml((j.authorName || "U").charAt(0).toUpperCase());
+        const initials = escapeHtml((j.authorName || "U").trim().slice(0, 2).toUpperCase());
         const isOwner = currentUser && j.authorUid === currentUser.uid;
         const estLabel = j.authorIsEst
-          ? `🏢 ${j.authorEstType ? escapeHtml(j.authorEstType) : "Estabelecimento Verificado"} ✓`
-          : (j.type === "profissional" ? "🙋 Profissional" : "👤 Particular");
+          ? `${j.authorEstType ? escapeHtml(j.authorEstType) : "Estabelecimento Verificado"}`
+          : (j.type === "profissional" ? "Profissional" : "Particular");
 
         return `
           <article class="card">
@@ -2275,25 +2524,25 @@
 
             <div class="badge-row">
               <span class="badge badge-cat">${escapeHtml(j.category)}</span>
-              ${j.authorIsEst ? `<span class="badge badge-est">🏢 CNPJ Verificado</span>` : ""}
+              ${j.authorIsEst ? `<span class="badge badge-est">${SVG.building}<span>CNPJ Verificado</span></span>` : ""}
               ${j.type === "profissional"
-                ? `<span class="badge badge-prof">🙋 Profissional</span>`
-                : (j.jobDate ? `<span class="badge badge-date">📅 ${escapeHtml(formatDateBR(j.jobDate))}</span>` : "")}
+                ? `<span class="badge badge-prof">${SVG.user}<span>Profissional</span></span>`
+                : (j.jobDate ? `<span class="badge badge-date">${SVG.calendar}<span>${escapeHtml(formatDateBR(j.jobDate))}</span></span>` : "")}
             </div>
 
             <div class="author-line" onclick="openPublicProfile('${escapeHtml(j.authorUid)}')">
               <div class="author-left">
-                <div class="avatar ${j.authorIsEst ? "avatar-est" : ""}">${initial}</div>
+                <div class="avatar ${j.authorIsEst ? "avatar-est" : ""}">${initials}</div>
                 <div style="min-width:0;">
                   <div class="author-name">${escapeHtml(j.authorName || "Usuário")}</div>
                   <div class="author-sub">${estLabel} • Ver perfil</div>
                 </div>
               </div>
-              <div class="rating-pill">${stats.count > 0 ? `⭐ ${stats.avg} (${stats.count})` : "Novo"}</div>
+              <div class="rating-pill">${stats.count > 0 ? `${SVG.starFill}<span>${stats.avg} (${stats.count})</span>` : "Novo"}</div>
             </div>
 
             <div class="job-meta">
-              <span>📍 <strong>${escapeHtml(j.city)}</strong> • ${escapeHtml(j.neighborhood || "Toda a cidade")}</span>
+              <span class="meta-item">${SVG.pin}<span><strong>${escapeHtml(j.city)}</strong> • ${escapeHtml(j.neighborhood || "Toda a cidade")}</span></span>
             </div>
 
             ${j.description ? `<div class="job-desc">${escapeHtml(j.description)}</div>` : ""}
@@ -2301,10 +2550,10 @@
 
             <div class="job-footer">
               <button class="btn btn-wa" onclick="requestWhatsAppContact('${escapeHtml(j.id)}')">
-                💬 Chamar no WhatsApp
+                ${SVG.wa}<span>Chamar no WhatsApp</span>
               </button>
               ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteJob('${escapeHtml(j.id)}', false)">Encerrar</button>` : ""}
-              ${(!isOwner && isAdminUser) ? `<button class="btn btn-danger-solid btn-sm" onclick="deleteJob('${escapeHtml(j.id)}', true)">🗑️ Remover (Admin)</button>` : ""}
+              ${(!isOwner && isAdminUser) ? `<button class="btn btn-danger-solid btn-sm" onclick="deleteJob('${escapeHtml(j.id)}', true)">${SVG.trash}<span>Remover</span></button>` : ""}
             </div>
           </article>
         `;
@@ -2320,12 +2569,11 @@
       const job = allJobs.find(j => j.id === jobId);
       if (!job) return;
 
-      // Limite diário anti-coleta (15 contatos diferentes/dia)
       if (!isAdminUser) {
         const key = `qd_wa_limit_${currentUser.uid}_${getTodayDateStr()}`;
         const contacted = JSON.parse(localStorage.getItem(key) || "[]");
         if (!contacted.includes(job.authorUid) && contacted.length >= 15) {
-          showToast("Você atingiu o limite diário de 15 novos contatos por segurança. Tente novamente amanhã.", "error");
+          showToast("Limite diário de 15 novos contatos atingido por segurança. Tente novamente amanhã.", "error");
           return;
         }
       }
@@ -2348,7 +2596,6 @@
         }
         const phone = onlyDigits(contactSnap.data().whatsapp);
 
-        // Registra contato recente (facilita avaliações e controla limite diário)
         const limitKey = `qd_wa_limit_${currentUser.uid}_${getTodayDateStr()}`;
         const contactedToday = JSON.parse(localStorage.getItem(limitKey) || "[]");
         if (!contactedToday.includes(pendingWhatsAppJob.authorUid)) {
@@ -2366,18 +2613,17 @@
           : `Olá ${pendingWhatsAppJob.authorName}! Vi a vaga de ${pendingWhatsAppJob.title} em ${pendingWhatsAppJob.city} no app Quero Diária e tenho interesse!`;
 
         closeModal("waSafetyModal");
-        const waUrl = `https://wa.me/55${phone}?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl, "_blank");
+        window.open(`https://wa.me/55${phone}?text=${encodeURIComponent(msg)}`, "_blank");
       } catch (e) {
         showToast("Erro ao obter contato. Verifique sua conexão.", "error");
       } finally {
         btn.disabled = false;
-        btn.textContent = "💬 Continuar para WhatsApp";
+        btn.textContent = "Continuar para WhatsApp";
       }
     }
 
     // =========================================================
-    // 9. PERFIL PÚBLICO E AVALIAÇÕES SIMPLIFICADAS
+    // 9. PERFIL PÚBLICO E AVALIAÇÕES
     // =========================================================
     function openPublicProfile(uid) {
       const user = allUsers.find(u => u.uid === uid);
@@ -2391,19 +2637,23 @@
 
       let html = `
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
-          <div class="avatar ${isEst ? "avatar-est" : ""}" style="width:52px; height:52px; font-size:20px;">${escapeHtml(name.charAt(0).toUpperCase())}</div>
+          <div class="avatar ${isEst ? "avatar-est" : ""}" style="width:52px; height:52px; font-size:18px;">${escapeHtml(name.slice(0, 2).toUpperCase())}</div>
           <div>
             <div style="font-size:17px; font-weight:800; color:var(--navy-deep);">${escapeHtml(name)}</div>
-            <div style="font-size:13px; color:var(--muted);">📍 ${escapeHtml(city)}${isEst && user.establishmentNeighborhood ? " • " + escapeHtml(user.establishmentNeighborhood) : ""}</div>
-            ${isEst ? `<div style="margin-top:4px;"><span class="badge badge-est">🏢 ${escapeHtml(user.establishmentType || "Estabelecimento")} • CNPJ Verificado</span></div>` : ""}
+            <div style="font-size:13px; color:var(--muted); display:inline-flex; align-items:center; gap:4px;">
+              ${SVG.pin}<span>${escapeHtml(city)}${isEst && user.establishmentNeighborhood ? " • " + escapeHtml(user.establishmentNeighborhood) : ""}</span>
+            </div>
+            ${isEst ? `<div style="margin-top:5px;"><span class="badge badge-est">${SVG.building}<span>${escapeHtml(user.establishmentType || "Estabelecimento")} • CNPJ Verificado</span></span></div>` : ""}
           </div>
         </div>
         <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:11px 13px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
           <div>
             <div style="font-size:12px; color:var(--muted);">Reputação</div>
-            <div style="font-size:16px; font-weight:800; color:#b45309;">${stats.count > 0 ? `⭐ ${stats.avg} / 5.0 (${stats.count})` : "Sem avaliações ainda"}</div>
+            <div style="font-size:15.5px; font-weight:800; color:#b45309; display:inline-flex; align-items:center; gap:5px;">
+              ${stats.count > 0 ? `${SVG.starFill}<span>${stats.avg} / 5.0 (${stats.count})</span>` : "Sem avaliações ainda"}
+            </div>
           </div>
-          ${!isMe ? `<button class="btn btn-accent btn-sm" onclick="closeModal('viewProfileModal'); openReviewModal('${escapeHtml(uid)}')">⭐ Avaliar</button>` : ""}
+          ${!isMe ? `<button class="btn btn-accent btn-sm" onclick="closeModal('viewProfileModal'); openReviewModal('${escapeHtml(uid)}')">${SVG.star}<span>Avaliar</span></button>` : ""}
         </div>
       `;
 
@@ -2413,9 +2663,9 @@
           <div style="border-bottom:1px solid var(--border); padding:8px 0;">
             <div style="display:flex; justify-content:space-between; font-size:12.5px; font-weight:700;">
               <span>${escapeHtml(r.authorName || "Usuário")}</span>
-              <span style="color:#b45309;">${"⭐".repeat(Number(r.rating || 5))}</span>
+              <span class="rating-pill">${SVG.starFill}<span>${Number(r.rating || 5).toFixed(1)}</span></span>
             </div>
-            ${r.comment ? `<div style="font-size:12.5px; color:#475569; margin-top:3px;">${escapeHtml(r.comment)}</div>` : ""}
+            ${r.comment ? `<div style="font-size:12.5px; color:#475569; margin-top:4px;">${escapeHtml(r.comment)}</div>` : ""}
           </div>
         `).join("");
       }
@@ -2446,7 +2696,7 @@
         document.getElementById("reviewTargetLocked").innerHTML = `
           <div style="font-size:12px; color:var(--muted);">Avaliando:</div>
           <div style="font-size:15px; font-weight:800; color:var(--navy-deep);">${escapeHtml(target ? target.name : "Usuário")}</div>
-          <div style="font-size:12px; color:var(--muted);">📍 ${escapeHtml(target ? target.city : "")}</div>
+          <div style="font-size:12px; color:var(--muted);">${escapeHtml(target ? target.city : "")}</div>
         `;
       } else {
         document.getElementById("reviewTargetLocked").style.display = "none";
@@ -2470,11 +2720,7 @@
           if (!q) return true;
           return normalizeText(`${u.name} ${u.city} ${u.whatsappLast4 || ""}`).includes(q);
         })
-        .sort((a, b) => {
-          const ra = recents.includes(a.uid) ? 1 : 0;
-          const rb = recents.includes(b.uid) ? 1 : 0;
-          return rb - ra;
-        })
+        .sort((a, b) => (recents.includes(b.uid) ? 1 : 0) - (recents.includes(a.uid) ? 1 : 0))
         .slice(0, 25);
 
       if (candidates.length === 0) {
@@ -2487,11 +2733,11 @@
         const isRecent = recents.includes(u.uid);
         return `
           <button type="button" onclick="selectReviewCandidate('${escapeHtml(u.uid)}')"
-            style="text-align:left; padding:9px 11px; border-radius:10px; border:1.5px solid ${isSel ? "var(--accent)" : "var(--border)"}; background:${isSel ? "#fff7ed" : "#fff"}; cursor:pointer;">
+            style="text-align:left; padding:9px 11px; border-radius:10px; border:1.5px solid ${isSel ? "var(--navy)" : "var(--border)"}; background:${isSel ? "#eff6ff" : "#fff"}; cursor:pointer;">
             <div style="font-size:13.5px; font-weight:800; color:var(--navy-deep);">
               ${escapeHtml(u.name)} ${isRecent ? '<span style="font-size:10.5px; color:#15803d;">• Contatado recente</span>' : ""}
             </div>
-            <div style="font-size:11.5px; color:var(--muted);">📍 ${escapeHtml(u.city || "SP")}${u.whatsappLast4 ? ` • Final ${escapeHtml(u.whatsappLast4)}` : ""}</div>
+            <div style="font-size:11.5px; color:var(--muted);">${escapeHtml(u.city || "SP")}${u.whatsappLast4 ? ` • Final ${escapeHtml(u.whatsappLast4)}` : ""}</div>
           </button>`;
       }).join("");
     }
@@ -2534,7 +2780,6 @@
       btn.textContent = "Enviando...";
 
       try {
-        // Evita duplicidade: 1 avaliação por par autor→alvo (atualiza se já existir)
         const docId = `${currentUser.uid}_${reviewTargetUid}`;
         await db.collection("avaliacoes").doc(docId).set({
           authorUid: currentUser.uid,
@@ -2572,14 +2817,14 @@
 
       const list = allReviews
         .filter(r => !q || normalizeText(`${r.targetName} ${r.authorName} ${r.comment} ${r.targetCity}`).includes(q))
-        .sort((a, b) => {
-          const ta = a.updatedAt && a.updatedAt.toMillis ? a.updatedAt.toMillis() : 0;
-          const tb = b.updatedAt && b.updatedAt.toMillis ? b.updatedAt.toMillis() : 0;
-          return tb - ta;
-        });
+        .sort((a, b) => ((b.updatedAt && b.updatedAt.toMillis ? b.updatedAt.toMillis() : 0) - (a.updatedAt && a.updatedAt.toMillis ? a.updatedAt.toMillis() : 0)));
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="empty-state card"><div class="big-ico">⭐</div>Nenhuma avaliação registrada ainda.</div>`;
+        container.innerHTML = `
+          <div class="empty-state card">
+            <div class="empty-ico-circle"><svg class="ico ico-lg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div>Nenhuma avaliação registrada ainda.</div>
+          </div>`;
         return;
       }
 
@@ -2592,7 +2837,7 @@
                 <div style="font-size:15px; font-weight:800; color:var(--navy-deep);">${escapeHtml(r.targetName)}</div>
                 <div style="font-size:11.5px; color:var(--muted);">Avaliado por ${escapeHtml(r.authorName)}</div>
               </div>
-              <div class="rating-pill">⭐ ${Number(r.rating).toFixed(1)}</div>
+              <div class="rating-pill">${SVG.starFill}<span>${Number(r.rating).toFixed(1)}</span></div>
             </div>
             <div style="font-size:13.5px; color:#334155; line-height:1.45;">${escapeHtml(r.comment)}</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
@@ -2617,20 +2862,18 @@
       guest.style.display = "none";
       logged.style.display = "block";
 
-      document.getElementById("profAvatar").textContent = (currentUserProfile.name || "U").charAt(0).toUpperCase();
+      document.getElementById("profAvatar").textContent = (currentUserProfile.name || "U").trim().slice(0, 2).toUpperCase();
       document.getElementById("profName").textContent = currentUserProfile.name || "Usuário";
-      document.getElementById("profSub").textContent = `📍 ${currentUserProfile.city || "SP"} • ${currentUser.email}`;
+      document.getElementById("profSub").textContent = `${currentUserProfile.city || "SP"} • ${currentUser.email}`;
 
       const badgeArea = document.getElementById("profBadgeArea");
       if (currentUserProfile.isEstablishment) {
-        badgeArea.innerHTML = `<span class="badge badge-est">🏢 ${escapeHtml(currentUserProfile.establishmentType || "Estabelecimento")} • CNPJ Verificado</span>`;
+        badgeArea.innerHTML = `<span class="badge badge-est">${SVG.building}<span>${escapeHtml(currentUserProfile.establishmentType || "Estabelecimento")} • CNPJ Verificado</span></span>`;
       } else {
-        badgeArea.innerHTML = `<span class="badge" style="background:rgba(255,255,255,0.16); color:#fff;">👤 Conta Pessoal</span>`;
+        badgeArea.innerHTML = `<span class="badge" style="background:rgba(255,255,255,0.16); color:#fff;">${SVG.user}<span>Conta Pessoal</span></span>`;
       }
 
-      // Mostra "Dados do Estabelecimento" APENAS para contas de Estabelecimento
       document.getElementById("btnEstProfileMenu").style.display = currentUserProfile.isEstablishment ? "flex" : "none";
-      // Mostra Painel Admin APENAS para administradores
       document.getElementById("btnAdminPanelMenu").style.display = isAdminUser ? "flex" : "none";
     }
 
@@ -2648,15 +2891,15 @@
             <div class="card" style="box-shadow:none; border:1px solid var(--border);">
               <div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:4px;">
                 <strong style="color:var(--navy-deep);">${escapeHtml(j.title)}</strong>
-                <span class="badge ${expired ? "badge-date" : "badge-prof"}">${expired ? "Expirada" : (j.type === "profissional" ? "Profissional Ativo" : "Vaga Ativa")}</span>
+                <span class="badge ${expired ? "badge-date" : "badge-est"}">${expired ? "Expirada" : (j.type === "profissional" ? "Profissional Ativo" : "Vaga Ativa")}</span>
               </div>
               <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">
-                📍 ${escapeHtml(j.city)} • ${escapeHtml(j.pay || "A combinar")}
-                ${j.jobDate ? ` • 📅 ${escapeHtml(formatDateBR(j.jobDate))}` : ""}
+                ${escapeHtml(j.city)} • ${escapeHtml(j.pay || "A combinar")}
+                ${j.jobDate ? ` • ${escapeHtml(formatDateBR(j.jobDate))}` : ""}
               </div>
               <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                <button class="btn btn-outline btn-sm" onclick="startEditJob('${escapeHtml(j.id)}')">✏️ Editar</button>
-                ${j.type === "profissional" ? `<button class="btn btn-primary btn-sm" onclick="bumpProfessionalPost('${escapeHtml(j.id)}')">⬆️ Subir</button>` : ""}
+                <button class="btn btn-outline btn-sm" onclick="startEditJob('${escapeHtml(j.id)}')">${SVG.edit}<span>Editar</span></button>
+                ${j.type === "profissional" ? `<button class="btn btn-primary btn-sm" onclick="bumpProfessionalPost('${escapeHtml(j.id)}')">${SVG.up}<span>Subir</span></button>` : ""}
                 <button class="btn btn-danger btn-sm" onclick="deleteJob('${escapeHtml(j.id)}', false)">Encerrar</button>
               </div>
             </div>`;
@@ -2699,7 +2942,6 @@
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
 
-        // Atualiza nome e WhatsApp nos anúncios ativos do usuário
         const myJobs = allJobs.filter(j => j.authorUid === currentUser.uid);
         for (const j of myJobs) {
           await db.collection("vagas").doc(j.id).update({ authorName: newName });
@@ -2726,7 +2968,7 @@
       if (!currentUserProfile || !currentUserProfile.isEstablishment) return;
       const cnpj = (currentUserPrivate && currentUserPrivate.cnpj) || "";
       const masked = cnpj.length === 14 ? `${cnpj.slice(0,2)}.${cnpj.slice(2,5)}.${cnpj.slice(5,8)}/${cnpj.slice(8,12)}-${cnpj.slice(12)}` : "Verificado";
-      document.getElementById("editEstCnpjBox").innerHTML = `✅ <strong>CNPJ/MEI verificado:</strong> ${escapeHtml(masked)}`;
+      document.getElementById("editEstCnpjBox").innerHTML = `${SVG.check}<div><strong>CNPJ/MEI verificado:</strong> ${escapeHtml(masked)}</div>`;
       document.getElementById("editEstTypeInput").value = currentUserProfile.establishmentType || "";
       document.getElementById("editEstNeighborhoodInput").value = currentUserProfile.establishmentNeighborhood || "";
       openModal("editEstModal");
@@ -2763,7 +3005,6 @@
       }
     }
 
-    // Admin Moderation Panel
     function openAdminModal() {
       if (!isAdminUser) return;
       document.getElementById("adminUserSearch").value = "";
@@ -2790,7 +3031,7 @@
           <div style="min-width:0;">
             <div style="font-size:14px; font-weight:800; color:var(--navy-deep);">${escapeHtml(u.name)}</div>
             <div style="font-size:11.5px; color:var(--muted);">
-              ${u.isEstablishment ? "🏢 Estabelecimento" : "👤 Pessoa"} • ${escapeHtml(u.city || "SP")}
+              ${u.isEstablishment ? "Estabelecimento" : "Pessoa"} • ${escapeHtml(u.city || "SP")}
               ${u.suspended ? " • <strong style='color:var(--danger);'>SUSPENSO</strong>" : ""}
             </div>
           </div>
@@ -2835,13 +3076,13 @@
                 }, { merge: true });
               }
             });
-            showToast(`Alertas ativados para: ${city}!`, "success");
+            showToast(`Notificações ativadas para: ${city}!`, "success");
             closeModal("alertsModal");
             return;
           }
         }
       } catch (e) {}
-      showToast(`Preferência de alerta salva para: ${city}.`, "success");
+      showToast(`Preferência salva para: ${city}.`, "success");
       closeModal("alertsModal");
     }
 
@@ -2919,7 +3160,6 @@
       }
     }
 
-    // Inicialização independente da velocidade da internet
     initStaticControls();
     setupBackButtonControl();
     startRealtimeListeners();
