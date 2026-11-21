@@ -64,6 +64,7 @@
       vertical-align: middle;
     }
     .ico-sm { width: 15px; height: 15px; }
+    .ico-xs { width: 13px; height: 13px; }
     .ico-lg { width: 22px; height: 22px; }
     .ico-fill { fill: currentColor; stroke: none; }
 
@@ -250,7 +251,7 @@
     .section { display: none; }
     .section.active { display: block; }
 
-    /* Feed Mode Switcher */
+    /* Mode Switcher */
     .mode-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -488,11 +489,31 @@
       white-space: pre-line;
       word-break: break-word;
     }
+    .posted-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
     .posted-time {
       font-size: 11px;
       color: #94a3b8;
-      margin-bottom: 10px;
     }
+    .report-subtle-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 2px 4px;
+    }
+    .report-subtle-btn:active { color: var(--danger); }
+
     .job-footer {
       display: flex;
       gap: 8px;
@@ -520,6 +541,15 @@
     .btn-primary { background: var(--navy); color: #fff; }
     .btn-accent { background: var(--accent); color: #fff; }
     .btn-wa { background: var(--green); color: #fff; flex: 1; }
+    .btn-share {
+      background: #f1f5f9;
+      color: var(--navy);
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
     .btn-outline { background: #fff; color: var(--navy); border: 1.5px solid var(--border); }
     .btn-danger { background: #fee2e2; color: var(--danger); }
     .btn-danger-solid { background: var(--danger); color: #fff; }
@@ -557,6 +587,18 @@
       color: var(--muted);
       margin-top: 4px;
       line-height: 1.35;
+    }
+    .auto-cat-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: var(--navy);
+      font-size: 11.5px;
+      font-weight: 700;
     }
     .security-note {
       background: #eff6ff;
@@ -728,7 +770,7 @@
       background: #fff5f5;
     }
 
-    /* Stars */
+    /* Stars & Tags */
     .star-row {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -951,6 +993,24 @@
     .cnpj-ok { color: #15803d; }
     .cnpj-warn { color: #b45309; }
     .cnpj-err { color: var(--danger); }
+    .faq-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 11px 12px;
+      margin-bottom: 8px;
+    }
+    .faq-item strong {
+      display: block;
+      font-size: 13px;
+      color: var(--navy-deep);
+      margin-bottom: 3px;
+    }
+    .faq-item p {
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.45;
+    }
   </style>
 </head>
 <body>
@@ -958,7 +1018,7 @@
   <!-- Input oculto para foto de perfil -->
   <input type="file" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="handleProfilePhotoSelected(this)" />
 
-  <!-- Splash Screen (Limpa, sem slogan) -->
+  <!-- Splash Screen -->
   <div id="splashScreen">
     <svg class="splash-logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
       <rect width="512" height="512" rx="110" fill="#09172e" />
@@ -1037,7 +1097,7 @@
       </div>
     </section>
 
-    <!-- ABA 2: PUBLICAR (Formulário enxuto sem lista fechada de categoria) -->
+    <!-- ABA 2: PUBLICAR -->
     <section id="sec-publicar" class="section">
       <div class="card">
         <h2 id="publishHeading" style="font-size:18px; font-weight:800; color:var(--navy-deep); margin-bottom:4px;">Publicar Anúncio</h2>
@@ -1063,8 +1123,10 @@
 
         <div class="form-group">
           <label id="lblTitle">O que você procura *</label>
-          <input type="text" id="jobTitle" maxlength="70" placeholder="Ex: Diarista, Jardineiro, Garçom, Ajudante..." />
-          <div class="helper-text" id="titleHelperText">A categoria é identificada automaticamente pelo que você escrever.</div>
+          <input type="text" id="jobTitle" maxlength="70" placeholder="Ex: Diarista, Jardineiro, Mecânico, Garçom..." oninput="updateLiveCategoryHint()" />
+          <div id="liveCategoryHintWrap" style="display:none;">
+            <span class="auto-cat-hint" id="liveCategoryHint"></span>
+          </div>
         </div>
 
         <div class="form-group">
@@ -1091,8 +1153,8 @@
 
         <div class="form-group">
           <label id="lblDesc">Detalhes e Horário do Serviço</label>
-          <textarea id="jobDesc" rows="3" maxlength="380" placeholder="Informe o horário e o que precisa ser feito..."></textarea>
-          <div class="helper-text">Links externos não são permitidos por segurança.</div>
+          <textarea id="jobDesc" rows="3" maxlength="380" placeholder="Informe o horário e o que precisa ser feito..." oninput="updateLiveCategoryHint()"></textarea>
+          <div class="helper-text">Links externos e conteúdo impróprio não são permitidos.</div>
         </div>
 
         <div style="display:flex; gap:8px;">
@@ -1134,6 +1196,7 @@
         <h2 style="font-size:18px; font-weight:800; color:var(--navy-deep); margin-bottom:6px;">Entre na sua conta</h2>
         <p style="font-size:13.5px; color:var(--muted); margin-bottom:16px;">Acesse sua conta para publicar vagas, divulgar seu serviço, chamar no WhatsApp e avaliar.</p>
         <button class="btn btn-primary btn-full" onclick="openAuthModal('login')">Entrar ou Criar Conta</button>
+        <button class="btn btn-outline btn-full" style="margin-top:10px;" onclick="openModal('supportModal')">Ajuda e Suporte</button>
       </div>
 
       <div id="profileLoggedView" style="display:none;">
@@ -1181,8 +1244,17 @@
           <span class="menu-left">
             <svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Painel de Moderação (Admin)
+            <span class="tab-count" id="adminReportsMenuCount" style="display:none; background:#dc2626; color:#fff;">0</span>
           </span>
           <svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <button class="menu-btn" onclick="openModal('supportModal')">
+          <span class="menu-left">
+            <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Ajuda e Suporte
+          </span>
+          <svg class="ico ico-sm" style="color:#94a3b8;" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
 
         <button class="menu-btn" onclick="openModal('termsModal')">
@@ -1419,6 +1491,74 @@
     </div>
   </div>
 
+  <!-- MODAL: DENUNCIAR ANÚNCIO (Obrigatório Play Store) -->
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h3>
+          <svg class="ico" style="color:var(--danger);" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Denunciar Anúncio
+        </h3>
+        <button class="close-x" onclick="closeModal('reportModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p id="reportJobTitlePreview" style="font-size:13px; color:var(--muted); margin-bottom:12px;"></p>
+      <div class="form-group">
+        <label>Motivo da denúncia *</label>
+        <select id="reportReasonSelect">
+          <option value="Anúncio falso ou tentativa de golpe">Anúncio falso ou tentativa de golpe</option>
+          <option value="Cobrança de taxa adiantada">Cobrança de taxa adiantada</option>
+          <option value="Conteúdo adulto ou impróprio">Conteúdo adulto ou impróprio</option>
+          <option value="Ofensas ou spam">Ofensas ou spam</option>
+          <option value="Outro motivo">Outro motivo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Detalhes (opcional)</label>
+        <textarea id="reportDetailsInput" rows="2" maxlength="200" placeholder="Explique rapidamente o problema..."></textarea>
+      </div>
+      <button class="btn btn-danger-solid btn-full" id="btnSubmitReport" onclick="submitReport()">Enviar Denúncia para Moderação</button>
+    </div>
+  </div>
+
+  <!-- MODAL: AJUDA E SUPORTE -->
+  <div class="modal-overlay" id="supportModal">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h3>
+          <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Ajuda e Suporte
+        </h3>
+        <button class="close-x" onclick="closeModal('supportModal')">
+          <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="security-note" style="flex-direction:column; gap:8px;">
+        <div>Precisa de ajuda com sua conta, anúncio ou quer enviar uma sugestão? Fale com a equipe do <strong>Quero Diária</strong>:</div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--navy-deep);">suportequerodiaria@gmail.com</div>
+        <div style="display:flex; gap:8px; width:100%;">
+          <button type="button" class="btn btn-outline btn-sm" style="flex:1;" onclick="copySupportEmail()">Copiar e-mail</button>
+          <button type="button" class="btn btn-primary btn-sm" style="flex:1;" onclick="openSupportEmail()">Enviar e-mail</button>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <strong>Como edito ou encerro um anúncio?</strong>
+        <p>Acesse <strong>Perfil → Minhas Publicações</strong>. Lá você pode editar, encerrar ou subir seu perfil profissional para o topo.</p>
+      </div>
+      <div class="faq-item">
+        <strong>Por que meu MEI aparece "em verificação"?</strong>
+        <p>CNPJs recém-abertos levam alguns dias para atualizar na base pública da Receita Federal, mas você já pode anunciar normalmente.</p>
+      </div>
+      <div class="faq-item">
+        <strong>O aplicativo cobra alguma taxa?</strong>
+        <p>Não. O uso do Quero Diária é gratuito e o combinado do serviço é direto entre as partes no WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: VER PERFIL PÚBLICO -->
   <div class="modal-overlay" id="viewProfileModal">
     <div class="modal-sheet">
@@ -1561,7 +1701,7 @@
     </div>
   </div>
 
-  <!-- MODAL: PAINEL ADMIN -->
+  <!-- MODAL: PAINEL ADMIN (Contas + Denúncias) -->
   <div class="modal-overlay" id="adminModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -1573,14 +1713,27 @@
           <svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <p style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">
-        Você também pode remover qualquer anúncio diretamente no mural pelo botão vermelho <strong>Remover</strong>. Abaixo você gerencia contas:
-      </p>
-      <div class="search-box">
-        <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="adminUserSearch" placeholder="Filtrar usuário por nome ou cidade..." oninput="renderAdminUsers()" />
+
+      <div class="mode-tabs" style="margin-bottom:12px;">
+        <button type="button" class="mode-tab active" id="adminTabReports" onclick="setAdminTab('reports')">
+          Denúncias <span class="tab-count" id="adminReportsTabCount">0</span>
+        </button>
+        <button type="button" class="mode-tab" id="adminTabUsers" onclick="setAdminTab('users')">
+          Contas
+        </button>
       </div>
-      <div id="adminUsersList"></div>
+
+      <div id="adminReportsSection">
+        <div id="adminReportsList"></div>
+      </div>
+
+      <div id="adminUsersSection" style="display:none;">
+        <div class="search-box">
+          <svg class="ico search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="adminUserSearch" placeholder="Filtrar usuário por nome ou cidade..." oninput="renderAdminUsers()" />
+        </div>
+        <div id="adminUsersList"></div>
+      </div>
     </div>
   </div>
 
@@ -1596,7 +1749,7 @@
       <div style="font-size:13px; color:#334155; line-height:1.55; display:flex; flex-direction:column; gap:10px;">
         <p><strong>1. Natureza do Aplicativo:</strong> O <strong>Quero Diária</strong> atua exclusivamente como um mural regional gratuito de divulgação de serviços avulsos (diárias/bicos) e profissionais autônomos. Não somos agência de empregos, não intermediamos pagamentos e <strong>não possuímos vínculo trabalhista</strong> com contratantes ou trabalhadores.</p>
         <p><strong>2. Idade Mínima:</strong> O uso do aplicativo é permitido exclusivamente para <strong>maiores de 18 anos</strong>.</p>
-        <p><strong>3. Responsabilidade e Segurança:</strong> Todas as negociações (valor, horário, local e pagamento) ocorrem diretamente entre as partes. É proibido publicar anúncios falsos, cobrar taxas adiantadas, inserir links externos ou divulgar endereços residenciais completos (rua e número) nos anúncios públicos.</p>
+        <p><strong>3. Conduta e Proibições:</strong> É estritamente proibido publicar anúncios falsos, cobrar taxas adiantadas, inserir links externos, divulgar endereços residenciais completos (rua e número) ou publicar <strong>qualquer conteúdo adulto, erótico, sexual ou ilícito</strong>. Contas que violarem essas regras serão removidas e suspensas pela moderação.</p>
         <p><strong>4. Estabelecimentos (CNPJ/MEI):</strong> Contas de Estabelecimento utilizam validação de CNPJ junto à Receita Federal para verificar situação ativa em SP e evitar falsificação de empresas. Cada CNPJ pode ser vinculado a apenas uma conta.</p>
         <p><strong>5. Privacidade e LGPD:</strong> Seus dados (nome, foto opcional, cidade, e-mail e WhatsApp) são usados apenas para o funcionamento do aplicativo e contato autorizado entre usuários cadastrados. O número de WhatsApp não é exibido abertamente a visitantes sem login.</p>
         <p><strong>6. Exclusão de Dados e Contato Oficial:</strong> Você pode excluir sua conta e todos os seus dados a qualquer momento em <em>Perfil → Excluir minha conta e meus dados</em>. Para suporte ou solicitações, escreva para <strong>suportequerodiaria@gmail.com</strong>.</p>
@@ -1664,12 +1817,16 @@
       tool: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
       brush: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M18.37 2.63L14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3z"/><path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7"/></svg>`,
       zap: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+      car: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M5 12h14"/></svg>`,
       truck: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`,
       box: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`,
       utensils: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3v7"/></svg>`,
       bag: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
       scissors: `<svg class="ico ico-sm" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`,
       heart: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+      sun: `<svg class="ico ico-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>`,
+      shield: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+      laptop: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`,
       briefcase: `<svg class="ico ico-sm" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>`,
       briefcaseLg: `<svg class="ico ico-lg" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>`,
       user: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
@@ -1680,6 +1837,8 @@
       star: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
       starFill: `<svg class="ico ico-sm ico-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
       wa: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
+      share: `<svg class="ico" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+      flag: `<svg class="ico ico-xs" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`,
       trash: `<svg class="ico ico-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`,
       edit: `<svg class="ico ico-sm" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
       up: `<svg class="ico ico-sm" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`,
@@ -1707,85 +1866,240 @@
       "Novo Horizonte"
     ];
 
-    // Categorias automáticas com detecção inteligente por palavras-chave
+    // 18 Categorias com classificação inteligente por palavra inteira
     const CATEGORIES = [
       {
         id: "Limpeza",
         label: "Limpeza",
         icon: "sparkle",
-        keywords: ["limpeza", "diarista", "faxina", "faxineira", "passadeira", "passar roupa", "lavar", "lavanderia", "higienizacao", "zelador", "piscina", "piscineiro", "domestica", "servicos gerais"]
+        keywords: [
+          "limpeza", "diarista", "faxina", "faxineira", "faxineiro", "passadeira",
+          "passar roupa", "lavadeira", "lavar roupa", "lavanderia", "higienizacao",
+          "higienizar", "limpar casa", "limpeza pos obra", "pos obra", "piscina",
+          "piscineiro", "limpar piscina", "domestica", "empregada domestica",
+          "arrumadeira", "camareira", "servicos gerais", "auxiliar de limpeza",
+          "limpeza de sofa", "limpar estofado", "limpeza comercial"
+        ]
       },
       {
         id: "Jardinagem",
         label: "Jardinagem",
         icon: "leaf",
-        keywords: ["jardinagem", "jardineiro", "jardim", "grama", "rocar", "rocadeira", "poda", "podar", "arvore", "quintal", "mato", "capinar", "paisagismo", "terreno", "lote", "chacara", "sitio"]
+        keywords: [
+          "jardinagem", "jardineiro", "jardineira", "jardim", "grama",
+          "cortar grama", "aparar grama", "rocar", "rocadeira", "poda", "podar",
+          "arvore", "quintal", "mato", "carpir", "capinar", "capina",
+          "paisagismo", "paisagista", "limpeza de terreno", "limpar terreno",
+          "limpar lote", "terreno", "lote"
+        ]
       },
       {
         id: "Construção",
         label: "Construção",
         icon: "tool",
-        keywords: ["obra", "pedreiro", "servente", "ajudante de obra", "reforma", "alvenaria", "piso", "azulejo", "gesso", "gesseiro", "reboco", "telhado", "calha", "marceneiro", "carpinteiro", "serralheiro", "soldador", "construcao"]
+        keywords: [
+          "construcao", "obra", "pedreiro", "meio oficial", "servente",
+          "servente de pedreiro", "ajudante de pedreiro", "ajudante de obra",
+          "reforma", "alvenaria", "piso", "porcelanato", "azulejo", "azulejista",
+          "gesso", "gesseiro", "drywall", "forro", "reboco", "rebocar",
+          "contrapiso", "laje", "telhado", "telhadista", "calha", "calheiro",
+          "marceneiro", "marcenaria", "carpinteiro", "carpintaria", "serralheiro",
+          "serralheria", "soldador", "solda", "vidraceiro", "vidracaria",
+          "marmoraria", "marmore", "granito", "demolicao", "betoneira", "muro"
+        ]
       },
       {
         id: "Pintura",
         label: "Pintura",
         icon: "brush",
-        keywords: ["pintor", "pintura", "pintar", "textura", "grafiato", "massa corrida", "verniz", "parede", "portao"]
+        keywords: [
+          "pintor", "pintora", "pintura", "pintar", "textura", "grafiato",
+          "massa corrida", "verniz", "envernizar", "impermeabilizacao",
+          "impermeabilizar", "pintura residencial", "pintura comercial",
+          "pintar parede", "pintar portao", "pintar casa"
+        ]
       },
       {
-        id: "Manutenção",
+        id: "Elétrica & Hidráulica",
         label: "Elétrica & Hidráulica",
         icon: "zap",
-        keywords: ["eletricista", "eletrica", "chuveiro", "tomada", "fio", "encanador", "hidraulica", "vazamento", "cano", "ar condicionado", "manutencao", "marido de aluguel", "montador", "moveis", "reparo", "conserto", "tecnico"]
+        keywords: [
+          "eletricista", "eletrica", "chuveiro", "tomada", "fiacao",
+          "quadro eletrico", "disjuntor", "luminaria", "ventilador de teto",
+          "encanador", "encanamento", "hidraulica", "vazamento", "desentupidor",
+          "desentupimento", "desentupir", "cano", "torneira", "caixa dagua",
+          "ar condicionado", "refrigerista", "refrigeracao", "geladeira",
+          "maquina de lavar", "eletrodomestico", "manutencao residencial",
+          "marido de aluguel", "montador", "montador de moveis",
+          "montagem de moveis", "desmontagem", "chaveiro", "antena", "antenista",
+          "portao eletronico", "motor de portao", "cerca eletrica", "interfone"
+        ]
       },
       {
-        id: "Delivery",
+        id: "Mecânica & Auto",
+        label: "Mecânica & Auto",
+        icon: "car",
+        keywords: [
+          "mecanico", "mecanica", "oficina", "oficina mecanica", "auto eletrica",
+          "autoeletrica", "auto eletrico", "autoeletrico", "eletricista automotivo",
+          "borracheiro", "borracharia", "pneu", "funileiro", "funilaria",
+          "pintura automotiva", "martelinho", "martelinho de ouro", "lava jato",
+          "lavajato", "lava rapido", "lavar carro", "lavagem automotiva",
+          "estetica automotiva", "polimento", "higienizacao automotiva",
+          "troca de oleo", "freio", "suspensao", "embreagem", "radiador",
+          "alinhamento", "balanceamento", "guincho", "motor", "retifica",
+          "injecao eletronica", "ar condicionado automotivo", "insulfilm",
+          "som automotivo", "conserto de carro", "conserto de moto",
+          "mecanico de moto", "mecanico de carro", "automotivo", "veiculo", "carro"
+        ]
+      },
+      {
+        id: "Delivery & Frete",
         label: "Delivery & Frete",
         icon: "truck",
-        keywords: ["entrega", "entregador", "motoboy", "delivery", "moto", "bike", "ifood", "frete", "freteiro", "carreto", "mudanca", "mudancas", "motorista", "caminhao", "van"]
+        keywords: [
+          "delivery", "entregador", "entregadora", "entrega", "motoboy",
+          "motogirl", "motofrete", "moto entrega", "entrega de moto",
+          "entregador de moto", "ifood", "bikeboy", "entregador de bike",
+          "frete", "freteiro", "carreto", "mudanca", "motorista", "caminhoneiro",
+          "chofer", "caminhao", "caminhoes", "caminhonete", "carreta", "van",
+          "kombi", "transporte", "uber"
+        ]
       },
       {
         id: "Carga e Descarga",
         label: "Carga e Descarga",
         icon: "box",
-        keywords: ["carga", "descarga", "chapa", "descarregar", "carregar", "estoque", "estoquista", "deposito", "ajudante carga", "embalagem"]
+        keywords: [
+          "carga", "descarga", "carga e descarga", "chapa", "descarregar",
+          "carregar", "estoque", "estoquista", "deposito", "almoxarifado",
+          "almoxarife", "embalagem", "embalador", "embaladora", "separador",
+          "separacao", "conferente", "logistica", "empilhadeira",
+          "operador de empilhadeira", "ajudante de caminhao", "ajudante carga",
+          "carregador"
+        ]
       },
       {
         id: "Eventos",
         label: "Eventos",
         icon: "utensils",
-        keywords: ["garcom", "garconete", "evento", "eventos", "festa", "buffet", "churrasqueiro", "barman", "bartender", "copeiro", "recepcionista", "seguranca", "monitor", "casamento", "aniversario"]
+        keywords: [
+          "evento", "garcom", "garcons", "garconete", "festa", "buffet",
+          "churrasqueiro", "churrasco", "barman", "bartender", "barwoman",
+          "drinks", "copeiro", "copeira", "recepcionista de evento", "monitor",
+          "monitora", "recreador", "recreadora", "pula pula", "dj",
+          "som de festa", "iluminacao", "fotografo", "fotografa", "fotografia",
+          "filmagem", "cinegrafista", "decorador", "decoradora", "decoracao",
+          "cerimonial", "cerimonialista", "casamento", "aniversario",
+          "formatura", "animador"
+        ]
       },
       {
         id: "Cozinha",
         label: "Cozinha",
         icon: "utensils",
-        keywords: ["cozinha", "cozinheiro", "cozinheira", "auxiliar de cozinha", "salgado", "salgados", "bolo", "boleira", "confeiteiro", "confeiteira", "padeiro", "padaria", "pizzaiolo", "chapeiro", "lanchonete", "restaurante", "sorveteria", "acaiteria", "marmita", "acougue"]
+        keywords: [
+          "cozinha", "cozinheiro", "cozinheira", "auxiliar de cozinha",
+          "ajudante de cozinha", "chef", "salgado", "salgadeira", "salgadeiro",
+          "bolo", "boleira", "confeiteiro", "confeiteira", "confeitaria",
+          "doceira", "doces", "padeiro", "padaria", "pizzaiolo", "pizzaria",
+          "chapeiro", "chapeira", "chapa de lanche", "lanchonete", "hamburgueria",
+          "restaurante", "sorveteria", "sorveteiro", "acaiteria", "marmita",
+          "marmitaria", "marmitex", "acougue", "acougueiro", "sushiman", "sushi",
+          "assador", "fritador", "lavador de louca", "lavar louca", "espetinho",
+          "pastelaria", "pasteleiro", "alimentacao"
+        ]
       },
       {
         id: "Comércio",
         label: "Comércio",
         icon: "bag",
-        keywords: ["loja", "vendedor", "vendedora", "vendas", "caixa", "operador de caixa", "atendente", "balconista", "mercado", "supermercado", "repositor", "farmacia", "comercio", "panfleto", "panfletagem"]
+        keywords: [
+          "comercio", "loja", "vendedor", "vendedora", "venda", "caixa",
+          "operador de caixa", "operadora de caixa", "atendente", "balconista",
+          "mercado", "supermercado", "mercadinho", "hortifruti", "repositor",
+          "repositora", "farmacia", "drogaria", "panfleto", "panfletagem",
+          "panfleteiro", "promotor", "promotora", "degustadora", "empacotador",
+          "empacotadora", "feirante", "feira", "recepcao", "recepcionista",
+          "secretaria", "auxiliar administrativo", "escritorio", "atendimento",
+          "telemarketing"
+        ]
       },
       {
         id: "Beleza",
         label: "Beleza",
         icon: "scissors",
-        keywords: ["manicure", "pedicure", "unha", "cabeleireiro", "cabeleireira", "cabelo", "barbeiro", "barbearia", "sobrancelha", "cilios", "maquiagem", "maquiadora", "depilacao", "estetica", "salao", "tranca", "massagem"]
+        keywords: [
+          "beleza", "manicure", "pedicure", "unha", "alongamento de unha",
+          "cabeleireiro", "cabeleireira", "cabelo", "escova", "progressiva",
+          "barbeiro", "barbearia", "barba", "sobrancelha", "cilios", "lash",
+          "maquiagem", "maquiadora", "make", "depilacao", "depiladora",
+          "estetica", "esteticista", "salao", "salao de beleza", "tranca",
+          "trancista", "massagem relaxante", "massoterapeuta", "podologa",
+          "podologia", "bronzeamento"
+        ]
       },
       {
         id: "Costura",
         label: "Costura",
         icon: "scissors",
-        keywords: ["costura", "costureira", "bainha", "ajuste", "ziper", "bordado", "croche", "roupa", "roupas", "conserto de roupa"]
+        keywords: [
+          "costura", "costureira", "costureiro", "bainha", "barra de calca",
+          "ajuste de roupa", "ziper", "bordado", "bordadeira", "croche",
+          "trico", "tapeceiro", "tapecaria", "estofador", "conserto de roupa",
+          "roupa", "alfaiate", "sapateiro", "overloque", "faccao"
+        ]
       },
       {
-        id: "Cuidados",
+        id: "Cuidados & Pet",
         label: "Cuidados & Pet",
         icon: "heart",
-        keywords: ["baba", "cuidador", "cuidadora", "idoso", "idosos", "crianca", "enfermagem", "acompanhante", "pet", "cachorro", "passeador", "banho e tosa"]
+        keywords: [
+          "baba", "cuidador", "cuidadora", "cuidador de idoso",
+          "cuidador de idosos", "idoso", "crianca", "enfermagem", "enfermeiro",
+          "enfermeira", "tecnico de enfermagem", "acompanhante hospitalar",
+          "acompanhante de idoso", "acompanhante de paciente", "home care",
+          "pet", "petshop", "pet shop", "pet sitter", "cachorro", "cao", "caes",
+          "gato", "passeador", "dog walker", "banho e tosa", "tosador",
+          "tosadora", "tosa", "adestrador", "veterinario"
+        ]
+      },
+      {
+        id: "Rural & Sítio",
+        label: "Rural & Sítio",
+        icon: "sun",
+        keywords: [
+          "rural", "trabalhador rural", "sitio", "fazenda", "chacara", "caseiro",
+          "caseira", "tratorista", "trator", "colheita", "colhedor", "limao",
+          "limoes", "laranja", "cana", "cerca", "cercar", "pasto", "vaqueiro",
+          "peao", "ordenha", "gado", "lavoura", "plantio", "plantar", "horta",
+          "pulverizacao", "maquina agricola", "agricola"
+        ]
+      },
+      {
+        id: "Segurança & Portaria",
+        label: "Segurança & Portaria",
+        icon: "shield",
+        keywords: [
+          "porteiro", "porteira", "portaria", "vigia", "vigilante", "seguranca",
+          "controlador de acesso", "rondante", "ronda", "zelador", "zeladoria",
+          "fiscal de loja", "prevencao de perdas", "guarda", "bombeiro civil",
+          "brigadista"
+        ]
+      },
+      {
+        id: "Tech & Aulas",
+        label: "Tech & Aulas",
+        icon: "laptop",
+        keywords: [
+          "informatica", "computador", "pc", "notebook", "celular",
+          "conserto de celular", "formatacao", "formatar", "wifi", "internet",
+          "camera de seguranca", "cftv", "desenvolvedor", "programador", "site",
+          "designer", "design", "social media", "edicao de video",
+          "editor de video", "digitacao", "aula", "aula particular", "reforco",
+          "reforco escolar", "professor", "professora", "ingles", "matematica",
+          "portugues", "musica", "violao", "personal", "personal trainer"
+        ]
       },
       {
         id: "Outros",
@@ -1795,7 +2109,18 @@
       }
     ];
 
-    const PROFANITY_LIST = ["puta", "caralho", "porra", "foder", "foda-se", "fdp", "arrombado", "desgraçado", "vagabundo", "ladrão", "estelionatario", "cuzao", "cuzão"];
+    // Filtro contra ofensas e conteúdo adulto/sexual
+    const BLOCKED_TERMS = [
+      "puta", "caralho", "porra", "foder", "fdp", "arrombado", "desgracado",
+      "vagabundo", "ladrao", "estelionatario", "cuzao",
+      "sexo", "sexual", "garota de programa", "garoto de programa",
+      "fazer programa", "acompanhante de luxo", "acompanhante intimo",
+      "acompanhante intima", "massagem erotica", "massagem tantrica",
+      "massagem sensual", "erotica", "erotico", "sensual", "putaria",
+      "pornografia", "porno", "nudes", "pack de foto", "onlyfans", "privacy",
+      "prostituicao", "prostituta", "escort", "sigilo absoluto", "motel",
+      "final feliz", "conteudo adulto", "encontro intimo", "programa"
+    ];
 
     // =========================================================
     // 2. ESTADO GLOBAL
@@ -1808,6 +2133,8 @@
     let allJobs = [];
     let allUsers = [];
     let allReviews = [];
+    let allReports = [];
+    let unsubscribeReports = null;
 
     let activeTab = "inicio";
     let feedMode = "vaga";
@@ -1815,11 +2142,13 @@
     let selectedCityFilter = "";
     let selectedCategoryFilter = "Todas";
     let signupAccountType = "pessoa";
+    let activeAdminTab = "reports";
 
     let photoPickerMode = "direct";
-    let pendingEditPhotoData = null; // null = sem alteração, "" = remover, "data:image/..." = nova foto
+    let pendingEditPhotoData = null;
 
     let pendingWhatsAppJob = null;
+    let reportingJobId = null;
     let reviewTargetUid = null;
     let reviewSelectedStars = 5;
     let reviewSelectedTags = [];
@@ -1829,7 +2158,7 @@
     let promptedLoginOnce = false;
 
     // =========================================================
-    // 3. UTILITÁRIOS DE SEGURANÇA, FOTO E CATEGORIA AUTOMÁTICA
+    // 3. CLASSIFICAÇÃO AUTOMÁTICA E VALIDAÇÕES
     // =========================================================
     function escapeHtml(str) {
       return String(str || "")
@@ -1845,7 +2174,85 @@
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
         .trim();
+    }
+
+    function escapeRegex(str) {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    CATEGORIES.forEach(cat => {
+      cat.compiled = (cat.keywords || []).map(kw => {
+        const norm = normalizeText(kw);
+        const words = norm.split(" ").filter(Boolean).length;
+        const pluralSuffix = (norm.endsWith("r") || norm.endsWith("z")) ? "(?:es)?" : "(?:s)?";
+        const regex = new RegExp(`(?:^|\\s)${escapeRegex(norm)}${pluralSuffix}(?=$|\\s)`, "i");
+        return { norm, words, regex };
+      });
+    });
+
+    const BLOCKED_REGEXES = BLOCKED_TERMS.map(term => {
+      const norm = normalizeText(term);
+      return new RegExp(`(?:^|\\s)${escapeRegex(norm)}(?:s)?(?=$|\\s)`, "i");
+    });
+
+    function containsBlockedContent(text) {
+      const norm = normalizeText(text);
+      if (!norm) return false;
+      return BLOCKED_REGEXES.some(rx => rx.test(norm));
+    }
+
+    function detectCategoryAuto(title, description) {
+      const normTitle = normalizeText(title);
+      const normDesc = normalizeText(description);
+      let bestId = "Outros";
+      let bestScore = 0;
+
+      for (const cat of CATEGORIES) {
+        if (!cat.compiled || !cat.compiled.length) continue;
+        let score = 0;
+        for (const item of cat.compiled) {
+          if (normTitle && item.regex.test(normTitle)) score += 5 * item.words;
+          if (normDesc && item.regex.test(normDesc)) score += 1 * item.words;
+        }
+        if (score > bestScore) {
+          bestScore = score;
+          bestId = cat.id;
+        }
+      }
+      return bestId;
+    }
+
+    function resolveJobCategory(job) {
+      const detected = detectCategoryAuto(job.title || "", job.description || "");
+      if (detected !== "Outros") return detected;
+      if (job.category) {
+        const exact = CATEGORIES.find(c => normalizeText(c.id) === normalizeText(job.category));
+        if (exact) return exact.id;
+      }
+      return "Outros";
+    }
+
+    function jobMatchesCategory(job, catId) {
+      if (catId === "Todas") return true;
+      return resolveJobCategory(job) === catId;
+    }
+
+    function updateLiveCategoryHint() {
+      const title = document.getElementById("jobTitle").value.trim();
+      const desc = document.getElementById("jobDesc").value.trim();
+      const wrap = document.getElementById("liveCategoryHintWrap");
+      const badge = document.getElementById("liveCategoryHint");
+      if (title.length < 2 && desc.length < 3) {
+        wrap.style.display = "none";
+        return;
+      }
+      const catId = detectCategoryAuto(title, desc);
+      const catObj = CATEGORIES.find(c => c.id === catId) || CATEGORIES[CATEGORIES.length - 1];
+      badge.innerHTML = `${SVG[catObj.icon] || SVG.briefcase}<span>Categoria automática: ${escapeHtml(catObj.label)}</span>`;
+      wrap.style.display = "block";
     }
 
     function onlyDigits(str) {
@@ -1864,70 +2271,24 @@
     }
 
     function renderAvatarInner(name, photoUrl) {
-      if (isSafePhotoUrl(photoUrl)) {
-        return `<img src="${photoUrl}" alt="Foto" />`;
-      }
+      if (isSafePhotoUrl(photoUrl)) return `<img src="${photoUrl}" alt="Foto" />`;
       return escapeHtml((name || "U").trim().slice(0, 2).toUpperCase());
-    }
-
-    function detectCategoryAuto(title, description) {
-      const text = normalizeText(`${title} ${description}`);
-      for (const cat of CATEGORIES) {
-        if (!cat.keywords.length) continue;
-        if (cat.keywords.some(k => text.includes(k))) {
-          return cat.id;
-        }
-      }
-      return "Outros";
-    }
-
-    function jobMatchesCategory(job, catId) {
-      if (catId === "Todas") return true;
-      const cat = CATEGORIES.find(c => c.id === catId);
-      if (!cat) return true;
-
-      // Verifica categoria salva (inclusive compatibilidade com categorias antigas)
-      const saved = normalizeText(job.category || "");
-      if (saved && (saved === normalizeText(cat.id) || saved.includes(normalizeText(cat.id)))) {
-        return true;
-      }
-
-      const fullText = normalizeText(`${job.title} ${job.description} ${job.category}`);
-      if (cat.id === "Outros") {
-        // Pertence a Outros se não bater com nenhuma categoria específica
-        const matchesAnySpecific = CATEGORIES.some(c =>
-          c.id !== "Outros" && c.keywords.some(k => fullText.includes(k))
-        );
-        return !matchesAnySpecific;
-      }
-
-      return cat.keywords.some(k => fullText.includes(k));
     }
 
     function formatPhoneInput(input) {
       let d = onlyDigits(input.value).slice(0, 11);
-      if (d.length > 6) {
-        input.value = `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
-      } else if (d.length > 2) {
-        input.value = `(${d.slice(0,2)}) ${d.slice(2)}`;
-      } else {
-        input.value = d;
-      }
+      if (d.length > 6) input.value = `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+      else if (d.length > 2) input.value = `(${d.slice(0,2)}) ${d.slice(2)}`;
+      else input.value = d;
     }
 
     function formatCnpjInput(input) {
       let d = onlyDigits(input.value).slice(0, 14);
-      if (d.length > 12) {
-        input.value = `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5,8)}/${d.slice(8,12)}-${d.slice(12)}`;
-      } else if (d.length > 8) {
-        input.value = `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5,8)}/${d.slice(8)}`;
-      } else if (d.length > 5) {
-        input.value = `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5)}`;
-      } else if (d.length > 2) {
-        input.value = `${d.slice(0,2)}.${d.slice(2)}`;
-      } else {
-        input.value = d;
-      }
+      if (d.length > 12) input.value = `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5,8)}/${d.slice(8,12)}-${d.slice(12)}`;
+      else if (d.length > 8) input.value = `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5,8)}/${d.slice(8)}`;
+      else if (d.length > 5) input.value = `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5)}`;
+      else if (d.length > 2) input.value = `${d.slice(0,2)}.${d.slice(2)}`;
+      else input.value = d;
       document.getElementById("signupCnpjStatus").textContent = "";
     }
 
@@ -1953,13 +2314,11 @@
         return { ok: false, msg: "Número de CNPJ inválido. Confira os 14 dígitos." };
       }
 
-      // 1) Consulta BrasilAPI
       try {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 8000);
         const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, { signal: controller.signal });
         clearTimeout(timer);
-
         if (res.ok) {
           const data = await res.json();
           const situacao = String(data.descricao_situacao_cadastral || "").toUpperCase();
@@ -1971,13 +2330,11 @@
         }
       } catch (e) {}
 
-      // 2) Fallback: publica.cnpj.ws
       try {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 8000);
         const res = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`, { signal: controller.signal });
         clearTimeout(timer);
-
         if (res.ok) {
           const data = await res.json();
           const est = data.estabelecimento || {};
@@ -1989,7 +2346,6 @@
         }
       } catch (e) {}
 
-      // 3) Se o número do CNPJ é matematicamente verdadeiro mas ainda não sincronizou na base pública (MEI recém-aberto)
       return {
         ok: true,
         verified: false,
@@ -2003,11 +2359,6 @@
     function containsExternalLink(text) {
       const t = String(text || "").toLowerCase();
       return /(https?:\/\/|www\.|bit\.ly|tinyurl|wa\.me|chat\.whatsapp|t\.me|instagram\.com|facebook\.com|\.[a-z]{2,3}\/)/i.test(t);
-    }
-
-    function containsProfanity(text) {
-      const norm = normalizeText(text);
-      return PROFANITY_LIST.some(w => norm.includes(normalizeText(w)));
     }
 
     function formatMoneyField(val) {
@@ -2061,8 +2412,21 @@
     }
 
     // =========================================================
-    // 4. UPLOAD E COMPRESSÃO DE FOTO DE PERFIL
+    // 4. FOTO DE PERFIL E SUPORTE
     // =========================================================
+    function copySupportEmail() {
+      const email = "suportequerodiaria@gmail.com";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(() => showToast("E-mail copiado!", "success"));
+      } else {
+        showToast("E-mail: " + email);
+      }
+    }
+
+    function openSupportEmail() {
+      window.open("mailto:suportequerodiaria@gmail.com?subject=" + encodeURIComponent("Suporte Quero Diária"), "_blank");
+    }
+
     function triggerPhotoPicker(mode) {
       if (!currentUser) return;
       photoPickerMode = mode;
@@ -2084,14 +2448,11 @@
             canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext("2d");
-
             const minSide = Math.min(img.width, img.height);
             const sx = (img.width - minSide) / 2;
             const sy = (img.height - minSide) / 2;
             ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
-
-            const dataUrl = canvas.toDataURL("image/jpeg", 0.72);
-            resolve(dataUrl);
+            resolve(canvas.toDataURL("image/jpeg", 0.72));
           };
           img.src = e.target.result;
         };
@@ -2102,16 +2463,11 @@
     async function handleProfilePhotoSelected(input) {
       const file = input.files && input.files[0];
       if (!file || !currentUser) return;
-
-      if (!file.type.startsWith("image/")) {
-        showToast("Selecione um arquivo de imagem válido.", "error");
-        return;
-      }
+      if (!file.type.startsWith("image/")) return showToast("Selecione uma imagem válida.", "error");
 
       try {
         showToast("Ajustando foto...");
         const compressed = await compressImageToAvatar(file);
-
         if (photoPickerMode === "modal") {
           pendingEditPhotoData = compressed;
           updateEditPhotoPreview(compressed);
@@ -2120,7 +2476,7 @@
           await savePhotoDirectly(compressed);
         }
       } catch (err) {
-        showToast("Não foi possível carregar essa imagem. Tente outra foto.", "error");
+        showToast("Não foi possível carregar essa imagem.", "error");
       }
     }
 
@@ -2261,7 +2617,7 @@
     }
 
     // =========================================================
-    // 6. POPULAR LISTAS (CIDADES E CHIPS DE CATEGORIAS)
+    // 6. CIDADES E CHIPS DE CATEGORIAS
     // =========================================================
     function initStaticControls() {
       const citySelectIds = ["jobCity", "signupCity", "editCitySelect", "alertCitySelect"];
@@ -2319,7 +2675,7 @@
     }
 
     // =========================================================
-    // 7. AUTENTICAÇÃO, CADASTRO COM CNPJ/MEI E LGPD
+    // 7. AUTENTICAÇÃO, CADASTRO E LGPD
     // =========================================================
     function openAuthModal(mode = "login") {
       setAuthMode(mode);
@@ -2508,6 +2864,8 @@
       currentUserProfile = null;
       currentUserPrivate = null;
       isAdminUser = false;
+      if (unsubscribeReports) { unsubscribeReports(); unsubscribeReports = null; }
+      allReports = [];
       document.getElementById("adminHeaderBadge").classList.remove("show");
       renderProfileTab();
       renderFeed();
@@ -2560,7 +2918,7 @@
     }
 
     // =========================================================
-    // 8. PUBLICAÇÃO, EDIÇÃO E LIMITES
+    // 8. PUBLICAÇÃO, EDIÇÃO E DENÚNCIAS
     // =========================================================
     function setPublishType(type) {
       publishType = type;
@@ -2569,7 +2927,7 @@
       document.getElementById("pubTypeProf").classList.toggle("active", !isVaga);
 
       document.getElementById("lblTitle").textContent = isVaga ? "O que você procura *" : "Qual serviço você faz? *";
-      document.getElementById("jobTitle").placeholder = isVaga ? "Ex: Diarista, Jardineiro, Garçom, Ajudante..." : "Ex: Manicure, Jardineiro, Costureira, Pedreiro...";
+      document.getElementById("jobTitle").placeholder = isVaga ? "Ex: Diarista, Jardineiro, Mecânico, Garçom..." : "Ex: Manicure, Jardineiro, Mecânico, Pedreiro...";
       document.getElementById("lblPay").textContent = isVaga ? "Valor da Diária (R$)" : "Valor / A partir de (R$)";
       document.getElementById("lblNeighborhood").textContent = isVaga ? "Bairro *" : "Bairro que atende (opcional)";
       document.getElementById("jobNeighborhood").placeholder = isVaga ? "Ex: Centro (nunca coloque rua nem número)" : "Opcional — deixe vazio se atende a cidade toda";
@@ -2607,8 +2965,8 @@
       if (containsExternalLink(title + " " + description + " " + neighborhood)) {
         return showToast("Links externos não são permitidos nos anúncios por segurança.", "error");
       }
-      if (containsProfanity(title + " " + description)) {
-        return showToast("Remova palavras ofensivas do anúncio.", "error");
+      if (containsBlockedContent(title + " " + description)) {
+        return showToast("Conteúdo ofensivo ou adulto não é permitido no Quero Diária.", "error");
       }
 
       if (!editingId && !isAdminUser) {
@@ -2695,6 +3053,7 @@
       document.getElementById("jobNeighborhood").value = job.neighborhood === "Toda a cidade" ? "" : (job.neighborhood || "");
       if (job.jobDate) document.getElementById("jobDate").value = job.jobDate < getTodayDateStr() ? getTodayDateStr() : job.jobDate;
       document.getElementById("jobDesc").value = job.description || "";
+      updateLiveCategoryHint();
 
       switchTab("publicar");
     }
@@ -2711,6 +3070,7 @@
       document.getElementById("jobNeighborhood").value = "";
       document.getElementById("jobDate").value = getTodayDateStr();
       document.getElementById("jobDesc").value = "";
+      document.getElementById("liveCategoryHintWrap").style.display = "none";
       if (!silent) showToast("Edição cancelada.");
     }
 
@@ -2735,16 +3095,60 @@
         await db.collection("vagas").doc(jobId).delete();
         try { await db.collection("contatos").doc(jobId).delete(); } catch (e) {}
         showToast("Anúncio removido.", "success");
-        if (document.getElementById("myPostsModal").classList.contains("open")) {
-          openMyPostsModal();
-        }
+        if (document.getElementById("myPostsModal").classList.contains("open")) openMyPostsModal();
       } catch (e) {
         showToast("Sem permissão para remover este anúncio.", "error");
       }
     }
 
+    function openReportModal(jobId) {
+      if (!currentUser) {
+        showToast("Faça login para denunciar um anúncio.");
+        openAuthModal("login");
+        return;
+      }
+      const job = allJobs.find(j => j.id === jobId);
+      if (!job) return;
+      reportingJobId = jobId;
+      document.getElementById("reportJobTitlePreview").textContent = `Anúncio: "${job.title}" (${job.city})`;
+      document.getElementById("reportDetailsInput").value = "";
+      openModal("reportModal");
+    }
+
+    async function submitReport() {
+      if (!currentUser || !reportingJobId) return;
+      const job = allJobs.find(j => j.id === reportingJobId);
+      const reason = document.getElementById("reportReasonSelect").value;
+      const details = document.getElementById("reportDetailsInput").value.trim();
+
+      const btn = document.getElementById("btnSubmitReport");
+      btn.disabled = true;
+      btn.textContent = "Enviando...";
+      try {
+        await db.collection("denuncias").add({
+          jobId: reportingJobId,
+          jobTitle: job ? job.title : "Anúncio",
+          jobCity: job ? job.city : "",
+          authorUid: job ? job.authorUid : "",
+          authorName: job ? job.authorName : "",
+          reporterUid: currentUser.uid,
+          reporterName: (currentUserProfile && currentUserProfile.name) || currentUser.email,
+          reason,
+          details,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        closeModal("reportModal");
+        showToast("Denúncia enviada para a moderação. Obrigado!", "success");
+      } catch (e) {
+        showToast("Erro ao enviar denúncia. Atualize as regras do Firestore.", "error");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Enviar Denúncia para Moderação";
+      }
+    }
+
     // =========================================================
-    // 9. MURAL (INÍCIO) E PROTEÇÃO DO WHATSAPP
+    // 9. MURAL, COMPARTILHAMENTO E WHATSAPP
     // =========================================================
     function setFeedMode(mode) {
       feedMode = mode;
@@ -2760,6 +3164,26 @@
       return { avg: (sum / list.length).toFixed(1), count: list.length };
     }
 
+    function shareJobOnWhatsApp(jobId) {
+      const j = allJobs.find(x => x.id === jobId);
+      if (!j) return;
+      const header = j.type === "profissional" ? "Profissional disponível no *Quero Diária*:" : "Vaga aberta no *Quero Diária*:";
+      const lines = [
+        header,
+        `*${j.title}*`,
+        `📍 ${j.city} • ${j.neighborhood || "Toda a cidade"}`,
+        `💰 Valor: ${j.pay || "A combinar"}`
+      ];
+      if (j.type !== "profissional" && j.jobDate) {
+        lines.push(`📅 Data: ${formatDateBR(j.jobDate)}`);
+      }
+      if (j.description) {
+        lines.push(`📝 ${j.description.slice(0, 140)}`);
+      }
+      lines.push("", "Veja o anúncio completo no app Quero Diária!");
+      window.open(`https://wa.me/?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
+    }
+
     function renderFeed() {
       const container = document.getElementById("feedList");
       const q = normalizeText(document.getElementById("searchInput").value);
@@ -2769,7 +3193,8 @@
         if (selectedCityFilter && j.city !== selectedCityFilter) return false;
         if (!jobMatchesCategory(j, selectedCategoryFilter)) return false;
         if (q) {
-          const hay = normalizeText(`${j.title} ${j.category} ${j.neighborhood} ${j.description} ${j.authorName}`);
+          const resolvedCat = resolveJobCategory(j);
+          const hay = normalizeText(`${j.title} ${resolvedCat} ${j.neighborhood} ${j.description} ${j.authorName}`);
           if (!hay.includes(q)) return false;
         }
         return true;
@@ -2810,7 +3235,6 @@
         const estLabel = j.authorIsEst
           ? `${j.authorEstType ? escapeHtml(j.authorEstType) : "Estabelecimento"}`
           : (j.type === "profissional" ? "Profissional" : "Particular");
-
         const estBadgeText = j.authorCnpjVerified ? "CNPJ Verificado" : "Estabelecimento";
 
         return `
@@ -2843,11 +3267,18 @@
             </div>
 
             ${j.description ? `<div class="job-desc">${escapeHtml(j.description)}</div>` : ""}
-            <div class="posted-time">${timeAgo(j.updatedAt || j.createdAt)}</div>
+
+            <div class="posted-row">
+              <span class="posted-time">${timeAgo(j.updatedAt || j.createdAt)}</span>
+              ${!isOwner ? `<button type="button" class="report-subtle-btn" onclick="openReportModal('${escapeHtml(j.id)}')">${SVG.flag}<span>Denunciar</span></button>` : ""}
+            </div>
 
             <div class="job-footer">
               <button class="btn btn-wa" onclick="requestWhatsAppContact('${escapeHtml(j.id)}')">
                 ${SVG.wa}<span>Chamar no WhatsApp</span>
+              </button>
+              <button class="btn btn-share" onclick="shareJobOnWhatsApp('${escapeHtml(j.id)}')" title="Compartilhar no WhatsApp" aria-label="Compartilhar">
+                ${SVG.share}
               </button>
               ${isOwner ? `<button class="btn btn-danger btn-sm" onclick="deleteJob('${escapeHtml(j.id)}', false)">Encerrar</button>` : ""}
               ${(!isOwner && isAdminUser) ? `<button class="btn btn-danger-solid btn-sm" onclick="deleteJob('${escapeHtml(j.id)}', true)">${SVG.trash}<span>Remover</span></button>` : ""}
@@ -3072,7 +3503,7 @@
       const commentRaw = document.getElementById("reviewCommentInput").value.trim();
       const fullComment = [reviewSelectedTags.join(" • "), commentRaw].filter(Boolean).join(" — ");
       if (!fullComment) return showToast("Marque um destaque ou escreva um comentário.", "error");
-      if (containsProfanity(fullComment)) return showToast("Remova palavras ofensivas da avaliação.", "error");
+      if (containsBlockedContent(fullComment)) return showToast("Conteúdo ofensivo ou adulto não é permitido.", "error");
       if (containsExternalLink(fullComment)) return showToast("Links não são permitidos em avaliações.", "error");
 
       const targetUser = allUsers.find(u => u.uid === reviewTargetUid);
@@ -3154,7 +3585,7 @@
     }
 
     // =========================================================
-    // 11. PERFIL DO USUÁRIO, MINHAS PUBLICAÇÕES E ADMIN
+    // 11. PERFIL DO USUÁRIO, MINHAS PUBLICAÇÕES E PAINEL ADMIN
     // =========================================================
     function renderProfileTab() {
       const guest = document.getElementById("profileGuestView");
@@ -3181,6 +3612,18 @@
 
       document.getElementById("btnEstProfileMenu").style.display = currentUserProfile.isEstablishment ? "flex" : "none";
       document.getElementById("btnAdminPanelMenu").style.display = isAdminUser ? "flex" : "none";
+      updateAdminReportBadges();
+    }
+
+    function updateAdminReportBadges() {
+      const count = allReports.length;
+      const menuBadge = document.getElementById("adminReportsMenuCount");
+      const tabBadge = document.getElementById("adminReportsTabCount");
+      if (menuBadge) {
+        menuBadge.textContent = count;
+        menuBadge.style.display = count > 0 ? "inline-block" : "none";
+      }
+      if (tabBadge) tabBadge.textContent = count;
     }
 
     function openMyPostsModal() {
@@ -3257,10 +3700,7 @@
 
         const myJobs = allJobs.filter(j => j.authorUid === currentUser.uid);
         for (const j of myJobs) {
-          await db.collection("vagas").doc(j.id).update({
-            authorName: newName,
-            authorPhoto: finalPhoto
-          });
+          await db.collection("vagas").doc(j.id).update({ authorName: newName, authorPhoto: finalPhoto });
           await db.collection("contatos").doc(j.id).set({ authorUid: currentUser.uid, whatsapp: newPhone }, { merge: true });
         }
 
@@ -3328,8 +3768,63 @@
     function openAdminModal() {
       if (!isAdminUser) return;
       document.getElementById("adminUserSearch").value = "";
-      renderAdminUsers();
+      setAdminTab("reports");
       openModal("adminModal");
+    }
+
+    function setAdminTab(tab) {
+      activeAdminTab = tab;
+      document.getElementById("adminTabReports").classList.toggle("active", tab === "reports");
+      document.getElementById("adminTabUsers").classList.toggle("active", tab === "users");
+      document.getElementById("adminReportsSection").style.display = tab === "reports" ? "block" : "none";
+      document.getElementById("adminUsersSection").style.display = tab === "users" ? "block" : "none";
+      if (tab === "reports") renderAdminReports();
+      else renderAdminUsers();
+    }
+
+    function renderAdminReports() {
+      const box = document.getElementById("adminReportsList");
+      if (allReports.length === 0) {
+        box.innerHTML = `<div class="empty-state">Nenhuma denúncia pendente.</div>`;
+        return;
+      }
+      box.innerHTML = allReports.map(r => `
+        <div class="card" style="box-shadow:none; border:1px solid #fecaca; background:#fffafa; padding:12px;">
+          <div style="font-size:14px; font-weight:800; color:var(--navy-deep);">${escapeHtml(r.jobTitle || "Anúncio")} (${escapeHtml(r.jobCity || "SP")})</div>
+          <div style="font-size:12px; font-weight:700; color:var(--danger); margin:3px 0;">Motivo: ${escapeHtml(r.reason)}</div>
+          ${r.details ? `<div style="font-size:12.5px; color:#334155; margin-bottom:5px;">"${escapeHtml(r.details)}"</div>` : ""}
+          <div style="font-size:11px; color:var(--muted); margin-bottom:10px;">
+            Anunciante: ${escapeHtml(r.authorName || "-")} • Denunciado por: ${escapeHtml(r.reporterName || "-")}
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${r.jobId ? `<button class="btn btn-danger-solid btn-sm" onclick="adminRemoveReportedJob('${escapeHtml(r.id)}', '${escapeHtml(r.jobId)}')">Apagar Anúncio</button>` : ""}
+            <button class="btn btn-outline btn-sm" onclick="adminDismissReport('${escapeHtml(r.id)}')">Arquivar</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function adminRemoveReportedJob(reportId, jobId) {
+      if (!isAdminUser) return;
+      if (!confirm("Remover o anúncio denunciado e encerrar esta denúncia?")) return;
+      try {
+        try { await db.collection("vagas").doc(jobId).delete(); } catch (e) {}
+        try { await db.collection("contatos").doc(jobId).delete(); } catch (e) {}
+        await db.collection("denuncias").doc(reportId).delete();
+        showToast("Anúncio removido e denúncia encerrada.", "success");
+      } catch (e) {
+        showToast("Erro ao remover. Confira as Regras do Firestore.", "error");
+      }
+    }
+
+    async function adminDismissReport(reportId) {
+      if (!isAdminUser) return;
+      try {
+        await db.collection("denuncias").doc(reportId).delete();
+        showToast("Denúncia arquivada.");
+      } catch (e) {
+        showToast("Erro ao arquivar denúncia.", "error");
+      }
     }
 
     function renderAdminUsers() {
@@ -3438,6 +3933,17 @@
       }, () => {});
     }
 
+    function startAdminReportsListener() {
+      if (unsubscribeReports) unsubscribeReports();
+      unsubscribeReports = db.collection("denuncias").onSnapshot((snap) => {
+        allReports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        updateAdminReportBadges();
+        if (document.getElementById("adminModal").classList.contains("open") && activeAdminTab === "reports") {
+          renderAdminReports();
+        }
+      }, () => {});
+    }
+
     auth.onAuthStateChanged(async (user) => {
       currentUser = user;
       authCheckedOnce = true;
@@ -3445,6 +3951,7 @@
       if (user) {
         isAdminUser = ADMIN_EMAILS.includes(String(user.email || "").toLowerCase());
         document.getElementById("adminHeaderBadge").classList.toggle("show", isAdminUser);
+        if (isAdminUser) startAdminReportsListener();
 
         try {
           const [pubSnap, privSnap] = await Promise.all([
@@ -3476,6 +3983,8 @@
         currentUserProfile = null;
         currentUserPrivate = null;
         isAdminUser = false;
+        if (unsubscribeReports) { unsubscribeReports(); unsubscribeReports = null; }
+        allReports = [];
         document.getElementById("adminHeaderBadge").classList.remove("show");
         maybePromptLoginAfterSplash();
       }
